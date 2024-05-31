@@ -13,7 +13,7 @@ export default function Register() {
 
   const handleRegister = (e) => {
     e.preventDefault();
-    Axios.post("http://localhost:3001/register", {
+    Axios.post("https://mysql-color-backend.onrender.com/register", {
       username: username,
       mobileNumber: mobileNumber,
       password: password,

@@ -20,7 +20,7 @@ export default function Login() {
     setRememberMeError("");
     setLoading(true);
     try {
-      const response = await Axios.post("http://localhost:3001/login", {
+      const response = await Axios.post("https://mysql-color-backend.onrender.com/login", {
         mobileNumber: mobileNumber,
         password: password,
       });
