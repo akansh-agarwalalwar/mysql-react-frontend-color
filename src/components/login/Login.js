@@ -6,33 +6,25 @@ export default function Login() {
   const navigate = useNavigate();
   const [mobileNumber, setMobileNumber] = useState('');
   const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
-  const [rememberMeError, setRememberMeError] = useState('');
-  const [loginStatus, setLoginStatus] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    if (!rememberMe) {
-      setRememberMeError("You must agree to remember me.");
-      return;
-    }
-    setRememberMeError("");
     setLoading(true);
     try {
-      const response = await Axios.post("https://mysql-color-backend.onrender.com/login", {
-        mobileNumber: mobileNumber,
+      const response = await Axios.post("http://localhost:3001/login", {
+        mobileNumber: `+91${mobileNumber}`,
         password: password,
       });
-      if (response.data.message) {
-        setLoginStatus(response.data.message);
-      } else {
-        setLoginStatus(`Welcome, user ${response.data[0].mobileNumber}`);
+      if (response.status === 200) {
         navigate('/home');
+      } else {
+        setError("Invalid mobile number or password");
       }
     } catch (error) {
       console.error("There was an error with the login:", error);
-      setLoginStatus("Login failed");
+      setError("Login failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -65,27 +57,6 @@ export default function Login() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <div className="flex justify-between items-center">
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                id="rememberMe"
-                className="mr-2"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-              />
-              <label htmlFor="rememberMe" className="text-white">Remember Me</label>
-            </div>
-            <Link
-              to="/forgot-password"
-              className="text-sm text-white hover:underline hover:text-blue-600"
-            >
-              Forgot Password?
-            </Link>
-          </div>
-          {rememberMeError && (
-            <div className="text-red-500 text-sm">{rememberMeError}</div>
-          )}
           <div className="mt-6">
             <button
               className="w-full p-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition disabled:bg-gray-400"
@@ -99,6 +70,9 @@ export default function Login() {
               )}
             </button>
           </div>
+          {error && (
+            <div className="text-red-500 text-sm">{error}</div>
+          )}
           <div className="text-center mt-4">
             <span className="text-white">Don't have an account? </span>
             <Link

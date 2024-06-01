@@ -4,10 +4,10 @@ import axios from 'axios';
 export default function TopBody() {
   const [userData, setUserData] = useState({});
   const [balance, setBalance] = useState(0);
-
+  
   useEffect(() => {
     // Fetch user data from MySQL
-    axios.get('http://your-backend-api/user')
+    axios.get('http://localhost:3001/register')  // Adjust the endpoint according to your backend setup
       .then(response => {
         setUserData(response.data);
       })
@@ -16,7 +16,7 @@ export default function TopBody() {
       });
 
     // Fetch balance from MySQL
-    axios.get('http://your-backend-api/balance')
+    axios.get('http://localhost:3001/balance')  // Adjust the endpoint according to your backend setup
       .then(response => {
         setBalance(response.data.balance);
       })
@@ -26,7 +26,10 @@ export default function TopBody() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center py-8">
+    <div className="relative flex flex-col items-center py-8">
+      <div className="absolute top-4 right-4 text-white">
+        User ID: {userData.id}
+      </div>
       <h1 className="text-2xl font-bold mb-4">Welcome {userData.name}</h1>
       <div className="flex items-center">
         <div className="mr-4">Balance Amount: {balance}</div>
