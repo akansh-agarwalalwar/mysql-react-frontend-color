@@ -7,7 +7,7 @@ export default function TopBody() {
   
   useEffect(() => {
     // Fetch user data from MySQL
-    axios.get('http://localhost:3001/register')  // Adjust the endpoint according to your backend setup
+    axios.get('https://mysql-color-backend.onrender.com/register')  // Adjust the endpoint according to your backend setup
       .then(response => {
         setUserData(response.data);
       })
@@ -16,7 +16,7 @@ export default function TopBody() {
       });
 
     // Fetch balance from MySQL
-    axios.get('http://localhost:3001/balance')  // Adjust the endpoint according to your backend setup
+    axios.get('https://mysql-color-backend.onrender.com/balance')  // Adjust the endpoint according to your backend setup
       .then(response => {
         setBalance(response.data.balance);
       })

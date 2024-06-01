@@ -16,7 +16,7 @@ export default function Register() {
 
   const handleRegister = (e) => {
     e.preventDefault();
-    Axios.post("http://localhost:3001/register", {
+    Axios.post("https://mysql-color-backend.onrender.com/register", {
       username: username,
       mobileNumber: `+91${mobileNumber}`,
       password: password,
@@ -42,7 +42,7 @@ export default function Register() {
 
   const sendCode = async () => {
     try {
-      const response = await Axios.post("http://localhost:3001/api/otp/send-code", {
+      const response = await Axios.post("https://mysql-color-backend.onrender.com/api/otp/send-code", {
         mobileNumber: `+91${mobileNumber}`,
       });
       setOtpStatus(response.data.message);
@@ -55,7 +55,7 @@ export default function Register() {
 
   const verifyCode = async () => {
     try {
-      const response = await Axios.post("http://localhost:3001/api/otp/verify-code", {
+      const response = await Axios.post("https://mysql-color-backend.onrender.com/api/otp/verify-code", {
         mobileNumber: `+91${mobileNumber}`,
         code: code,
       });
