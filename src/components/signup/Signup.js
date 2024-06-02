@@ -2,70 +2,78 @@ import React, { useState } from "react";
 import Axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 
-export default function Register() {
+export default function Signup() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [referenceCode, setReferenceCode] = useState("");
   const [registerStatus, setRegisterStatus] = useState("");
-  const [code, setCode] = useState("");
-  const [codeSent, setCodeSent] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
   const [otpStatus, setOtpStatus] = useState("");
 
-  const handleRegister = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
-    Axios.post("https://mysql-color-backend.onrender.com/register", {
-      username: username,
-      mobileNumber: `+91${mobileNumber}`,
-      password: password,
-      confirmPassword: confirmPassword,
-      referenceCode: referenceCode,
-    })
-      .then((response) => {
-        if (response.data.message) {
-          setRegisterStatus(response.data.message);
-          if (response.data.message === "Registration Successful") {
-            navigate("/login");
-          }
-        } else {
-          setRegisterStatus("Registration Successful");
-          navigate("/login");
-        }
-      })
-      .catch((error) => {
-        console.error("There was an error with the registration:", error);
-        setRegisterStatus("Registration failed");
-      });
-  };
+    if (!otp || otpStatus !== "OTP verified successfully") {
+      setRegisterStatus("Please verify your OTP first.");
+      return;
+    }
 
-  const sendCode = async () => {
     try {
-      const response = await Axios.post("https://mysql-color-backend.onrender.com/api/otp/send-code", {
+      const response = await Axios.post("http://localhost:3001/register", {
+        username,
         mobileNumber: `+91${mobileNumber}`,
+        email,
+        password,
+        confirmPassword,
+        referenceCode,
       });
-      setOtpStatus(response.data.message);
-      setCodeSent(true);
+      if (response.data.message === "Registration Successful") {
+        setRegisterStatus(response.data.message);
+        navigate("/login");
+      } else {
+        setRegisterStatus(response.data.message);
+      }
     } catch (error) {
-      console.error("There was an error sending the OTP:", error);
-      setOtpStatus("Failed to send OTP");
+      console.error("Error during registration:", error);
+      setRegisterStatus("Registration failed.");
     }
   };
 
-  const verifyCode = async () => {
+  const sendOtp = async () => {
     try {
-      const response = await Axios.post("https://mysql-color-backend.onrender.com/api/otp/verify-code", {
-        mobileNumber: `+91${mobileNumber}`,
-        code: code,
+      const response = await Axios.post("http://localhost:3001/send-email-otp", {
+        email,
       });
-      setOtpStatus(response.data.message);
-      if (response.data.message === "OTP verified successfully") {
-        setCodeSent(false);
+      if (response.data.message === "OTP sent successfully") {
+        setOtpSent(true);
+        setOtpStatus(response.data.message);
+      } else {
+        setOtpStatus(response.data.message);
       }
     } catch (error) {
-      console.error("There was an error verifying the OTP:", error);
-      setOtpStatus("Invalid OTP");
+      console.error("Error sending OTP:", error);
+      setOtpStatus("Failed to send OTP.");
+    }
+  };
+
+  const verifyOtp = async () => {
+    try {
+      const response = await Axios.post("http://localhost:3001/verify-email-otp", {
+        email,
+        otp,
+      });
+      if (response.data.message === "OTP verified successfully") {
+        setOtpStatus(response.data.message);
+      } else {
+        setOtpStatus(response.data.message);
+      }
+    } catch (error) {
+      console.error("Error verifying OTP:", error);
+      setOtpStatus("Failed to verify OTP.");
     }
   };
 
@@ -73,8 +81,10 @@ export default function Register() {
     return (
       username &&
       mobileNumber.length === 10 &&
+      email &&
       password &&
       confirmPassword &&
+      password === confirmPassword &&
       otpStatus === "OTP verified successfully"
     );
   };
@@ -83,11 +93,11 @@ export default function Register() {
     <div className="min-h-screen bg-blue-700 flex justify-center items-center p-4">
       <div className="bg-blue-300 p-8 rounded-lg shadow-lg w-full max-w-md">
         <div className="text-center mb-6">
-          <h1 className="text-4xl font-bold text-white">Register</h1>
+          <h1 className="text-4xl font-bold text-white">Sign Up</h1>
         </div>
-        <form className="space-y-4" onSubmit={handleRegister}>
+        <form className="space-y-4" onSubmit={handleSignup}>
           <div className="flex flex-col">
-            <label className="text-white mb-2">Name</label>
+            <label className="text-white mb-2">Username</label>
             <input
               type="text"
               placeholder="Username"
@@ -98,44 +108,59 @@ export default function Register() {
           </div>
           <div className="flex flex-col">
             <label className="text-white mb-2">Mobile Number</label>
+            <input
+              type="text"
+              placeholder="Mobile Number"
+              className="p-2 rounded-md border border-gray-300"
+              value={mobileNumber}
+              onChange={(e) => setMobileNumber(e.target.value)}
+            />
+          </div>
+          <div className="flex flex-col">
+            <label className="text-white mb-2">Email</label>
             <div className="relative flex items-center">
               <input
-                type="text"
-                placeholder="Mobile Number"
+                type="email"
+                placeholder="Email"
                 className="p-2 rounded-md border border-gray-300 w-full"
-                value={mobileNumber}
-                onChange={(e) => setMobileNumber(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
-              {mobileNumber.length === 10 && !codeSent && (
-                <button
-                  type="button"
-                  className="absolute right-2 bg-blue-500 text-white p-1 rounded-md hover:bg-blue-600 transition"
-                  onClick={sendCode}
-                >
-                  Send OTP
-                </button>
-              )}
+              <button
+                type="button"
+                className="absolute right-2 bg-blue-500 text-white p-1 rounded-md hover:bg-blue-600 transition"
+                onClick={sendOtp}
+                disabled={!email}
+              >
+                Send OTP
+              </button>
             </div>
-            {codeSent && (
-              <div className="mt-2">
+          </div>
+          {otpSent && otpStatus !== "OTP verified successfully" && (
+            <div className="flex flex-col mt-4">
+              <label className="text-white mb-2">OTP</label>
+              <div className="relative flex items-center">
                 <input
-                  className={`p-2 rounded-md border ${otpStatus === "OTP verified successfully" ? "border-green-500" : "border-red-500"}`}
                   type="text"
-                  placeholder="Enter OTP"
-                  value={code}
-                  onChange={(e) => setCode(e.target.value)}
+                  placeholder="OTP"
+                  className={`p-2 rounded-md border w-full ${otpStatus === "OTP verified successfully" ? "border-green-500" : "border-red-500"}`}
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
                 />
                 <button
                   type="button"
-                  className="ml-2 p-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
-                  onClick={verifyCode}
+                  className="absolute right-2 bg-blue-500 text-white p-1 rounded-md hover:bg-blue-600 transition"
+                  onClick={verifyOtp}
                 >
                   Verify OTP
                 </button>
               </div>
-            )}
+              <div className="text-white mt-2">{otpStatus}</div>
+            </div>
+          )}
+          {otpStatus === "OTP verified successfully" && (
             <div className="text-white mt-2">{otpStatus}</div>
-          </div>
+          )}
           <div className="flex flex-col">
             <label className="text-white mb-2">Password</label>
             <input
@@ -168,24 +193,27 @@ export default function Register() {
           </div>
           <div className="mt-6">
             <button
-              className="w-full p-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition disabled:bg-gray-400"
               type="submit"
+              className="w-full p-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition disabled:bg-gray-400"
               disabled={!isFormValid()}
             >
-              Register
+              Sign Up
             </button>
           </div>
-          <div className="text-center mt-4">
-            <span className="text-white">Already have an account? </span>
-            <Link
-              to="/login"
-              className="text-white hover:underline hover:text-blue-600"
-            >
-              Login
-            </Link>
-          </div>
-          <h1 className="text-center text-white mt-4">{registerStatus}</h1>
         </form>
+        <div className="text-center mt-4">
+          <p className="text-white">
+            Already have an account?{" "}
+            <Link to="/login" className="text-blue-800 hover:underline">
+              Login here
+            </Link>
+          </p>
+        </div>
+        {registerStatus && (
+          <div className={`mt-4 text-center ${registerStatus.includes("failed") ? "text-red-500" : "text-green-500"}`}>
+            {registerStatus}
+          </div>
+        )}
       </div>
     </div>
   );

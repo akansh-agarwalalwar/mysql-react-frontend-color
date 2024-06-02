@@ -1,26 +1,33 @@
-import React, { useState } from 'react';
-import Axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useState, useContext } from "react";
+import Axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
+import UserContext from "./UserContext";
 
 export default function Login() {
   const navigate = useNavigate();
-  const [mobileNumber, setMobileNumber] = useState('');
-  const [password, setPassword] = useState('');
+  const { setUser } = useContext(UserContext);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await Axios.post("https://mysql-color-backend.onrender.com/login", {
-        mobileNumber: `+91${mobileNumber}`,
+      const response = await Axios.post("http://localhost:3001/login", {
+        email: email,
         password: password,
       });
       if (response.status === 200) {
-        navigate('/home');
+        setUser({
+          userId: response.data.userId,
+          username: response.data.username,
+          email: response.data.email,
+        });
+        navigate("/home");
       } else {
-        setError("Invalid mobile number or password");
+        setError("Invalid email or password");
       }
     } catch (error) {
       console.error("There was an error with the login:", error);
@@ -38,13 +45,13 @@ export default function Login() {
         </div>
         <form className="space-y-4" onSubmit={handleLogin}>
           <div className="flex flex-col">
-            <label className="text-white mb-2">Mobile Number</label>
+            <label className="text-white mb-2">Email</label>
             <input
-              type="number"
-              placeholder="Mobile Number"
+              type="email"
+              placeholder="Email"
               className="p-2 rounded-md border border-gray-300"
-              value={mobileNumber}
-              onChange={(e) => setMobileNumber(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="flex flex-col">
@@ -70,9 +77,7 @@ export default function Login() {
               )}
             </button>
           </div>
-          {error && (
-            <div className="text-red-500 text-sm">{error}</div>
-          )}
+          {error && <div className="text-red-500 text-sm">{error}</div>}
           <div className="text-center mt-4">
             <span className="text-white">Don't have an account? </span>
             <Link
