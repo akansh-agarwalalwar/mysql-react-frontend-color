@@ -6,8 +6,8 @@ export default function BottomNav({ activeButton, setActiveButton }) {
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-white shadow-lg border-t border-gray-200">
       <div className="flex justify-around py-2">
-      <Link to="/home" className="flex flex-col items-center text-gray-700 focus:outline-none">
-          <FaMoneyBillWave className="text-blue-500" />
+        <Link to="/home" className={`flex flex-col items-center text-gray-700 focus:outline-none ${activeButton === "Home" ? 'text-blue-500' : ''}`}>
+          <FaHome />
           <span className="text-xs mt-1">Home</span>
         </Link>
         <NavButton 
@@ -16,16 +16,14 @@ export default function BottomNav({ activeButton, setActiveButton }) {
           active={activeButton === "Invite"} 
           onClick={() => setActiveButton("Invite")}
         />
-        <Link to="/recharge" className="flex flex-col items-center text-gray-700 focus:outline-none">
-          <FaMoneyBillWave className="text-blue-500" />
+        <Link to="/recharge" className={`flex flex-col items-center text-gray-700 focus:outline-none ${activeButton === "Recharge" ? 'text-blue-500' : ''}`}>
+          <FaMoneyBillWave />
           <span className="text-xs mt-1">Recharge</span>
         </Link>
-        <NavButton 
-          icon={<FaUser />} 
-          label="My Profile" 
-          active={activeButton === "Profile"} 
-          onClick={() => setActiveButton("Profile")} 
-        />
+        <Link to="/profile" className={`flex flex-col items-center text-gray-700 focus:outline-none ${activeButton === "Profile" ? 'text-blue-500' : ''}`}>
+          <FaUser />
+          <span className="text-xs mt-1">Profile</span>
+        </Link>
       </div>
     </div>
   );

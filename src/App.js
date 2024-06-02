@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ForgotPassword from "./components/forgotPassword/ForgotPassword";
 import { UserProvider } from "./components/login/UserContext";
 import Recharge from "./components/recharge/Recharge";
+import ProfileMainPage from "./components/profile/ProfileMainPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/home" element={<HomePage />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/recharge" element={<Recharge />} />
+          <Route path="/profile" element={<ProfileMainPage />} />
 
         </Routes>
       </Router>
