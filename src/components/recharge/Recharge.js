@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import { FaGooglePay, FaPhone, FaMoneyBillWave, FaPaypal } from 'react-icons/fa';
 import BottomNav from '../dashboard/BottomNav';
-
+import UserContext from "../login/UserContext";
 const Recharge = () => {
   const [amount, setAmount] = useState('');
   const [error, setError] = useState('');
-
+  const { user } = useContext(UserContext);
   const handleRecharge = () => {
     if (parseInt(amount) < 100) {
       setError('Minimum recharge amount is 100 Rs');
@@ -18,7 +18,7 @@ const Recharge = () => {
     <div className="flex flex-col items-center mt-8 px-8">
       <h1 className="text-3xl font-bold">Recharge</h1>
       <div className="my-4">
-        <p className="text-xl">Balance: Rs. 5000</p>
+        <p className="text-xl">Balance: {user.balance}</p>
       </div>
       <div className="mb-4">
         <label htmlFor="amount" className="text-lg mb-2">Amount:</label>

@@ -1,5 +1,5 @@
-// ProfileMainPage.js
 import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import BottomNav from "../dashboard/BottomNav";
 import { FaRegUser, FaDownload } from "react-icons/fa6";
 import UserContext from "../login/UserContext";
@@ -9,6 +9,8 @@ import { TbReceiptRupee } from "react-icons/tb";
 import { RiChatFollowUpFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import { MdKeyboardArrowRight } from "react-icons/md";
+import Axios from "axios";
+import Cookies from 'js-cookie';
 
 const sideNavData = [
   {
@@ -44,8 +46,21 @@ const sideNavData = [
 ];
 
 const ProfileMainPage = () => {
-  const { user } = useContext(UserContext);
-  console.log(user)
+  const { user, setUser } = useContext(UserContext);
+  console.log(user,setUser)
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await Axios.post("http://localhost:3001/logout");
+      setUser(null);
+      Cookies.remove('user');
+      navigate("/login");
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
+  };
+
   return (
     <div className="flex flex-col mt-4 px-8">
       <h1 className="flex text-2xl items-center font-bold justify-center">
@@ -75,18 +90,21 @@ const ProfileMainPage = () => {
         <ul className="flex flex-col space-y-2">
           {sideNavData.map((item, index) => (
             <div className={`rounded-lg px-7 border-b border-richblack-300  ${index % 2 === 0? 'bg-richblue-5' : ''}`} key={index}>
-              <Link key={index} className={`flex items-center justify-between border-richblack-300 py-4 ${index % 2 === 0? 'even:bg-richblue-200' : ''}`}>
-                <div  className="flex items-center space-x-2 ">
+              <Link to={item.path} className={`flex items-center justify-between border-richblack-300 py-4 ${index % 2 === 0? 'even:bg-richblue-200' : ''}`}>
+                <div className="flex items-center space-x-2 ">
                   <p className="text-2xl text-richblue-300">{item.icon} </p>
                   <p className="text-xl text-richblack-500 ">{item.title}</p> 
                 </div>
-                <MdKeyboardArrowRight/>
+                <MdKeyboardArrowRight />
               </Link>
             </div>
           ))}
         </ul>
       </div>
-      <button className="mb-16 mt-5 font-semibold p-3 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+      <button
+        onClick={handleLogout}
+        className="mb-16 mt-5 font-semibold p-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 w-full"
+      >
         Sign Out
       </button>
       <BottomNav />

@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import Axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import UserContext from "./UserContext";
+import Cookies from 'js-cookie';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -20,11 +21,10 @@ export default function Login() {
         password: password,
       });
       if (response.status === 200) {
-        setUser({
-          userId: response.data.userId,
-          username: response.data.username,
-          email: response.data.email,
-        });
+        const { userId, username } = response.data;
+        const user = { userId, username };
+        setUser(user);
+        Cookies.set('user', JSON.stringify(user), { expires: 1 });
         navigate("/home");
       } else {
         setError("Invalid email or password");
