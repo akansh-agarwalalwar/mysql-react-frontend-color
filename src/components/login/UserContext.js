@@ -12,9 +12,9 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     if (user) {
       Cookies.set("user", JSON.stringify(user), { expires: 1 });
-      console.log(user);
+      // console.log(user);
       const balance = user?.balance;
-      console.log("User Balance:", balance);
+      //console.log("User Balance:", balance);
     } else {
       Cookies.remove("user");
     }

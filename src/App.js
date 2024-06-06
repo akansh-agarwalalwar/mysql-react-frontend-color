@@ -8,6 +8,7 @@ import ForgotPassword from "./components/forgotPassword/ForgotPassword";
 import { UserProvider } from "./components/login/UserContext";
 import Recharge from "./components/recharge/Recharge";
 import ProfileMainPage from "./components/profile/ProfileMainPage";
+import PaymentPage from "./components/paymentOptions/PaymentPage";
 
 function App() {
   return (
@@ -21,6 +22,8 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/recharge" element={<Recharge />} />
           <Route path="/profile" element={<ProfileMainPage />} />
+          <Route path="/payment-page" element={<PaymentPage />} />
+
 
         </Routes>
       </Router>
