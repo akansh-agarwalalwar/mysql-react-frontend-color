@@ -9,6 +9,7 @@ import { UserProvider } from "./components/login/UserContext";
 import Recharge from "./components/recharge/Recharge";
 import ProfileMainPage from "./components/profile/ProfileMainPage";
 import PaymentPage from "./components/paymentOptions/PaymentPage";
+import Settings from "./components/profile/Settings";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/recharge" element={<Recharge />} />
           <Route path="/profile" element={<ProfileMainPage />} />
           <Route path="/payment-page" element={<PaymentPage />} />
+          <Route path="/setting" element={<Settings />} />
 
 
         </Routes>

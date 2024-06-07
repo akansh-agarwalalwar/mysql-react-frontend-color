@@ -21,8 +21,8 @@ export default function Login() {
         password: password,
       });
       if (response.status === 200) {
-        const { userId, username,balance } = response.data;
-        const user = { userId, username ,balance};
+        const { userId, username,balance , userEmail,mobileNumber} = response.data;
+        const user = { userId, username ,balance,userEmail,mobileNumber};
         setUser(user);
         Cookies.set('user', JSON.stringify(user), { expires: 1 });
         navigate("/home");

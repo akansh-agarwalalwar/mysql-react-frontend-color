@@ -77,7 +77,9 @@ const ProfileMainPage = () => {
           </div>
           <div className="justify-between h-full">
             <div className="w-7 h-7 flex items-center justify-center rounded-full border border-black bg-white">
+              <Link to='/setting'>
               <IoSettingsOutline />
+              </Link>
             </div>
             <div className="w-7 h-7 flex items-center justify-center rounded-full border border-black bg-white mt-2">
               <IoInformationSharp />

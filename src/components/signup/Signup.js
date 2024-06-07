@@ -109,7 +109,7 @@ export default function Signup() {
           <div className="flex flex-col">
             <label className="text-white mb-2">Mobile Number</label>
             <input
-              type="text"
+              type="number"
               placeholder="Mobile Number"
               className="p-2 rounded-md border border-gray-300"
               value={mobileNumber}
