@@ -6,11 +6,13 @@ import UserContext from "../login/UserContext";
 
 function Settings() {
   const { user } = useContext(UserContext);
-  console.log(user)
+  console.log(user);
   const navigate = useNavigate();
+
   const capitalizeFirstLetter = (string) => {
     return string ? string.charAt(0).toUpperCase() + string.slice(1) : "Not Logged In";
   };
+
   return (
     <div className="px-2 mt-3">
       <div className="flex flex-row items-center">
@@ -28,7 +30,7 @@ function Settings() {
           <FaRegUser size={50} color="white" />
         </div>
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col w-full">
         <div className="relative w-full p-4">
           <label
             htmlFor="input-name"
@@ -39,8 +41,8 @@ function Settings() {
           <input
             type="text"
             id="input-name"
-            className="border border-gray-300 rounded w-full pt-6 px-2 focus:outline-none focus:border-blue-500 text-xl "
-            value={capitalizeFirstLetter(user ? user.username : "Not Logged In")}
+            className="border border-gray-300 rounded w-full pt-[0.5rem] px-2 focus:outline-none focus:border-blue-500 text-xl"
+            value={capitalizeFirstLetter(user?.username)}
             readOnly
           />
           <div className="absolute top-1 left-5 w-10 h-2 bg-white"></div>
@@ -55,9 +57,8 @@ function Settings() {
           <input
             type="text"
             id="input-email"
-            className="border border-gray-300 rounded w-full pt-6 px-2 focus:outline-none focus:border-blue-500"
-            // Add value and readOnly if you want to show user email
-            value={user ? user.userEmail : ""}
+            className="border border-gray-300 rounded w-full pt-[0.5rem] px-2 focus:outline-none focus:border-blue-500 text-xl"
+            value={user?.useremail || "email"}
             readOnly
           />
           <div className="absolute top-1 left-5 w-10 h-2 bg-white"></div>
@@ -72,31 +73,13 @@ function Settings() {
           <input
             type="text"
             id="input-mobile"
-            className="border border-gray-300 rounded w-full pt-6 px-2 focus:outline-none focus:border-blue-500"
-            // Add value and readOnly if you want to show user mobile number
-            value={user ? user.mobileNumber : ""}
+            className="border border-gray-300 rounded w-full pt-[0.5rem] px-2 focus:outline-none focus:border-blue-500 text-xl"
+            value={user?.mobileNumber || "mobileNumber"}
             readOnly
           />
           <div className="absolute top-1 left-5 w-10 h-2 bg-white"></div>
         </div>
-        <div className="relative w-full p-4">
-          <label
-            htmlFor="input-gender"
-            className="absolute top-1 left-5 bg-white px-1 text-md"
-          >
-            Gender
-          </label>
-          <input
-            type="text"
-            id="input-gender"
-            className="border border-gray-300 rounded w-full pt-6 px-2 focus:outline-none focus:border-blue-500"
-            // Add value and readOnly if you want to show user gender
-            value={user ? user.gender : ""}
-            readOnly
-          />
-          <div className="absolute top-1 left-5 w-10 h-2 bg-white"></div>
-        </div>
-        <div className="absolute ml-4 h-[50px] w-[150px] bg-secondary justify-center items-center flex rounded-xl bottom-10">
+        <div className="ml-4 h-[50px] w-[150px] bg-secondary justify-center items-center flex rounded-xl">
           Change Password
         </div>
       </div>

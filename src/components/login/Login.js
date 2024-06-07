@@ -7,7 +7,7 @@ import Cookies from 'js-cookie';
 export default function Login() {
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
-  const [email, setEmail] = useState("");
+  const [useremail, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -17,12 +17,12 @@ export default function Login() {
     setLoading(true);
     try {
       const response = await Axios.post("http://localhost:3001/login", {
-        email: email,
+        useremail: useremail,
         password: password,
       });
       if (response.status === 200) {
-        const { userId, username,balance , userEmail,mobileNumber} = response.data;
-        const user = { userId, username ,balance,userEmail,mobileNumber};
+        const { userId, username,balance, useremail, mobileNumber } = response.data;
+        const user = { userId, username ,balance, useremail, mobileNumber};
         setUser(user);
         Cookies.set('user', JSON.stringify(user), { expires: 1 });
         navigate("/home");
@@ -50,7 +50,7 @@ export default function Login() {
               type="email"
               placeholder="Email"
               className="p-2 rounded-md border border-gray-300"
-              value={email}
+              value={useremail}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>

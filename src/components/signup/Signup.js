@@ -6,7 +6,7 @@ export default function Signup() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
-  const [email, setEmail] = useState("");
+  const [useremail, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [referenceCode, setReferenceCode] = useState("");
@@ -26,7 +26,7 @@ export default function Signup() {
       const response = await Axios.post("http://localhost:3001/register", {
         username,
         mobileNumber: `+91${mobileNumber}`,
-        email,
+        useremail,
         password,
         confirmPassword,
         referenceCode,
@@ -46,7 +46,7 @@ export default function Signup() {
   const sendOtp = async () => {
     try {
       const response = await Axios.post("http://localhost:3001/send-email-otp", {
-        email,
+        useremail,
       });
       if (response.data.message === "OTP sent successfully") {
         setOtpSent(true);
@@ -63,7 +63,7 @@ export default function Signup() {
   const verifyOtp = async () => {
     try {
       const response = await Axios.post("http://localhost:3001/verify-email-otp", {
-        email,
+        useremail,
         otp,
       });
       if (response.data.message === "OTP verified successfully") {
@@ -81,7 +81,7 @@ export default function Signup() {
     return (
       username &&
       mobileNumber.length === 10 &&
-      email &&
+      useremail &&
       password &&
       confirmPassword &&
       password === confirmPassword &&
@@ -109,7 +109,7 @@ export default function Signup() {
           <div className="flex flex-col">
             <label className="text-white mb-2">Mobile Number</label>
             <input
-              type="number"
+              type="text"
               placeholder="Mobile Number"
               className="p-2 rounded-md border border-gray-300"
               value={mobileNumber}
@@ -123,14 +123,14 @@ export default function Signup() {
                 type="email"
                 placeholder="Email"
                 className="p-2 rounded-md border border-gray-300 w-full"
-                value={email}
+                value={useremail}
                 onChange={(e) => setEmail(e.target.value)}
               />
               <button
                 type="button"
                 className="absolute right-2 bg-blue-500 text-white p-1 rounded-md hover:bg-blue-600 transition"
                 onClick={sendOtp}
-                disabled={!email}
+                disabled={!useremail}
               >
                 Send OTP
               </button>
