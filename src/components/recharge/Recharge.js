@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaArrowLeftLong } from "react-icons/fa6";
 const Recharge = () => {
   const [amount, setAmount] = useState("");
+  const [userId, setuserId] = useState("");
   const [error, setError] = useState("");
   const [showPaymentOptions, setShowPaymentOptions] = useState(false);
   const { user } = useContext(UserContext);
@@ -63,8 +64,8 @@ const Recharge = () => {
     },
   ];
 
-  const handlePaymentOptionClick = (path, title) => {
-    navigate(path, { state: { amount, paymentMode: title } });
+  const handlePaymentOptionClick = (path, title,userId) => {
+    navigate(path, { state: { amount, paymentMode: title,userId } });
   };
 
   return (
@@ -127,7 +128,7 @@ const Recharge = () => {
               >
                 <div
                   onClick={() =>
-                    handlePaymentOptionClick(item.path, item.title)
+                    handlePaymentOptionClick(item.path, item.title,userId)
                   }
                   className={`flex items-center justify-between border-richblack-300 py-4 cursor-pointer ${
                     index % 2 === 0 ? "even:bg-richblue-200" : ""

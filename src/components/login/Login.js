@@ -17,15 +17,20 @@ export default function Login() {
     setLoading(true);
     try {
       const response = await Axios.post("http://localhost:3001/login", {
-        useremail: useremail,
-        password: password,
+        useremail,
+        password,
       });
       if (response.status === 200) {
-        const { userId, username,balance, useremail, mobileNumber } = response.data;
-        const user = { userId, username ,balance, useremail, mobileNumber};
+        const { userId, username, useremail, mobileNumber, balance, adminId, adminemail } = response.data;
+        const user = adminId ? { adminId, adminemail } : { userId, username, useremail, mobileNumber, balance };
         setUser(user);
         Cookies.set('user', JSON.stringify(user), { expires: 1 });
-        navigate("/home");
+
+        if (adminId) {
+          navigate("/admin");
+        } else {
+          navigate("/home");
+        }
       } else {
         setError("Invalid email or password");
       }

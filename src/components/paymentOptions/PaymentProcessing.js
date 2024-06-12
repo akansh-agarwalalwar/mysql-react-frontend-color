@@ -1,131 +1,84 @@
-import React, { useState } from "react";
-import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+import React, { useState } from 'react';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
-function PaymentProcessing() {
-  const [progress, setProgress] = useState({
-    uploadImage: false,
-    serverProcessing: false,
-    processCompleted: false,
-  });
-
+function PaymentProcessing({ userId, amount }) {
   const [uploadedImage, setUploadedImage] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
-    if (file && file.type.startsWith("image/")) {
-      setUploadedImage(URL.createObjectURL(file));
-      setProgress((prevProgress) => ({
-        ...prevProgress,
-        uploadImage: true,
-      }));
+    if (file && file.type.startsWith('image/')) {
+      setUploadedImage(file);
+      setShowPopup(true);
     } else {
-      alert("Please upload a valid image file.");
+      alert('Please upload a valid image file.');
+    }
+  };
+  const handleConfirm = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('userId', userId);
+      formData.append('amount', amount);
+
+      await axios.post('http://localhost:3001/upload-image', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      toast.success('Request submitted');
+      setShowPopup(false);
+    } catch (error) {
+      console.error('Error confirming payment:', error);
+      alert('Failed to confirm payment. Please try again.');
     }
   };
 
-  const handleServerProcessing = () => {
-    setProgress((prevProgress) => ({
-      ...prevProgress,
-      serverProcessing: true,
-    }));
-    // Simulate server processing
-    setTimeout(() => {
-      setProgress((prevProgress) => ({
-        ...prevProgress,
-        processCompleted: true,
-      }));
-    }, 2000);
+  const handleReload = () => {
+    setUploadedImage(null);
+    setShowPopup(false);
   };
 
   return (
-    <div className="flex">
-      <div className="w-1/4 bg-gray-200 p-4">
-        <h2 className="font-bold text-lg mb-4">Progress</h2>
-        <ul className=" flex justify-between flex-col h-[350px]">
-          <li
-            className={`mb-4 flex items-center ${
-              progress.uploadImage ? "text-green-500" : "text-gray-500"
-            }`}
+    <div className="flex flex-col items-center">
+      <h2 className="font-bold text-lg mb-4">Payment Processing</h2>
+      {!uploadedImage && (
+        <div className="h-[125px] w-[230px] flex items-center justify-center border-2 mb-4">
+          <input
+            type="file"
+            accept="image/*"
+            className="hidden"
+            id="upload-image"
+            onChange={handleImageUpload}
+          />
+          <label
+            htmlFor="upload-image"
+            className="bg-blue-500 text-white p-2 rounded-md cursor-pointer"
           >
-            {progress.uploadImage ? (
-              <FaCheckCircle className="mr-2" />
-            ) : (
-              <FaTimesCircle className="mr-2" />
-            )}
             Upload Image
-          </li>
-          <li
-            className={`mb-4 flex items-center ${
-              progress.serverProcessing ? "text-green-500" : "text-gray-500"
-            }`}
-          >
-            {progress.serverProcessing ? (
-              <FaCheckCircle className="mr-2" />
-            ) : (
-              <FaTimesCircle className="mr-2" />
-            )}
-            Processing
-          </li>
-          <li
-            className={`mb-4 flex items-center ${
-              progress.processCompleted ? "text-green-500" : "text-gray-500"
-            }`}
-          >
-            {progress.processCompleted ? (
-              <FaCheckCircle className="mr-2" />
-            ) : (
-              <FaTimesCircle className="mr-2" />
-            )}
-            Process Completed
-          </li>
-        </ul>
-      </div>
-      <div className="w-3/4 p-4">
-        <div>
-          <h2 className="font-bold text-lg mb-4">Payment Processing</h2>
-          <div className="h-[125px] w-[230px] items-center justify-center flex border-2 ">
-            <div className=" items-center justify-center flex">
-              <input
-                type="file"
-                accept="image/*"
-                className="hidden"
-                id="upload-image"
-                onChange={handleImageUpload}
-              />
-              <label
-                htmlFor="upload-image"
-                className="bg-blue-500 text-white p-2 rounded-md cursor-pointer"
-              >
-                Upload Image
-              </label>
-            </div>
-          </div>
-          {uploadedImage && (
-            <div className="mb-4">
-              <img
-                src={uploadedImage}
-                alt="Uploaded"
-                className="max-w-full h-auto rounded-md"
-              />
-            </div>
-          )}
-          {progress.uploadImage && !progress.processCompleted && (
-            <div className="mb-4">
-              <button
-                className="bg-blue-500 text-white p-2 rounded-md"
-                onClick={handleServerProcessing}
-              >
-                Processing
-              </button>
-            </div>
-          )}
-          {progress.processCompleted && (
-            <div className="text-green-500 font-bold">
-              Process Completed Successfully!
-            </div>
-          )}
+          </label>
         </div>
-      </div>
+      )}
+      {showPopup && (
+        <div className="fixed top-0 left-0 w-full h-full bg-gray-500 bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-4 rounded-md">
+            <h3 className="font-bold mb-2">Image Uploaded!</h3>
+            <p className="mb-4">Please confirm or reload the image.</p>
+            <button
+              className="bg-green-500 border text-black p-2 rounded-md mr-2"
+              onClick={handleConfirm}
+            >
+              Confirm
+            </button>
+            <button
+              className="bg-orange-500 border text-black p-2 rounded-md"
+              onClick={handleReload}
+            >
+              Reload
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

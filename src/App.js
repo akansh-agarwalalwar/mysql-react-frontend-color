@@ -10,27 +10,36 @@ import Recharge from "./components/recharge/Recharge";
 import ProfileMainPage from "./components/profile/ProfileMainPage";
 import PaymentPage from "./components/paymentOptions/PaymentPage";
 import Settings from "./components/profile/Settings";
-
+import Admin from "./components/admin/Admin";
+import AllUsers from "./components/admin/AllUser";
+import PaymentApprove from "./components/admin/PaymentApprove";
+import ToPay from "./components/admin/ToPay";
+import GameMode from "./components/admin/GameMode";
+import ThirtySecond from "./components/game/ThirtySecond";
 function App() {
   return (
     <UserProvider>
       <Router>
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/recharge" element={<Recharge />} />
-          <Route path="/" element={<ProfileMainPage />} />
+          <Route path="/profile" element={<ProfileMainPage />} />
           <Route path="/payment-page" element={<PaymentPage />} />
           <Route path="/setting" element={<Settings />} />
-
+          <Route path="/admin/*" element={<Admin />} />
+          <Route path="/admin/users" element={<AllUsers />} />
+          <Route path="/admin/payment-approve" element={< PaymentApprove/>} />
+          <Route path="/admin/to-pay" element={<ToPay />} />
+          <Route path="/admin/game-mode" element={<GameMode />} />
+          <Route path="/thirty-second-page" element={<ThirtySecond />} />
 
         </Routes>
       </Router>
     </UserProvider>
   );
 }
-
 export default App;
