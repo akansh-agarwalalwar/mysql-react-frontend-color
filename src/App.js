@@ -16,6 +16,9 @@ import PaymentApprove from "./components/admin/PaymentApprove";
 import ToPay from "./components/admin/ToPay";
 import GameMode from "./components/admin/GameMode";
 import ThirtySecond from "./components/game/ThirtySecond";
+import Withdraw from "./components/recharge/Withdraw";
+import FinancialDetails from "./components/profile/FinancialDetails";
+import BankDetails from "./components/profile/BankDetails";
 function App() {
   return (
     <UserProvider>
@@ -27,8 +30,11 @@ function App() {
           <Route path="/home" element={<HomePage />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/recharge" element={<Recharge />} />
+          <Route path="/withdraw" element={<Withdraw />} />
           <Route path="/profile" element={<ProfileMainPage />} />
           <Route path="/payment-page" element={<PaymentPage />} />
+          <Route path="/financial-details" element={<FinancialDetails />} />
+          <Route path="/bank-details" element={<BankDetails />} />
           <Route path="/setting" element={<Settings />} />
           <Route path="/admin/*" element={<Admin />} />
           <Route path="/admin/users" element={<AllUsers />} />
@@ -36,7 +42,6 @@ function App() {
           <Route path="/admin/to-pay" element={<ToPay />} />
           <Route path="/admin/game-mode" element={<GameMode />} />
           <Route path="/thirty-second-page" element={<ThirtySecond />} />
-
         </Routes>
       </Router>
     </UserProvider>

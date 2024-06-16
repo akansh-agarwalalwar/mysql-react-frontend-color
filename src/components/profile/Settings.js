@@ -6,7 +6,6 @@ import UserContext from "../login/UserContext";
 
 function Settings() {
   const { user } = useContext(UserContext);
-  console.log(user);
   const navigate = useNavigate();
 
   const capitalizeFirstLetter = (string) => {

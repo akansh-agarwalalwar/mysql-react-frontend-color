@@ -17,11 +17,10 @@ function PaymentApprove() {
         console.error("Error fetching pending payments:", error);
       }
     };
-
     const fetchPaymentHistory = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3001/api/payments/history"
+          "http://localhost:3001/api/payments/updatedHistory"
         );
         setPaymentHistory(response.data);
       } catch (error) {
@@ -40,7 +39,7 @@ function PaymentApprove() {
         (payment) => payment.id === id
       );
 
-      setPendingPayments(
+      setPendingPayments( 
         pendingPayments.filter((payment) => payment.id !== id)
       );
       setPaymentHistory([

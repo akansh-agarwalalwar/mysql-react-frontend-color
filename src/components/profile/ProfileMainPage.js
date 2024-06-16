@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import Axios from "axios";
 import Cookies from 'js-cookie';
-
+import { AiTwotoneBank } from "react-icons/ai";
 const sideNavData = [
   {
     title: "Order Record",
@@ -22,6 +22,11 @@ const sideNavData = [
     title: "Financial Details",
     icon: <TbReceiptRupee />,
     path: "/financial-details",
+  },
+  {
+    title: "Bank Details",
+    icon: <AiTwotoneBank />,
+    path: "/bank-details",
   },
   {
     title: "Download",
@@ -47,7 +52,6 @@ const sideNavData = [
 
 const ProfileMainPage = () => {
   const { user, setUser } = useContext(UserContext);
-  console.log(user,setUser)
   const navigate = useNavigate();
 
   const handleLogout = async () => {
