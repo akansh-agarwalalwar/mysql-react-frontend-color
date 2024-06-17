@@ -16,7 +16,7 @@ export default function ForgotPassword() {
       return;
     }
     try {
-      const response = await Axios.post("https://mysql-color-backend.vercel.app/forgot-password", {
+      const response = await Axios.post("https://mysql-color-backend-1.onrender.com/forgot-password", {
         mobileNumber: mobileNumber,
         newPassword: newPassword,
       });
