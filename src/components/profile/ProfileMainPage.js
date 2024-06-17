@@ -56,7 +56,7 @@ const ProfileMainPage = () => {
 
   const handleLogout = async () => {
     try {
-      await Axios.post("https://mysql-color-backend.vercel.app/logout");
+      await Axios.post("http://localhost:3001/logout");
       setUser(null);
       Cookies.remove('user');
       navigate("/login");

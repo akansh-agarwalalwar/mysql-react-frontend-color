@@ -10,7 +10,7 @@ export default function TopBody() {
 
   const fetchUserData = async () => {
     try {
-      const response = await axios.get(`https://mysql-color-backend-1.onrender.com/api/balance/${user.userId}`);
+      const response = await axios.get(`http://localhost:3001/api/balance/${user.userId}`);
       if (response.status === 200) {
         setBalance(response.data.balance);
       }
@@ -18,13 +18,11 @@ export default function TopBody() {
       console.error("Error fetching user data:", error);
     }
   };
-
   useEffect(() => {
     if (user.userId) {
       fetchUserData();
     }
   }, [user]);
-
   return (
     <div className="w-full text-white bg-blue-200 h-[150px] rounded-b-2xl px-6 flex items-center">
       <div className="flex w-full justify-between items-center">
@@ -41,7 +39,6 @@ export default function TopBody() {
             </span>
           </p>
         </div>
-
         <div className="flex flex-col gap-2">
           <Link to="/recharge">
             <button className="bg-blue-500 w-fit hover:bg-blue-700 text-white font-semibold py-1 px-2 rounded">

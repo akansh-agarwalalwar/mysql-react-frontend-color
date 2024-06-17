@@ -18,7 +18,7 @@ function Invite() {
 
     const inviteReferCode = async (userId) => {
       try {
-        const response = await fetch(`https://mysql-color-backend-1.onrender.com/api/invite/refer/${userId}`);
+        const response = await fetch(`http://localhost:3001/api/invite/refer/${userId}`);
         if (response.ok) {
           const data = await response.json();
           setReferCode(data.userReferenceCode);

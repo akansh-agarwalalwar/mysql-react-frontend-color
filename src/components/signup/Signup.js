@@ -23,7 +23,7 @@ export default function Signup() {
     }
 
     try {
-      const response = await Axios.post("https://mysql-color-backend-1.onrender.com/register", {
+      const response = await Axios.post("http://localhost:3001/register", {
         username,
         mobileNumber: `+91${mobileNumber}`,
         useremail,
@@ -31,7 +31,6 @@ export default function Signup() {
         confirmPassword,
         referenceCode,
       });
-
       if (response.data.message === "Registration Successful") {
         setRegisterStatus(response.data.message);
         navigate("/login");
@@ -40,17 +39,13 @@ export default function Signup() {
       }
     } catch (error) {
       console.error("Error during registration:", error);
-      if (error.response && error.response.data) {
-        setRegisterStatus(`Registration failed: ${error.response.data.message}`);
-      } else {
-        setRegisterStatus("Registration failed due to an unknown error.");
-      }
+      setRegisterStatus("Registration failed.");
     }
   };
 
   const sendOtp = async () => {
     try {
-      const response = await Axios.post("https://mysql-color-backend-1.onrender.com/send-email-otp", {
+      const response = await Axios.post("http://localhost:3001/send-email-otp", {
         useremail,
       });
       if (response.data.message === "OTP sent successfully") {
@@ -67,7 +62,7 @@ export default function Signup() {
 
   const verifyOtp = async () => {
     try {
-      const response = await Axios.post("https://mysql-color-backend-1.onrender.com/verify-email-otp", {
+      const response = await Axios.post("http://localhost:3001/verify-email-otp", {
         useremail,
         otp,
       });

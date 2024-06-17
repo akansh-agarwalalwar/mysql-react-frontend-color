@@ -50,7 +50,7 @@ function PaymentPage({userId}) {
     }
   };
   const handleConfirm = async () => {
-    axios.post('https://mysql-color-backend-1.onrender.com/image-upload', { userId: user.userId, amount: amount })
+    axios.post('http://localhost:3001/image-upload', { userId: user.userId, amount: amount })
       .then(response => {
         console.log(response.data);
         alert('Request sent!');

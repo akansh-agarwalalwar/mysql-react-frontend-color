@@ -8,7 +8,7 @@ export default function ToPay() {
 
   const fetchWithdrawHistory = async () => {
     try {
-      const response = await axios.get('https://mysql-color-backend.vercel.app/api/withdrawl/history');
+      const response = await axios.get('http://localhost:3001/api/withdrawl/history');
       setWithdrawHistory(response.data);
     } catch (error) {
       console.error('Error fetching withdraw history:', error);
@@ -17,7 +17,7 @@ export default function ToPay() {
 
   const fetchProcessedWithdrawHistory = async () => {
     try {
-      const response = await axios.get('https://mysql-color-backend.vercel.app/api/withdrawl/processed-history');
+      const response = await axios.get('http://localhost:3001/api/withdrawl/processed-history');
       setProcessedWithdrawHistory(response.data);
     } catch (error) {
       console.error('Error fetching processed withdraw history:', error);
@@ -31,7 +31,7 @@ export default function ToPay() {
 
   const handleAccept = async (id) => {
     try {
-      await axios.post('https://mysql-color-backend.vercel.app/api/withdrawals/accept', { id });
+      await axios.post('http://localhost:3001/api/withdrawals/accept', { id });
       setWithdrawHistory(withdrawHistory.filter((withdrawal) => withdrawal.id !== id));
       fetchProcessedWithdrawHistory();
     } catch (error) {
@@ -41,7 +41,7 @@ export default function ToPay() {
 
   const handleDeny = async (id) => {
     try {
-      await axios.post('https://mysql-color-backend.vercel.app/api/withdrawals/deny', { id });
+      await axios.post('http://localhost:3001/api/withdrawals/deny', { id });
       const deniedWithdrawal = withdrawHistory.find((withdrawal) => withdrawal.id === id);
       setWithdrawHistory(withdrawHistory.filter((withdrawal) => withdrawal.id !== id));
       setProcessedWithdrawHistory([...processedWithdrawHistory, { ...deniedWithdrawal, status: 'denied' }]);

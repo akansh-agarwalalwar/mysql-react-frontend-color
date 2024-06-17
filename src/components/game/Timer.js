@@ -5,18 +5,25 @@ import { Link } from "react-router-dom";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import { RxCross1 } from "react-icons/rx";
+
 function Timer() {
   const [time, setTime] = useState(30);
   const [period, setPeriod] = useState(100000000);
   const [selectedColor, setSelectedColor] = useState(null);
   const [balance, setBalance] = useState(9); // Example balance, update this according to your data
   const [contractMoney, setContractMoney] = useState(0);
+  const [records, setRecords] = useState([]);
 
   useEffect(() => {
     const timerId = setInterval(() => {
       setTime((prevTime) => {
         if (prevTime === 1) {
-          setPeriod((prevPeriod) => prevPeriod + 1);
+          setPeriod((prevPeriod) => {
+            const newPeriod = prevPeriod + 1;
+            const newRecord = String(newPeriod).slice(-3); // Get last 3 digits of the new period
+            setRecords((prevRecords) => [...prevRecords, newRecord].slice(-30)); // Keep only the last 30 records
+            return newPeriod;
+          });
           return 30;
         }
         return prevTime - 1;
@@ -57,9 +64,7 @@ function Timer() {
       icon: <FaHorseHead style={{ color: "#00FF00" }} />,
       values: [2, 4, 6, 8],
     },
-    
   ];
-  
 
   const numbers = [
     { title: "1" },
@@ -95,7 +100,7 @@ function Timer() {
 
   return (
     <div className="flex flex-col bg-gray-900 min-h-screen">
-      <div className="flex flex-row justify-between bg-richblue-500 absolute w-full text-white items-center h-8">
+      <div className="flex flex-row justify-between bg-richblue-500 w-full text-white items-center h-12 md:h-8">
         <Link to="/home">
           <FaArrowLeftLong className="mx-2" />
         </Link>
@@ -104,7 +109,7 @@ function Timer() {
       </div>
       <div className="p-2 mt-4">
         <div className="flex flex-row justify-between w-full items-center h-15 my-2 px-3">
-          <div className="flex left-0 flex-col">
+          <div className="flex flex-col">
             <p className="text-l">Periods Timer</p>
             <div className="rounded-lg p-3 shadow-lg h-8 flex items-center bg-white">
               <h2 className="text-xl text-black font-mono">
@@ -141,10 +146,10 @@ function Timer() {
               nested
               open={selectedColor && selectedColor.title === item.title}
               onClose={closePopup}
-              position=""
+              position="center center"
             >
               <div className="p-4 rounded-t-lg">
-                <div className="flex right-2 top-2 absolute ">
+                <div className="flex right-2 top-2 absolute">
                   <RxCross1 onClick={closePopup} className="text-2xl" />
                 </div>
                 <div className="flex flex-row top-0">
@@ -165,12 +170,12 @@ function Timer() {
                   </div>
                   <div className="flex flex-col mr-2 mb-4">
                     <p>Contract Money</p>
-                    <div className="flex flex-row">
+                    <div className="flex flex-wrap">
                       {[10, 100, 1000, 10000].map((amount) => (
                         <button
                           key={amount}
                           onClick={() => handleContractMoneyChange(amount)}
-                          className=" p-2 rounded-lg mr-2 bg-richblack-5"
+                          className="p-2 rounded-lg mr-2 bg-richblack-5 mt-2"
                         >
                           {amount}
                         </button>
@@ -211,9 +216,9 @@ function Timer() {
                   </div>
                   <div className="mb-2">
                     Total contract Money is{" "}
-                    <span className=" text-blue-200">{contractMoney}</span>
+                    <span className="text-blue-200">{contractMoney}</span>
                   </div>
-                  <button className=" p-2 bg-brown-100 rounded-lg">
+                  <button className="p-2 bg-brown-100 rounded-lg">
                     Confirm
                   </button>
                 </div>
@@ -247,6 +252,37 @@ function Timer() {
                 <h2 className="text-xl font-mono">{item.title}</h2>
               </div>
             ))}
+          </div>
+        </div>
+        <div className="flex justify-center items-center mt-8">
+          <div className="w-full md:w-3/4">
+            <div className="border-b-2 border-blue-500 pb-2 mb-2">
+              <h2 className="text-center text-xl font-bold">Record</h2>
+            </div>
+            <div className="flex justify-between">
+              <p>Fast-Parity Record(s)</p>
+              <p>more &gt;</p>
+            </div>
+            <div className="grid grid-cols-10 gap-2 mt-4">
+              {records.map((record, index) => (
+                <div key={index} className="flex flex-col items-center">
+                  <div
+                    className={`h-10 w-10 flex items-center justify-center rounded-full ${
+                      index % 3 === 0
+                        ? "bg-richblue-500"
+                        : index % 3 === 1
+                        ? "bg-richblue-200"
+                        : "bg-richblue-100"
+                    }`}
+                  >
+                    <span className="text-white">
+                      {time <= 10 ? "?" : record}
+                    </span>
+                  </div>
+                  <p className="text-sm text-center">{record}</p> {/* Show last 3 digits */}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
