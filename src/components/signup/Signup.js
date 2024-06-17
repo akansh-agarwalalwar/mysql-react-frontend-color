@@ -31,6 +31,7 @@ export default function Signup() {
         confirmPassword,
         referenceCode,
       });
+
       if (response.data.message === "Registration Successful") {
         setRegisterStatus(response.data.message);
         navigate("/login");
@@ -39,7 +40,11 @@ export default function Signup() {
       }
     } catch (error) {
       console.error("Error during registration:", error);
-      setRegisterStatus("Registration failed.");
+      if (error.response && error.response.data) {
+        setRegisterStatus(`Registration failed: ${error.response.data.message}`);
+      } else {
+        setRegisterStatus("Registration failed due to an unknown error.");
+      }
     }
   };
 
