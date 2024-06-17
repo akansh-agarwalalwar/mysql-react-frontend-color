@@ -8,7 +8,7 @@ export default function AdminDashboard() {
   const [ToPay, setToPay] = useState([])
   const fetchUsers = async () => {
     try {
-      const response = await fetch("https://mysql-color-backend-1.onrender.com/all-users");
+      const response = await fetch("https://mysql-color-backend.vercel.app/all-users");
       const data = await response.json();
       setUsers(data);
     } catch (error) {
@@ -17,7 +17,7 @@ export default function AdminDashboard() {
   };
   const fetchApproveUser = async () =>{
     try {
-      const response = await fetch("https://mysql-color-backend-1.onrender.com/api/payments/pending");
+      const response = await fetch("https://mysql-color-backend.vercel.app/api/payments/pending");
       const data = await response.json();
       setApproveUser(data);
     }
@@ -27,7 +27,7 @@ export default function AdminDashboard() {
   }
   const fetchToPayUser = async () =>{
     try {
-      const response = await fetch("https://mysql-color-backend-1.onrender.com/api/withdrawl/history");
+      const response = await fetch("https://mysql-color-backend.vercel.app/api/withdrawl/history");
       const data = await response.json();
       setToPay(data);
     }

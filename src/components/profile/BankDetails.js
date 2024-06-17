@@ -15,7 +15,7 @@ function BankDetails() {
   useEffect(() => {
     const fetchBankDetails = async () => {
       try {
-        const res = await axios.get(`https://mysql-color-backend-1.onrender.com/api/bank-details/${user.userId}`);
+        const res = await axios.get(`https://mysql-color-backend.vercel.app/api/bank-details/${user.userId}`);
         if (res.status === 200) {
           setAccountNumber(res.data.accountNumber);
           setIfscCode(res.data.ifscCode);
@@ -34,7 +34,7 @@ function BankDetails() {
   const handleBankDetails = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("https://mysql-color-backend-1.onrender.com/api/bank-details", {
+      const res = await axios.post("https://mysql-color-backend.vercel.app/api/bank-details", {
         userId: user.userId,
         accountNumber,
         ifscCode,

@@ -22,7 +22,7 @@ function FinancialDetails() {
   const fetchRechargeHistory = async () => {
     try {
       const response = await fetch(
-        `https://mysql-color-backend-1.onrender.com/api/payemnt/history123?userId=${user.userId}`
+        `https://mysql-color-backend.vercel.app/api/payemnt/history123?userId=${user.userId}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -37,7 +37,7 @@ function FinancialDetails() {
   const fetchWithdrawHistory = async (userId) => {
     try {
       const response = await fetch(
-        `https://mysql-color-backend-1.onrender.com/api/show/withdrawl/history?userId=${user.userId}`
+        `https://mysql-color-backend.vercel.app/api/show/withdrawl/history?userId=${user.userId}`
       );
       if (response.ok) {
         const data = await response.json();

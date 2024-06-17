@@ -16,7 +16,7 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await Axios.post("https://mysql-color-backend-1.onrender.com/login", {
+      const response = await Axios.post("https://mysql-color-backend.vercel.app/login", {
         useremail,
         password,
       });

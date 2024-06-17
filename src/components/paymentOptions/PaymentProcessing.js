@@ -21,7 +21,7 @@ function PaymentProcessing({ userId, amount }) {
       formData.append('userId', userId);
       formData.append('amount', amount);
 
-      await axios.post('https://mysql-color-backend-1.onrender.com/upload-image', formData, {
+      await axios.post('https://mysql-color-backend.vercel.app/upload-image', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

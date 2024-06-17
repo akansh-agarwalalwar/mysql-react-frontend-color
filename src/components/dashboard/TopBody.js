@@ -10,7 +10,7 @@ export default function TopBody() {
 
   const fetchUserData = async () => {
     try {
-      const response = await axios.get(`https://mysql-color-backend-1.onrender.com/api/balance/${user.userId}`);
+      const response = await axios.get(`https://mysql-color-backend.vercel.app/api/balance/${user.userId}`);
       if (response.status === 200) {
         setBalance(response.data.balance);
       }

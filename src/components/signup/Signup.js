@@ -23,7 +23,7 @@ export default function Signup() {
     }
 
     try {
-      const response = await Axios.post("https://mysql-color-backend-1.onrender.com/register", {
+      const response = await Axios.post("https://mysql-color-backend.vercel.app/register", {
         username,
         mobileNumber: `+91${mobileNumber}`,
         useremail,

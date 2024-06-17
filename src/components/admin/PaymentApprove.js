@@ -10,7 +10,7 @@ function PaymentApprove() {
     const fetchPendingPayments = async () => {
       try {
         const response = await axios.get(
-          "https://mysql-color-backend-1.onrender.com/api/payments/pending"
+          "https://mysql-color-backend.vercel.app/api/payments/pending"
         );
         setPendingPayments(response.data);
       } catch (error) {
@@ -20,7 +20,7 @@ function PaymentApprove() {
     const fetchPaymentHistory = async () => {
       try {
         const response = await axios.get(
-          "https://mysql-color-backend-1.onrender.com/api/payments/updatedHistory"
+          "https://mysql-color-backend.vercel.app/api/payments/updatedHistory"
         );
         setPaymentHistory(response.data);
       } catch (error) {
@@ -34,7 +34,7 @@ function PaymentApprove() {
 
   const handleApprove = async (id) => {
     try {
-      await axios.post("https://mysql-color-backend-1.onrender.com/api/payments/approve", { id });
+      await axios.post("https://mysql-color-backend.vercel.app/api/payments/approve", { id });
       const approvedPayment = pendingPayments.find(
         (payment) => payment.id === id
       );
@@ -53,7 +53,7 @@ function PaymentApprove() {
 
   const handleDeny = async (id) => {
     try {
-      await axios.post("https://mysql-color-backend-1.onrender.com/api/payments/deny", { id });
+      await axios.post("https://mysql-color-backend.vercel.app/api/payments/deny", { id });
       setPendingPayments(
         pendingPayments.filter((payment) => payment.id !== id)
       );

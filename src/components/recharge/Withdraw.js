@@ -14,7 +14,7 @@ function Withdraw() {
   useEffect(() => {
     const fetchBankDetails = async () => {
       try {
-        const res = await axios.get(`https://mysql-color-backend-1.onrender.com/api/bank-details/${user.userId}`);
+        const res = await axios.get(`https://mysql-color-backend.vercel.app/api/bank-details/${user.userId}`);
         if (res.status === 200) {
           setBankDetails(res.data);
         }
@@ -34,7 +34,7 @@ function Withdraw() {
       return;
     }
 
-    axios.post('https://mysql-color-backend-1.onrender.com/api/withdraw', { userId: user.userId, amount: amountset })
+    axios.post('https://mysql-color-backend.vercel.app/api/withdraw', { userId: user.userId, amount: amountset })
       .then(response => {
         console.log(response.data);
         alert('Request sent!');
