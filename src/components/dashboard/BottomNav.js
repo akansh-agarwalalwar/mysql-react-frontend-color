@@ -10,12 +10,14 @@ export default function BottomNav({ activeButton, setActiveButton }) {
           <FaHome />
           <span className="text-xs mt-1">Home</span>
         </Link>
+        <Link to='/invite'>
         <NavButton 
           icon={<FaUserFriends />} 
           label="Invite" 
           active={activeButton === "Invite"} 
           onClick={() => setActiveButton("Invite")}
         />
+        </Link>
         <Link to="/recharge" className={`flex flex-col items-center text-gray-700 focus:outline-none ${activeButton === "Recharge" ? 'text-blue-500' : ''}`}>
           <FaMoneyBillWave />
           <span className="text-xs mt-1">Recharge</span>

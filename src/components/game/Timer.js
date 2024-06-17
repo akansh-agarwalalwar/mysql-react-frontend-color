@@ -43,18 +43,23 @@ function Timer() {
       title: "Red",
       color: "red",
       icon: <FaHorseHead style={{ color: "#FF0000" }} />,
+      values: [1, 3, 7, 9],
     },
     {
-      title: "Red/Green",
-      color: "green",
-      icon: <FaHorseHead />,
+      title: "Violet",
+      color: "purple",
+      icon: <FaHorseHead style={{ color: "#800080" }} />,
+      values: [0, 5],
     },
     {
       title: "Green",
+      color: "green",
       icon: <FaHorseHead style={{ color: "#00FF00" }} />,
-      color: "#104455",
+      values: [2, 4, 6, 8],
     },
+    
   ];
+  
 
   const numbers = [
     { title: "1" },

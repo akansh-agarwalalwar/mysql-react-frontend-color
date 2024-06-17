@@ -22,7 +22,7 @@ function FinancialDetails() {
   const fetchRechargeHistory = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3001/api/payemnt/history123?userId=${user.userId}`
+        `https://mysql-color-backend-1.onrender.com/api/payemnt/history123?userId=${user.userId}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -34,10 +34,10 @@ function FinancialDetails() {
       console.error("Error fetching recharge history:", error);
     }
   };
-  const fetchWithdrawHistory = async () => {
+  const fetchWithdrawHistory = async (userId) => {
     try {
       const response = await fetch(
-        `http://localhost:3001/api/withdrawl/history`
+        `https://mysql-color-backend-1.onrender.com/api/show/withdrawl/history?userId=${user.userId}`
       );
       if (response.ok) {
         const data = await response.json();

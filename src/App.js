@@ -19,6 +19,7 @@ import ThirtySecond from "./components/game/ThirtySecond";
 import Withdraw from "./components/recharge/Withdraw";
 import FinancialDetails from "./components/profile/FinancialDetails";
 import BankDetails from "./components/profile/BankDetails";
+import Invite from "./components/dashboard/Invite";
 function App() {
   return (
     <UserProvider>
@@ -31,6 +32,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/recharge" element={<Recharge />} />
           <Route path="/withdraw" element={<Withdraw />} />
+          <Route path="/invite" element={<Invite />} />
           <Route path="/profile" element={<ProfileMainPage />} />
           <Route path="/payment-page" element={<PaymentPage />} />
           <Route path="/financial-details" element={<FinancialDetails />} />

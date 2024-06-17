@@ -56,7 +56,7 @@ const ProfileMainPage = () => {
 
   const handleLogout = async () => {
     try {
-      await Axios.post("http://localhost:3001/logout");
+      await Axios.post("https://mysql-color-backend-1.onrender.com/logout");
       setUser(null);
       Cookies.remove('user');
       navigate("/login");
