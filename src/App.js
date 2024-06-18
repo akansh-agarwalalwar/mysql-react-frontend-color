@@ -20,6 +20,7 @@ import Withdraw from "./components/recharge/Withdraw";
 import FinancialDetails from "./components/profile/FinancialDetails";
 import BankDetails from "./components/profile/BankDetails";
 import Invite from "./components/dashboard/Invite";
+
 function App() {
   return (
     <UserProvider>
