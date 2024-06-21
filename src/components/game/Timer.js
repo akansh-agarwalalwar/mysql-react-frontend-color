@@ -115,7 +115,6 @@ function Timer() {
           await axios.post("https://color-server.onrender.com/update-amounts", {
             periodNumber: formatPeriod(period),
           });
-          console.log("Amounts updated successfully.");
         } catch (error) {
           console.error("Error updating amounts:", error);
         }
@@ -223,8 +222,6 @@ function Timer() {
       if (response.status !== 200) {
         throw new Error("Error placing bet");
       }
-
-      console.log("Bet placed successfully:", response.data);
 
       // Fetch the latest user data
       await fetchUserData();
