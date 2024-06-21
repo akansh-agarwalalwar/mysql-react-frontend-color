@@ -1,21 +1,36 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function EveryOneOrder() {
-  const [orders, setOrders] = useState([]);
-  const [period, setPeriod] = useState(1);
+  const [lastPeriodNumber, setLastPeriodNumber] = useState('');
+  const [userBets, setUserBets] = useState([]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setPeriod((prevPeriod) => {
-        const newPeriod = prevPeriod + 1;
-        const newOrders = [...orders, Math.floor(Math.random() * 100)];
-        setOrders(newOrders);
-        return newPeriod;
-      });
-    }, 30000); // Example: Update period every 30 seconds
+    const fetchLastPeriodNumber = async () => {
+      try {
+        const response = await axios.get('https://color-server.onrender.com/api/lastPeriodNumber');
+        const { lastPeriodNumber } = response.data;
+        if (lastPeriodNumber) {
+          setLastPeriodNumber(lastPeriodNumber);
+          fetchUserBets(lastPeriodNumber); // Fetch user bets for the last period
+        } else {
+          console.error('Last periodNumber is undefined');
+        }
+      } catch (error) {
+        console.error('Error fetching last periodNumber:', error);
+      }
+    };
+    fetchLastPeriodNumber();
+  }, []);
 
-    return () => clearInterval(interval);
-  }, [orders]);
+  const fetchUserBets = async (periodNumber) => {
+    try {
+      const response = await axios.get(`https://color-server.onrender.com/api/userBets/${periodNumber}`);
+      setUserBets(response.data);
+    } catch (error) {
+      console.error('Error fetching user bets:', error);
+    }
+  };
 
   return (
     <div className="flex flex-col bg-gray-900 min-h-screen">
@@ -24,14 +39,26 @@ function EveryOneOrder() {
       </div>
       <div className="p-2 mt-4">
         <div className="flex flex-col justify-center items-center">
-          <div className="text-lg text-white mb-2">Current Period: {period}</div>
-          <div className="text-lg text-white mb-2">Orders Count for Current Period: {orders[orders.length - 1] || 0}</div>
-          <div className="text-lg text-white">Total Orders in All Periods:</div>
-          <ul className="text-white mt-2">
-            {orders.map((orderCount, index) => (
-              <li key={index}>Period {index + 1}: {orderCount} orders</li>
-            ))}
-          </ul>
+          <table className="border-gray-600">
+            <thead>
+              <tr>
+                <th className="border border-gray-600 p-2">Period Number</th>
+                <th className="border border-gray-600 p-2">User</th>
+                <th className="border border-gray-600 p-2">Color</th>
+                <th className="border border-gray-600 p-2">Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              {userBets.map((bet, index) => (
+                <tr key={index}>
+                  <td className="border border-gray-600 p-2">{lastPeriodNumber.slice(-4)}</td>
+                  <td className="border border-gray-600 p-2">{bet.user}</td>
+                  <td className="border border-gray-600 p-2">{bet.color}</td>
+                  <td className="border border-gray-600 p-2">{bet.amount}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

@@ -31,7 +31,7 @@ export default function AllUsers() {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch("http://localhost:3001/all-users");
+      const response = await fetch("https://color-server.onrender.com/all-users");
       const data = await response.json();
       setUsers(data);
     } catch (error) {
@@ -42,7 +42,7 @@ export default function AllUsers() {
   const fetchRechargeHistory = async (userId) => {
     try {
       const response = await fetch(
-        `http://localhost:3001/api/payments/history?userId=${userId}`
+        `https://color-server.onrender.com/api/payments/history?userId=${userId}`
       );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -57,7 +57,7 @@ export default function AllUsers() {
   const fetchWithdrawHistory = async (userId) => {
     try {
       const response = await fetch(
-        `http://localhost:3001/api/show/withdrawl/history?userId=${userId}`
+        `https://color-server.onrender.com/api/show/withdrawl/history?userId=${userId}`
       );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -71,12 +71,11 @@ export default function AllUsers() {
 
   const fetchBankDetails = async (userId) => {
     try {
-      const res = await fetch(`http://localhost:3001/api/bank?userId=${userId}`);
+      const res = await fetch(`https://color-server.onrender.com/api/bank?userId=${userId}`);
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
       }
       const data = await res.json();
-      console.log("Bank Details:", data); // Log the response to check the data structure
 
       if (data && typeof data === 'object' && !Array.isArray(data)) {
         setBankDetails([data]); // Ensure data is an array before setting the state
@@ -122,7 +121,6 @@ export default function AllUsers() {
   };
 
   useEffect(() => {
-    console.log("Updated Bank Details State:", bankDetails); // Log state whenever it changes
   }, [bankDetails]);
 
   return (

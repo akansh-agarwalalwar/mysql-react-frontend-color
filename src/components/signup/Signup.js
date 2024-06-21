@@ -23,7 +23,7 @@ export default function Signup() {
     }
 
     try {
-      const response = await Axios.post("http://localhost:3001/register", {
+      const response = await Axios.post("https://color-server.onrender.com/register", {
         username,
         mobileNumber: `+91${mobileNumber}`,
         useremail,
@@ -45,7 +45,7 @@ export default function Signup() {
 
   const sendOtp = async () => {
     try {
-      const response = await Axios.post("http://localhost:3001/send-email-otp", {
+      const response = await Axios.post("https://color-server.onrender.com/send-email-otp", {
         useremail,
       });
       if (response.data.message === "OTP sent successfully") {
@@ -62,7 +62,7 @@ export default function Signup() {
 
   const verifyOtp = async () => {
     try {
-      const response = await Axios.post("http://localhost:3001/verify-email-otp", {
+      const response = await Axios.post("https://color-server.onrender.com/verify-email-otp", {
         useremail,
         otp,
       });

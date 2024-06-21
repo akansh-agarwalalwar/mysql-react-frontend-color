@@ -1,6 +1,6 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import * as XLSX from 'xlsx';
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import * as XLSX from "xlsx";
 
 export default function NavBarAdmin({ users }) {
   const navigate = useNavigate();
@@ -13,14 +13,14 @@ export default function NavBarAdmin({ users }) {
   };
 
   const handleLogout = () => {
-    navigate('/login');
+    navigate("/login");
   };
 
   return (
     <nav className="bg-blue-700 p-6 h-screen flex flex-col justify-between w-[200px] fixed top-0 left-0">
       <div>
         <ul className="flex flex-col space-y-4">
-        <li>
+          <li>
             <Link to="/admin/admin" className="text-white hover:underline">
               Dashboard
             </Link>
@@ -32,7 +32,10 @@ export default function NavBarAdmin({ users }) {
             </Link>
           </li>
           <li>
-            <Link to="/admin/payment-approve" className="text-white hover:underline">
+            <Link
+              to="/admin/payment-approve"
+              className="text-white hover:underline"
+            >
               Payment Approve
             </Link>
           </li>
@@ -41,14 +44,32 @@ export default function NavBarAdmin({ users }) {
               To Pay
             </Link>
           </li>
-          <li>
+          <li className="relative group">
             <Link to="/admin/game-mode" className="text-white hover:underline">
               Game Mode
             </Link>
+            {/* <ul className="absolute hidden group-hover:block bg-gray-800 text-white">
+              <li>
+                <Link
+                  // to="/admin/game-mode/30sec"
+                  className="block px-4 py-2 hover:bg-gray-700"
+                >
+                  30sec
+                </Link>
+              </li>
+              <li>
+                <Link
+                  // to="/admin/game-mode/3min"
+                  className="block px-4 py-2 hover:bg-gray-700"
+                >
+                  3min
+                </Link>
+              </li>
+            </ul> */}
           </li>
         </ul>
       </div>
-      <div className='bottom-0' >
+      <div className="bottom-0">
         <button
           onClick={exportToExcel}
           className="bg-blue-600 text-white py-2 px-4 rounded mb-2"

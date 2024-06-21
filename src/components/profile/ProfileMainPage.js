@@ -51,18 +51,12 @@ const sideNavData = [
 ];
 
 const ProfileMainPage = () => {
-  const { user, setUser } = useContext(UserContext);
+  const { user, logout } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    try {
-      await Axios.post("http://localhost:3001/logout");
-      setUser(null);
-      Cookies.remove('user');
+      await logout();
       navigate("/login");
-    } catch (error) {
-      console.error("Error during logout:", error);
-    }
   };
 
   return (

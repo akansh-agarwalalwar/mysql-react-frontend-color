@@ -22,7 +22,7 @@ function FinancialDetails() {
   const fetchRechargeHistory = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3001/api/payemnt/history123?userId=${user.userId}`
+        `https://color-server.onrender.com/api/payemnt/history123?userId=${user.userId}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -37,7 +37,7 @@ function FinancialDetails() {
   const fetchWithdrawHistory = async (userId) => {
     try {
       const response = await fetch(
-        `http://localhost:3001/api/show/withdrawl/history?userId=${user.userId}`
+        `https://color-server.onrender.com/api/show/withdrawl/history?userId=${user.userId}`
       );
       if (response.ok) {
         const data = await response.json();

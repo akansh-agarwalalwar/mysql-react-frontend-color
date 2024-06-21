@@ -5,24 +5,14 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 export default function TopBody() {
-  const { user } = useContext(UserContext);
+  const { user, fetchUserData } = useContext(UserContext);
+  
+  useEffect(() => {
+    fetchUserData();
+  }, []); // Empty dependency array means this will run once when the component mounts
+  
   const [balance, setBalance] = useState(user.balance !== undefined ? user.balance : "Loading...");
 
-  const fetchUserData = async () => {
-    try {
-      const response = await axios.get(`http://localhost:3001/api/balance/${user.userId}`);
-      if (response.status === 200) {
-        setBalance(response.data.balance);
-      }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
-  useEffect(() => {
-    if (user.userId) {
-      fetchUserData();
-    }
-  }, [user]);
   return (
     <div className="w-full text-white bg-blue-200 h-[150px] rounded-b-2xl px-6 flex items-center">
       <div className="flex w-full justify-between items-center">

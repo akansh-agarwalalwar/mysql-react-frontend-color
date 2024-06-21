@@ -20,6 +20,7 @@ import Withdraw from "./components/recharge/Withdraw";
 import FinancialDetails from "./components/profile/FinancialDetails";
 import BankDetails from "./components/profile/BankDetails";
 import Invite from "./components/dashboard/Invite";
+import OrderRecord from "./components/profile/OrderRecord";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
           <Route path="/profile" element={<ProfileMainPage />} />
           <Route path="/payment-page" element={<PaymentPage />} />
           <Route path="/financial-details" element={<FinancialDetails />} />
+          <Route path="/order-record" element={<OrderRecord />} />
           <Route path="/bank-details" element={<BankDetails />} />
           <Route path="/setting" element={<Settings />} />
           <Route path="/admin/*" element={<Admin />} />
@@ -45,6 +47,8 @@ function App() {
           <Route path="/admin/to-pay" element={<ToPay />} />
           <Route path="/admin/game-mode" element={<GameMode />} />
           <Route path="/thirty-second-page" element={<ThirtySecond />} />
+          {/* <Route path="/admin/game-mode/30sec" element={<DisplayTableOfThirtySec />} /> */}
+          {/* <Route path="/manual/thirty-second" element={<ManualPage />} /> */}
         </Routes>
       </Router>
     </UserProvider>

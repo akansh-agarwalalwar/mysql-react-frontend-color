@@ -21,7 +21,7 @@ function PaymentProcessing({ userId, amount }) {
       formData.append('userId', userId);
       formData.append('amount', amount);
 
-      await axios.post('http://localhost:3001/upload-image', formData, {
+      await axios.post('https://color-server.onrender.com/upload-image', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

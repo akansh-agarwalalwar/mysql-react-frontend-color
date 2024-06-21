@@ -16,7 +16,7 @@ export default function ForgotPassword() {
       return;
     }
     try {
-      const response = await Axios.post("http://localhost:3001/forgot-password", {
+      const response = await Axios.post("https://color-server.onrender.com/forgot-password", {
         mobileNumber: mobileNumber,
         newPassword: newPassword,
       });

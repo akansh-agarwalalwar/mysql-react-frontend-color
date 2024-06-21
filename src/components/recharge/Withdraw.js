@@ -14,7 +14,7 @@ function Withdraw() {
   useEffect(() => {
     const fetchBankDetails = async () => {
       try {
-        const res = await axios.get(`http://localhost:3001/api/bank-details/${user.userId}`);
+        const res = await axios.get(`https://color-server.onrender.com/api/bank-details/${user.userId}`);
         if (res.status === 200) {
           setBankDetails(res.data);
         }
@@ -34,7 +34,7 @@ function Withdraw() {
       return;
     }
 
-    axios.post('http://localhost:3001/api/withdraw', { userId: user.userId, amount: amountset })
+    axios.post('https://color-server.onrender.com/api/withdraw', { userId: user.userId, amount: amountset })
       .then(response => {
         console.log(response.data);
         alert('Request sent!');
