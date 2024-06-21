@@ -2,11 +2,13 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import { FaArrowLeftLong } from "react-icons/fa6";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
 import UserContext from "../login/UserContext";
 
+
 function PaymentPage({ userId }) {
+  const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const location = useLocation();
   const { amount, paymentMode } = location.state || { amount: 0, paymentMode: "N/A" };
@@ -62,6 +64,7 @@ function PaymentPage({ userId }) {
 
       await axios.post('https://color-server.onrender.com/image-upload', data);
       toast.success('Request submitted');
+      navigate("/home")
     } catch (error) {
       console.error('Error confirming payment:', error);
       alert('Failed to confirm payment. Please try again.');
