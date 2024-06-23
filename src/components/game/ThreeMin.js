@@ -8,9 +8,11 @@ import { RxCross1 } from "react-icons/rx";
 import UserContext from "../login/UserContext";
 import EveryOneOrder from "./EveryOneOrder";
 import axios from "axios";
-function Timer() {
+import TwoMinOrder from "./TwoMinOrder";
+
+function TwoMin() {
   const { user, setUser, fetchUserData } = useContext(UserContext);
-  const [time, setTime] = useState(30);
+  const [time, setTime] = useState(120); // 2 minutes in seconds
   const [period, setPeriod] = useState("");
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedNumber, setSelectedNumber] = useState(1);
@@ -30,15 +32,11 @@ function Timer() {
   useEffect(() => {
     const fetchInitialPeriodAndTime = async () => {
       try {
-        const periodResponse = await axios.get(
-          "https://color-server.onrender.com/period-timer"
-        );
+        const periodResponse = await axios.get("https://color-server.onrender.com/period-timer/two-min");
         setPeriod(Number(periodResponse.data.periodNumber));
 
-        const timeResponse = await axios.get(
-          "https://color-server.onrender.com/period-time"
-        );
-        setTime(timeResponse.data.countdown || 30);
+        const timeResponse = await axios.get("https://color-server.onrender.com/period-time/get-time/two-min");
+        setTime(timeResponse.data.countdown || 120); // Default to 120 seconds
       } catch (error) {
         console.error("Error fetching initial period and time:", error);
       }
@@ -48,8 +46,8 @@ function Timer() {
 
   const fetchLastPeriodData = async () => {
     try {
-      const response = await axios.get("https://color-server.onrender.com/winner-api");
-      setLastPeriodData(response.data[0]);
+      const response = await axios.get("https://color-server.onrender.com/winner-api/two-min");
+      setLastPeriodData(response.data[0]); // Assuming response.data is an array
     } catch (error) {
       console.error("Error fetching last period data:", error);
     }
@@ -66,7 +64,7 @@ function Timer() {
         savePeriodToDatabase(newPeriod);
         return newPeriod;
       });
-      setTime(30);
+      setTime(120); // Reset to 120 seconds
     } else {
       const timerId = setInterval(() => {
         setTime((prevTime) => prevTime - 1);
@@ -76,13 +74,13 @@ function Timer() {
   }, [time]);
 
   useEffect(() => {
-    if (time === 28) {
+    if (time === 118) {
       fetchLastPeriodData();
     }
 
     const sendTimeDataToServer = async () => {
       try {
-        await axios.post("https://color-server.onrender.com/period-time", {
+        await axios.post("https://color-server.onrender.com/period-time/two-min", {
           periodNumber: formatPeriod(period),
           periodTime: new Date().toISOString().split("T")[1].split(".")[0],
           periodDate: new Date().toISOString().split("T")[0],
@@ -90,7 +88,7 @@ function Timer() {
         });
         if (time === 7) {
           // Call the endpoint to update status
-          await axios.post("https://color-server.onrender.com/update-status", {
+          await axios.post("https://color-server.onrender.com/update-status/two-min", {
             periodNumber: formatPeriod(period),
             periodDate: new Date().toISOString().split("T")[0],
           });
@@ -112,7 +110,7 @@ function Timer() {
     if (time === 10) {
       const updateAmounts = async () => {
         try {
-          await axios.post("https://color-server.onrender.com/update-amounts", {
+          await axios.post("https://color-server.onrender.com/update-amounts/two-min", {
             periodNumber: formatPeriod(period),
           });
           console.log("Amounts updated successfully.");
@@ -126,7 +124,7 @@ function Timer() {
 
   const savePeriodToDatabase = async (newPeriod) => {
     try {
-      await axios.post("https://color-server.onrender.com/period-timer/post", {
+      await axios.post("https://color-server.onrender.com/period-timer/post/two-min", {
         periodNumber: newPeriod,
         periodDate: new Date().toISOString().split("T")[0],
       });
@@ -138,10 +136,7 @@ function Timer() {
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
-    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
-      2,
-      "0"
-    )}`;
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart("2", "0")}`;
   };
 
   const formatPeriod = (period) => {
@@ -199,8 +194,8 @@ function Timer() {
 
   const closePopup = () => {
     setSelectedColor(null);
-    setSelectedNumber(1);
-    setContractMoney(10);
+    setSelectedNumber(1); // Reset selected number to default
+    setContractMoney(10); // Reset contract money to default
   };
 
   const handleConfirm = async () => {
@@ -208,12 +203,12 @@ function Timer() {
     const possiblePayoutValue = possiblePayout[selectedColor.title].toFixed(2);
 
     if (user.balance <= 10) {
-      setErrorMessage("Insufficient balance");
+      setErrorMessage("Insufficient balance"); // Set error message if balance is insufficient
       return;
     }
 
     try {
-      const response = await axios.post("https://color-server.onrender.com/place-bet", {
+      const response = await axios.post("https://color-server.onrender.com/place-bet/two-min", {
         userId: user.userId,
         periodNumber: formatPeriod(period),
         periodDate: new Date().toISOString().split("T")[0],
@@ -231,6 +226,7 @@ function Timer() {
 
       console.log("Bet placed successfully:", response.data);
 
+      // Fetch the latest user data
       await fetchUserData();
     } catch (error) {
       console.error("Error placing bet:", error);
@@ -239,23 +235,10 @@ function Timer() {
     closePopup();
   };
 
-  const getColorClass = (color) => {
-    switch (color.toLowerCase()) {
-      case "red":
-        return "bg-red-100";
-      case "green":
-        return "bg-green-100";
-      case "violet":
-        return "bg-purple-100";
-      default:
-        return "bg-gray-300"; // Default color if the winner's color is not recognized
-    }
-  };
-
   return (
-    <div className="flex flex-col bg-gray-900 min-h-screen bg-myblue-500">
+    <div className="flex flex-col bg-gray-900 min-h-screen">
       {/* Header */}
-      <div className="flex flex-row justify-between bg-myblue-200 w-full text-white items-center h-12 md:h-8">
+      <div className="flex flex-row justify-between bg-richblue-500 w-full text-white items-center h-12 md:h-8">
         <Link to="/home">
           <FaArrowLeftLong className="mx-2" />
         </Link>
@@ -263,10 +246,10 @@ function Timer() {
         <p className="mr-2">Rules</p>
       </div>
       {/* Timer Section */}
-      <div className="p-2">
+      <div className="p-2 mt-2">
         <div className="flex flex-row justify-between w-full items-center h-15 my-2 px-3">
           <div className="flex flex-col">
-            <p className="text-l">Periods Timer</p>
+          <p className="text-l">Periods Timer</p>
             <div className="rounded-lg p-3 shadow-lg h-8 flex items-center bg-white">
               <h2 className="text-xl text-black font-mono">
                 {formatPeriod(period)}
@@ -281,11 +264,11 @@ function Timer() {
           </div>
         </div>
         {/* Color Boxes */}
-        <div className="p-2 mt-2 bg-gray-800 flex justify-around flex-wrap ">
+        <div className="p-2 mt-4 bg-gray-800 flex justify-around flex-wrap">
           {colorBoxes.map((colorBox) => (
             <div
               key={colorBox.color}
-              className={`flex flex-col justify-center items-center w-1/4 border border-myblue-200 rounded-lg p-2 cursor-pointer ${
+              className={`flex flex-col justify-center items-center w-1/4 border border-gray-600 rounded-lg p-2 cursor-pointer ${
                 isDisabled ? "opacity-50 cursor-not-allowed" : ""
               }`}
               onClick={() => !isDisabled && handleColorBoxClick(colorBox)}
@@ -296,18 +279,12 @@ function Timer() {
           ))}
         </div>
       </div>
+
       {/* Popup Modal */}
-      <Popup
-        open={!!selectedColor}
-        closeOnDocumentClick
-        onClose={closePopup}
-        modal
-      >
+      <Popup open={!!selectedColor} closeOnDocumentClick onClose={closePopup} modal>
         <div className="modal bg-white rounded-lg p-4 shadow-lg max-w-xs mx-auto">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold">
-              {selectedColor?.title} Numbers
-            </h2>
+            <h2 className="text-xl font-bold">{selectedColor?.title} Numbers</h2>
             <button onClick={closePopup} className="text-red-500">
               <RxCross1 />
             </button>
@@ -317,9 +294,7 @@ function Timer() {
             <p>{`User Balance: ${user.balance}`}</p>
           </div>
           {/* Error Message */}
-          {errorMessage && (
-            <div className="text-red-500 mb-4">{errorMessage}</div>
-          )}
+          {errorMessage && <div className="text-red-500 mb-4">{errorMessage}</div>}
           {/* Input Field for Amount */}
           <div className="mb-4">
             <label htmlFor="amountInput">Enter Amount:</label>
@@ -340,15 +315,9 @@ function Timer() {
           <div className="mb-4">
             <button
               onClick={handleConfirm}
-              disabled={
-                contractMoney < 10 ||
-                user.balance < contractMoney * selectedNumber
-              } // Disable if balance is insufficient
+              disabled={contractMoney < 10}
               className={`bg-blue-500 p-2 rounded-lg w-full ${
-                contractMoney < 10 ||
-                user.balance < contractMoney * selectedNumber
-                  ? "opacity-50 cursor-not-allowed"
-                  : ""
+                contractMoney < 10 ? "opacity-50 cursor-not-allowed" : ""
               }`}
             >
               Confirm
@@ -358,24 +327,21 @@ function Timer() {
       </Popup>
 
       {/* WINNER DIVISION */}
-      <div className="flex flex-row justify-around border border-myblue-200 shadow shadow-lg h-14 items-center mx-4 rounded-xl">
-        <div>{lastPeriodData ? lastPeriodData.periodNumber : "Loading..."}</div>
-        <div>{lastPeriodData ? lastPeriodData.color : "Loading..."}</div>
-        {lastPeriodData && (
-          <div
-            className={`w-8 h-8 rounded-full ${getColorClass(
-              lastPeriodData.color
-            )}`}
-          ></div>
-        )}
+      <div className="flex flex-row justify-between ml-4 mr-4">
+        <div>
+          {lastPeriodData ? lastPeriodData.periodNumber : "Loading..."}
+        </div>
+        <div>
+         {lastPeriodData ? lastPeriodData.color : "Loading..."}
+        </div>
       </div>
 
       {/* EveryOneOrder Component */}
-      <div className="flex p-2 bg-gray-800 flex-col">
-        <EveryOneOrder key={refresh} period={formatPeriod(period)} />
+      <div className="flex p-2 mt-4 bg-gray-800 flex-col">
+        <TwoMinOrder key={refresh} period={formatPeriod(period)} />
       </div>
     </div>
   );
 }
 
-export default Timer;
+export default TwoMin;

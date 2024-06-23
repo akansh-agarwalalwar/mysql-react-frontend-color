@@ -14,7 +14,7 @@ export default function TopBody() {
   const [balance, setBalance] = useState(user.balance !== undefined ? user.balance : "Loading...");
 
   return (
-    <div className="w-full text-white bg-blue-200 h-[150px] rounded-b-2xl px-6 flex items-center">
+    <div className="w-full text-white bg-myblue-200 h-[150px] rounded-b-2xl px-6 flex items-center">
       <div className="flex w-full justify-between items-center">
         <div>
           <p>Balance</p>

@@ -38,7 +38,6 @@ export default function GameMode() {
       return () => clearInterval(interval);
     }
   }, [mode]);
-
   useEffect(() => {
     if (latestPeriod) {
       resetCountTime();
@@ -47,7 +46,6 @@ export default function GameMode() {
     }
     return () => clearInterval(intervalRef.current);
   }, [latestPeriod]);
-
   const fetchAutoData = async () => {
     try {
       const response = await axios.get("https://color-server.onrender.com/admin/thirty-second");
@@ -56,11 +54,12 @@ export default function GameMode() {
       console.error("Error fetching auto data:", error);
     }
   };
-
+  
   const fetchUsers = async () => {
     try {
       const response = await axios.get("https://color-server.onrender.com/admin/thirty-second");
       setUsers(response.data);
+      console.log(response.data); // Log the fetched data for debugging
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -149,11 +148,11 @@ export default function GameMode() {
           value={searchQuery}
           onChange={handleSearch}
         />
-        <div className="p-5 bg-gray-100 rounded">
+        <div className="p-5 bg-gray-100 rounded h-[550px] overflow-y-auto">
           {mode === "Auto" ? (
             <div>
               {displayedUser.length > 0 ? (
-                <table className="w-full border-collapse">
+                <table className="w-full border-collapse table-auto">
                   <thead>
                     <tr>
                       <th className="border p-2 text-left">Period Number</th>
@@ -164,18 +163,15 @@ export default function GameMode() {
                     </tr>
                   </thead>
                   <tbody>
-                    {displayedUser
-                      .slice()
-                      .reverse()
-                      .map((user) => (
-                        <tr key={user.id}>
-                          <td className="border p-2">{user.periodNumber}</td>
-                          <td className="border p-2">{user.color}</td>
-                          <td className="border p-2">{user.redColor}</td>
-                          <td className="border p-2">{user.greenColor}</td>
-                          <td className="border p-2">{user.violetColor}</td>
-                        </tr>
-                      ))}
+                    {displayedUser.map((user) => (
+                      <tr key={user.id}>
+                        <td className="border p-2">{user.periodNumber}</td>
+                        <td className="border p-2">{user.color}</td>
+                        <td className="border p-2">{user.redColor}</td>
+                        <td className="border p-2">{user.greenColor}</td>
+                        <td className="border p-2">{user.violetColor}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               ) : (
@@ -183,7 +179,7 @@ export default function GameMode() {
               )}
             </div>
           ) : (
-            <div className="h-[550px] w-full bg-Lightblue flex flex-col items-center">
+            <div className="h-full w-full bg-blue-25 flex flex-col items-center">
               {latestPeriod ? (
                 <div className="flex flex-col items-center mt-4">
                   <h3>Last Inserted Value</h3>
@@ -212,6 +208,12 @@ export default function GameMode() {
                       <div>Violet Color:</div>
                       <div className="ml-2">{amounts.violetColor}</div>
                     </div>
+                  </div>
+
+                  <div className="flex flex-row w-[200px] justify-between mt-4 h-10">
+                    <button className=" rounded-md bg-brown-500 w-[50px]">Red</button>
+                    <button className=" rounded-md bg-Lightblue w-[50px]">Green</button>
+                    <button className=" rounded-md bg-Voilet w-[50px]">Violet</button>
                   </div>
                 </div>
               ) : (

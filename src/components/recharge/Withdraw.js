@@ -4,7 +4,7 @@ import UserContext from "../login/UserContext";
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 
-function Withdraw() {
+function Withdraw({userId}) {
   const { user } = useContext(UserContext);
   const [amountset, setAmountset] = useState('');
   const [message, setMessage] = useState('');
@@ -14,7 +14,7 @@ function Withdraw() {
   useEffect(() => {
     const fetchBankDetails = async () => {
       try {
-        const res = await axios.get(`https://color-server.onrender.com/api/bank-details/${user.userId}`);
+        const res = await axios.get(`http://localhost:3001/api/bank-details/${user.userId}`);
         if (res.status === 200) {
           setBankDetails(res.data);
         }
@@ -34,10 +34,11 @@ function Withdraw() {
       return;
     }
 
-    axios.post('https://color-server.onrender.com/api/withdraw', { userId: user.userId, amount: amountset })
+    axios.post('http://localhost:3001/api/withdraw', { userId: user.userId, amount: amountset })
       .then(response => {
         console.log(response.data);
         alert('Request sent!');
+        navigate('/home')
       })
       .catch(error => {
         console.error('There was an error sending the request!', error);
@@ -112,6 +113,7 @@ function Withdraw() {
           <input
             type="number"
             className="w-full h-10 border rounded-md"
+            placeholder=" 300 ~ 7500 "
             value={amountset}
             onChange={(e) => setAmountset(e.target.value)}
           />

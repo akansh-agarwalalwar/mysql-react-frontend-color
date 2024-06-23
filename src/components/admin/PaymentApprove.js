@@ -97,7 +97,7 @@ function PaymentApprove() {
                   <td className="py-4 px-6">{payment.userId}</td>
                   <td className="py-4 px-6">{payment.amount}</td>
                   <td className="py-4 px-6">
-                    {payment.transactionId || "N/A"}
+                    {payment.transaction_id || "N/A"}
                   </td>
                   <td className="py-4 px-6 text-center">
                     <button

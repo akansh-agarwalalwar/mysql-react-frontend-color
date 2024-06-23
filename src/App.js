@@ -21,6 +21,8 @@ import FinancialDetails from "./components/profile/FinancialDetails";
 import BankDetails from "./components/profile/BankDetails";
 import Invite from "./components/dashboard/Invite";
 import OrderRecord from "./components/profile/OrderRecord";
+import ThreeMin from "./components/game/ThreeMin";
+import DailyBonus from "./components/dashboard/DailyBonus";
 
 function App() {
   return (
@@ -47,6 +49,8 @@ function App() {
           <Route path="/admin/to-pay" element={<ToPay />} />
           <Route path="/admin/game-mode" element={<GameMode />} />
           <Route path="/thirty-second-page" element={<ThirtySecond />} />
+          <Route path="/threeMin" element={<ThreeMin />} />
+          <Route path="/daily-bonus" element={<DailyBonus />} />
           {/* <Route path="/admin/game-mode/30sec" element={<DisplayTableOfThirtySec />} /> */}
           {/* <Route path="/manual/thirty-second" element={<ManualPage />} /> */}
         </Routes>

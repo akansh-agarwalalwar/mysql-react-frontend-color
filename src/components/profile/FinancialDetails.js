@@ -1,64 +1,72 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import UserContext from "../login/UserContext";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { FaArrowLeftLong } from "react-icons/fa6";
+
 function FinancialDetails() {
   const { user } = useContext(UserContext);
   const [rechargeHistory, setRechargeHistory] = useState([]);
   const [withdrawHistory, setWithdrawHistory] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [activeHistory, setActiveHistory] = useState("withdraw");
+  const [activeHistory, setActiveHistory] = useState("recharge");
+
   useEffect(() => {
     if (user && user.userId) {
       fetchRechargeHistory(user.userId);
-    }
-    if (user.userId) {
       fetchWithdrawHistory(user.userId);
     }
   }, [user]);
-  const fetchRechargeHistory = async () => {
+
+  const fetchRechargeHistory = async (userId) => {
     try {
-      const response = await fetch(
-        `https://color-server.onrender.com/api/payemnt/history123?userId=${user.userId}`
+      setLoading(true);
+      const response = await axios.get(
+        `https://color-server.onrender.com/api/payemnt/history123?userId=${userId}`
       );
-      if (response.ok) {
-        const data = await response.json();
-        setRechargeHistory(data);
+      if (response.status === 200) {
+        setRechargeHistory(response.data);
       } else {
-        console.error("Failed to fetch recharge history");
+        throw new Error("Failed to fetch recharge history");
       }
     } catch (error) {
-      console.error("Error fetching recharge history:", error);
+      setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
+
   const fetchWithdrawHistory = async (userId) => {
     try {
-      const response = await fetch(
-        `https://color-server.onrender.com/api/show/withdrawl/history?userId=${user.userId}`
+      setLoading(true);
+      const response = await axios.get(
+        `https://color-server.onrender.com/api/show/withdrawl/history?userId=${userId}`
       );
-      if (response.ok) {
-        const data = await response.json();
-        setWithdrawHistory(data);
+      if (response.status === 200) {
+        setWithdrawHistory(response.data);
       } else {
-        console.error("Failed to fetch withdrawal history");
+        throw new Error("Failed to fetch withdrawal history");
       }
     } catch (error) {
-      console.error("Error fetching withdrawal history:", error);
+      setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleTabClick = (tab) => {
     setActiveHistory(tab);
   };
+
   const getStatusClass = (status) => {
     return status === "denied" ? "text-red-500" : "text-green-500";
   };
+
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="w-full text-white bg-blue-200 h-10 px-3 flex items-center justify-center fixed top-0 left-0">
+    <div className="container mx-auto px-4 py-8 bg-myblue-500 h-screen">
+      <div className="w-full text-white bg-myblue-200 h-10 px-3 flex items-center justify-center fixed top-0 left-0">
         <div className="flex absolute left-0 ml-2">
           <Link to="/profile">
             <FaArrowLeftLong size={20} />
@@ -71,7 +79,7 @@ function FinancialDetails() {
       <div className="flex justify-around items-center mb-8 mt-5">
         <div
           className={`cursor-pointer p-2 ${
-            activeHistory === "recharge" ? "bg-blue-200" : "bg-pure-greys-50"
+            activeHistory === "recharge" ? "bg-myblue-300" : "bg-pure-greys-50"
           } rounded-md shadow-md`}
           onClick={() => handleTabClick("recharge")}
         >
@@ -95,7 +103,7 @@ function FinancialDetails() {
       ) : (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {activeHistory === "recharge"
-            ? rechargeHistory.slice().reverse().map((recharge) => (
+            ? rechargeHistory.map((recharge) => (
                 <div
                   key={recharge.id}
                   className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-200"
@@ -113,7 +121,7 @@ function FinancialDetails() {
                   </p>
                 </div>
               ))
-            : withdrawHistory.slice().reverse().map((withdrawal) => (
+            : withdrawHistory.map((withdrawal) => (
                 <div
                   key={withdrawal.id}
                   className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-200"

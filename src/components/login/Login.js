@@ -43,8 +43,8 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-blue-700 flex justify-center items-center p-4">
-      <div className="bg-blue-300 p-8 rounded-lg shadow-lg w-full max-w-md">
+    <div className="min-h-screen bg-myblue-300 flex justify-center items-center p-4">
+      <div className="bg-myblue-400 p-8 rounded-lg shadow-lg w-full max-w-md">
         <div className="text-center mb-6">
           <h1 className="text-4xl font-bold text-white">Login</h1>
         </div>
@@ -71,7 +71,7 @@ export default function Login() {
           </div>
           <div className="mt-6">
             <button
-              className="w-full p-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition disabled:bg-gray-400"
+              className="w-full p-3 bg-myblue-200 text-white rounded-md hover:bg-myblue-200 transition disabled:bg-gray-400"
               type="submit"
               disabled={loading}
             >
