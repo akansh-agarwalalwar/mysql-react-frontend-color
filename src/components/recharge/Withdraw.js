@@ -14,7 +14,7 @@ function Withdraw({userId}) {
   useEffect(() => {
     const fetchBankDetails = async () => {
       try {
-        const res = await axios.get(`http://localhost:3001/api/bank-details/${user.userId}`);
+        const res = await axios.get(`https://color-server.onrender.com/api/bank-details/${user.userId}`);
         if (res.status === 200) {
           setBankDetails(res.data);
         }

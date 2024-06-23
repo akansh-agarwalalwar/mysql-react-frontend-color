@@ -23,7 +23,7 @@ export default function Signup() {
     }
 
     try {
-      const response = await Axios.post("https://color-server.onrender.com/register", {
+      const response = await Axios.post("/register", {
         username,
         mobileNumber: `+91${mobileNumber}`,
         useremail,
@@ -44,7 +44,7 @@ export default function Signup() {
 
   const sendOtp = async () => {
     try {
-      const response = await Axios.post("https://color-server.onrender.com/send-email-otp", {
+      const response = await Axios.post("/send-email-otp", {
         useremail,
       });
       if (response.data.message === "OTP sent successfully") {

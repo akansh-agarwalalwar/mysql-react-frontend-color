@@ -8,7 +8,7 @@ function EveryOneOrder() {
   useEffect(() => {
     const fetchLastPeriodNumber = async () => {
       try {
-        const response = await axios.get('https://color-server.onrender.com/api/lastPeriodNumber');
+        const response = await axios.get('http://localhost:3001/api/lastPeriodNumber');
         const { lastPeriodNumber } = response.data;
         if (lastPeriodNumber) {
           setLastPeriodNumber(lastPeriodNumber);
@@ -25,7 +25,7 @@ function EveryOneOrder() {
 
   const fetchUserBets = async (periodNumber) => {
     try {
-      const response = await axios.get(`https://color-server.onrender.com/api/userBets/${periodNumber}`);
+      const response = await axios.get(`http://localhost:3001/api/userBets/${periodNumber}`);
       setUserBets(response.data);
     } catch (error) {
       console.error('Error fetching user bets:', error);
