@@ -115,7 +115,6 @@ function Timer() {
           await axios.post("https://color-server.onrender.com/update-amounts", {
             periodNumber: formatPeriod(period),
           });
-          console.log("Amounts updated successfully.");
         } catch (error) {
           console.error("Error updating amounts:", error);
         }
@@ -229,8 +228,12 @@ function Timer() {
         throw new Error("Error placing bet");
       }
 
+<<<<<<< HEAD
       console.log("Bet placed successfully:", response.data);
 
+=======
+      // Fetch the latest user data
+>>>>>>> 5b2f2516e22c648c12c693912553739711711b4e
       await fetchUserData();
     } catch (error) {
       console.error("Error placing bet:", error);

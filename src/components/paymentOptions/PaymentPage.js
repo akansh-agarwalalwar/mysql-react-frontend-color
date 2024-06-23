@@ -7,7 +7,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import UserContext from "../login/UserContext";
 
 
+<<<<<<< HEAD
 function PaymentPage() {
+=======
+function PaymentPage({ userId }) {
+>>>>>>> 5b2f2516e22c648c12c693912553739711711b4e
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const location = useLocation();
