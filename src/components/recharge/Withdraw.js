@@ -4,7 +4,7 @@ import UserContext from "../login/UserContext";
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 
-function Withdraw({userId}) {
+function Withdraw() {
   const { user } = useContext(UserContext);
   const [amountset, setAmountset] = useState('');
   const [message, setMessage] = useState('');
@@ -29,20 +29,20 @@ function Withdraw({userId}) {
   }, [user]);
 
   const handleWithdraw = async () => {
-    if (amountset <= 0) {
+    const amount = parseFloat(amountset);
+    if (isNaN(amount) || amount <= 0) {
       setMessage('Amount must be greater than zero');
       return;
     }
-
-    axios.post('http://localhost:3001/api/withdraw', { userId: user.userId, amount: amountset })
-      .then(response => {
-        console.log(response.data);
-        alert('Request sent!');
-        navigate('/home')
-      })
-      .catch(error => {
-        console.error('There was an error sending the request!', error);
-      });
+    try {
+      const response = await axios.post('https://color-server.onrender.com/api/withdraw', { userId: user.userId, amount });
+      console.log(response.data);
+      alert('Withdrawal successful!');
+      navigate('/home');
+    } catch (error) {
+      console.error('There was an error sending the request!', error);
+      setMessage('Error: ' + (error.response?.data?.message || 'An error occurred'));
+    }
   };
 
   const handleAddBankDetails = () => {
