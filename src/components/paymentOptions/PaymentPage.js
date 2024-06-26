@@ -66,7 +66,7 @@ function PaymentPage() {
         input: inputValue,
       };
 
-      await axios.post("https://color-server.onrender.comimage-upload", data);
+      await axios.post("https://color-server.onrender.com/image-upload", data);
       toast.success("Request submitted");
       navigate("/home");
     } catch (error) {
