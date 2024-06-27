@@ -29,6 +29,7 @@ function Timer() {
   const [errorMessage, setErrorMessage] = useState(""); // State for error message
   const [newBets, setNewBets] = useState([]);
   const [showRandomBets, setShowRandomBets] = useState(false); // State to show random bets
+  const [lastTableData, setLastTableData] = useState([]); // State for last table data
 
   useEffect(() => {
     const fetchInitialPeriodAndTime = async () => {
@@ -128,11 +129,17 @@ function Timer() {
   }, [time]);
 
   useEffect(() => {
-    if (time <= 27 && time > 0) {
+    if (time <= 27 && time > 11) {
       setShowRandomBets(true);
       generateRandomBets();
     } else {
       setShowRandomBets(false);
+    }
+  }, [time]);
+
+  useEffect(() => {
+    if (time === 0) {
+      setLastTableData(newBets); // Save the current bets to lastTableData when the timer resets
     }
   }, [time]);
 
@@ -254,20 +261,32 @@ function Timer() {
   const getColorClass = (color) => {
     switch (color.toLowerCase()) {
       case "red":
-        return "bg-red-100";
-      case "green":
-        return "bg-green-100";
+        return "bg-red-500";
       case "violet":
-        return "bg-purple-100";
+        return "bg-purple-500";
+      case "green":
+        return "bg-green-500";
       default:
-        return "bg-gray-300"; // Default color if the winner's color is not recognized
+        return "";
     }
   };
 
   useEffect(() => {
+    fetchUserData();
+  }, [refresh]);
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
+  useEffect(() => {
+    fetchLastPeriodData();
+  }, [period]);
+
+  useEffect(() => {
     const intervalId = setInterval(() => {
-      generateRandomBets();
-    }, 5000); // Generate new bets every 5 seconds
+      fetchUserData();
+    }, 2000);
 
     return () => clearInterval(intervalId); // Clear the interval when the component unmounts
   }, []);
@@ -408,6 +427,17 @@ function Timer() {
       {showRandomBets && (
         <div className="flex p-2 bg-gray-800 flex-col">
           <EveryOneOrder key={refresh} period={formatPeriod(period)} newBets={newBets} />
+        </div>
+      )}
+
+      {/* Last Table Data */}
+      {time <= 11 ? (
+        <div className="flex p-2 flex-col w-[80%] mr-4 ml-8 justify-center items-center h-[150px] border border-myblue-200 mt-11">
+          <h2 className="text-myblue-200">WAIT FOR RESULT......</h2>
+        </div>
+      ) : (
+        <div className="flex p-2 bg-gray-800 flex-col">
+          {/* <EveryOneOrder key={refresh} period={formatPeriod(period - 1)} newBets={lastTableData} /> */}
         </div>
       )}
     </div>
