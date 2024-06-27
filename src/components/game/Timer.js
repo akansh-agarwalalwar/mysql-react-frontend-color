@@ -8,6 +8,7 @@ import { RxCross1 } from "react-icons/rx";
 import UserContext from "../login/UserContext";
 import EveryOneOrder from "./EveryOneOrder";
 import axios from "axios";
+
 function Timer() {
   const { user, setUser, fetchUserData } = useContext(UserContext);
   const [time, setTime] = useState(30);
@@ -26,6 +27,8 @@ function Timer() {
   });
   const [lastPeriodData, setLastPeriodData] = useState(null);
   const [errorMessage, setErrorMessage] = useState(""); // State for error message
+  const [newBets, setNewBets] = useState([]);
+  const [showRandomBets, setShowRandomBets] = useState(false); // State to show random bets
 
   useEffect(() => {
     const fetchInitialPeriodAndTime = async () => {
@@ -38,7 +41,7 @@ function Timer() {
         const timeResponse = await axios.get(
           "https://color-server.onrender.com/period-time"
         );
-        setTime(timeResponse.data.countdown || 30);
+        setTime((timeResponse.data.countdown || 30)-3);
       } catch (error) {
         console.error("Error fetching initial period and time:", error);
       }
@@ -121,6 +124,15 @@ function Timer() {
         }
       };
       updateAmounts();
+    }
+  }, [time]);
+
+  useEffect(() => {
+    if (time <= 27 && time > 0) {
+      setShowRandomBets(true);
+      generateRandomBets();
+    } else {
+      setShowRandomBets(false);
     }
   }, [time]);
 
@@ -252,6 +264,28 @@ function Timer() {
     }
   };
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      generateRandomBets();
+    }, 5000); // Generate new bets every 5 seconds
+
+    return () => clearInterval(intervalId); // Clear the interval when the component unmounts
+  }, []);
+
+  const generateRandomBets = () => {
+    const newBets = [];
+    const colors = ["Red", "Violet", "Green"];
+    const amounts = [100, 200, 500, 1000];
+
+    for (let i = 0; i < 30; i++) {
+      const randomColor = colors[Math.floor(Math.random() * colors.length)];
+      const randomAmount = amounts[Math.floor(Math.random() * amounts.length)];
+      newBets.push({ color: randomColor, amount: randomAmount });
+    }
+
+    setNewBets(newBets);
+  };
+
   return (
     <div className="flex flex-col bg-gray-900 min-h-screen bg-myblue-500">
       {/* Header */}
@@ -370,10 +404,12 @@ function Timer() {
         )}
       </div>
 
-      {/* EveryOneOrder Component */}
-      <div className="flex p-2 bg-gray-800 flex-col">
-        <EveryOneOrder key={refresh} period={formatPeriod(period)} />
-      </div>
+      {/* Random Bets */}
+      {showRandomBets && (
+        <div className="flex p-2 bg-gray-800 flex-col">
+          <EveryOneOrder key={refresh} period={formatPeriod(period)} newBets={newBets} />
+        </div>
+      )}
     </div>
   );
 }
