@@ -49,7 +49,7 @@ export default function Body() {
           <Link>
             <div className="flex flex-col bg-white h-40 rounded-lg border-2 border-myblue-200 relative overflow-hidden shadow-md">
               <div className="absolute inset-0 flex items-center justify-center bg-opacity-50 bg-gray-800">
-                <p className="text-2xl font-bold">Coming Soon</p>
+                <p className="text-xl font-bold">Coming Soon</p>
               </div>
             </div>
           </Link>
@@ -58,7 +58,7 @@ export default function Body() {
           <Link>
             <div className="flex flex-col bg-white h-40 rounded-lg border-2 border-myblue-200 relative overflow-hidden shadow-md">
               <div className="absolute inset-0 flex items-center justify-center bg-opacity-50 bg-gray-800">
-                <p className="text-2xl font-bold">Coming Soon</p>
+                <p className="text-xl font-bold">Coming Soon</p>
               </div>
             </div>
           </Link>
