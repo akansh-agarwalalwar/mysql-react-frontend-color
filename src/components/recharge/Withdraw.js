@@ -4,7 +4,7 @@ import UserContext from "../login/UserContext";
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 
-function Withdraw({userId}) {
+function Withdraw() {
   const { user } = useContext(UserContext);
   const [amountset, setAmountset] = useState('');
   const [message, setMessage] = useState('');
@@ -29,20 +29,20 @@ function Withdraw({userId}) {
   }, [user]);
 
   const handleWithdraw = async () => {
-    if (amountset <= 0) {
+    const amount = parseFloat(amountset);
+    if (isNaN(amount) || amount <= 0) {
       setMessage('Amount must be greater than zero');
       return;
     }
-
-    axios.post('http://localhost:3001/api/withdraw', { userId: user.userId, amount: amountset })
-      .then(response => {
-        console.log(response.data);
-        alert('Request sent!');
-        navigate('/home')
-      })
-      .catch(error => {
-        console.error('There was an error sending the request!', error);
-      });
+    try {
+      const response = await axios.post('https://color-server.onrender.com/api/withdraw', { userId: user.userId, amount });
+      console.log(response.data);
+      alert('Withdrawal successful!');
+      navigate('/home');
+    } catch (error) {
+      console.error('There was an error sending the request!', error);
+      setMessage('Error: ' + (error.response?.data?.message || 'An error occurred'));
+    }
   };
 
   const handleAddBankDetails = () => {
@@ -58,9 +58,9 @@ function Withdraw({userId}) {
   };
 
   return (
-    <div className="flex flex-col justify-between h-screen w-full">
+    <div className="flex flex-col justify-between h-screen w-full bg-myblue-500">
       <div>
-        <div className="w-full text-white bg-blue-200 h-10 px-3 flex items-center justify-center fixed top-0">
+        <div className="w-full text-white bg-myblue-200 h-10 px-3 flex items-center justify-center fixed top-0">
           <div className="flex absolute left-0 ml-2">
             <Link to="/home">
               <FaArrowLeftLong size={20} />
@@ -69,7 +69,6 @@ function Withdraw({userId}) {
           <div className="flex items-center justify-center ml-4">
             <h1 className="text-2xl font-bold">Withdraw</h1>
           </div>
-          <div className="flex absolute right-0 mr-2">Records</div>
         </div>
         <div className="relative mt-10">
           <div className="my-4 text-center">
@@ -85,7 +84,7 @@ function Withdraw({userId}) {
         {bankDetails ? (
           <div>
             {/* Display bank card if it exists */}
-            <div className="my-4 text-center border rounded p-4">
+            <div className="my-4 text-center border-2 rounded p-4 border-myblue-200">
               <p className="text-xl">
                 Bank Details
                 <br />
@@ -99,7 +98,7 @@ function Withdraw({userId}) {
           <div>
             {/* Display add bank details button if bank card does not exist */}
             <button 
-              className="bg-brown-300 rounded-md w-full h-9"
+              className="bg-myblue-200 rounded-md w-full h-9"
               onClick={handleAddBankDetails}
             >
               <p className="text-xl font-bold text-white">Add Bank Details</p>
@@ -107,12 +106,12 @@ function Withdraw({userId}) {
           </div>
         )}
         <div>
-          <p>Amount</p>
+          <p className="text-bold text-lg">Amount</p>
         </div>
         <div>
           <input
             type="number"
-            className="w-full h-10 border rounded-md"
+            className="w-full h-10 border rounded-md border-myblue-200"
             placeholder=" 300 ~ 7500 "
             value={amountset}
             onChange={(e) => setAmountset(e.target.value)}
@@ -120,8 +119,9 @@ function Withdraw({userId}) {
         </div>
         <div className="flex items-center justify-center w-full mt-3">
           <button 
-            className="bg-brown-300 rounded-md w-full h-9"
+            className={`bg-myblue-200 rounded-md w-full h-9 ${amountset < 300 ? 'opacity-50 cursor-not-allowed' : ''}`}
             onClick={handleWithdraw}
+            disabled={amountset < 300}
           >
             <p className="text-xl font-bold text-white">Confirm</p>
           </button>

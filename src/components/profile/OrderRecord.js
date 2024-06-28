@@ -49,7 +49,7 @@ function OrderRecord() {
   };
 
   const getStatusClass = (status) => {
-    return status === "denied" ? "text-red-500" : "text-green-500";
+    return status === "denied" ? "text-red-100" : "text-green-100";
   };
 
   return (

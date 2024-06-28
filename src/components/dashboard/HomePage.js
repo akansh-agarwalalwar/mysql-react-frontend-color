@@ -7,7 +7,7 @@ import Reward from './Reward';
 export default function HomePage() {
     const [activeButton, setActiveButton] = useState("Home");
   return (
-    <div className='overflow-y-auto bg-myblue-500'>
+    <div className='overflow-y-auto bg-myblue-500 h-screen'>
         <TopBody/>
         <Reward/>
         <Body/>

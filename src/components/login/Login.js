@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import Axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import UserContext from "./UserContext";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -21,10 +21,20 @@ export default function Login() {
         password,
       });
       if (response.status === 200) {
-        const { userId, username, useremail, mobileNumber, balance, adminId, adminemail } = response.data;
-        const user = adminId ? { adminId, adminemail } : { userId, username, useremail, mobileNumber, balance };
+        const {
+          userId,
+          username,
+          useremail,
+          mobileNumber,
+          balance,
+          adminId,
+          adminemail,
+        } = response.data;
+        const user = adminId
+          ? { adminId, adminemail }
+          : { userId, username, useremail, mobileNumber, balance };
         setUser(user);
-        Cookies.set('user', JSON.stringify(user), { expires: 1 });
+        Cookies.set("user", JSON.stringify(user), { expires: 1 });
 
         if (adminId) {
           navigate("/admin");
@@ -43,14 +53,14 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-myblue-300 flex justify-center items-center p-4">
-      <div className="bg-myblue-400 p-8 rounded-lg shadow-lg w-full max-w-md">
+    <div className="min-h-screen bg-myblue-500 flex justify-center items-center p-4">
+      <div className="p-5 rounded-lg shadow-lg w-[80%] max-w-md border-2 border-myblue-200 shadow shadow-2xl">
         <div className="text-center mb-6">
-          <h1 className="text-4xl font-bold text-white">Login</h1>
+          <h1 className="text-4xl font-bold text-myblue-200">Login</h1>
         </div>
         <form className="space-y-4" onSubmit={handleLogin}>
           <div className="flex flex-col">
-            <label className="text-white mb-2">Email</label>
+            <label className=" mb-2">Email</label>
             <input
               type="email"
               placeholder="Email"
@@ -60,7 +70,7 @@ export default function Login() {
             />
           </div>
           <div className="flex flex-col">
-            <label className="text-white mb-2">Password</label>
+            <label className=" mb-2">Password</label>
             <input
               type="password"
               placeholder="Password"
@@ -82,13 +92,10 @@ export default function Login() {
               )}
             </button>
           </div>
-          {error && <div className="text-red-500 text-sm">{error}</div>}
+          {error && <div className="text-red-100 text-sm">{error}</div>}
           <div className="text-center mt-4">
-            <span className="text-white">Don't have an account? </span>
-            <Link
-              to="/signup"
-              className="text-white hover:underline hover:text-blue-600"
-            >
+            <span className="text-sm">Don't have an account? </span>
+            <Link to="/signup" className=" hover:underline underline text-xs">
               Create Account
             </Link>
           </div>

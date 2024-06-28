@@ -28,7 +28,9 @@ function TwoMin() {
   });
   const [lastPeriodData, setLastPeriodData] = useState(null);
   const [errorMessage, setErrorMessage] = useState(""); // State for error message
-
+  const [newBets, setNewBets] = useState([]);
+  const [showRandomBets, setShowRandomBets] = useState(false); // State to show random bets
+  
   useEffect(() => {
     const fetchInitialPeriodAndTime = async () => {
       try {
@@ -36,7 +38,7 @@ function TwoMin() {
         setPeriod(Number(periodResponse.data.periodNumber));
 
         const timeResponse = await axios.get("https://color-server.onrender.com/period-time/get-time/two-min");
-        setTime(timeResponse.data.countdown || 120); // Default to 120 seconds
+        setTime((timeResponse.data.countdown || 120)); // Default to 120 seconds
       } catch (error) {
         console.error("Error fetching initial period and time:", error);
       }
@@ -234,6 +236,28 @@ function TwoMin() {
 
     closePopup();
   };
+  useEffect(() => {
+    if (time <= 117 && time > 11) {
+      setShowRandomBets(true);
+      generateRandomBets();
+    } else {
+      setShowRandomBets(false);
+    }
+  }, [time]);
+  const generateRandomBets = () => {
+    const newBets = [];
+    const colors = ["Red", "Violet", "Green"];
+    const amounts = [100, 200, 500, 1000];
+  
+    for (let i = 0; i < 30; i++) {
+      const randomColor = colors[Math.floor(Math.random() * colors.length)];
+      const randomAmount = amounts[Math.floor(Math.random() * amounts.length)];
+      const randomUserNumber = Math.floor(1000 + Math.random() * 9000); // Generate a random 4-digit user number
+      newBets.push({ color: randomColor, amount: randomAmount, userNumber: randomUserNumber });
+    }
+  
+    setNewBets(newBets);
+  };
 
   return (
     <div className="flex flex-col bg-gray-900 min-h-screen">
@@ -337,9 +361,22 @@ function TwoMin() {
       </div>
 
       {/* EveryOneOrder Component */}
-      <div className="flex p-2 mt-4 bg-gray-800 flex-col">
-        <TwoMinOrder key={refresh} period={formatPeriod(period)} />
-      </div>
+      {showRandomBets && (
+        <div className="flex p-2 bg-gray-800 flex-col">
+          <TwoMinOrder key={refresh} period={formatPeriod(period)} newBets={newBets} />
+        </div>
+      )}
+
+      {/* Last Table Data */}
+      {time <= 11 ? (
+        <div className="flex p-2 flex-col w-[80%] mr-4 ml-4 justify-center items-center h-[150px] border border-myblue-200 mt-11">
+          <h2 className="text-myblue-200">WAIT FOR RESULT......</h2>
+        </div>
+      ) : (
+        <div className="flex p-2 bg-gray-800 flex-col">
+          {/* <EveryOneOrder key={refresh} period={formatPeriod(period - 1)} newBets={lastTableData} /> */}
+        </div>
+      )}
     </div>
   );
 }

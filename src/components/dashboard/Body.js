@@ -17,7 +17,7 @@ export default function Body() {
                 alt="Fast Parity"
               />
               <div className="absolute bottom-0 w-full bg-white bg-opacity-30 backdrop-blur-sm p-2">
-                <p className="text-center font-bold text-myblue-700">
+                <p className="text-center font-bold text-white">
                   Fast-Parity
                 </p>
               </div>
@@ -36,7 +36,7 @@ export default function Body() {
                 alt="Fast Parity"
               />
               <div className="absolute bottom-0 w-full bg-white bg-opacity-30 backdrop-blur-sm p-2">
-                <p className="text-center font-bold text-myblue-700">
+                <p className="text-center font-bold text-white">
                   Fast-Parity
                 </p>
               </div>

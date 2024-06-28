@@ -23,7 +23,7 @@ export default function Signup() {
     }
 
     try {
-      const response = await Axios.post("/register", {
+      const response = await Axios.post("https://color-server.onrender.com/register", {
         username,
         mobileNumber: `+91${mobileNumber}`,
         useremail,
@@ -44,7 +44,7 @@ export default function Signup() {
 
   const sendOtp = async () => {
     try {
-      const response = await Axios.post("/send-email-otp", {
+      const response = await Axios.post("https://color-server.onrender.com/send-email-otp", {
         useremail,
       });
       if (response.data.message === "OTP sent successfully") {
@@ -87,46 +87,46 @@ export default function Signup() {
       otpStatus === "OTP verified successfully"
     );
   };
+
   return (
-    <div className="min-h-screen bg-myblue-300 flex justify-center items-center p-4">
-      <div className="bg-myblue-400 p-8 rounded-lg shadow-lg w-full max-w-md">
+    <div className="min-h-screen bg-myblue-500 flex justify-center items-center p-4">
+      <div className="p-8 rounded-lg shadow-lg w-[80%] max-w-md border-2 border-myblue-200 bg-white">
         <div className="text-center mb-6">
-          <h1 className="text-4xl font-bold text-white">Sign Up</h1>
+          <h1 className="text-3xl font-bold text-myblue-200">Sign Up</h1>
         </div>
         <form className="space-y-4" onSubmit={handleSignup}>
           <div className="flex flex-col">
-            <label className="text-white mb-2">Username</label>
+            <label className="mb-1 text-sm">Username</label>
             <input
               type="text"
               placeholder="Username"
-              className="p-2 rounded-md border border-gray-300"
+              className="p-1 rounded-md border"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
           </div>
           <div className="flex flex-col">
-            <label className="text-white mb-2">Mobile Number</label>
+            <label className="mb-1 text-sm">Mobile Number</label>
             <input
               type="text"
               placeholder="Mobile Number"
-              className="p-2 rounded-md border border-gray-300"
+              className="p-1 rounded-md border border-gray-300"
               value={mobileNumber}
               onChange={(e) => setMobileNumber(e.target.value)}
             />
           </div>
           <div className="flex flex-col">
-            <label className="text-white mb-2">Email</label>
+            <label className="mb-1 text-sm">Email</label>
             <div className="relative flex items-center">
               <input
                 type="email"
                 placeholder="Email"
-                className="p-2 rounded-md border border-gray-300 w-full"
+                className="p-1 rounded-md border w-full"
                 value={useremail}
                 onChange={(e) => setEmail(e.target.value)}
               />
               <button
-                type="button"
-                className="absolute right-2 bg-myblue-200 text-white p-1 rounded-md hover:bg-blue-600 transition"
+                className="absolute right-1 p-1 rounded-md transition border-2 border-myblue-200 text-sm"
                 onClick={sendOtp}
                 disabled={!useremail}
               >
@@ -136,55 +136,56 @@ export default function Signup() {
           </div>
           {otpSent && otpStatus !== "OTP verified successfully" && (
             <div className="flex flex-col mt-4">
-              <label className="text-white mb-2">OTP</label>
+              <label className="mb-1 text-sm">OTP</label>
               <div className="relative flex items-center">
                 <input
                   type="text"
                   placeholder="OTP"
-                  className={`p-2 rounded-md border w-full ${otpStatus === "OTP verified successfully" ? "border-green-500" : "border-red-500"}`}
+                  className={`p-1 rounded-md border w-full ${
+                    otpStatus === "OTP verified successfully" ? "border-green-100" : "border-red-100"
+                  }`}
                   value={otp}
                   onChange={(e) => setOtp(e.target.value)}
                 />
                 <button
-                  type="button"
-                  className="absolute right-2 bg-blue-500 text-white p-1 rounded-md hover:bg-blue-600 transition"
+                  className="absolute right-1 p-1 rounded-md transition border-2 border-myblue-200 text-sm"
                   onClick={verifyOtp}
                 >
                   Verify OTP
                 </button>
               </div>
-              <div className="text-white mt-2">{otpStatus}</div>
+              <div className="mt-2 text-xs">{otpStatus}</div>
             </div>
           )}
           {otpStatus === "OTP verified successfully" && (
-            <div className="text-white mt-2">{otpStatus}</div>
+            <div className="mt-2 text-xs">{otpStatus}</div>
           )}
           <div className="flex flex-col">
-            <label className="text-white mb-2">Password</label>
+            <label className="mb-1 text-sm">Password</label>
             <input
               type="password"
               placeholder="Password"
-              className="p-2 rounded-md border border-gray-300"
+              className="p-1 rounded-md border"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <div className="flex flex-col">
-            <label className="text-white mb-2">Confirm Password</label>
+            <label className="mb-1 text-sm">Confirm Password</label>
             <input
               type="password"
               placeholder="Confirm Password"
-              className="p-2 rounded-md border border-gray-300"
+              className="p-1 rounded-md border"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </div>
           <div className="flex flex-col">
-            <label className="text-white mb-2">Reference Code</label>
+            <label className="mb-1 text-sm">Reference Code</label>
             <input
               type="text"
               placeholder="Reference Code"
-              className="p-2 rounded-md border border-gray-300"
+              className="p-1 rounded-md border"
               value={referenceCode}
               onChange={(e) => setReferenceCode(e.target.value)}
             />
@@ -192,7 +193,7 @@ export default function Signup() {
           <div className="mt-6">
             <button
               type="submit"
-              className="w-full p-3 bg-myblue-200 text-white rounded-md hover:bg-blue-600 transition disabled:bg-gray-400"
+              className="w-full p-3 bg-myblue-200 text-white rounded-md font-bold"
               disabled={!isFormValid()}
             >
               Sign Up
@@ -200,15 +201,15 @@ export default function Signup() {
           </div>
         </form>
         <div className="text-center mt-4">
-          <p className="text-white">
+          <p className="text-xs">
             Already have an account?{" "}
-            <Link to="/login" className="text-blue-800 hover:underline">
+            <Link to="/login" className="underline text-xs">
               Login here
             </Link>
           </p>
         </div>
         {registerStatus && (
-          <div className={`mt-4 text-center ${registerStatus.includes("failed") ? "text-red-500" : "text-green-500"}`}>
+          <div className={`mt-4 text-center text-xs ${registerStatus.includes("failed") ? "text-red-100" : "text-green-100"}`}>
             {registerStatus}
           </div>
         )}

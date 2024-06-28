@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function TwoMinOrder() {
+function TwoMinOrder({newBets}) {
   const [lastPeriodNumber, setLastPeriodNumber] = useState('');
   const [userBets, setUserBets] = useState([]);
+  
 
   useEffect(() => {
     const fetchLastPeriodNumber = async () => {
@@ -32,6 +33,12 @@ function TwoMinOrder() {
     }
   };
 
+  useEffect(() => {
+    if (newBets.length > 0) {
+      setUserBets((prevBets) => [...prevBets, ...newBets]);
+    }
+  }, [newBets]);
+
   return (
     <div className="flex flex-col bg-gray-900 min-h-screen">
       <div className="flex flex-row justify-between w-full items-center h-12 md:h-8">
@@ -52,7 +59,7 @@ function TwoMinOrder() {
               {userBets.map((bet, index) => (
                 <tr key={index}>
                   <td className="border border-gray-600 p-2">{lastPeriodNumber.slice(-4)}</td>
-                  <td className="border border-gray-600 p-2">{bet.user}</td>
+                  <td className="border border-gray-600 p-2">{bet.userNumber}</td>
                   <td className="border border-gray-600 p-2">{bet.color}</td>
                   <td className="border border-gray-600 p-2">{bet.amount}</td>
                 </tr>

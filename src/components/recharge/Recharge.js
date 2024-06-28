@@ -4,73 +4,35 @@ import BottomNav from "../dashboard/BottomNav";
 import UserContext from "../login/UserContext";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
-
 import { FaArrowLeftLong } from "react-icons/fa6";
+import { CiPlay1 } from "react-icons/ci";
+
 const Recharge = () => {
   const [amount, setAmount] = useState("");
-  const [userId, setuserId] = useState("");
   const [error, setError] = useState("");
-  const [showPaymentOptions, setShowPaymentOptions] = useState(false);
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
+  const [showQrButton, setShowQrButton] = useState(false);
 
   const handleRecharge = () => {
-    if (parseInt(amount) < 100) {
-      setError("Minimum recharge amount is 100 Rs");
+    if (parseInt(amount) > 200) {
+      setError();
+      setShowQrButton(true);
       return;
     }
     setError("");
-    setShowPaymentOptions(true);
+    setShowQrButton(false);
   };
 
-  const rechargeOptions = [
-    {
-      title: "UPI",
-      icon: (
-        <img
-          src={require("../../images/upi_icon.png")}
-          style={{ height: 20 }}
-          alt="UPI"
-        />
-      ),
-      path: "/payment-page",
-    },
-    {
-      title: "Paytm",
-      icon: (
-        <img
-          src={require("../../images/paytm_icon.png")}
-          style={{ height: 20 }}
-          alt="Paytm"
-        />
-      ),
-      path: "/payment-page",
-    },
-    {
-      title: "PhonePe",
-      icon: (
-        <img
-          src={require("../../images/phonepe_icons.png")}
-          style={{ height: 20 }}
-          alt="PhonePe"
-        />
-      ),
-      path: "/payment-page",
-    },
-    {
-      title: "Google Pay",
-      icon: <FaGooglePay />,
-      path: "/payment-page",
-    },
-  ];
-
-  const handlePaymentOptionClick = (path, title,userId) => {
-    navigate(path, { state: { amount, paymentMode: title,userId } });
+  const handleGenerateQR = () => {
+    navigate("/payment-page", { state: { amount } });
   };
+
+  const isRechargeButtonDisabled = parseInt(amount) < 200 || showQrButton;
 
   return (
-    <div className="flex flex-col items-center mt-8 px-8">
-      <div className="w-full text-white bg-blue-200 h-[40px] px-3 flex absolute top-0 items-center ">
+    <div className=" bg-myblue-500 h-screen">
+      <div className="w-full text-white bg-myblue-200 h-[40px] px-3 flex top-0 items-center">
         <div className="flex justify-start">
           <Link to="/home">
             <FaArrowLeftLong size={20} />
@@ -78,73 +40,90 @@ const Recharge = () => {
         </div>
         <div className=" items-center justify-center flex ml-4">
           <h1 className="text-2xl font-bold items-center justify-center flex">
-            Recharge
+            Deposit
           </h1>
         </div>
       </div>
-
-      <div className="my-4">
-        <p className="text-xl">Balance: {user.balance}</p>
-      </div>
-      <div className="mb-4">
-        <label htmlFor="amount" className="text-lg mb-2">
-          Amount:{" "}
-        </label>
-        <input
-          type="number"
-          id="amount"
-          className="p-2 border border-gray-300 rounded-md"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-        />
-        {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
-      </div>
-      <div className="grid grid-cols-3 gap-4">
-        {[100, 200, 500, 1000, 2000, 10000].map((value) => (
-          <button
-            key={value}
-            className="p-2 bg-primary text-white rounded-md hover:bg-blue-600"
-            onClick={() => setAmount(value.toString())}
-          >
-            {value} Rs
-          </button>
-        ))}
-      </div>
-      <button
-        onClick={handleRecharge}
-        className="mt-4 p-3 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-      >
-        Recharge
-      </button>
-      {showPaymentOptions && (
-        <div className="flex flex-col items-start mt-4 space-y-4 w-full mb-16">
-          <ul className="flex flex-col space-y-2 w-full">
-            {rechargeOptions.map((item, index) => (
-              <div
-                className={`rounded-lg px-7 border-b border-richblack-300 ${
-                  index % 2 === 0 ? "bg-richblue-5" : ""
-                }`}
-                key={index}
-              >
-                <div
-                  onClick={() =>
-                    handlePaymentOptionClick(item.path, item.title,userId)
-                  }
-                  className={`flex items-center justify-between border-richblack-300 py-4 cursor-pointer ${
-                    index % 2 === 0 ? "even:bg-richblue-200" : ""
-                  }`}
-                >
-                  <div className="flex items-center space-x-2">
-                    <p className="text-2xl text-richblue-300">{item.icon}</p>
-                    <p className="text-xl text-richblack-500">{item.title}</p>
-                  </div>
-                  <MdKeyboardArrowRight />
-                </div>
-              </div>
-            ))}
-          </ul>
+      <div className="flex flex-col mx-5 mt-5">
+        <div>
+          <p>Enter the recharge amount (200 ~ 50000 INR) </p>
         </div>
-      )}
+        <div className="mb-4 mt-2 w-full border shadow shadow-md rounded-md">
+          <input
+            type="number"
+            id="amount"
+            className="p-2 border-myblue-300 rounded-md w-full"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+          />
+          {error && <p className="text-red-100 text-sm mt-1">{error}</p>}
+        </div>
+        <div className="grid grid-cols-4 gap-4">
+          {[500, 1000, 2500, 10000].map((value) => (
+            <button
+              key={value}
+              className="p-2 text-myblue-400 rounded-md border border-myblue-200 "
+              onClick={() => setAmount(value.toString())}
+            >
+              {value}
+            </button>
+          ))}
+        </div>
+        <button
+          onClick={handleRecharge}
+          disabled={isRechargeButtonDisabled}
+          className={`mt-4 p-3 bg-myblue-200 text-white rounded-md font-bold ${
+            isRechargeButtonDisabled && "opacity-50 cursor-not-allowed"
+          }`}
+        >
+          Recharge
+        </button>
+        {showQrButton && (
+          <button
+            onClick={handleGenerateQR}
+            className="mt-4 p-3 bg-myblue-200 text-white rounded-md font-bold"
+          >
+            Generate QR
+          </button>
+        )}
+        <div className="mt-3">
+          <div>
+            <p className=" font-bold text-sm">
+              1. Press Recharge Button To Generate QR Code
+            </p>
+            <p className="ml-4 text-sm">
+              To display QR code button, press Recharge button or edit the
+              deposit by pressing deposit field
+            </p>
+          </div>
+          <div className="mt-3">
+            <p className=" font-bold text-sm">2. Pay with QR Code</p>
+            <p className="ml-4 text-sm">
+              Scan a QR code using Paytm or make a screenshot with payment app
+            </p>
+          </div>
+          <div className="mt-3">
+            <p className=" font-bold text-sm">3. Transaction Confirm</p>
+            <p className="ml-4 text-sm">
+              Paste a UTR reference number of 12 digits from the payment app
+              deposit by pressing deposit field
+            </p>
+          </div>
+          <hr className="mt-3"></hr>
+          <div className="flex flex-col justify-center w-full items-center mt-3 mb-[50px]">
+            <div>
+              <p>Having Problem ?</p>
+            </div>
+            <div className="flex flex-row justify-center items-center">
+              <div className="flex">
+                <CiPlay1 />
+              </div>
+              <div className=" text-sm underline ml-1">Video Guide</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <BottomNav />
     </div>
   );

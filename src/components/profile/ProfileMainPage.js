@@ -78,9 +78,9 @@ const ProfileMainPage = () => {
               ID : {user ? user.userId : "Not Logged In"}
             </h1>
           </div>
-          <div className="w-7 h-7 flex items-center justify-center rounded-full border border-richblack-700 bg-richblack-800">
+          <div className=" flex items-center justify-center ">
             <Link to="/setting">
-              <IoSettingsOutline className="text-richblack-50" />
+              <IoSettingsOutline className="border rounded-full h-7 w-7 text-richblack-900" />
             </Link>
           </div>
         </div>
