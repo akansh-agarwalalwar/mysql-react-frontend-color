@@ -138,11 +138,11 @@ function Timer() {
     }
   }, [time]);
 
-  useEffect(() => {
-    if (time === 0) {
-      setLastTableData(newBets); // Save the current bets to lastTableData when the timer resets
-    }
-  }, [time]);
+  // useEffect(() => {
+  //   if (time === 0) {
+  //     setLastTableData(newBets); // Save the current bets to lastTableData when the timer resets
+  //   }
+  // }, [time]);
 
   const savePeriodToDatabase = async (newPeriod) => {
     try {
@@ -271,7 +271,7 @@ function Timer() {
         return "bg-gray-300"; // Default color if the winner's color is not recognized
     }
   };
-
+ 
   const generateRandomBets = () => {
     const newBets = [];
     const colors = ["Red", "Violet", "Green"];
@@ -403,13 +403,13 @@ function Timer() {
           ></div>
         )}
       </div>
-
-      {/* EveryOneOrder Component */}
-{showRandomBets && (
+      {showRandomBets && (
         <div className="flex p-2 bg-gray-800 flex-col">
-          <TwoMinOrder key={refresh} period={formatPeriod(period)} newBets={newBets} />
+          <EveryOneOrder key={refresh} period={formatPeriod(period)} newBets={newBets} />
         </div>
       )}
+
+      {/* Last Table Data */}
       {time <= 11 ? (
         <div className="flex p-2 flex-col w-[80%] mr-4 ml-4 justify-center items-center h-[150px] border border-myblue-200 mt-11">
           <h2 className="text-myblue-200">WAIT FOR RESULT......</h2>
