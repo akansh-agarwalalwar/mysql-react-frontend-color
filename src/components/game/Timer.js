@@ -405,9 +405,20 @@ function Timer() {
       </div>
 
       {/* EveryOneOrder Component */}
-      <div className="flex p-2 bg-gray-800 flex-col">
-        <EveryOneOrder key={refresh} period={formatPeriod(period)} />
-      </div>
+{showRandomBets && (
+        <div className="flex p-2 bg-gray-800 flex-col">
+          <TwoMinOrder key={refresh} period={formatPeriod(period)} newBets={newBets} />
+        </div>
+      )}
+      {time <= 11 ? (
+        <div className="flex p-2 flex-col w-[80%] mr-4 ml-4 justify-center items-center h-[150px] border border-myblue-200 mt-11">
+          <h2 className="text-myblue-200">WAIT FOR RESULT......</h2>
+        </div>
+      ) : (
+        <div className="flex p-2 bg-gray-800 flex-col">
+          {/* <EveryOneOrder key={refresh} period={formatPeriod(period - 1)} newBets={lastTableData} /> */}
+        </div>
+      )}
     </div>
   );
 }
