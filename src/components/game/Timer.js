@@ -9,6 +9,7 @@ import UserContext from "../login/UserContext";
 import EveryOneOrder from "./EveryOneOrder";
 import axios from "axios";
 
+
 function Timer() {
   const { user, setUser, fetchUserData } = useContext(UserContext);
   const [time, setTime] = useState(30);
@@ -262,34 +263,14 @@ function Timer() {
     switch (color.toLowerCase()) {
       case "red":
         return "bg-red-100";
-      case "violet":
-        return "bg-purple-100";
       case "green":
         return "bg-green-100";
+      case "violet":
+        return "bg-purple-100";
       default:
-        return "";
+        return "bg-gray-300"; // Default color if the winner's color is not recognized
     }
   };
-
-  useEffect(() => {
-    fetchUserData();
-  }, [refresh]);
-
-  useEffect(() => {
-    fetchUserData();
-  }, []);
-
-  useEffect(() => {
-    fetchLastPeriodData();
-  }, [period]);
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      fetchUserData();
-    }, 2000);
-
-    return () => clearInterval(intervalId); // Clear the interval when the component unmounts
-  }, []);
 
   const generateRandomBets = () => {
     const newBets = [];
@@ -305,7 +286,6 @@ function Timer() {
   
     setNewBets(newBets);
   };
-
   return (
     <div className="flex flex-col bg-gray-900 min-h-screen bg-myblue-500">
       {/* Header */}
@@ -424,22 +404,10 @@ function Timer() {
         )}
       </div>
 
-      {/* Random Bets */}
-      {showRandomBets && (
-        <div className="flex p-2 bg-gray-800 flex-col">
-          <EveryOneOrder key={refresh} period={formatPeriod(period)} newBets={newBets} />
-        </div>
-      )}
-      {/* Last Table Data */}
-      {time <= 10 ? (
-        <div className="flex p-2 border-2 flex-col w-[90%] ml-4 justify-center items-center h-[150px] border-myblue-200 mt-11">
-          <h2 className=" text-bold">WAIT FOR RESULT......</h2>
-        </div>
-      ) : (
-        <div className="flex p-2 bg-gray-800 flex-col">
-          {/* <EveryOneOrder key={refresh} period={formatPeriod(period - 1)} newBets={lastTableData} /> */}
-        </div>
-      )}
+      {/* EveryOneOrder Component */}
+      <div className="flex p-2 bg-gray-800 flex-col">
+        <EveryOneOrder key={refresh} period={formatPeriod(period)} />
+      </div>
     </div>
   );
 }
