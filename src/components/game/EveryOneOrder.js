@@ -33,7 +33,7 @@ function EveryOneOrder({ newBets }) {
   };
 
   useEffect(() => {
-    if (newBets && newBets.length > 0) {
+    if ( newBets.length > 0) {
       setUserBets((prevBets) => [...prevBets, ...newBets]);
     }
   }, [newBets]);
