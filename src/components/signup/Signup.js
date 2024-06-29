@@ -37,7 +37,7 @@ export default function Signup() {
         setRegisterStatus(response.data.message);
       }
     } catch (error) {
-      console.error("Error during registration:", error);
+      console.error( error);
       setRegisterStatus("Registration failed.");
     }
   };
@@ -54,7 +54,6 @@ export default function Signup() {
         setOtpStatus(response.data.message);
       }
     } catch (error) {
-      console.error("Error sending OTP:", error);
       setOtpStatus("Failed to send OTP.");
     }
   };
@@ -71,7 +70,6 @@ export default function Signup() {
         setOtpStatus(response.data.message);
       }
     } catch (error) {
-      console.error("Error verifying OTP:", error);
       setOtpStatus("Failed to verify OTP.");
     }
   };
