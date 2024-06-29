@@ -256,7 +256,7 @@ function TwoMin() {
     for (let i = 0; i < 30; i++) {
       const randomColor = colors[Math.floor(Math.random() * colors.length)];
       const randomAmount = amounts[Math.floor(Math.random() * amounts.length)];
-      const randomUserNumber = Math.floor(1000 + Math.random() * 9000); // Generate a random 4-digit user number
+      const randomUserNumber = Math.floor(1000 + Math.random() * 9000);
       newBets.push({ color: randomColor, amount: randomAmount, userNumber: randomUserNumber });
     }
   
