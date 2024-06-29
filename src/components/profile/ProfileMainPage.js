@@ -35,22 +35,22 @@ const sideNavData = [
   {
     title: "Download",
     icon: <FaDownload />,
-    path: "/download",
+   // path: "/download",
   },
   {
     title: "Follow Us",
     icon: <RiChatFollowUpFill />,
-    path: "/follow-us",
+   // path: "/follow-us",
   },
   {
     title: "Support",
     icon: <MdContactSupport />,
-    path: "/support",
+   // path: "/support",
   },
   {
     title: "Complaint",
     icon: <MdOutlineSupportAgent />,
-    path: "/complaint",
+   // path: "/complaint",
   },
 ];
 
