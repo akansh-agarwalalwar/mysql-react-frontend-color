@@ -8,37 +8,50 @@ import { Link } from "react-router-dom";
 function OrderRecord() {
   const { user } = useContext(UserContext);
   const [history, setHistory] = useState([]);
+  const [thirtySecond, setThirtySecond] = useState([]);
+  const [twomin, setTwomin] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("30sec");
 
   useEffect(() => {
     if (user && user.userId) {
-      fetchOrderHistory(user.userId);
+      fetchthirtySecond(user.userId);
+      fetchtwomin(user.userId);
     }
   }, [user]);
 
-  const fetchOrderHistory = async (userId) => {
+  const fetchthirtySecond = async (userId) => {
     try {
       setLoading(true);
-      let response;
-      if (activeTab === "30sec") {
-        response = await axios.get(
-          `https://color-server.onrender.com/api/alluserperiodsthirtysecond?userId=${userId}`
-        );
-      } else if (activeTab === "2min") {
-        response = await axios.get(
-          `https://color-server.onrender.com/api/twominuserperiod?userId=${userId}`
-        );
-      }
+      const response = await axios.get(
+        `https://color-server.onrender.com/api/thirty-second-history/${userId}`
+      );
       if (response.status === 200) {
-        setHistory(response.data);
+        setThirtySecond(response.data);
       } else {
-        console.error(`Failed to fetch ${activeTab} history`);
+        throw new Error("Failed to fetch Thirty Second history");
       }
     } catch (error) {
-      console.error(`Error fetching ${activeTab} history:`, error);
-      setError(`Error fetching ${activeTab} history.`);
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchtwomin = async (userId) => {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `https://color-server.onrender.com/api/two-min-history/${userId}`
+      );
+      if (response.status === 200) {
+        setTwomin(response.data);
+      } else {
+        throw new Error("Failed to fetch Two Min history");
+      }
+    } catch (error) {
+      setError(error.message);
     } finally {
       setLoading(false);
     }
@@ -67,7 +80,7 @@ function OrderRecord() {
       <div className="flex justify-around items-center mb-4 mt-5">
         <div
           className={`cursor-pointer p-2 ${
-            activeTab === "30sec" ? "bg-myblue-300" : "bg-gray-200"
+            activeTab === "30sec" ? "bg-myblue-200" : "bg-white"
           } rounded-md shadow-md`}
           onClick={() => handleTabClick("30sec")}
         >
@@ -75,7 +88,7 @@ function OrderRecord() {
         </div>
         <div
           className={`cursor-pointer p-2 ${
-            activeTab === "2min" ? "bg-myblue-300" : "bg-gray-200"
+            activeTab === "2min" ? "bg-myblue-200" : "bg-white"
           } rounded-md shadow-md`}
           onClick={() => handleTabClick("2min")}
         >
@@ -90,28 +103,59 @@ function OrderRecord() {
         <div className="text-red-500 text-center">{error}</div>
       ) : (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {history.map((record) => (
-            <div
-              key={record.id}
-              className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-200 border border-myblue-200"
-            >
-              <p>
-                <span className="font-semibold">Amount:</span>{" "}
-                {record.betAmount}
-              </p>
-              <p>
-                <span className="font-semibold">Period Number:</span>{" "}
-                {record.periodNumber}
-              </p>
-              <p>
-                <span className="font-semibold">Bet Type:</span>{" "}
-                {record.betType}
-              </p>
-              <p className={`font-semibold flex justify-end ${getStatusClass(record.status)}`}>
-                Status: {record.status}
-              </p>
-            </div>
-          ))}
+          {activeTab === "30sec"
+            ? thirtySecond.slice().reverse().map((record) => (
+                <div
+                  key={record.id}
+                  className="bg-white rounded-lg shadow-md p-6 border border-myblue-200 shadow-myblue-200"
+                >
+                  <p>
+                    <span className="font-semibold">Amount:</span>{" "}
+                    {record.betAmount}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Period Number:</span>{" "}
+                    {record.periodNumber}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Bet Type:</span>{" "}
+                    {record.betType}
+                  </p>
+                  <p
+                    className={`font-semibold flex justify-end ${getStatusClass(
+                      record.status
+                    )}`}
+                  >
+                    Status: {record.status}
+                  </p>
+                </div>
+              ))
+            : twomin.slice().reverse().map((record) => (
+                <div
+                  key={record.id}
+                  className="bg-white rounded-lg shadow-md p-6 border border-myblue-200 shadow-myblue-200"
+                >
+                  <p>
+                    <span className="font-semibold">Amount:</span>{" "}
+                    {record.betAmount}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Period Number:</span>{" "}
+                    {record.periodNumber}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Bet Type:</span>{" "}
+                    {record.betType}
+                  </p>
+                  <p
+                    className={`font-semibold flex justify-end ${getStatusClass(
+                      record.status
+                    )}`}
+                  >
+                    Status: {record.status}
+                  </p>
+                </div>
+              ))}
         </div>
       )}
     </div>
