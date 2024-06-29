@@ -19,7 +19,7 @@ function Withdraw() {
           setBankDetails(res.data);
         }
       } catch (err) {
-        console.log("No existing bank details found", err);
+        console.log( err);
       }
     };
 
@@ -36,12 +36,9 @@ function Withdraw() {
     }
     try {
       const response = await axios.post('https://color-server.onrender.com/api/withdraw', { userId: user.userId, amount });
-      console.log(response.data);
-      alert('Withdrawal successful!');
       navigate('/home');
     } catch (error) {
-      console.error('There was an error sending the request!', error);
-      setMessage('Error: ' + (error.response?.data?.message || 'An error occurred'));
+      setMessage((error.response?.data?.message));
     }
   };
 
