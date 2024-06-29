@@ -22,14 +22,14 @@ function Timer() {
   const [refresh, setRefresh] = useState(0);
   const [possiblePayout, setPossiblePayout] = useState({
     Red: 19.6,
-    Violet: 45.0,
+    Violet: 44.1,
     Green: 19.6,
   });
   const [lastPeriodData, setLastPeriodData] = useState(null);
-  const [errorMessage, setErrorMessage] = useState(""); // State for error message
+  const [errorMessage, setErrorMessage] = useState("");
   const [newBets, setNewBets] = useState([]);
-  const [showRandomBets, setShowRandomBets] = useState(false); // State to show random bets
-  const [lastTableData, setLastTableData] = useState([]); // State for last table data
+  const [showRandomBets, setShowRandomBets] = useState(false);
+  const [lastTableData, setLastTableData] = useState([]); 
 
   useEffect(() => {
     const fetchInitialPeriodAndTime = async () => {
@@ -357,7 +357,7 @@ function Timer() {
           </div>
           {/* Error Message */}
           {errorMessage && (
-            <div className="text-red-500 mb-4">{errorMessage}</div>
+            <div className="text-red-100 mb-4">{errorMessage}</div>
           )}
           {/* Input Field for Amount */}
           <div className="mb-4">
@@ -372,7 +372,7 @@ function Timer() {
             />
           </div>
           {/* Possible Payout */}
-          <div className="mb-4">
+          <div className="mb-4 text-sm">
             <p>Possible Payout: {winAmount.toFixed(2)}</p>
           </div>
           {/* Confirm Button */}
@@ -418,7 +418,6 @@ function Timer() {
           <hr></hr>
         </div>
       )}
-
       {/* Last Table Data */}
       {time <= 10 ? (
         <div className="flex p-2 flex-col mr-4 ml-4 justify-center items-center h-[150px] border-2 border-myblue-200 mt-11 shadow shadow-lg bg-white">
@@ -430,9 +429,7 @@ function Timer() {
           {/* <EveryOneOrder key={refresh} period={formatPeriod(period - 1)} newBets={lastTableData} /> */}
         </div>
       )
-      
       }
-      
     </div>
   );
 }
