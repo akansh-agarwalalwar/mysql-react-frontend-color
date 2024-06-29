@@ -42,26 +42,26 @@ function EveryOneOrder({ newBets }) {
     <div className="container mx-auto">
       <div className="flex flex-col bg-gray-900 min-h-screen py-4">
         <div className="flex flex-row justify-center w-full items-center mb-4">
-          <p className="mx-2 font-bold text-xl">Everyone's Order</p>
+          <p className="mx-2 font-bold text-xl border-2 bg-white border-myblue-200 w-[50%] items-center justify-center flex h-10 rounded-xl shadow shadow-lg">Everyone's Order</p>
         </div>
         <div className="p-2">
           <div className="flex flex-col justify-center items-center">
             <table className="table-auto w-full">
               <thead>
                 <tr>
-                  <th className="border border-gray-600 p-2">Period Number</th>
-                  <th className="border border-gray-600 p-2">User Number</th>
-                  <th className="border border-gray-600 p-2">Color</th>
-                  <th className="border border-gray-600 p-2">Amount</th>
+                  <th className="p-2"><div className='border-2 border-myblue-200 rounded-3xl shadow text-myblue-200'>Number</div></th>
+                  <th className="p-2"><div className='border-2 border-myblue-200 rounded-3xl shadow text-myblue-200'>User</div></th>
+                  <th className="p-2"><div className='border-2 border-myblue-200 rounded-3xl shadow text-myblue-200'>Color</div></th>
+                  <th className="p-2"><div className='border-2 border-myblue-200 rounded-3xl shadow text-myblue-200'>Amount</div></th>
                 </tr>
               </thead>
               <tbody>
                 {userBets.map((bet, index) => (
                   <tr key={index}>
-                    <td className="border border-gray-600 p-2">{lastPeriodNumber.slice(-4)}</td>
-                    <td className="border border-gray-600 p-2">{bet.userNumber}</td>
-                    <td className="border border-gray-600 p-2">{bet.color}</td>
-                    <td className="border border-gray-600 p-2">{bet.amount}</td>
+                    <td className="p-2 text-center">{lastPeriodNumber.slice(-4)}</td>
+                    <td className="p-2 text-center">{bet.userNumber}</td>
+                    <td className="p-2 text-center">{bet.color}</td>
+                    <td className="p-2 text-center">{bet.amount}</td>
                   </tr>
                 ))}
               </tbody>
