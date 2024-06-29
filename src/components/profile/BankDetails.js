@@ -11,7 +11,6 @@ function BankDetails() {
   const [message, setMessage] = useState("");
   const [bankDetailsAvailable, setBankDetailsAvailable] = useState(false);
   const navigate = useNavigate();
-
   useEffect(() => {
     const fetchBankDetails = async () => {
       try {
@@ -25,7 +24,6 @@ function BankDetails() {
         console.log("No existing bank details found", err);
       }
     };
-
     if (user && user.userId) {
       fetchBankDetails();
     }
@@ -47,7 +45,6 @@ function BankDetails() {
       console.log(err);
     }
   };
-
   const getLastFourDigits = (number) => {
     return "****" + number.slice(-4);
   };
@@ -57,9 +54,9 @@ function BankDetails() {
   };
 
   return (
-    <div className="flex flex-col w-full bg-gray-100">
+    <div className="flex flex-col w-full bg-myblue-500 h-screen">
       <div>
-        <div className="w-full text-white bg-blue-500 h-12 px-3 flex items-center justify-center fixed top-0">
+        <div className="w-full text-white bg-myblue-200 h-12 px-3 flex items-center justify-center fixed top-0">
           <div className="flex absolute left-0 ml-2">
             <Link to="/profile">
               <FaArrowLeftLong size={20} />
@@ -71,9 +68,9 @@ function BankDetails() {
           <div className="flex absolute right-0 mr-2"></div>
         </div>
       </div>
-      <div className="flex flex-col items-center justify-center flex-grow mx-5 my-5">
+      <div className="flex flex-col flex-grow mx-5 my-5">
         {bankDetailsAvailable ? (
-          <div className="p-8 w-full mt-10 border flex flex-row justify-between">
+          <div className="p-8 w-full mt-10 border flex flex-row justify-between border-2 border-myblue-200 shadow shadow-lg bg-white">
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">Account Number</label>
               <p className="text-gray-700">{getLastFourDigits(accountNumber)}</p>
@@ -84,11 +81,11 @@ function BankDetails() {
             </div>
           </div>
         ) : (
-          <div className="p-8 w-full border mx-5 my-5 mt-10 ">
-            <h2 className="text-2xl font-bold mb-4 text-center">Add Bank Account</h2>
+          <div className="p-8 w-full border-2 mx-5 my-5 mt-10 shadow-sm shadow border-myblue-200 shadow-myblue-200 bg-white">
+            <h2 className="text-xl font-bold mb-4 text-center">Add Bank Account</h2>
             <form onSubmit={handleBankDetails}>
               <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="accountNumber">
+                <label className="block text-myblue-200 text-sm font-bold mb-2" htmlFor="accountNumber">
                   Account Number
                 </label>
                 <input
@@ -101,7 +98,7 @@ function BankDetails() {
                 />
               </div>
               <div className="mb-6">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="ifscCode">
+                <label className="block text-myblue-200 text-sm font-bold mb-2" htmlFor="ifscCode">
                   IFSC Code
                 </label>
                 <input
@@ -109,14 +106,14 @@ function BankDetails() {
                   id="ifscCode"
                   value={ifscCode}
                   onChange={(e) => setIfscCode(e.target.value)}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
                   required
                 />
               </div>
               <div className="flex items-center justify-between">
                 <button
                   type="submit"
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline items-center justify-center w-full"
+                  className=" font-bold py-2 px-4 rounded items-center justify-center w-full bg-myblue-200 text-white"
                 >
                   Submit
                 </button>
