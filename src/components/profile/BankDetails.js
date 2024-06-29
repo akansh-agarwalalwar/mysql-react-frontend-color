@@ -70,7 +70,7 @@ function BankDetails() {
       </div>
       <div className="flex flex-col flex-grow mx-5 my-5">
         {bankDetailsAvailable ? (
-          <div className="p-8 w-full mt-10 border flex flex-row justify-between border-2 border-myblue-200 shadow shadow-lg bg-white">
+          <div className="p-8 w-full mt-10 flex flex-row justify-between border-2 border-myblue-200 shadow shadow-lg bg-white shadow-myblue-200 ">
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">Account Number</label>
               <p className="text-gray-700">{getLastFourDigits(accountNumber)}</p>
