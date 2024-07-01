@@ -23,7 +23,7 @@ import Invite from "./components/dashboard/Invite";
 import OrderRecord from "./components/profile/OrderRecord";
 import ThreeMin from "./components/game/ThreeMin";
 import DailyBonus from "./components/dashboard/DailyBonus";
-
+https://mysql-react-frontend-color.vercel.app/cryptomus_47aaa669.html
 function App() {
   return (
     <UserProvider>
