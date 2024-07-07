@@ -31,12 +31,12 @@ export default function TopBody() {
         </div>
         <div className="flex flex-col gap-2">
           <Link to="/recharge">
-            <button className="bg-blue-500 w-fit hover:bg-blue-700 text-white font-semibold py-1 px-2 rounded">
+            <button className="bg-pink-400 w-fit text-white font-semibold py-1 px-2 rounded">
               Recharge
             </button>
           </Link>
           <Link to="/withdraw">
-            <button className="bg-pink-400 w-fit hover:bg-pink-700 text-white font-semibold py-1 px-2 rounded">
+            <button className="bg-caribbeangreen-300 w-fit text-white font-semibold py-1 px-2 rounded">
               Withdraw
             </button>
           </Link>
