@@ -23,8 +23,7 @@ import Invite from "./components/dashboard/Invite";
 import OrderRecord from "./components/profile/OrderRecord";
 import ThreeMin from "./components/game/ThreeMin";
 import DailyBonus from "./components/dashboard/DailyBonus";
-import GameModeSecond from "./components/admin/GameModeSecond";
-
+import GameModeSecond from './components/admin/GameModeSecond'
 function App() {
   return (
     <UserProvider>

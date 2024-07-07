@@ -425,11 +425,13 @@ function Timer() {
         <div className="flex p-2 flex-col mr-4 ml-4 justify-center items-center h-[150px] border-2 border-myblue-200 mt-11 shadow shadow-lg bg-white">
           <h2 className="text-myblue-200 font-bold">WAIT FOR RESULT......</h2>
         </div>
+        
       ) : (
         <div className="flex p-2 bg-gray-800 flex-col">
           {/* <EveryOneOrder key={refresh} period={formatPeriod(period - 1)} newBets={lastTableData} /> */}
         </div>
-      )}
+      )
+      }
     </div>
   );
 }

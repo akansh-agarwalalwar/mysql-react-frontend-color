@@ -102,7 +102,7 @@ function FinancialDetails() {
       ) : (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {activeHistory === "recharge"
-            ? rechargeHistory.map((recharge) => (
+            ? rechargeHistory.slice().reverse().map((recharge) => (
                 <div
                   key={recharge.id}
                   className="bg-white rounded-lg shadow-md p-6 border-2 shadow-myblue-200 border-myblue-200"
@@ -120,7 +120,7 @@ function FinancialDetails() {
                   </p>
                 </div>
               ))
-            : withdrawHistory.map((withdrawal) => (
+            : withdrawHistory.slice().reverse().map((withdrawal) => (
                 <div
                   key={withdrawal.id}
                   className="bg-white rounded-lg shadow-md p-6 shadow-myblue-200 border-2 border-myblue-200 "
