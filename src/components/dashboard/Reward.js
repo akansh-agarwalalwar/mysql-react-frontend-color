@@ -13,7 +13,7 @@ export default function Reward() {
         <h2 className="text-xl font-bold">Task Reward</h2>
       </div> */}
       <Link to='/daily-bonus'>
-      <div className="bg-white text-richblack-700 px-4 py-2 shadow-lg shadow-blue-100 font-semibold rounded-xl flex flex-row justify-center items-center w-full border-2  border-myblue-200">
+      <div className="bg-white text-richblack-700 px-4 py-2 shadow-xl shadow font-semibold rounded-xl flex flex-row justify-center items-center w-full border-2  border-myblue-200">
         <div>
         <img src={require('../../images/bonus_icon.jpeg')}  style={{height:20 }}/>
         </div>

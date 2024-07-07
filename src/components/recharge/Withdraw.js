@@ -19,7 +19,6 @@ function Withdraw() {
           setBankDetails(res.data);
         }
       } catch (err) {
-        console.log("No existing bank details found", err);
       }
     };
 
@@ -36,12 +35,12 @@ function Withdraw() {
     }
     try {
       const response = await axios.post('https://color-server.onrender.com/api/withdraw', { userId: user.userId, amount });
-      console.log(response.data);
-      alert('Withdrawal successful!');
+      // console.log(response.data);
+      // alert('Withdrawal successful!');
       navigate('/home');
     } catch (error) {
-      console.error('There was an error sending the request!', error);
-      setMessage('Error: ' + (error.response?.data?.message || 'An error occurred'));
+      // console.error('There was an error sending the request!', error);
+      setMessage((error.response?.data?.message));
     }
   };
 
@@ -60,17 +59,14 @@ function Withdraw() {
   return (
     <div className="flex flex-col justify-between h-screen w-full bg-myblue-500">
       <div>
-        <div className="w-full text-white bg-myblue-200 h-10 px-3 flex items-center justify-center fixed top-0">
-          <div className="flex absolute left-0 ml-2">
-            <Link to="/home">
-              <FaArrowLeftLong size={20} />
-            </Link>
-          </div>
-          <div className="flex items-center justify-center ml-4">
-            <h1 className="text-2xl font-bold">Withdraw</h1>
-          </div>
-        </div>
-        <div className="relative mt-10">
+      <div className="flex flex-row bg-myblue-200 w-full text-white items-center h-12">
+        <Link to="/home">
+          <FaArrowLeftLong className="mx-3" />
+        </Link>
+        <p className="text-xl">Withdraw</p>
+        
+      </div>
+        <div className="relative mt-6">
           <div className="my-4 text-center">
             <p className="text-xl">
               Balance
@@ -84,7 +80,7 @@ function Withdraw() {
         {bankDetails ? (
           <div>
             {/* Display bank card if it exists */}
-            <div className="my-4 text-center border-2 rounded p-4 border-myblue-200">
+            <div className="my-4 text-center border-2 rounded p-4 border-myblue-200 shadow shadow-xl">
               <p className="text-xl">
                 Bank Details
                 <br />

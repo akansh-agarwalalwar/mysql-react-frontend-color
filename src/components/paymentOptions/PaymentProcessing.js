@@ -18,11 +18,11 @@ function PaymentProcessing({ userId, amount }) {
         input: inputValue,
       };
 
-      await axios.post('https://color-server.onrender.com/confirm-payment', data);
+      await axios.post('http://localhost:3001/confirm-payment', data);
       toast.success('Request submitted');
       setShowPopup(false);
     } catch (error) {
-      console.error('Error confirming payment:', error);
+      // console.error('Error confirming payment:', error);
       alert('Failed to confirm payment. Please try again.');
     }
   };

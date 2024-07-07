@@ -12,7 +12,6 @@ function FinancialDetails() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [activeHistory, setActiveHistory] = useState("recharge");
-
   useEffect(() => {
     if (user && user.userId) {
       fetchRechargeHistory(user.userId);
@@ -61,25 +60,25 @@ function FinancialDetails() {
   };
 
   const getStatusClass = (status) => {
-    return status === "denied" ? "text-red-500" : "text-green-500";
+    return status === "denied" ? "text-red-100" : "text-green-100";
   };
 
   return (
     <div className="container mx-auto px-4 py-8 bg-myblue-500 h-screen">
-      <div className="w-full text-white bg-myblue-200 h-10 px-3 flex items-center justify-center fixed top-0 left-0">
-        <div className="flex absolute left-0 ml-2">
+      <div className="w-full bg-myblue-200 h-12 px-3 flex items-center justify-center fixed top-0 left-0 z-10">
+        <div className="absolute left-0 ml-2">
           <Link to="/profile">
-            <FaArrowLeftLong size={20} />
+            <FaArrowLeftLong size={20} className="text-white mx-2" />
           </Link>
         </div>
-        <div className="flex items-center justify-center ml-4">
-          <h1 className="text-2xl font-bold">Financial Details</h1>
+        <div className="flex items-center justify-center">
+          <h1 className="text-xl text-white">Financial Details</h1>
         </div>
       </div>
-      <div className="flex justify-around items-center mb-8 mt-5">
+      <div className="flex justify-around items-center mb-8 mt-8">
         <div
           className={`cursor-pointer p-2 ${
-            activeHistory === "recharge" ? "bg-myblue-300" : "bg-pure-greys-50"
+            activeHistory === "recharge" ? "bg-myblue-200" : "bg-white"
           } rounded-md shadow-md`}
           onClick={() => handleTabClick("recharge")}
         >
@@ -87,7 +86,7 @@ function FinancialDetails() {
         </div>
         <div
           className={`cursor-pointer p-2 ${
-            activeHistory === "withdraw" ? "bg-blue-200" : " bg-pure-greys-50"
+            activeHistory === "withdraw" ? "bg-myblue-200" : " bg-white"
           } rounded-md shadow-md`}
           onClick={() => handleTabClick("withdraw")}
         >
@@ -99,14 +98,14 @@ function FinancialDetails() {
           <ClipLoader size={50} color={"#123abc"} loading={loading} />
         </div>
       ) : error ? (
-        <div className="text-red-500 text-center">{error}</div>
+        <div className="text-red-100 text-center">{error}</div>
       ) : (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {activeHistory === "recharge"
             ? rechargeHistory.map((recharge) => (
                 <div
                   key={recharge.id}
-                  className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-200"
+                  className="bg-white rounded-lg shadow-md p-6 border-2 shadow-myblue-200 border-myblue-200"
                 >
                   <p>
                     <span className="font-semibold">Amount:</span>{" "}
@@ -124,7 +123,7 @@ function FinancialDetails() {
             : withdrawHistory.map((withdrawal) => (
                 <div
                   key={withdrawal.id}
-                  className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-200"
+                  className="bg-white rounded-lg shadow-md p-6 shadow-myblue-200 border-2 border-myblue-200 "
                 >
                   <p>
                     <span className="font-semibold">Amount:</span>{" "}

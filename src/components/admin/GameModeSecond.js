@@ -1,45 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import NavBarAdmin from "./NavBarAdmin";
-import axios from "axios";
-// import io from 'socket.io-client';
-
-// const socket = io('http://3.7.253.226:3001');
-
-export default function GameMode() {
+import axios from 'axios'
+function GameModeSecond() {
   const [periodNumber, setPeriodNumber] = useState("");
   const [color, setColor] = useState("");
-  // const [timer, setTimer] = useState(30);
-
-  // useEffect(() => {
-  //   socket.on('timer', (newTimer) => {
-  //     setTimer(newTimer);
-  //   });
-  // return () => {
-  //   socket.off('timer');
-  // };
-  // }, [timer]); 
-
-  // useEffect(() => {
-  //   const ws = new WebSocket('ws://localhost:3001');
-
-  //   ws.onmessage = (event) => {
-  //     const data = JSON.parse(event.data);
-  //     setTimer(data.timer);
-  //   };
-
-  //   ws.onopen = () => {
-  //     console.log('Connected to WebSocket');
-  //   };
-
-  //   ws.onclose = () => {
-  //     console.log('Disconnected from WebSocket');
-  //   };
-
-  //   return () => {
-  //     ws.close();
-  //   };
-  // }, []);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!periodNumber || !color) {
@@ -48,10 +12,13 @@ export default function GameMode() {
     }
     try {
       console.log("Sending data:", { periodNumber });
-  
-      const response = await axios.post('https://color-server.onrender.com/api/check-and-update-period', {
-        periodNumber: periodNumber,
-      });
+
+      const response = await axios.post(
+        "https://color-server.onrender.com/api/check-and-update-period/two-min",
+        {
+          periodNumber: periodNumber,
+        }
+      );
       console.log("Response:", response);
       if (response.status === 200) {
         alert("Period updated successfully!");
@@ -68,8 +35,6 @@ export default function GameMode() {
       }
     }
   };
-  
-
   return (
     <div>
       <NavBarAdmin />
@@ -99,3 +64,5 @@ export default function GameMode() {
     </div>
   );
 }
+
+export default GameModeSecond;

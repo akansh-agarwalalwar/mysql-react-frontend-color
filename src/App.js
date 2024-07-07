@@ -23,6 +23,7 @@ import Invite from "./components/dashboard/Invite";
 import OrderRecord from "./components/profile/OrderRecord";
 import ThreeMin from "./components/game/ThreeMin";
 import DailyBonus from "./components/dashboard/DailyBonus";
+import GameModeSecond from "./components/admin/GameModeSecond";
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
           <Route path="/thirty-second-page" element={<ThirtySecond />} />
           <Route path="/threeMin" element={<ThreeMin />} />
           <Route path="/daily-bonus" element={<DailyBonus />} />
+          <Route path="/admin/game-mode/two-min" element={<GameModeSecond />} />
           {/* <Route path="/admin/game-mode/30sec" element={<DisplayTableOfThirtySec />} /> */}
           {/* <Route path="/manual/thirty-second" element={<ManualPage />} /> */}
         </Routes>

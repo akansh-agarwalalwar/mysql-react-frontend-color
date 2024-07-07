@@ -92,7 +92,7 @@ function PaymentApprove() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {pendingPayments.map((payment) => (
+              {pendingPayments.slice().reverse().map((payment) => (
                 <tr key={payment.id}>
                   <td className="py-4 px-6">{payment.userId}</td>
                   <td className="py-4 px-6">{payment.amount}</td>

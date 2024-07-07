@@ -37,16 +37,19 @@ export default function Signup() {
         setRegisterStatus(response.data.message);
       }
     } catch (error) {
-      console.error("Error during registration:", error);
+      // console.error("Error during registration:", error);
       setRegisterStatus("Registration failed.");
     }
   };
 
   const sendOtp = async () => {
     try {
-      const response = await Axios.post("https://color-server.onrender.com/send-email-otp", {
-        useremail,
-      });
+      const response = await Axios.post(
+        "https://color-server.onrender.com/send-email-otp",
+        {
+          useremail,
+        }
+      );
       if (response.data.message === "OTP sent successfully") {
         setOtpSent(true);
         setOtpStatus(response.data.message);
@@ -54,24 +57,27 @@ export default function Signup() {
         setOtpStatus(response.data.message);
       }
     } catch (error) {
-      console.error("Error sending OTP:", error);
+      // console.error("Error sending OTP:", error);
       setOtpStatus("Failed to send OTP.");
     }
   };
 
   const verifyOtp = async () => {
     try {
-      const response = await Axios.post("https://color-server.onrender.com/verify-email-otp", {
-        useremail,
-        otp,
-      });
+      const response = await Axios.post(
+        "https://color-server.onrender.com/verify-email-otp",
+        {
+          useremail,
+          otp,
+        }
+      );
       if (response.data.message === "OTP verified successfully") {
         setOtpStatus(response.data.message);
       } else {
         setOtpStatus(response.data.message);
       }
     } catch (error) {
-      console.error("Error verifying OTP:", error);
+      // console.error("Error verifying OTP:", error);
       setOtpStatus("Failed to verify OTP.");
     }
   };
@@ -142,7 +148,9 @@ export default function Signup() {
                   type="text"
                   placeholder="OTP"
                   className={`p-1 rounded-md border w-full ${
-                    otpStatus === "OTP verified successfully" ? "border-green-100" : "border-red-100"
+                    otpStatus === "OTP verified successfully"
+                      ? "border-green-100"
+                      : "border-red-100"
                   }`}
                   value={otp}
                   onChange={(e) => setOtp(e.target.value)}
@@ -209,7 +217,13 @@ export default function Signup() {
           </p>
         </div>
         {registerStatus && (
-          <div className={`mt-4 text-center text-xs ${registerStatus.includes("failed") ? "text-red-100" : "text-green-100"}`}>
+          <div
+            className={`mt-4 text-center text-xs ${
+              registerStatus.includes("failed")
+                ? "text-red-100"
+                : "text-green-100"
+            }`}
+          >
             {registerStatus}
           </div>
         )}

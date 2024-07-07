@@ -10,6 +10,7 @@ export const UserProvider = ({ children }) => {
     const userCookie = Cookies.get("user");
     return userCookie ? JSON.parse(userCookie) : null;
   });
+  
   const fetchUserData = async () => {
     try {
       const response = await axios.get(`https://color-server.onrender.com/api/balance/${user.userId}`);
@@ -20,7 +21,7 @@ export const UserProvider = ({ children }) => {
         setUser({...usc});
       }
     } catch (error) {
-      console.error("Error fetching user data:", error);
+      // console.error("Error fetching user data:", error);
     }
   };
 
@@ -34,7 +35,6 @@ export const UserProvider = ({ children }) => {
     }
   };
   
-
   useEffect(() => {
     if (user) {
       fetchUserData(user,setUser);
@@ -46,12 +46,11 @@ export const UserProvider = ({ children }) => {
     }
   }, [JSON.stringify(user)]);
 
-  
-
   return (
     <UserContext.Provider value={{ user, fetchUserData, setUser, logout }}>
       {children}
     </UserContext.Provider>
   );
 };
+
 export default UserContext;

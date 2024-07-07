@@ -43,7 +43,7 @@ const NavLink = ({ to, icon, label, active, onClick }) => {
   return (
     <Link 
       to={to} 
-      className={`flex flex-col items-center text-gray-400 focus:outline-none ${active ? 'text-caribbeangreen-100' : 'text-caribbeangreen-100'}`}
+      className={`flex flex-col items-center text-gray-400 focus:outline-none ${active ? 'text-myblue-200' : 'text-myblue-200'}`}
       onClick={onClick}
     >
       {icon}

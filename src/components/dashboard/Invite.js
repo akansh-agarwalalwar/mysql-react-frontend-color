@@ -42,11 +42,11 @@ function Invite() {
       <div className="w-full bg-myblue-200 h-12 px-3 flex items-center justify-center fixed top-0">
         <div className="absolute left-0 ml-2">
           <Link to="/home">
-            <FaArrowLeftLong size={20} className="text-white" />
+            <FaArrowLeftLong className="text-white mx-2" />
           </Link>
         </div>
         <div className="flex items-center justify-center ml-4">
-          <h1 className="text-2xl font-bold text-white">Invite</h1>
+          <h1 className="text-xl text-white">Invite</h1>
         </div>
       </div>
       <div className="flex flex-col items-center justify-center flex-grow">

@@ -3,13 +3,12 @@ import UserContext from "../login/UserContext";
 import { IoReload } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
 export default function TopBody() {
   const { user, fetchUserData } = useContext(UserContext);
   
   useEffect(() => {
     fetchUserData();
-  }, []); // Empty dependency array means this will run once when the component mounts
+  }, []);
   
   const [balance, setBalance] = useState(user.balance !== undefined ? user.balance : "Loading...");
 
@@ -29,14 +28,14 @@ export default function TopBody() {
             </span>
           </p>
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col-reverse gap-2">
           <Link to="/recharge">
-            <button className="bg-blue-500 w-fit hover:bg-blue-700 text-white font-semibold py-1 px-2 rounded">
+            <button className="bg-pink-400 w-fit text-white font-semibold py-1 px-2 rounded">
               Recharge
             </button>
           </Link>
           <Link to="/withdraw">
-            <button className="bg-pink-400 w-fit hover:bg-pink-700 text-white font-semibold py-1 px-2 rounded">
+            <button className="bg-caribbeangreen-300 w-fit text-white font-semibold py-1 px-2 rounded">
               Withdraw
             </button>
           </Link>

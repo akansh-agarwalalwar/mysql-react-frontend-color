@@ -48,25 +48,13 @@ export default function NavBarAdmin({ users }) {
             <Link to="/admin/game-mode" className="text-white hover:underline">
               Game Mode
             </Link>
-            {/* <ul className="absolute hidden group-hover:block bg-gray-800 text-white">
-              <li>
-                <Link
-                  // to="/admin/game-mode/30sec"
-                  className="block px-4 py-2 hover:bg-gray-700"
-                >
-                  30sec
-                </Link>
-              </li>
-              <li>
-                <Link
-                  // to="/admin/game-mode/3min"
-                  className="block px-4 py-2 hover:bg-gray-700"
-                >
-                  3min
-                </Link>
-              </li>
-            </ul> */}
           </li>
+          <li className="relative group">
+            <Link to="/admin/game-mode/two-min" className="text-white hover:underline">
+              Game Mode Second
+            </Link>
+          </li>
+
         </ul>
       </div>
       <div className="bottom-0">

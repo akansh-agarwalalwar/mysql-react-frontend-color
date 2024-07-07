@@ -1,9 +1,13 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import BottomNav from "../dashboard/BottomNav";
 import { FaRegUser, FaDownload } from "react-icons/fa6";
 import UserContext from "../login/UserContext";
 import { IoSettingsOutline } from "react-icons/io5";
+import one from '../../images/profile_one.jpg'
+import two from '../../images/profile_two.jpg'
+import three from '../../images/profile_three.jpg'
+import four from '../../images/profile_four.jpg'
 import {
   MdLibraryBooks,
   MdContactSupport,
@@ -13,8 +17,6 @@ import {
 import { TbReceiptRupee } from "react-icons/tb";
 import { RiChatFollowUpFill } from "react-icons/ri";
 import { AiTwotoneBank } from "react-icons/ai";
-import Axios from "axios";
-import Cookies from "js-cookie";
 
 const sideNavData = [
   {
@@ -35,28 +37,35 @@ const sideNavData = [
   {
     title: "Download",
     icon: <FaDownload />,
-    path: "/download",
+    // path: "/download",
   },
   {
     title: "Follow Us",
     icon: <RiChatFollowUpFill />,
-    path: "/follow-us",
+    // path: "/follow-us",
   },
   {
     title: "Support",
     icon: <MdContactSupport />,
-    path: "/support",
+    // path: "/support",
   },
   {
     title: "Complaint",
     icon: <MdOutlineSupportAgent />,
-    path: "/complaint",
+    // path: "/complaint",
   },
 ];
 
 const ProfileMainPage = () => {
   const { user, logout } = useContext(UserContext);
   const navigate = useNavigate();
+  const [profileImage, setProfileImage] = useState(null);
+
+  useEffect(() => {
+    const profileImages = [one, two, three, four];
+    const randomImage = profileImages[Math.floor(Math.random() * profileImages.length)];
+    setProfileImage(randomImage);
+  }, []);
 
   const handleLogout = async () => {
     await logout();
@@ -66,8 +75,21 @@ const ProfileMainPage = () => {
   return (
     <div className="flex flex-col px-8 bg-myblue-500 min-h-screen text-richblack-5">
       <div className="flex items-center mt-8">
-        <div className="bg-richblue-200 rounded-full p-3 flex justify-center items-center">
-          <FaRegUser size={30} color="white" />
+        <div className="  rounded-full p-3 flex justify-center items-center -ml-5">
+          {profileImage ? (
+            <div
+              style={{
+                backgroundImage: `url(${profileImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                width: '48px',
+                height: '48px',
+                borderRadius: '50%',
+              }}
+            />
+          ) : (
+            <FaRegUser size={30} color="white" />
+          )}
         </div>
         <div className="flex justify-between w-full ml-2">
           <div>
@@ -80,7 +102,7 @@ const ProfileMainPage = () => {
           </div>
           <div className=" flex items-center justify-center ">
             <Link to="/setting">
-              <IoSettingsOutline className="border rounded-full h-7 w-7 text-richblack-900" />
+              <IoSettingsOutline className=" rounded-full h-9 w-9 text-richblack-900" />
             </Link>
           </div>
         </div>
