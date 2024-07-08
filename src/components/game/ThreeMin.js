@@ -91,7 +91,6 @@ function TwoMin() {
           countdown: time,
         });
         if (time === 7) {
-          // Call the endpoint to update status
           await axios.post("https://color-server.onrender.com/update-status/two-min", {
             periodNumber: formatPeriod(period),
             periodDate: new Date().toISOString().split("T")[0],
@@ -104,7 +103,7 @@ function TwoMin() {
 
     const intervalId = setInterval(() => {
       sendTimeDataToServer();
-      setRefresh((prev) => prev + 1); // Update refresh state every second
+      setRefresh((prev) => prev + 1);
     }, 1000);
 
     return () => clearInterval(intervalId);

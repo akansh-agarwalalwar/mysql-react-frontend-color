@@ -89,23 +89,31 @@ function Timer() {
 
     const sendTimeDataToServer = async () => {
       try {
+        const periodNumber = formatPeriod(period);
+        const periodTime = new Date().toISOString().split("T")[1].split(".")[0];
+        const periodDate = new Date().toISOString().split("T")[0];
+    
+        console.log("Sending period time data:", { periodNumber, periodTime, periodDate, countdown: time });
+    
         await axios.post("https://color-server.onrender.com/period-time", {
-          periodNumber: formatPeriod(period),
-          periodTime: new Date().toISOString().split("T")[1].split(".")[0],
-          periodDate: new Date().toISOString().split("T")[0],
+          periodNumber,
+          periodTime,
+          periodDate,
           countdown: time,
         });
+    
         if (time === 7) {
-          // Call the endpoint to update status
+          console.log("Updating status with:", { periodNumber, periodDate });
           await axios.post("https://color-server.onrender.com/update-status", {
-            periodNumber: formatPeriod(period),
-            periodDate: new Date().toISOString().split("T")[0],
+            periodNumber,
+            periodDate,
           });
         }
       } catch (error) {
         console.error("Error sending time data to server:", error);
       }
     };
+    
 
     const intervalId = setInterval(() => {
       sendTimeDataToServer();
@@ -141,19 +149,22 @@ function Timer() {
 
   const savePeriodToDatabase = async (newPeriod) => {
     try {
-      const response = await axios.post(
-        "https://color-server.onrender.com/period-timer/post",
-        {
-          periodNumber: newPeriod,
-          periodDate: new Date().toISOString().split("T")[0],
-        }
-      );
+      const periodDate = new Date().toISOString().split("T")[0];
+    
+      console.log("Saving period to database:", { periodNumber: newPeriod, periodDate });
+    
+      const response = await axios.post("https://color-server.onrender.com/period-timer/post", {
+        periodNumber: newPeriod,
+        periodDate: periodDate,
+      });
+    
       console.log(response.data);
     } catch (error) {
       console.error("Error saving period to database:", error);
     }
   };
-
+  
+  
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
