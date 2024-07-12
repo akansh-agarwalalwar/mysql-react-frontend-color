@@ -49,7 +49,7 @@ export default function GameMode() {
     try {
       console.log("Sending data:", { periodNumber });
   
-      const response = await axios.post('https://color-server.onrender.com/api/check-and-update-period', {
+      const response = await axios.post('http://3.109.206.254:3001/api/check-and-update-period', {
         periodNumber: periodNumber,
       });
       console.log("Response:", response);

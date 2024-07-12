@@ -14,14 +14,13 @@ function Withdraw() {
   useEffect(() => {
     const fetchBankDetails = async () => {
       try {
-        const res = await axios.get(`https://color-server.onrender.com/api/bank-details/${user.userId}`);
+        const res = await axios.get(`http://3.109.206.254:3001/api/bank-details/${user.userId}`);
         if (res.status === 200) {
           setBankDetails(res.data);
         }
       } catch (err) {
       }
     };
-
     if (user && user.userId) {
       fetchBankDetails();
     }
@@ -29,18 +28,18 @@ function Withdraw() {
 
   const handleWithdraw = async () => {
     const amount = parseFloat(amountset);
-    if (isNaN(amount) || amount <= 0) {
-      setMessage('Amount must be greater than zero');
+    if (isNaN(amount) || amount <= 0 ) {
+      // setMessage('Amount must be greater than zero');
       return;
     }
     try {
-      const response = await axios.post('https://color-server.onrender.com/api/withdraw', { userId: user.userId, amount });
+      const response = await axios.post('http://3.109.206.254:3001/api/withdraw', { userId: user.userId, amount });
       // console.log(response.data);
       // alert('Withdrawal successful!');
       navigate('/home');
     } catch (error) {
       // console.error('There was an error sending the request!', error);
-      setMessage((error.response?.data?.message));
+      // setMessage((error.response?.data?.message));
     }
   };
 
@@ -49,7 +48,7 @@ function Withdraw() {
   };
 
   const getLastFourDigits = (number) => {
-    return "****" + number.slice(-4);
+    return "***" + number.slice(-4);
   };
 
   const getFirstThreeCharacters = (code) => {
@@ -80,7 +79,7 @@ function Withdraw() {
         {bankDetails ? (
           <div>
             {/* Display bank card if it exists */}
-            <div className="my-4 text-center border-2 rounded p-4 border-myblue-200 shadow shadow-xl">
+            <div className="my-4 text-center border-2 rounded p-4 border-myblue-200 shadow-xl">
               <p className="text-xl">
                 Bank Details
                 <br />
@@ -107,7 +106,7 @@ function Withdraw() {
         <div>
           <input
             type="number"
-            className="w-full h-10 border rounded-md border-myblue-200"
+            className="w-full h-10 p-1 border rounded-md border-myblue-200"
             placeholder=" 300 ~ 7500 "
             value={amountset}
             onChange={(e) => setAmountset(e.target.value)}
@@ -115,16 +114,16 @@ function Withdraw() {
         </div>
         <div className="flex items-center justify-center w-full mt-3">
           <button 
-            className={`bg-myblue-200 rounded-md w-full h-9 ${amountset < 300 ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`bg-myblue-200 rounded-md w-full h-9 ${amountset < 300 || amountset > 7500 ? 'opacity-50 cursor-not-allowed' : ''}`}
             onClick={handleWithdraw}
-            disabled={amountset < 300}
+            disabled={amountset < 300 || amountset > 7500}
           >
             <p className="text-xl font-bold text-white">Confirm</p>
           </button>
         </div>
         {message && (
           <div className="mt-4 text-center">
-            <p className="text-red-500">{message}</p>
+            <p className="text-red-100">{message}</p>
           </div>
         )}
       </div>

@@ -23,7 +23,7 @@ function FinancialDetails() {
     try {
       setLoading(true);
       const response = await axios.get(
-        `https://color-server.onrender.com/api/payemnt/history123?userId=${userId}`
+        `http://3.109.206.254:3001/api/payemnt/history123?userId=${userId}`
       );
       if (response.status === 200) {
         setRechargeHistory(response.data);
@@ -41,7 +41,7 @@ function FinancialDetails() {
     try {
       setLoading(true);
       const response = await axios.get(
-        `https://color-server.onrender.com/api/show/withdrawl/history?userId=${userId}`
+        `http://3.109.206.254:3001/api/show/withdrawl/history?userId=${userId}`
       );
       if (response.status === 200) {
         setWithdrawHistory(response.data);
@@ -49,7 +49,7 @@ function FinancialDetails() {
         throw new Error("Failed to fetch withdrawal history");
       }
     } catch (error) {
-      setError(error.message);
+      // setError(error.message);
     } finally {
       setLoading(false);
     }
@@ -102,10 +102,10 @@ function FinancialDetails() {
       ) : (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {activeHistory === "recharge"
-            ? rechargeHistory.slice().reverse().map((recharge) => (
+            ? rechargeHistory?.slice()?.reverse()?.map((recharge) => (
                 <div
                   key={recharge.id}
-                  className="bg-white rounded-lg shadow-md p-6 border-2 shadow-myblue-200 border-myblue-200"
+                  className="bg-white rounded-lg p-6 border-2 shadow-xl border-myblue-200"
                 >
                   <p>
                     <span className="font-semibold">Amount:</span>{" "}
@@ -120,10 +120,10 @@ function FinancialDetails() {
                   </p>
                 </div>
               ))
-            : withdrawHistory.slice().reverse().map((withdrawal) => (
+            : withdrawHistory?.slice()?.reverse()?.map((withdrawal) => (
                 <div
                   key={withdrawal.id}
-                  className="bg-white rounded-lg shadow-md p-6 shadow-myblue-200 border-2 border-myblue-200 "
+                  className="bg-white rounded-lg p-6 shadow-xl border-2 border-myblue-200 "
                 >
                   <p>
                     <span className="font-semibold">Amount:</span>{" "}

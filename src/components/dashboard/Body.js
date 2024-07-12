@@ -1,13 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import fastParity30sec from "../../images/fast-parity.jpg";
+import fastParity30sec from "../../images/game_one.jpg";
+import fastParityTwoMin from "../../images/game_two.jpg";
+import upcomingOne from "../../images/game_three.jpg";
 export default function Body() {
   return (
     <div className="flex flex-col justify-between mt-5 px-2 overflow-y-auto overflow-scroll pb-8">
       <div className="flex flex-row">
         <div className="w-full mr-2">
           <Link to="/thirty-second-page">
-            <div className="flex flex-col bg-white h-40 rounded-lg border-2 border-myblue-200 relative overflow-hidden  shadow shadow-lg">
+            <div className="flex flex-col bg-white h-40 rounded-lg border-2 border-myblue-200 relative overflow-hidden shadow shadow-lg shadow-myblue-200">
               <div className="flex justify-center items-center h-7 w-[50px] rounded-md border border-myblue-200 absolute bg-opacity-30 bg-backdrop-blur-sm z-10">
                 <p className="text-sm text-white">30sec</p>
               </div>
@@ -26,12 +28,12 @@ export default function Body() {
         </div>
         <div className="w-full mr-1">
           <Link to="/threeMin">
-            <div className="flex flex-col bg-white h-40 rounded-lg border-2 border-myblue-200 relative overflow-hidden  shadow shadow-lg">
+            <div className="flex flex-col bg-white h-40 rounded-lg border-2 border-myblue-200 relative overflow-hidden  shadow shadow-lg shadow-myblue-200">
               <div className="flex justify-center items-center h-7 w-[50px] rounded-md border border-myblue-200 absolute bg-opacity-30 bg-backdrop-blur-sm z-10">
                 <p className="text-sm text-white">2min</p>
               </div>
               <img
-                src={fastParity30sec}
+                src={fastParityTwoMin}
                 className="object-cover w-full h-full"
                 alt="Fast Parity"
               />
@@ -47,9 +49,9 @@ export default function Body() {
       <div className="flex flex-row mt-4 pb-9">
         <div className="w-full mr-2">
           <Link>
-          <div className="flex flex-col backdrop-blur-sm bg-white h-40 rounded-lg border-2 border-myblue-200 relative overflow-hidden  shadow shadow-lg justify-center">
+          <div className="flex flex-col backdrop-blur-sm bg-white h-40 rounded-lg border-2 border-myblue-200 relative overflow-hidden  shadow shadow-lg shadow-myblue-200 justify-center">
               <img
-                src={fastParity30sec}
+                src={upcomingOne}
                 className="object-cover w-full h-full"
                 alt="Fast Parity"
               />
@@ -63,9 +65,9 @@ export default function Body() {
         </div>
         <div className="w-full mr-1">
           <Link>
-          <div className="flex flex-col backdrop-blur-sm bg-white h-40 rounded-lg border-2 border-myblue-200 relative overflow-hidden  shadow shadow-lg justify-center">
+          <div className="flex flex-col backdrop-blur-sm bg-white h-40 rounded-lg border-2 border-myblue-200 relative overflow-hidden  shadow shadow-lg shadow-myblue-200 justify-center">
               <img
-                src={fastParity30sec}
+                src={upcomingOne}
                 className="object-cover w-full h-full"
                 alt="Fast Parity"
               />

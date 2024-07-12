@@ -1,3 +1,48 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Bottom Navigation Styles */
+.nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #9CA3AF; /* Gray-400 */
+    transition: color 0.3s;
+  }
+  
+  .nav-link.active {
+    color: #3B82F6; /* Myblue-200 */
+  }
+  
+  .nav-link span {
+    margin-top: 0.25rem; /* 1 */
+    font-size: 0.75rem; /* text-xs */
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  
+  .nav-link.active span {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .nav-link svg {
+    transition: transform 0.3s;
+  }
+  
+  .nav-link.active svg {
+    transform: scale(1.2);
+  }
+  
+  /* Transition for icon scaling */
+  @keyframes scaleIcon {
+    from {
+      transform: scale(1);
+    }
+    to {
+      transform: scale(1.2);
+    }
+  }
+  

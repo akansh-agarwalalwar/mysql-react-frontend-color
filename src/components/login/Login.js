@@ -16,7 +16,7 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await Axios.post("https://color-server.onrender.com/login", {
+      const response = await Axios.post("http://3.109.206.254:3001/login", {
         useremail,
         password,
       });
@@ -45,7 +45,7 @@ export default function Login() {
         setError("Invalid email or password");
       }
     } catch (error) {
-      console.error("There was an error with the login:", error);
+      // console.error("There was an error with the login:", error);
       setError("Login failed. Please try again.");
     } finally {
       setLoading(false);
@@ -54,7 +54,7 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-myblue-500 flex justify-center items-center p-4">
-      <div className="p-5 rounded-lg shadow-lg w-[80%] max-w-md border-2 border-myblue-200 shadow shadow-2xl">
+      <div className="p-5 rounded-lg shadow-xl w-[80%] max-w-md border-2 border-myblue-200">
         <div className="text-center mb-6">
           <h1 className="text-4xl font-bold text-myblue-200">Login</h1>
         </div>

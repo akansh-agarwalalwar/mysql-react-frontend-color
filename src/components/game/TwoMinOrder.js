@@ -9,17 +9,17 @@ function TwoMinOrder({ newBets }) {
     const fetchLastPeriodNumber = async () => {
       try {
         const response = await axios.get(
-          "https://color-server.onrender.com/api/lastPeriodNumber/two-min"
+          "http://3.109.206.254:3001/api/lastPeriodNumber/two-min"
         );
         const { lastPeriodNumber } = response.data;
         if (lastPeriodNumber) {
           setLastPeriodNumber(lastPeriodNumber);
           fetchUserBets(lastPeriodNumber); // Fetch user bets for the last period
         } else {
-          console.error("Last periodNumber is undefined");
+          // console.error("Last periodNumber is undefined");
         }
       } catch (error) {
-        console.error("Error fetching last periodNumber:", error);
+        // console.error("Error fetching last periodNumber:", error);
       }
     };
     fetchLastPeriodNumber();
@@ -28,11 +28,11 @@ function TwoMinOrder({ newBets }) {
   const fetchUserBets = async (periodNumber) => {
     try {
       const response = await axios.get(
-        `https://color-server.onrender.com/api/userBets/two-min/${periodNumber}`
+        `http://3.109.206.254:3001/api/userBets/two-min/${periodNumber}`
       );
       setUserBets(response.data);
     } catch (error) {
-      console.error("Error fetching user bets:", error);
+      // console.error("Error fetching user bets:", error);
     }
   };
 

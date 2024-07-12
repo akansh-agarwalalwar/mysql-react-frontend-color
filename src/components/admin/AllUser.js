@@ -31,7 +31,7 @@ export default function AllUsers() {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch("https://color-server.onrender.com/all-users");
+      const response = await fetch("http://3.109.206.254:3001/all-users");
       const data = await response.json();
       setUsers(data);
     } catch (error) {
@@ -42,7 +42,7 @@ export default function AllUsers() {
   const fetchRechargeHistory = async (userId) => {
     try {
       const response = await fetch(
-        `https://color-server.onrender.com/api/payments/history?userId=${userId}`
+        `http://3.109.206.254:3001/api/payments/history?userId=${userId}`
       );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -57,7 +57,7 @@ export default function AllUsers() {
   const fetchWithdrawHistory = async (userId) => {
     try {
       const response = await fetch(
-        `https://color-server.onrender.com/api/show/withdrawl/history?userId=${userId}`
+        `http://3.109.206.254:3001/api/show/withdrawl/history?userId=${userId}`
       );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -71,7 +71,7 @@ export default function AllUsers() {
 
   const fetchBankDetails = async (userId) => {
     try {
-      const res = await fetch(`https://color-server.onrender.com/api/bank?userId=${userId}`);
+      const res = await fetch(`http://3.109.206.254:3001/api/bank?userId=${userId}`);
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
       }

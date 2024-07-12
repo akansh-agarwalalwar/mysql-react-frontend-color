@@ -23,7 +23,7 @@ export default function Signup() {
     }
 
     try {
-      const response = await Axios.post("https://color-server.onrender.com/register", {
+      const response = await Axios.post("http://3.109.206.254:3001/register", {
         username,
         mobileNumber: `+91${mobileNumber}`,
         useremail,
@@ -45,7 +45,7 @@ export default function Signup() {
   const sendOtp = async () => {
     try {
       const response = await Axios.post(
-        "https://color-server.onrender.com/send-email-otp",
+        "http://3.109.206.254:3001/send-email-otp",
         {
           useremail,
         }
@@ -65,7 +65,7 @@ export default function Signup() {
   const verifyOtp = async () => {
     try {
       const response = await Axios.post(
-        "https://color-server.onrender.com/verify-email-otp",
+        "http://3.109.206.254:3001/verify-email-otp",
         {
           useremail,
           otp,
@@ -93,7 +93,42 @@ export default function Signup() {
       otpStatus === "OTP verified successfully"
     );
   };
-
+  const handleEmailChange = (e) => {
+    const email = e.target.value;
+    const emailRegex = /^[a-zA-Z0-9@.]+$/;
+    if (emailRegex.test(email)) {
+      setEmail(email);
+    } else {
+      setEmail("");
+    }
+  };
+  const handlePasswordChange = (e) => {
+    const password = e.target.value;
+    const passwordRegex = /^[a-zA-Z0-9@.]+$/;
+    if (passwordRegex.test(password)) {
+      setPassword(password);
+    } else {
+      setPassword("");
+    }
+  };
+  const handleReferenceChange = (e) => {
+    const referenceCode = e.target.value;
+    const setReferenceRegex = /^[a-zA-Z]/;
+    if (setReferenceRegex.test(referenceCode)) {
+      setReferenceCode(referenceCode);
+    } else {
+      setReferenceCode("");
+    }
+  };
+  const handleUserNameChange = (e) => {
+    const username = e.target.value;
+    const setUserNameRegex = /^[a-zA-Z0-9@]/;
+    if (setUserNameRegex.test(username)) {
+      setUsername(username);
+    } else {
+      setUsername("");
+    }
+  };
   return (
     <div className="min-h-screen bg-myblue-500 flex justify-center items-center p-4">
       <div className="p-8 rounded-lg shadow-lg w-[80%] max-w-md border-2 border-myblue-200 bg-white">
@@ -108,13 +143,13 @@ export default function Signup() {
               placeholder="Username"
               className="p-1 rounded-md border"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={handleUserNameChange}
             />
           </div>
           <div className="flex flex-col">
             <label className="mb-1 text-sm">Mobile Number</label>
             <input
-              type="text"
+              type="number"
               placeholder="Mobile Number"
               className="p-1 rounded-md border border-gray-300"
               value={mobileNumber}
@@ -123,22 +158,24 @@ export default function Signup() {
           </div>
           <div className="flex flex-col">
             <label className="mb-1 text-sm">Email</label>
-            <div className="relative flex items-center">
+            <div className=" flex items-center">
               <input
                 type="email"
                 placeholder="Email"
                 className="p-1 rounded-md border w-full"
                 value={useremail}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={handleEmailChange}
               />
-              <button
-                className="absolute right-1 p-1 rounded-md transition border-2 border-myblue-200 text-sm"
+              
+              
+            </div>
+            <button
+                className="mt-2 rounded-md transition border-2 border-myblue-200 text-sm p-2"
                 onClick={sendOtp}
                 disabled={!useremail}
               >
                 Send OTP
               </button>
-            </div>
           </div>
           {otpSent && otpStatus !== "OTP verified successfully" && (
             <div className="flex flex-col mt-4">
@@ -155,13 +192,14 @@ export default function Signup() {
                   value={otp}
                   onChange={(e) => setOtp(e.target.value)}
                 />
-                <button
-                  className="absolute right-1 p-1 rounded-md transition border-2 border-myblue-200 text-sm"
+                
+              </div>
+              <button
+                  className="mt-2 rounded-md transition border-2 border-myblue-200 text-sm p-2"
                   onClick={verifyOtp}
                 >
                   Verify OTP
                 </button>
-              </div>
               <div className="mt-2 text-xs">{otpStatus}</div>
             </div>
           )}
@@ -175,7 +213,7 @@ export default function Signup() {
               placeholder="Password"
               className="p-1 rounded-md border"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handlePasswordChange}
             />
           </div>
           <div className="flex flex-col">
@@ -189,13 +227,14 @@ export default function Signup() {
             />
           </div>
           <div className="flex flex-col">
-            <label className="mb-1 text-sm">Reference Code</label>
+            <label className="mb-1 text-sm">Referral</label>
             <input
               type="text"
               placeholder="Reference Code"
               className="p-1 rounded-md border"
               value={referenceCode}
-              onChange={(e) => setReferenceCode(e.target.value)}
+              onChange={handleReferenceChange}
+
             />
           </div>
           <div className="mt-6">

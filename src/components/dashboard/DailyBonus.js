@@ -4,27 +4,31 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import axios from 'axios';
 import UserContext from "../login/UserContext";
+import "./DailyBonus.css"; 
 
 function DailyBonus() {
   const { user, setUser } = useContext(UserContext);
   console.log(user);
   const [bonusEarned, setBonusEarned] = useState(false);
+  const [animateIn, setAnimateIn] = useState(false);
 
   useEffect(() => {
+    console.log(user)
     const userAlreadyEarnedBonus = checkUserBonus();
     setBonusEarned(userAlreadyEarnedBonus);
-  }, []);
-
+    setAnimateIn(true);
+  }, [user]);
+  
   const handleClaimBonus = async () => {
     if (bonusEarned) {
       alert("You have already claimed your daily bonus for today!");
     } else {
       console.log("Claiming bonus for user ID:", user.userId);
       try {
-        const response = await axios.post('https://color-server.onrender.com/api/claim-bonus', { userId: user.userId });
+        const response = await axios.post('http://localhost:3001/api/claim-bonus', { userId: user.userId });
         setUser({ ...user, balance: response.data.newBalance });
         setBonusEarned(true);
-        alert(response.data.message);
+        localStorage.setItem("lastBonusClaimed", new Date().toISOString());
       } catch (error) {
         console.error("Error claiming bonus:", error);
         alert(error.response?.data?.error || "Failed to claim bonus");
@@ -45,7 +49,7 @@ function DailyBonus() {
   };
 
   return (
-    <div className="flex flex-col w-full h-screen bg-myblue-500">
+    <div className={`flex flex-col w-full h-screen bg-myblue-500 ${animateIn ? 'fade-in-top active' : ''}`}>
       <div className="flex flex-row bg-myblue-200 w-full text-white items-center h-12">
         <Link to="/home">
           <FaArrowLeftLong className="mx-3" />

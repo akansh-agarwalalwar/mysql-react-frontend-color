@@ -14,7 +14,7 @@ function BankDetails() {
   useEffect(() => {
     const fetchBankDetails = async () => {
       try {
-        const res = await axios.get(`https://color-server.onrender.com/api/bank-details/${user.userId}`);
+        const res = await axios.get(`http://3.109.206.254:3001/api/bank-details/${user.userId}`);
         if (res.status === 200) {
           setAccountNumber(res.data.accountNumber);
           setIfscCode(res.data.ifscCode);
@@ -32,7 +32,7 @@ function BankDetails() {
   const handleBankDetails = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("https://color-server.onrender.com/api/bank-details", {
+      const res = await axios.post("http://3.109.206.254:3001/api/bank-details", {
         userId: user.userId,
         accountNumber,
         ifscCode,
@@ -70,18 +70,18 @@ function BankDetails() {
       </div>
       <div className="flex flex-col flex-grow mx-5 my-5 mt-8">
         {bankDetailsAvailable ? (
-          <div className="p-8 w-full mt-10 flex flex-row justify-between border-2 border-myblue-200 shadow shadow-xl bg-white rounded-2xl">
+          <div className="p-8 w-full mt-10 flex flex-row justify-between border-2 border-myblue-200 shadow-xl bg-white rounded-2xl">
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">Account Number</label>
-              <p className="text-gray-700">{getLastFourDigits(accountNumber)}</p>
+              <label className="block text-md font-bold mb-2">Account Number</label>
+              <p className="text-pure-greys-400">{getLastFourDigits(accountNumber)}</p>
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">IFSC Code</label>
-              <p className="text-gray-700">{getFirstThreeDigits(ifscCode)}</p>
+              <label className="block text-md font-bold mb-2">IFSC Code</label>
+              <p className="text-pure-greys-400">{getFirstThreeDigits(ifscCode)}</p>
             </div>
           </div>
         ) : (
-          <div className="p-8 w-full border-2 mx-5 my-5 mt-10 shadow-sm shadow border-myblue-200 shadow-myblue-200 bg-white">
+          <div className="p-8 w-full border-2 my-5 mt-10 shadow-xl border-myblue-200 bg-white">
             <h2 className="text-xl font-bold mb-4 text-center">Add Bank Account</h2>
             <form onSubmit={handleBankDetails}>
               <div className="mb-4">
@@ -89,7 +89,7 @@ function BankDetails() {
                   Account Number
                 </label>
                 <input
-                  type="text"
+                  type="number"
                   id="accountNumber"
                   value={accountNumber}
                   onChange={(e) => setAccountNumber(e.target.value)}
@@ -108,6 +108,8 @@ function BankDetails() {
                   onChange={(e) => setIfscCode(e.target.value)}
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
                   required
+                  autoCapitalize="characters"
+                  pattern="[A-Z0-9]"
                 />
               </div>
               <div className="flex items-center justify-between">
@@ -119,7 +121,7 @@ function BankDetails() {
                 </button>
               </div>
               {message && (
-                <div className="mt-4 text-center text-red-500">
+                <div className="mt-4 text-center text-red-100">
                   {message}
                 </div>
               )}

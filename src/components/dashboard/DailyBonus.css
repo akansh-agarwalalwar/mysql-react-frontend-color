@@ -1,0 +1,11 @@
+.fade-in-top {
+    opacity: 0;
+    transform: translateY(-50px); /* Move content up initially */
+    transition: opacity 9.5s ease, transform 9.5s ease; /* Adjust timing here */
+  }
+  
+  .fade-in-top.active {
+    opacity: 1;
+    transform: translateY(0); /* Move content back to normal position */
+  }
+  

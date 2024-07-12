@@ -34,13 +34,13 @@ function TwoMin() {
   useEffect(() => {
     const fetchInitialPeriodAndTime = async () => {
       try {
-        const periodResponse = await axios.get("https://color-server.onrender.com/period-timer/two-min");
+        const periodResponse = await axios.get("http://3.109.206.254:3001/period-timer/two-min");
         setPeriod(Number(periodResponse.data.periodNumber));
 
-        const timeResponse = await axios.get("https://color-server.onrender.com/period-time/get-time/two-min");
-        setTime((timeResponse.data.countdown || 120)); // Default to 120 seconds
+        const timeResponse = await axios.get("http://3.109.206.254:3001/period-time/get-time/two-min");
+        setTime((timeResponse.data.countdown || 120));
       } catch (error) {
-        console.error("Error fetching initial period and time:", error);
+        // console.error("Error fetching initial period and time:", error);
       }
     };
     fetchInitialPeriodAndTime();
@@ -48,12 +48,12 @@ function TwoMin() {
 
   const fetchLastPeriodData = async () => {
     try {
-      const response = await axios.get("https://color-server.onrender.com/winner-api/two-min");
+      const response = await axios.get("http://3.109.206.254:3001/winner-api/two-min");
       setLastPeriodData(response.data);
 
-      console.log(response.data)
+      // console.log(response.data)
     } catch (error) {
-      console.error("Error fetching last period data:", error);
+      // console.error(error);
     }
   };
 
@@ -84,20 +84,20 @@ function TwoMin() {
 
     const sendTimeDataToServer = async () => {
       try {
-        await axios.post("https://color-server.onrender.com/period-time/two-min", {
+        await axios.post("http://3.109.206.254:3001/period-time/two-min", {
           periodNumber: formatPeriod(period),
           periodTime: new Date().toISOString().split("T")[1].split(".")[0],
           periodDate: new Date().toISOString().split("T")[0],
           countdown: time,
         });
         if (time === 7) {
-          await axios.post("https://color-server.onrender.com/update-status/two-min", {
+          await axios.post("http://3.109.206.254:3001/update-status/two-min", {
             periodNumber: formatPeriod(period),
             periodDate: new Date().toISOString().split("T")[0],
           });
         }
       } catch (error) {
-        console.error("Error sending time data to server:", error);
+        // console.error("Error sending time data to server:", error);
       }
     };
 
@@ -113,12 +113,12 @@ function TwoMin() {
     if (time === 10) {
       const updateAmounts = async () => {
         try {
-          await axios.post("https://color-server.onrender.com/update-amounts/two-min", {
+          await axios.post("http://3.109.206.254:3001/update-amounts/two-min", {
             periodNumber: formatPeriod(period),
           });
-          console.log("Amounts updated successfully.");
+          // console.log("Amounts updated successfully.");
         } catch (error) {
-          console.error("Error updating amounts:", error);
+          // console.error("Error updating amounts:", error);
         }
       };
       updateAmounts();
@@ -126,12 +126,12 @@ function TwoMin() {
   }, [time]);
   const savePeriodToDatabase = async (newPeriod) => {
     try {
-      await axios.post("https://color-server.onrender.com/period-timer/post/two-min", {
+      await axios.post("http://3.109.206.254:3001/period-timer/post/two-min", {
         periodNumber: newPeriod,
         periodDate: new Date().toISOString().split("T")[0],
       });
     } catch (error) {
-      console.error("Error saving period to database:", error);
+      // console.error("Error saving period to database:", error);
     }
   };
 
@@ -214,7 +214,7 @@ function TwoMin() {
     }
 
     try {
-      const response = await axios.post("https://color-server.onrender.com/place-bet/two-min", {
+      const response = await axios.post("http://3.109.206.254:3001/place-bet/two-min", {
         userId: user.userId,
         periodNumber: formatPeriod(period),
         periodDate: new Date().toISOString().split("T")[0],
@@ -225,20 +225,19 @@ function TwoMin() {
       });
  
 
-      console.log("Response from server:", response.data);
+      // console.log("Response from server:", response.data);
 
       if (response.status !== 200) {
         throw new Error("Error placing bet");
       }
 
-      console.log("Bet placed successfully:", response.data);
+      // console.log("Bet placed successfully:", response.data);
 
       // Fetch the latest user data
       await fetchUserData();
     } catch (error) {
-      console.error("Error placing bet:", error);
+      // console.error("Error placing bet:", error);
     }
-
     closePopup();
   };
   useEffect(() => {

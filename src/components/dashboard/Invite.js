@@ -19,13 +19,13 @@ function Invite() {
   const inviteReferCode = async (userId) => {
     try {
       const response = await fetch(
-        `https://color-server.onrender.com/api/invite/refer/${userId}`
+        `http://3.109.206.254:3001/api/invite/refer/${userId}`
       );
       if (response.ok) {
         const data = await response.json();
         setReferCode(data.userReferenceCode);
       } else {
-        console.error("Error fetching referCode: ", response.statusText);
+        // console.error("Error fetching referCode: ", response.statusText);
       }
     } catch (error) {
       console.error("Error fetching referCode:", error);
@@ -35,22 +35,18 @@ function Invite() {
   const copyToClipboard = () => {
     navigator.clipboard.writeText(referCode);
     toast.success("Copied to clipboard!");
-  };
+  }; 
 
   return (
-    <div className="flex flex-col w-full min-h-screen bg-myblue-100">
-      <div className="w-full bg-myblue-200 h-12 px-3 flex items-center justify-center fixed top-0">
-        <div className="absolute left-0 ml-2">
-          <Link to="/home">
-            <FaArrowLeftLong className="text-white mx-2" />
-          </Link>
-        </div>
-        <div className="flex items-center justify-center ml-4">
-          <h1 className="text-xl text-white">Invite</h1>
-        </div>
+    <div className="flex flex-col w-full h-screen bg-myblue-500">
+     <div className="flex flex-row bg-myblue-200 w-full text-white items-center h-12">
+        <Link to="/home">
+          <FaArrowLeftLong size={20} className="mx-4" />
+        </Link>
+        <p className="text-xl font-bold -mt-0.5">Invite</p>
       </div>
       <div className="flex flex-col items-center justify-center flex-grow">
-        <div className="border w-[90%] max-w-lg bg-white shadow-md rounded-lg p-6 shadow-lg shadow-blue-100 border-myblue-200">
+        <div className="border w-[90%] max-w-lg bg-white rounded-lg p-6 shadow-lg border-myblue-200">
           <h1 className="text-lg font-bold mb-4 text-myblue-700">Invite And Earn</h1>
           <p className="text-sm text-gray-500 mb-4">
             Using Your Refer Code, friends will get a bonus of up to Rs.50

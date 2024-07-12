@@ -35,29 +35,26 @@ function Timer() {
     const fetchInitialPeriodAndTime = async () => {
       try {
         const periodResponse = await axios.get(
-          "https://color-server.onrender.com/period-timer"
+          "http://3.109.206.254:3001/period-timer"
         );
         setPeriod(Number(periodResponse.data.periodNumber));
-
         const timeResponse = await axios.get(
-          "https://color-server.onrender.com/period-time"
+          "http://3.109.206.254:3001/period-time"
         );
         setTime((timeResponse.data.countdown || 30) - 3);
       } catch (error) {
-        console.error("Error fetching initial period and time:", error);
+        // console.error("Error fetching initial period and time:", error);
       }
     };
-    
     fetchInitialPeriodAndTime();
   }, []);
-
   const fetchLastPeriodData = async () => {
     try {
-      const response = await axios.get("https://color-server.onrender.com/winner-api");
+      const response = await axios.get("http://3.109.206.254:3001/winner-api");
       setLastPeriodData(response.data);
-      console.log(response.data)
+      // console.log(response.data)
     } catch (error) {
-      console.error("Error fetching last period data:", error);
+      // console.error("Error fetching last period data:", error);
       setErrorMessage("Failed to fetch last period data. Please try again.");
     }
   };
@@ -92,28 +89,27 @@ function Timer() {
         const periodNumber = formatPeriod(period);
         const periodTime = new Date().toISOString().split("T")[1].split(".")[0];
         const periodDate = new Date().toISOString().split("T")[0];
-    
-        console.log("Sending period time data:", { periodNumber, periodTime, periodDate, countdown: time });
-    
-        await axios.post("https://color-server.onrender.com/period-time", {
+
+        // console.log("Sending period time data:", { periodNumber, periodTime, periodDate, countdown: time });
+
+        await axios.post("http://3.109.206.254:3001/period-time", {
           periodNumber,
           periodTime,
           periodDate,
           countdown: time,
         });
-    
+
         if (time === 7) {
-          console.log("Updating status with:", { periodNumber, periodDate });
-          await axios.post("https://color-server.onrender.com/update-status", {
+          // console.log("Updating status with:", { periodNumber, periodDate });
+          await axios.post("http://3.109.206.254:3001/update-status", {
             periodNumber,
             periodDate,
           });
         }
       } catch (error) {
-        console.error("Error sending time data to server:", error);
+        // console.error("Error sending time data to server:", error);
       }
     };
-    
 
     const intervalId = setInterval(() => {
       sendTimeDataToServer();
@@ -126,12 +122,12 @@ function Timer() {
     if (time === 10) {
       const updateAmounts = async () => {
         try {
-          await axios.post("https://color-server.onrender.com/update-amounts", {
+          await axios.post("http://3.109.206.254:3001/update-amounts", {
             periodNumber: formatPeriod(period),
           });
-          console.log("Amounts updated successfully.");
+          // console.log("Amounts updated successfully.");
         } catch (error) {
-          console.error("Error updating amounts:", error);
+          // console.error("Error updating amounts:", error);
         }
       };
       updateAmounts();
@@ -150,21 +146,23 @@ function Timer() {
   const savePeriodToDatabase = async (newPeriod) => {
     try {
       const periodDate = new Date().toISOString().split("T")[0];
-    
-      console.log("Saving period to database:", { periodNumber: newPeriod, periodDate });
-    
-      const response = await axios.post("https://color-server.onrender.com/period-timer/post", {
-        periodNumber: newPeriod,
-        periodDate: periodDate,
-      });
-    
-      console.log(response.data);
+
+      // console.log("Saving period to database:", { periodNumber: newPeriod, periodDate });
+
+      const response = await axios.post(
+        "http://3.109.206.254:3001/period-timer/post",
+        {
+          periodNumber: newPeriod,
+          periodDate: periodDate,
+        }
+      );
+
+      // console.log(response.data);
     } catch (error) {
-      console.error("Error saving period to database:", error);
+      // console.error("Error saving period to database:", error);
     }
   };
-  
-  
+
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
@@ -250,7 +248,7 @@ function Timer() {
     }
 
     try {
-      const response = await axios.post("https://color-server.onrender.com/place-bet", {
+      const response = await axios.post("http://3.109.206.254:3001/place-bet", {
         userId: user.userId,
         periodNumber: formatPeriod(period),
         periodDate: new Date().toISOString().split("T")[0],
@@ -260,17 +258,17 @@ function Timer() {
         possiblePayout: possiblePayout[selectedColor.title].toFixed(2),
       });
 
-      console.log("Response from server:", response.data);
+      // console.log("Response from server:", response.data);
 
       if (response.status !== 200) {
         throw new Error("Error placing bet");
       }
 
-      console.log("Bet placed successfully:", response.data);
+      // console.log("Bet placed successfully:", response.data);
 
       await fetchUserData();
     } catch (error) {
-      console.error("Error placing bet:", error);
+      // console.error("Error placing bet:", error);
     }
 
     closePopup();
@@ -304,7 +302,6 @@ function Timer() {
         userNumber: randomUserNumber,
       });
     }
-
     setNewBets(newBets);
   };
   return (
@@ -408,7 +405,11 @@ function Timer() {
           </div>
         </div>
       </Popup>
-
+      <div className="flex flex-row justify-center w-full items-center mb-4">
+        <p className="mx-2 font-bold text-xl border-2 bg-white border-myblue-200 w-[50%] items-center justify-center flex h-10 rounded-xl shadow shadow-lg">
+          Result
+        </p>
+      </div>
       {/* WINNER DIVISION */}
       <div className="flex flex-row justify-around border-2 border-myblue-200 shadow shadow-lg h-14 items-center mx-4 rounded-xl bg-white">
         <div>{lastPeriodData ? lastPeriodData.periodNumber : "Loading..."}</div>
@@ -436,13 +437,11 @@ function Timer() {
         <div className="flex p-2 flex-col mr-4 ml-4 justify-center items-center h-[150px] border-2 border-myblue-200 mt-11 shadow shadow-lg bg-white">
           <h2 className="text-myblue-200 font-bold">WAIT FOR RESULT......</h2>
         </div>
-        
       ) : (
         <div className="flex p-2 bg-gray-800 flex-col">
           {/* <EveryOneOrder key={refresh} period={formatPeriod(period - 1)} newBets={lastTableData} /> */}
         </div>
-      )
-      }
+      )}
     </div>
   );
 }

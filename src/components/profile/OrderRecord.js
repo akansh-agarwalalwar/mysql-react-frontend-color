@@ -25,7 +25,7 @@ function OrderRecord() {
     try {
       setLoading(true);
       const response = await axios.get(
-        `https://color-server.onrender.com/api/thirty-second-history/${userId}`
+        `http://3.109.206.254:3001/api/thirty-second-history/${userId}`
       );
       if (response.status === 200) {
         setThirtySecond(response.data);
@@ -33,7 +33,7 @@ function OrderRecord() {
         throw new Error("Failed to fetch Thirty Second history");
       }
     } catch (error) {
-      setError(error.message);
+      // setError(error.message);
     } finally {
       setLoading(false);
     }
@@ -43,12 +43,10 @@ function OrderRecord() {
     try {
       setLoading(true);
       const response = await axios.get(
-        `https://color-server.onrender.com/api/two-min-history/${userId}`
+        `http://3.109.206.254:3001/api/two-min-history/${userId}`
       );
       if (response.status === 200) {
         setTwomin(response.data);
-      } else {
-        throw new Error("Failed to fetch Two Min history");
       }
     } catch (error) {
       setError(error.message);
@@ -104,10 +102,10 @@ function OrderRecord() {
       ) : (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {activeTab === "30sec"
-            ? thirtySecond.slice().reverse().map((record) => (
+            ? thirtySecond?.map((record) => (
                 <div
                   key={record.id}
-                  className="bg-white rounded-lg shadow-md p-6 border border-myblue-200 shadow-myblue-200"
+                  className="bg-white rounded-lg shadow-md p-6 border border-myblue-200 shadow-xl"
                 >
                   <p>
                     <span className="font-semibold">Amount:</span>{" "}
@@ -130,10 +128,11 @@ function OrderRecord() {
                   </p>
                 </div>
               ))
-            : twomin.slice().reverse().map((record) => (
-                <div
+            : twomin.map((record) => (
+              
+              <div
                   key={record.id}
-                  className="bg-white rounded-lg shadow-md p-6 border border-myblue-200 shadow-myblue-200"
+                  className="bg-white rounded-lg shadow-md p-6 border border-myblue-200 shadow-xl"
                 >
                   <p>
                     <span className="font-semibold">Amount:</span>{" "}

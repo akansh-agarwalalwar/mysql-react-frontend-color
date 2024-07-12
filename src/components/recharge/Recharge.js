@@ -12,28 +12,28 @@ const Recharge = () => {
 
   const handleRecharge = () => {
     const parsedAmount = parseInt(amount);
-    if (parsedAmount >= 200) {
+    if (parsedAmount >= 200 && parsedAmount <=10000) {
       navigate("/payment-page", { state: { amount: parsedAmount } });
     } else {
       setError("Amount must be 200 INR or more");
     }
   };
 
-  const isRechargeButtonDisabled = !(parseInt(amount) >= 200);
+  const isRechargeButtonDisabled = !(parseInt(amount) >= 200 && parseInt(amount)<= 10000);
 
   return (
     <div className="bg-myblue-500 h-screen">
       <div className="flex flex-row bg-myblue-200 w-full text-white items-center h-12">
         <Link to="/home">
-          <FaArrowLeftLong className="mx-3" />
+          <FaArrowLeftLong size={20} className="mx-4" />
         </Link>
-        <p className="text-xl">Recharge</p>
+        <p className="text-xl font-bold -mt-1">Recharge</p>
       </div>
       <div className="flex flex-col mx-5 mt-5">
         <div>
           <p>Enter the recharge amount</p>
         </div>
-        <div className="mb-4 mt-2 w-full border shadow shadow-md rounded-md">
+        <div className="mb-4 mt-2 w-full border shadow-xl rounded-md">
           <input
             type="number"
             id="amount"
