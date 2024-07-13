@@ -23,7 +23,7 @@ function FinancialDetails() {
     try {
       setLoading(true);
       const response = await axios.get(
-        `http://3.109.206.254:3001/api/payemnt/history123?userId=${userId}`
+        `http://65.2.75.197:3001/api/payemnt/history123?userId=${userId}`
       );
       if (response.status === 200) {
         setRechargeHistory(response.data);
@@ -41,7 +41,7 @@ function FinancialDetails() {
     try {
       setLoading(true);
       const response = await axios.get(
-        `http://3.109.206.254:3001/api/show/withdrawl/history?userId=${userId}`
+        `http://65.2.75.197:3001/api/show/withdrawl/history?userId=${userId}`
       );
       if (response.status === 200) {
         setWithdrawHistory(response.data);

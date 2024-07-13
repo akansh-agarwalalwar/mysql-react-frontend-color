@@ -19,7 +19,7 @@ function Invite() {
   const inviteReferCode = async (userId) => {
     try {
       const response = await fetch(
-        `http://3.109.206.254:3001/api/invite/refer/${userId}`
+        `http://65.2.75.197:3001/api/invite/refer/${userId}`
       );
       if (response.ok) {
         const data = await response.json();

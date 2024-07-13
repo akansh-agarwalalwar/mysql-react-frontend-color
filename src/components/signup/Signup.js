@@ -21,9 +21,9 @@ export default function Signup() {
       setRegisterStatus("Please verify your OTP first.");
       return;
     }
-
+    
     try {
-      const response = await Axios.post("http://3.109.206.254:3001/register", {
+      const response = await Axios.post("http://65.2.75.197:3001/register", {
         username,
         mobileNumber: `+91${mobileNumber}`,
         useremail,
@@ -45,7 +45,7 @@ export default function Signup() {
   const sendOtp = async () => {
     try {
       const response = await Axios.post(
-        "http://3.109.206.254:3001/send-email-otp",
+        "http://65.2.75.197:3001/send-email-otp",
         {
           useremail,
         }
@@ -65,7 +65,7 @@ export default function Signup() {
   const verifyOtp = async () => {
     try {
       const response = await Axios.post(
-        "http://3.109.206.254:3001/verify-email-otp",
+        "http://65.2.75.197:3001/verify-email-otp",
         {
           useremail,
           otp,

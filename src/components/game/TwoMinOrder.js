@@ -9,7 +9,7 @@ function TwoMinOrder({ newBets }) {
     const fetchLastPeriodNumber = async () => {
       try {
         const response = await axios.get(
-          "http://3.109.206.254:3001/api/lastPeriodNumber/two-min"
+          "http://65.2.75.197:3001/api/lastPeriodNumber/two-min"
         );
         const { lastPeriodNumber } = response.data;
         if (lastPeriodNumber) {
@@ -28,7 +28,7 @@ function TwoMinOrder({ newBets }) {
   const fetchUserBets = async (periodNumber) => {
     try {
       const response = await axios.get(
-        `http://3.109.206.254:3001/api/userBets/two-min/${periodNumber}`
+        `http://65.2.75.197:3001/api/userBets/two-min/${periodNumber}`
       );
       setUserBets(response.data);
     } catch (error) {

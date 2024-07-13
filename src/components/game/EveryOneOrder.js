@@ -8,7 +8,7 @@ function EveryOneOrder({ newBets }) {
   useEffect(() => {
     const fetchLastPeriodNumber = async () => {
       try {
-        const response = await axios.get('http://3.109.206.254:3001/api/lastPeriodNumber');
+        const response = await axios.get('http://65.2.75.197:3001/api/lastPeriodNumber');
         const { lastPeriodNumber } = response.data;
         if (lastPeriodNumber) {
           setLastPeriodNumber(lastPeriodNumber);

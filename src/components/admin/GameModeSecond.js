@@ -14,7 +14,7 @@ function GameModeSecond() {
       console.log("Sending data:", { periodNumber });
 
       const response = await axios.post(
-        "http://3.109.206.254:3001/api/check-and-update-period/two-min",
+        "http://65.2.75.197:3001/api/check-and-update-period/two-min",
         {
           periodNumber: periodNumber,
         }

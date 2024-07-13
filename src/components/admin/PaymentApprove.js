@@ -10,7 +10,7 @@ function PaymentApprove() {
     const fetchPendingPayments = async () => {
       try {
         const response = await axios.get(
-          "http://3.109.206.254:3001/api/payments/pending"
+          "http://65.2.75.197:3001/api/payments/pending"
         );
         setPendingPayments(response.data);
       } catch (error) {
@@ -20,7 +20,7 @@ function PaymentApprove() {
     const fetchPaymentHistory = async () => {
       try {
         const response = await axios.get(
-          "http://3.109.206.254:3001/api/payments/updatedHistory"
+          "http://65.2.75.197:3001/api/payments/updatedHistory"
         );
         setPaymentHistory(response.data);
       } catch (error) {
@@ -34,7 +34,7 @@ function PaymentApprove() {
 
   const handleApprove = async (id) => {
     try {
-      await axios.post("http://3.109.206.254:3001/api/payments/approve", { id });
+      await axios.post("http://65.2.75.197:3001/api/payments/approve", { id });
       const approvedPayment = pendingPayments.find(
         (payment) => payment.id === id
       );
@@ -53,7 +53,7 @@ function PaymentApprove() {
 
   const handleDeny = async (id) => {
     try {
-      await axios.post("http://3.109.206.254:3001/api/payments/deny", { id });
+      await axios.post("http://65.2.75.197:3001/api/payments/deny", { id });
       setPendingPayments(
         pendingPayments.filter((payment) => payment.id !== id)
       );

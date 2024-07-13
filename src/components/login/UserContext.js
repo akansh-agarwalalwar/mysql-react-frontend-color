@@ -13,7 +13,7 @@ export const UserProvider = ({ children }) => {
   
   const fetchUserData = async () => {
     try {
-      const response = await axios.get(`http://3.109.206.254:3001/api/balance/${user.userId}`);
+      const response = await axios.get(`http://65.2.75.197:3001/api/balance/${user.userId}`);
       if (response.status === 200) {
         const usc = user;
         usc.balance = response.data[0].balance;
@@ -27,7 +27,7 @@ export const UserProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await axios.post("http://3.109.206.254:3001/logout");
+      await axios.post("http://65.2.75.197:3001/logout");
       setUser(null);
       Cookies.remove('user');
     } catch (error) {

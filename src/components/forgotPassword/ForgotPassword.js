@@ -16,7 +16,7 @@ export default function ForgotPassword() {
       return;
     }
     try {
-      const response = await Axios.post("http://3.109.206.254:3001/forgot-password", {
+      const response = await Axios.post("http://65.2.75.197:3001/forgot-password", {
         mobileNumber: mobileNumber,
         newPassword: newPassword,
       });

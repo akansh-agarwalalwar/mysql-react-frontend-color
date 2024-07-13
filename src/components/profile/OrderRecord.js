@@ -25,7 +25,7 @@ function OrderRecord() {
     try {
       setLoading(true);
       const response = await axios.get(
-        `http://3.109.206.254:3001/api/thirty-second-history/${userId}`
+        `http://65.2.75.197:3001/api/thirty-second-history/${userId}`
       );
       if (response.status === 200) {
         setThirtySecond(response.data);
@@ -43,7 +43,7 @@ function OrderRecord() {
     try {
       setLoading(true);
       const response = await axios.get(
-        `http://3.109.206.254:3001/api/two-min-history/${userId}`
+        `http://65.2.75.197:3001/api/two-min-history/${userId}`
       );
       if (response.status === 200) {
         setTwomin(response.data);

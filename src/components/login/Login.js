@@ -16,7 +16,7 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await Axios.post("http://3.109.206.254:3001/login", {
+      const response = await Axios.post("http://65.2.75.197:3001/login", {
         useremail,
         password,
       });

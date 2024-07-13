@@ -5,7 +5,7 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import UserContext from "../login/UserContext";
-import QR from "../../images/fast-parity.jpg";
+import QR from "../../images/qr_code.jpg";
 
 function PaymentPage() {
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ function PaymentPage() {
 
     try {
       const existingTransaction = await axios.get(
-        `http://3.109.206.254:3001/check-transaction/${inputValue}`
+        `http://65.2.75.197:3001/check-transaction/${inputValue}`
       );
       if (existingTransaction.data.exists) {
         toast.error("Transaction ID already in use", {
@@ -49,7 +49,7 @@ function PaymentPage() {
         input: inputValue,
       };
 
-      await axios.post("http://3.109.206.254:3001/image-upload", data);
+      await axios.post("http://65.2.75.197:3001/image-upload", data);
       toast.success("Request submitted");
       navigate("/home");
     } catch (error) {
