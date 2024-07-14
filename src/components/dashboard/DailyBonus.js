@@ -35,7 +35,6 @@ function DailyBonus() {
       }
     }
   };
-
   const checkUserBonus = () => {
     const lastClaimed = localStorage.getItem("lastBonusClaimed");
     if (!lastClaimed) return false;
@@ -57,8 +56,8 @@ function DailyBonus() {
         <p className="text-xl">Daily Bonus</p>
       </div>
       <div className="flex flex-col items-center justify-center flex-grow">
-        <div className="border-2 border-myblue-200 w-[80%] p-3 justify-center items-center flex flex-col shadow shadow-lg rounded-2xl">
-          <h1 className="text-3xl font-bold mb-4">Daily Bonus</h1>
+        <div className="border-2 border-myblue-200 bg-myblue-200 w-[80%] p-3 justify-center items-center flex flex-col shadow-lg rounded-2xl text-white">
+          <h1 className="text-3xl font-bold mb-4 ">Daily Bonus</h1>
           <div className="flex items-center mb-4 justify-center">
             <FaCoins size={24} className="mr-2" />
             <p className="text-lg">Earn 2 Rs daily bonus!</p>
@@ -66,7 +65,7 @@ function DailyBonus() {
           {!bonusEarned ? (
             <button
               onClick={handleClaimBonus}
-              className="px-4 py-2 bg-myblue-200 text-white rounded-md shadow-lg w-[150px] justify-center"
+              className="px-4 py-2 bg-white text-myblue-200 rounded-md shadow-lg w-[150px] justify-center"
             >
               Claim Bonus
             </button>

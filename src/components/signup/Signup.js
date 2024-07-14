@@ -23,7 +23,7 @@ export default function Signup() {
     }
     
     try {
-      const response = await Axios.post("http://65.2.75.197:3001/register", {
+      const response = await Axios.post("http://localhost:3001/register", {
         username,
         mobileNumber: `+91${mobileNumber}`,
         useremail,
@@ -45,7 +45,7 @@ export default function Signup() {
   const sendOtp = async () => {
     try {
       const response = await Axios.post(
-        "http://65.2.75.197:3001/send-email-otp",
+        "http://localhost:3001/send-email-otp",
         {
           useremail,
         }
@@ -65,7 +65,7 @@ export default function Signup() {
   const verifyOtp = async () => {
     try {
       const response = await Axios.post(
-        "http://65.2.75.197:3001/verify-email-otp",
+        "http://localhost:3001/verify-email-otp",
         {
           useremail,
           otp,

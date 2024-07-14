@@ -49,7 +49,7 @@ export default function GameMode() {
     try {
       console.log("Sending data:", { periodNumber });
   
-      const response = await axios.post('http://65.2.75.197:3001/api/check-and-update-period', {
+      const response = await axios.post('http://localhost:3001/api/check-and-update-period', {
         periodNumber: periodNumber,
       });
       console.log("Response:", response);

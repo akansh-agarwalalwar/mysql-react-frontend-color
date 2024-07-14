@@ -18,7 +18,7 @@ function PaymentProcessing({ userId, amount }) {
         input: inputValue,
       };
 
-      await axios.post('http://65.2.75.197:3001/confirm-payment', data);
+      await axios.post('http://localhost:3001/confirm-payment', data);
       toast.success('Request submitted');
       setShowPopup(false);
     } catch (error) {
