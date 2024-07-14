@@ -35,11 +35,11 @@ function Timer() {
     const fetchInitialPeriodAndTime = async () => {
       try {
         const periodResponse = await axios.get(
-          "http://localhost:3001/period-timer"
+          "http://api.perfectorse.site/period-timer"
         );
         setPeriod(Number(periodResponse.data.periodNumber));
         const timeResponse = await axios.get(
-          "http://localhost:3001/period-time"
+          "http://api.perfectorse.site/period-time"
         );
         setTime((timeResponse.data.countdown || 30) - 3);
       } catch (error) {
@@ -50,7 +50,7 @@ function Timer() {
   }, []);
   const fetchLastPeriodData = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/winner-api");
+      const response = await axios.get("http://api.perfectorse.site/winner-api");
       setLastPeriodData(response.data);
       // console.log(response.data)
     } catch (error) {
@@ -92,7 +92,7 @@ function Timer() {
 
         // console.log("Sending period time data:", { periodNumber, periodTime, periodDate, countdown: time });
 
-        await axios.post("http://localhost:3001/period-time", {
+        await axios.post("http://api.perfectorse.site/period-time", {
           periodNumber,
           periodTime,
           periodDate,
@@ -101,7 +101,7 @@ function Timer() {
 
         if (time === 7) {
           // console.log("Updating status with:", { periodNumber, periodDate });
-          await axios.post("http://localhost:3001/update-status", {
+          await axios.post("http://api.perfectorse.site/update-status", {
             periodNumber,
             periodDate,
           });
@@ -122,7 +122,7 @@ function Timer() {
     if (time === 10) {
       const updateAmounts = async () => {
         try {
-          await axios.post("http://localhost:3001/update-amounts", {
+          await axios.post("http://api.perfectorse.site/update-amounts", {
             periodNumber: formatPeriod(period),
           });
           // console.log("Amounts updated successfully.");
@@ -150,7 +150,7 @@ function Timer() {
       // console.log("Saving period to database:", { periodNumber: newPeriod, periodDate });
 
       const response = await axios.post(
-        "http://localhost:3001/period-timer/post",
+        "http://api.perfectorse.site/period-timer/post",
         {
           periodNumber: newPeriod,
           periodDate: periodDate,
@@ -248,7 +248,7 @@ function Timer() {
     }
 
     try {
-      const response = await axios.post("http://localhost:3001/place-bet", {
+      const response = await axios.post("http://api.perfectorse.site/place-bet", {
         userId: user.userId,
         periodNumber: formatPeriod(period),
         periodDate: new Date().toISOString().split("T")[0],
