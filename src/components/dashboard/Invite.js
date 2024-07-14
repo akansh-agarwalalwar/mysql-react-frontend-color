@@ -19,7 +19,7 @@ function Invite() {
   const inviteReferCode = async (userId) => {
     try {
       const response = await fetch(
-        `http://api.perfectorse.site/api/invite/refer/${userId}`
+        `https://api.perfectorse.site/api/invite/refer/${userId}`
       );
       if (response.ok) {
         const data = await response.json();

@@ -9,7 +9,7 @@ function TwoMinOrder({ newBets }) {
     const fetchLastPeriodNumber = async () => {
       try {
         const response = await axios.get(
-          "http://api.perfectorse.site/api/lastPeriodNumber/two-min"
+          "https://api.perfectorse.site/api/lastPeriodNumber/two-min"
         );
         const { lastPeriodNumber } = response.data;
         if (lastPeriodNumber) {
@@ -28,7 +28,7 @@ function TwoMinOrder({ newBets }) {
   const fetchUserBets = async (periodNumber) => {
     try {
       const response = await axios.get(
-        `http://api.perfectorse.site/api/userBets/two-min/${periodNumber}`
+        `https://api.perfectorse.site/api/userBets/two-min/${periodNumber}`
       );
       setUserBets(response.data);
     } catch (error) {

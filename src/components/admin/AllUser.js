@@ -31,7 +31,7 @@ export default function AllUsers() {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch("http://api.perfectorse.site/all-users");
+      const response = await fetch("https://api.perfectorse.site/all-users");
       const data = await response.json();
       setUsers(data);
     } catch (error) {
@@ -42,10 +42,10 @@ export default function AllUsers() {
   const fetchRechargeHistory = async (userId) => {
     try {
       const response = await fetch(
-        `http://api.perfectorse.site/api/payments/history?userId=${userId}`
+        `https://api.perfectorse.site/api/payments/history?userId=${userId}`
       );
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`https error! status: ${response.status}`);
       }
       const data = await response.json();
       setRechargeHistory(data);
@@ -57,10 +57,10 @@ export default function AllUsers() {
   const fetchWithdrawHistory = async (userId) => {
     try {
       const response = await fetch(
-        `http://api.perfectorse.site/api/show/withdrawl/history?userId=${userId}`
+        `https://api.perfectorse.site/api/show/withdrawl/history?userId=${userId}`
       );
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`https error! status: ${response.status}`);
       }
       const data = await response.json();
       setWithdrawHistory(data);
@@ -71,9 +71,9 @@ export default function AllUsers() {
 
   const fetchBankDetails = async (userId) => {
     try {
-      const res = await fetch(`http://api.perfectorse.site/api/bank?userId=${userId}`);
+      const res = await fetch(`https://api.perfectorse.site/api/bank?userId=${userId}`);
       if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
+        throw new Error(`https error! status: ${res.status}`);
       }
       const data = await res.json();
 

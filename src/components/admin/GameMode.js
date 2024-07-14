@@ -3,7 +3,7 @@ import NavBarAdmin from "./NavBarAdmin";
 import axios from "axios";
 // import io from 'socket.io-client';
 
-// const socket = io('http://3.7.253.226:3001');
+// const socket = io('https://3.7.253.226:3001');
 
 export default function GameMode() {
   const [periodNumber, setPeriodNumber] = useState("");
@@ -49,7 +49,7 @@ export default function GameMode() {
     try {
       console.log("Sending data:", { periodNumber });
   
-      const response = await axios.post('http://api.perfectorse.site/api/check-and-update-period', {
+      const response = await axios.post('https://api.perfectorse.site/api/check-and-update-period', {
         periodNumber: periodNumber,
       });
       console.log("Response:", response);

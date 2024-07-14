@@ -16,7 +16,7 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await Axios.post("http://api.perfectorse.site/login", {
+      const response = await Axios.post("https://api.perfectorse.site/login", {
         useremail,
         password,
       });

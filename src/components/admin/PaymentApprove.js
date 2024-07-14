@@ -10,7 +10,7 @@ function PaymentApprove() {
     const fetchPendingPayments = async () => {
       try {
         const response = await axios.get(
-          "http://api.perfectorse.site/api/payments/pending"
+          "https://api.perfectorse.site/api/payments/pending"
         );
         setPendingPayments(response.data);
       } catch (error) {
@@ -20,7 +20,7 @@ function PaymentApprove() {
     const fetchPaymentHistory = async () => {
       try {
         const response = await axios.get(
-          "http://api.perfectorse.site/api/payments/updatedHistory"
+          "https://api.perfectorse.site/api/payments/updatedHistory"
         );
         setPaymentHistory(response.data);
       } catch (error) {
@@ -34,7 +34,7 @@ function PaymentApprove() {
 
   const handleApprove = async (id) => {
     try {
-      await axios.post("http://api.perfectorse.site/api/payments/approve", { id });
+      await axios.post("https://api.perfectorse.site/api/payments/approve", { id });
       const approvedPayment = pendingPayments.find(
         (payment) => payment.id === id
       );
@@ -53,7 +53,7 @@ function PaymentApprove() {
 
   const handleDeny = async (id) => {
     try {
-      await axios.post("http://api.perfectorse.site/api/payments/deny", { id });
+      await axios.post("https://api.perfectorse.site/api/payments/deny", { id });
       setPendingPayments(
         pendingPayments.filter((payment) => payment.id !== id)
       );
