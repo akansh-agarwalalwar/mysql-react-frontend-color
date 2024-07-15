@@ -14,7 +14,7 @@ function BankDetails() {
   useEffect(() => {
     const fetchBankDetails = async () => {
       try {
-        const res = await axios.get(`https://localhost:3001/api/bank-details/${user.userId}`);
+        const res = await axios.get(`https://api.perfectorse.site/api/bank-details/${user.userId}`);
         if (res.status === 200) {
           setAccountNumber(res.data.accountNumber);
           setIfscCode(res.data.ifscCode);
@@ -32,7 +32,7 @@ function BankDetails() {
   const handleBankDetails = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("https://localhost:3001/api/bank-details", {
+      const res = await axios.post("https://api.perfectorse.site/api/bank-details", {
         userId: user.userId,
         accountNumber,
         ifscCode,
