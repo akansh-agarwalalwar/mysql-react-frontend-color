@@ -17,11 +17,11 @@ export default function NavBarAdmin({ users }) {
   };
 
   return (
-    <nav className="bg-blue-700 p-6 h-screen flex flex-col justify-between w-[200px] fixed top-0 left-0">
+    <nav className="bg-myblue-200 p-6 h-screen flex flex-col justify-between w-[200px] fixed top-0 left-0">
       <div>
         <ul className="flex flex-col space-y-4">
           <li>
-            <Link to="/admin/admin" className="text-white hover:underline">
+            <Link to="/admin" className="text-white hover:underline">
               Dashboard
             </Link>
           </li>
@@ -66,7 +66,7 @@ export default function NavBarAdmin({ users }) {
         </button>
         <button
           onClick={handleLogout}
-          className="bg-red-600 text-white py-2 px-4 rounded"
+          className="bg-red-100 text-white py-2 px-4 rounded"
         >
           Logout
         </button>

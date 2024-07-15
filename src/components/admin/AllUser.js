@@ -21,10 +21,10 @@ export default function AllUsers() {
   useEffect(() => {
     const filteredUsers = users.filter(
       (user) =>
-        user.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        user.useremail.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        user.mobileNumber.includes(searchQuery) ||
-        user.IDOfUser.includes(searchQuery)
+        user?.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        user?.useremail.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        user?.mobileNumber.includes(searchQuery) ||
+        user?.IDOfUser.includes(searchQuery)
     );
     setDisplayedUsers(filteredUsers.slice(0, 10));
   }, [searchQuery, users]);
@@ -32,7 +32,7 @@ export default function AllUsers() {
   const fetchUsers = async () => {
     try {
       const response = await fetch("https://api.perfectorse.site/all-users");
-      const data = await response.json();
+      const data = await response?.json();
       setUsers(data);
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -45,7 +45,7 @@ export default function AllUsers() {
         `https://api.perfectorse.site/api/payments/history?userId=${userId}`
       );
       if (!response.ok) {
-        throw new Error(`https error! status: ${response.status}`);
+        throw new Error(`https error! status: ${response?.status}`);
       }
       const data = await response.json();
       setRechargeHistory(data);
@@ -60,9 +60,9 @@ export default function AllUsers() {
         `https://api.perfectorse.site/api/show/withdrawl/history?userId=${userId}`
       );
       if (!response.ok) {
-        throw new Error(`https error! status: ${response.status}`);
+        throw new Error(`https error! status: ${response?.status}`);
       }
-      const data = await response.json();
+      const data = await response?.json();
       setWithdrawHistory(data);
     } catch (error) {
       console.error("Error fetching withdraw history:", error);
@@ -95,20 +95,20 @@ export default function AllUsers() {
     setClickedUser(user);
     setIsModalOpen(true);
     setActiveTab("RechargeHistory");
-    await fetchRechargeHistory(user.IDOfUser);
+    await fetchRechargeHistory(user?.IDOfUser);
   };
 
   const handleShowWithdrawHistory = async () => {
     if (clickedUser) {
       setActiveTab("WithdrawHistory");
-      await fetchWithdrawHistory(clickedUser.IDOfUser);
+      await fetchWithdrawHistory(clickedUser?.IDOfUser);
     }
   };
 
   const handleShowBankDetails = async () => {
     if (clickedUser) {
       setActiveTab("BankDetails");
-      await fetchBankDetails(clickedUser.IDOfUser);
+      await fetchBankDetails(clickedUser?.IDOfUser);
     }
   };
 
@@ -126,7 +126,7 @@ export default function AllUsers() {
   return (
     <div className="flex">
       <NavBarAdmin />
-      <div className="bg-richblue-50 w-full p-8 ml-[200px] overflow-auto h-screen">
+      <div className="bg-myblue-500  w-full p-8 ml-[200px] overflow-auto h-screen">
         <h1 className="text-3xl font-bold mb-4">All Users</h1>
         <input
           type="text"
@@ -179,31 +179,31 @@ export default function AllUsers() {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {displayedUsers
-                .slice()
-                .reverse()
-                .map((user) => (
+                ?.slice()
+                ?.reverse()
+                ?.map((user) => (
                   <tr
                     key={user.id}
                     onClick={() => handleClickUser(user)}
                     className="cursor-pointer hover:bg-gray-100"
                   >
                     <td className="px-6 py-4 whitespace-nowrap text-center">
-                      {user.id}
+                      {user?.id}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-center">
-                      {user.IDOfUser}
+                      {user?.IDOfUser}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-center">
-                      {user.username}
+                      {user?.username}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-center">
-                      {user.useremail}
+                      {user?.useremail}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-center">
-                      {user.mobileNumber}
+                      {user?.mobileNumber}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-center">
-                      {user.balance}
+                      {user?.balance}
                     </td>
                   </tr>
                 ))}
@@ -252,28 +252,28 @@ export default function AllUsers() {
                 <tbody className="bg-white divide-y divide-gray-200">
                   <tr>
                     <td className="px-6 py-4 whitespace-nowrap text-center">
-                      {clickedUser.id}
+                      {clickedUser?.id}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-center">
-                      {clickedUser.IDOfUser}
+                      {clickedUser?.IDOfUser}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-center">
-                      {clickedUser.username}
+                      {clickedUser?.username}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-center">
-                      {clickedUser.useremail}
+                      {clickedUser?.useremail}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-center">
-                      {clickedUser.mobileNumber}
+                      {clickedUser?.mobileNumber}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-center">
-                      {clickedUser.balance}
+                      {clickedUser?.balance}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-center">
-                      {clickedUser.userReferenceCode}
+                      {clickedUser?.userReferenceCode}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-center">
-                      {clickedUser.referenceCode}
+                      {clickedUser?.referenceCode}
                     </td>
                   </tr>
                 </tbody>
@@ -331,18 +331,18 @@ export default function AllUsers() {
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
                       {rechargeHistory
-                        .slice()
-                        .reverse()
-                        .map((recharge) => (
-                          <tr key={recharge.id}>
+                        ?.slice()
+                        ?.reverse()
+                        ?.map((recharge) => (
+                          <tr key={recharge?.id}>
                             <td className="px-6 py-4 whitespace-nowrap text-center">
-                              {recharge.status}
+                              {recharge?.status}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-center">
-                              {recharge.rechargeDate}
+                              {recharge?.rechargeDate}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-center">
-                              {recharge.amount}
+                              {recharge?.amount}
                             </td>
                           </tr>
                         ))}
@@ -370,18 +370,18 @@ export default function AllUsers() {
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
                       {withdrawHistory
-                        .slice()
-                        .reverse()
-                        .map((withdraw) => (
-                          <tr key={withdraw.id}>
+                        ?.slice()
+                        ?.reverse()
+                        ?.map((withdraw) => (
+                          <tr key={withdraw?.id}>
                             <td className="px-6 py-4 whitespace-nowrap text-center">
-                              {withdraw.status}
+                              {withdraw?.status}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-center">
-                              {withdraw.withdrawDate}
+                              {withdraw?.withdrawDate}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-center">
-                              {withdraw.amount}
+                              {withdraw?.amount}
                             </td>
                           </tr>
                         ))}
@@ -404,20 +404,20 @@ export default function AllUsers() {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200">
-                      {bankDetails.length === 0 ? (
+                      {bankDetails?.length === 0 ? (
                         <tr>
                           <td colSpan="2" className="px-6 py-4 text-center">
-                            No bank details available.
+                            No bank details available?.
                           </td>
                         </tr>
                       ) : (
-                        bankDetails.map((bank) => (
-                          <tr key={bank.id}>
+                        bankDetails?.map((bank) => (
+                          <tr key={bank?.id}>
                             <td className="px-6 py-4 whitespace-nowrap text-center">
-                              {bank.accountNumber}
+                              {bank?.accountNumber}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-center">
-                              {bank.ifscCode}
+                              {bank?.ifscCode}
                             </td>
                           </tr>
                         ))

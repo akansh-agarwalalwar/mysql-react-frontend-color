@@ -14,7 +14,7 @@ function Withdraw() {
   useEffect(() => {
     const fetchBankDetails = async () => {
       try {
-        const res = await axios.get(`https://localhost:3001/api/bank-details/${user.userId}`);
+        const res = await axios.get(`https://api.perfectorse.site/api/bank-details/${user.userId}`);
         if (res.status === 200) {
           setBankDetails(res.data);
         }
@@ -33,7 +33,7 @@ function Withdraw() {
       return;
     }
     try {
-      const response = await axios.post('https://localhost:3001/api/withdraw', { userId: user.userId, amount });
+      const response = await axios.post('https://api.perfectorse.site/api/withdraw', { userId: user.userId, amount });
       // console.log(response.data);
       // alert('Withdrawal successful!');
       navigate('/home');
@@ -48,11 +48,11 @@ function Withdraw() {
   };
 
   const getLastFourDigits = (number) => {
-    return "***" + number.slice(-4);
+    return "***" + number?.slice(-4);
   };
 
   const getFirstThreeCharacters = (code) => {
-    return "***" + code.slice(0, 3);
+    return "***" + code?.slice(0, 3);
   };
 
   return (

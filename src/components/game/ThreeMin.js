@@ -35,10 +35,10 @@ function TwoMin() {
     const fetchInitialPeriodAndTime = async () => {
       try {
         const periodResponse = await axios.get("https://api.perfectorse.site/period-timer/two-min");
-        setPeriod(Number(periodResponse.data.periodNumber));
+        setPeriod(Number(periodResponse?.data?.periodNumber));
 
         const timeResponse = await axios.get("https://api.perfectorse.site/period-time/get-time/two-min");
-        setTime((timeResponse.data.countdown || 120));
+        setTime((timeResponse?.data?.countdown || 120));
       } catch (error) {
         // console.error("Error fetching initial period and time:", error);
       }
@@ -49,7 +49,7 @@ function TwoMin() {
   const fetchLastPeriodData = async () => {
     try {
       const response = await axios.get("https://api.perfectorse.site/winner-api/two-min");
-      setLastPeriodData(response.data);
+      setLastPeriodData(response?.data);
 
       // console.log(response.data)
     } catch (error) {
@@ -208,7 +208,7 @@ function TwoMin() {
     const betAmount = contractMoney * selectedNumber;
     const possiblePayoutValue = possiblePayout[selectedColor.title].toFixed(2);
 
-    if (user.balance <= 10) {
+    if (user?.balance <= 10) {
       setErrorMessage("Insufficient balance"); // Set error message if balance is insufficient
       return;
     }
@@ -218,10 +218,10 @@ function TwoMin() {
         userId: user.userId,
         periodNumber: formatPeriod(period),
         periodDate: new Date().toISOString().split("T")[0],
-        betType: selectedColor.title,
-        berforeBetAmount: user.balance,
+        betType: selectedColor?.title,
+        berforeBetAmount: user?.balance,
         betAmount: betAmount,
-        possiblePayout: possiblePayout[selectedColor.title].toFixed(2),
+        possiblePayout: possiblePayout[selectedColor?.title]?.toFixed(2),
       });
  
 
@@ -305,11 +305,11 @@ function TwoMin() {
         </div>
         {/* Color Boxes */}
         <div className="p-2 mt-4 bg-gray-800 flex justify-around flex-wrap">
-          {colorBoxes.map((colorBox) => (
+          {colorBoxes?.map((colorBox) => (
             <div className=" w-1/4">
             <div
-              key={colorBox.color}
-              className={`flex flex-col justify-center items-center border-2 border-myblue-200 rounded-lg p-2 cursor-pointer bg-white shadow shadow-lg ${
+              key={colorBox?.color}
+              className={`flex flex-col justify-center items-center border-2 border-myblue-200 rounded-lg p-2 cursor-pointer bg-white shadow-lg ${
                 isDisabled ? "opacity-50 cursor-not-allowed" : ""
               }`}
               onClick={() => !isDisabled && handleColorBoxClick(colorBox)}
@@ -334,7 +334,7 @@ function TwoMin() {
           </div>
           {/* User Balance */}
           <div className="mb-4">
-            <p>{`Balance: ${user.balance}`}</p>
+            <p>{`Balance: ${user?.balance}`}</p>
           </div>
           {/* Error Message */}
           {errorMessage && <div className="text-red-100 mb-4">{errorMessage}</div>}
@@ -352,14 +352,14 @@ function TwoMin() {
           </div>
           {/* Possible Payout */}
           <div className="mb-4 text-sm">
-            <p>Possible Payout: {winAmount.toFixed(2)}</p>
+            <p>Possible Payout: {winAmount?.toFixed(2)}</p>
           </div>
           {/* Confirm Button */}
           <div className="mb-4">
             <button
               onClick={handleConfirm}
               disabled={contractMoney < 10}
-              className={`bg-myblue-200 p-2 rounded-lg w-full shadow shadow-lg text-white ${
+              className={`bg-myblue-200 p-2 rounded-lg w-full shadow-lg text-white ${
                 contractMoney < 10 ? "opacity-50 cursor-not-allowed" : ""
               }`}
             >
@@ -370,13 +370,13 @@ function TwoMin() {
       </Popup>
 
       {/* WINNER DIVISION */}
-      <div className="flex flex-row justify-around border-2 border-myblue-200 shadow shadow-lg h-14 items-center mx-4 rounded-xl bg-white">
-        <div>{lastPeriodData ? lastPeriodData.periodNumber : "Loading..."}</div>
-        <div>{lastPeriodData ? lastPeriodData.color : "Loading..."}</div>
+      <div className="flex flex-row justify-around border-2 border-myblue-200 shadow-lg h-14 items-center mx-4 rounded-xl bg-white">
+        <div>{lastPeriodData ? lastPeriodData?.periodNumber : "Loading..."}</div>
+        <div>{lastPeriodData ? lastPeriodData?.color : "Loading..."}</div>
         {lastPeriodData && (
           <div
             className={`w-8 h-8 rounded-full ${getColorClass(
-              lastPeriodData.color
+              lastPeriodData?.color
             )}`}
           ></div>
         )}
@@ -392,7 +392,7 @@ function TwoMin() {
 
       {/* Last Table Data */}
       {time <= 11 ? (
-        <div className="flex p-2 flex-col mr-4 ml-4 justify-center items-center h-[150px] border-2 border-myblue-200 mt-11 shadow shadow-lg bg-white">
+        <div className="flex p-2 flex-col mr-4 ml-4 justify-center items-center h-[150px] border-2 border-myblue-200 mt-11 shadow-lg bg-white">
         <h2 className="text-myblue-200 font-bold">WAIT FOR RESULT......</h2>
       </div>
       ) : (

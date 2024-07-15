@@ -31,10 +31,10 @@ export default function Signup() {
         referenceCode,
       });
       if (response.data.message === "Registration Successful") {
-        setRegisterStatus(response.data.message);
+        setRegisterStatus(response?.data?.message);
         navigate("/login");
       } else {
-        setRegisterStatus(response.data.message);
+        setRegisterStatus(response?.data?.message);
       }
     } catch (error) {
       // console.error("Error during registration:", error);
@@ -52,9 +52,9 @@ export default function Signup() {
       );
       if (response.data.message === "OTP sent successfully") {
         setOtpSent(true);
-        setOtpStatus(response.data.message);
+        setOtpStatus(response?.data?.message);
       } else {
-        setOtpStatus(response.data.message);
+        setOtpStatus(response?.data?.message);
       }
     } catch (error) {
       // console.error("Error sending OTP:", error);
@@ -72,9 +72,9 @@ export default function Signup() {
         }
       );
       if (response.data.message === "OTP verified successfully") {
-        setOtpStatus(response.data.message);
+        setOtpStatus(response?.data?.message);
       } else {
-        setOtpStatus(response.data.message);
+        setOtpStatus(response?.data?.message);
       }
     } catch (error) {
       // console.error("Error verifying OTP:", error);

@@ -12,7 +12,7 @@ function Invite() {
 
   useEffect(() => {
     if (user?.userId) {
-      inviteReferCode(user.userId);
+      inviteReferCode(user?.userId);
     }
   }, [user]);
 
@@ -23,7 +23,7 @@ function Invite() {
       );
       if (response.ok) {
         const data = await response.json();
-        setReferCode(data.userReferenceCode);
+        setReferCode(data?.userReferenceCode);
       } else {
         // console.error("Error fetching referCode: ", response.statusText);
       }
@@ -33,7 +33,7 @@ function Invite() {
   };
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(referCode);
+    navigator?.clipboard?.writeText(referCode);
     toast.success("Copied to clipboard!");
   }; 
 

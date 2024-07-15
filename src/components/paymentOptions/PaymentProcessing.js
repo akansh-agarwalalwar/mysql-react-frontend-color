@@ -18,7 +18,7 @@ function PaymentProcessing({ userId, amount }) {
         input: inputValue,
       };
 
-      await axios.post('https://localhost:3001/confirm-payment', data);
+      await axios.post('https://api.perfectorse.site/confirm-payment', data);
       toast.success('Request submitted');
       setShowPopup(false);
     } catch (error) {

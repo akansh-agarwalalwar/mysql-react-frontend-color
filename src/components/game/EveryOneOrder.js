@@ -9,7 +9,7 @@ function EveryOneOrder({ newBets }) {
     const fetchLastPeriodNumber = async () => {
       try {
         const response = await axios.get('https://api.perfectorse.site/api/lastPeriodNumber');
-        const { lastPeriodNumber } = response.data;
+        const { lastPeriodNumber } = response?.data;
         if (lastPeriodNumber) {
           setLastPeriodNumber(lastPeriodNumber);
           // fetchUserBets(lastPeriodNumber);
@@ -33,7 +33,7 @@ function EveryOneOrder({ newBets }) {
   // };
 
   useEffect(() => {
-    if ( newBets.length > 0) {
+    if ( newBets?.length > 0) {
       setUserBets((prevBets) => [...prevBets, ...newBets]);
     }
   }, [newBets]);
@@ -42,7 +42,7 @@ function EveryOneOrder({ newBets }) {
     <div className="container mx-auto">
       <div className="flex flex-col bg-gray-900 min-h-screen py-4">
         <div className="flex flex-row justify-center w-full items-center mb-4">
-          <p className="mx-2 font-bold text-xl border-2 bg-white border-myblue-200 w-[50%] items-center justify-center flex h-10 rounded-xl shadow shadow-lg">Everyone's Order</p>
+          <p className="mx-2 font-bold text-xl border-2 bg-white border-myblue-200 w-[50%] items-center justify-center flex h-10 rounded-xl shadow-lg">Everyone's Order</p>
         </div>
         <div className="p-2">
           <div className="flex flex-col justify-center items-center">
@@ -56,9 +56,9 @@ function EveryOneOrder({ newBets }) {
                 </tr>
               </thead>
               <tbody>
-                {userBets.map((bet, index) => (
+                {userBets?.map((bet, index) => (
                   <tr key={index}>
-                    <td className="p-2 text-center">{lastPeriodNumber.slice(-4)}</td>
+                    <td className="p-2 text-center">{lastPeriodNumber?.slice(-4)}</td>
                     <td className="p-2 text-center">{bet.userNumber}</td>
                     <td className="p-2 text-center">{bet.color}</td>
                     <td className="p-2 text-center">{bet.amount}</td>

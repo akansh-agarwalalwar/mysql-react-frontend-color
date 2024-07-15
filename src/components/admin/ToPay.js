@@ -9,7 +9,7 @@ export default function ToPay() {
   const fetchWithdrawHistory = async () => {
     try {
       const response = await axios.get('https://api.perfectorse.site/api/withdrawl/history');
-      setWithdrawHistory(response.data);
+      setWithdrawHistory(response?.data);
     } catch (error) {
       console.error('Error fetching withdraw history:', error);
     }
@@ -18,7 +18,7 @@ export default function ToPay() {
   const fetchProcessedWithdrawHistory = async () => {
     try {
       const response = await axios.get('https://api.perfectorse.site/api/withdrawl/processed-history');
-      setProcessedWithdrawHistory(response.data);
+      setProcessedWithdrawHistory(response?.data);
     } catch (error) {
       console.error('Error fetching processed withdraw history:', error);
     }
@@ -32,7 +32,7 @@ export default function ToPay() {
   const handleAccept = async (id) => {
     try {
       await axios.post('https://api.perfectorse.site/api/withdrawals/accept', { id });
-      setWithdrawHistory(withdrawHistory.filter((withdrawal) => withdrawal.id !== id));
+      setWithdrawHistory(withdrawHistory?.filter((withdrawal) => withdrawal?.id !== id));
       fetchProcessedWithdrawHistory();
     } catch (error) {
       console.error('Error accepting withdrawal:', error);
@@ -42,8 +42,8 @@ export default function ToPay() {
   const handleDeny = async (id) => {
     try {
       await axios.post('https://api.perfectorse.site/api/withdrawals/deny', { id });
-      const deniedWithdrawal = withdrawHistory.find((withdrawal) => withdrawal.id === id);
-      setWithdrawHistory(withdrawHistory.filter((withdrawal) => withdrawal.id !== id));
+      const deniedWithdrawal = withdrawHistory?.find((withdrawal) => withdrawal?.id === id);
+      setWithdrawHistory(withdrawHistory?.filter((withdrawal) => withdrawal?.id !== id));
       setProcessedWithdrawHistory([...processedWithdrawHistory, { ...deniedWithdrawal, status: 'denied' }]);
     } catch (error) {
       console.error('Error denying withdrawal:', error);
@@ -55,7 +55,7 @@ export default function ToPay() {
       <NavBarAdmin />
       <h1 className="font-bold text-2xl my-6 text-gray-800">To Pay</h1>
       <div className="w-full max-w-4xl overflow-x-auto shadow-md rounded-lg p-4">
-        {withdrawHistory.length === 0 ? (
+        {withdrawHistory?.length === 0 ? (
           <p className="text-center text-gray-600">No withdrawals to process</p>
         ) : (
           <table className="min-w-full">
@@ -76,21 +76,21 @@ export default function ToPay() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {withdrawHistory.slice().reverse().map((withdrawal) => (
+              {withdrawHistory?.slice()?.reverse()?.map((withdrawal) => (
                 <tr key={withdrawal.id}>
-                  <td className="py-4 px-6">{withdrawal.userId}</td>
-                  <td className="py-4 px-6">{withdrawal.amount}</td>
-                  <td className="py-4 px-6">{new Date(withdrawal.withdrawDate).toLocaleDateString()}</td>
+                  <td className="py-4 px-6">{withdrawal?.userId}</td>
+                  <td className="py-4 px-6">{withdrawal?.amount}</td>
+                  <td className="py-4 px-6">{new Date(withdrawal?.withdrawDate).toLocaleDateString()}</td>
                   <td className="py-4 px-6 text-center">
                     <button
                       className="bg-red-500 py-1 px-3 rounded-lg hover:bg-red-600 mr-2"
-                      onClick={() => handleDeny(withdrawal.id)}
+                      onClick={() => handleDeny(withdrawal?.id)}
                     >
                       Deny
                     </button>
                     <button
                       className="bg-green-500 py-1 px-3 rounded-lg hover:bg-green-600"
-                      onClick={() => handleAccept(withdrawal.id)}
+                      onClick={() => handleAccept(withdrawal?.id)}
                     >
                       Accept
                     </button>

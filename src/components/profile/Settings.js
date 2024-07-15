@@ -10,14 +10,13 @@ import four from '../../images/profile_four.jpg';
 
 function Settings() {
   const { user } = useContext(UserContext);
-  const navigate = useNavigate();
   const [profileImage, setProfileImage] = useState(null);
 
   useEffect(() => {
     // Array of profile images
     const profileImages = [one, two, three, four];
     // Randomly select an image
-    const randomImage = profileImages[Math.floor(Math.random() * profileImages.length)];
+    const randomImage = profileImages[Math.floor(Math.random() * profileImages?.length)];
     setProfileImage(randomImage);
   }, []);
 
@@ -29,7 +28,7 @@ function Settings() {
   return (
     <div className="px-4 py-6">
       <div className="flex items-center bg-myblue-200 py-2 px-4 fixed top-0 left-0 right-0">
-        <Link to='/profile'>
+        <Link to='/home/profile'>
         <div className="text-white">
           <FaArrowLeftLong size={20} />
         </div>
@@ -61,7 +60,7 @@ function Settings() {
           <input
             type="text"
             id="input-name"
-            className="border border-gray-300 rounded w-full py-2 px-3 text-lg mb-3 shadow shadow-lg"
+            className="border border-gray-300 rounded w-full py-2 px-3 text-lg mb-3 shadow-lg"
             value={capitalizeFirstLetter(user?.username)}
             readOnly
           />
@@ -73,7 +72,7 @@ function Settings() {
           <input
             type="text"
             id="input-email"
-            className="border border-gray-300 rounded w-full py-2 px-3 text-lg mb-3 shadow shadow-lg"
+            className="border border-gray-300 rounded w-full py-2 px-3 text-lg mb-3 shadow-lg"
             value={user?.useremail || "email"}
             readOnly
           />
@@ -85,7 +84,7 @@ function Settings() {
           <input
             type="text"
             id="input-mobile"
-            className="border border-gray-300 rounded w-full py-2 px-3 text-lg shadow shadow-lg"
+            className="border border-gray-300 rounded w-full py-2 px-3 text-lg shadow-lg"
             value={user?.mobileNumber || "mobileNumber"}
             readOnly
           />

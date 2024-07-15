@@ -37,7 +37,7 @@ function Timer() {
         const periodResponse = await axios.get(
           "https://api.perfectorse.site/period-timer"
         );
-        setPeriod(Number(periodResponse.data.periodNumber));
+        setPeriod(Number(periodResponse?.data?.periodNumber));
         const timeResponse = await axios.get(
           "https://api.perfectorse.site/period-time"
         );
@@ -51,7 +51,7 @@ function Timer() {
   const fetchLastPeriodData = async () => {
     try {
       const response = await axios.get("https://api.perfectorse.site/winner-api");
-      setLastPeriodData(response.data);
+      setLastPeriodData(response?.data);
       // console.log(response.data)
     } catch (error) {
       // console.error("Error fetching last period data:", error);
@@ -205,7 +205,7 @@ function Timer() {
   const handleColorBoxClick = (color) => {
     setSelectedColor(color);
     setSelectedNumber(1); // Reset selected number to default
-    handleContractMoneyChange(contractMoney, color.title);
+    handleContractMoneyChange(contractMoney, color?.title);
   };
 
   const handleContractMoneyChange = (
@@ -242,7 +242,7 @@ function Timer() {
     const betAmount = contractMoney * selectedNumber;
     const possiblePayoutValue = possiblePayout[selectedColor.title].toFixed(2);
 
-    if (user.balance <= 10) {
+    if (user?.balance <= 10) {
       setErrorMessage("Insufficient balance");
       return;
     }
@@ -252,10 +252,10 @@ function Timer() {
         userId: user.userId,
         periodNumber: formatPeriod(period),
         periodDate: new Date().toISOString().split("T")[0],
-        betType: selectedColor.title,
-        berforeBetAmount: user.balance,
+        betType: selectedColor?.title,
+        berforeBetAmount: user?.balance,
         betAmount: betAmount,
-        possiblePayout: possiblePayout[selectedColor.title].toFixed(2),
+        possiblePayout: possiblePayout[selectedColor?.title]?.toFixed(2),
       });
 
       // console.log("Response from server:", response.data);
@@ -334,11 +334,11 @@ function Timer() {
         </div>
         {/* Color Boxes */}
         <div className="p-2 mt-2 bg-gray-800 flex justify-around flex-wrap ">
-          {colorBoxes.map((colorBox) => (
+          {colorBoxes?.map((colorBox) => (
             <div className=" w-1/4">
               <div
                 key={colorBox.color}
-                className={`flex flex-col justify-center items-center border-2 border-myblue-200 rounded-lg p-2 cursor-pointer bg-white shadow shadow-lg ${
+                className={`flex flex-col justify-center items-center border-2 border-myblue-200 rounded-lg p-2 cursor-pointer bg-white shadow-lg ${
                   isDisabled ? "opacity-50 cursor-not-allowed" : ""
                 }`}
                 onClick={() => !isDisabled && handleColorBoxClick(colorBox)}
@@ -367,7 +367,7 @@ function Timer() {
           </div>
           {/* User Balance */}
           <div className="mb-4">
-            <p>{` Balance: ${user.balance}`}</p>
+            <p>{` Balance: ${user?.balance}`}</p>
           </div>
           {/* Input Field for Amount */}
           <div className="mb-4">
@@ -383,7 +383,7 @@ function Timer() {
           </div>
           {/* Possible Payout */}
           <div className="mb-4 text-sm">
-            <p>Possible Payout: {winAmount.toFixed(2)}</p>
+            <p>Possible Payout: {winAmount?.toFixed(2)}</p>
           </div>
           {/* Confirm Button */}
           <div className="mb-4">
@@ -391,11 +391,11 @@ function Timer() {
               onClick={handleConfirm}
               disabled={
                 contractMoney < 10 ||
-                user.balance < contractMoney * selectedNumber
+                user?.balance < contractMoney * selectedNumber
               } // Disable if balance is insufficient
-              className={`bg-myblue-200 p-2 rounded-lg w-full shadow shadow-lg text-white ${
+              className={`bg-myblue-200 p-2 rounded-lg w-full shadow-lg text-white ${
                 contractMoney < 10 ||
-                user.balance < contractMoney * selectedNumber
+                user?.balance < contractMoney * selectedNumber
                   ? "opacity-50 cursor-not-allowed"
                   : ""
               }`}
@@ -406,18 +406,18 @@ function Timer() {
         </div>
       </Popup>
       <div className="flex flex-row justify-center w-full items-center mb-4">
-        <p className="mx-2 font-bold text-xl border-2 bg-white border-myblue-200 w-[50%] items-center justify-center flex h-10 rounded-xl shadow shadow-lg">
+        <p className="mx-2 font-bold text-xl border-2 bg-white border-myblue-200 w-[50%] items-center justify-center flex h-10 rounded-xl shadow-lg">
           Result
         </p>
       </div>
       {/* WINNER DIVISION */}
-      <div className="flex flex-row justify-around border-2 border-myblue-200 shadow shadow-lg h-14 items-center mx-4 rounded-xl bg-white">
-        <div>{lastPeriodData ? lastPeriodData.periodNumber : "Loading..."}</div>
-        <div>{lastPeriodData ? lastPeriodData.color : "Loading..."}</div>
+      <div className="flex flex-row justify-around border-2 border-myblue-200 shadow-lg h-14 items-center mx-4 rounded-xl bg-white">
+        <div>{lastPeriodData ? lastPeriodData?.periodNumber : "Loading..."}</div>
+        <div>{lastPeriodData ? lastPeriodData?.color : "Loading..."}</div>
         {lastPeriodData && (
           <div
             className={`w-8 h-8 rounded-full ${getColorClass(
-              lastPeriodData.color
+              lastPeriodData?.color
             )}`}
           ></div>
         )}
@@ -434,7 +434,7 @@ function Timer() {
       )}
       {/* Last Table Data */}
       {time <= 10 ? (
-        <div className="flex p-2 flex-col mr-4 ml-4 justify-center items-center h-[150px] border-2 border-myblue-200 mt-11 shadow shadow-lg bg-white">
+        <div className="flex p-2 flex-col mr-4 ml-4 justify-center items-center h-[150px] border-2 border-myblue-200 mt-11 shadow-lg bg-white">
           <h2 className="text-myblue-200 font-bold">WAIT FOR RESULT......</h2>
         </div>
       ) : (

@@ -14,10 +14,10 @@ function BankDetails() {
   useEffect(() => {
     const fetchBankDetails = async () => {
       try {
-        const res = await axios.get(`https://localhost:3001/api/bank-details/${user.userId}`);
+        const res = await axios.get(`https://api.perfectorse.site/api/bank-details/${user.userId}`);
         if (res.status === 200) {
-          setAccountNumber(res.data.accountNumber);
-          setIfscCode(res.data.ifscCode);
+          setAccountNumber(res?.data?.accountNumber);
+          setIfscCode(res?.data?.ifscCode);
           setBankDetailsAvailable(true);
         }
       } catch (err) {
@@ -32,8 +32,8 @@ function BankDetails() {
   const handleBankDetails = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("https://localhost:3001/api/bank-details", {
-        userId: user.userId,
+      const res = await axios.post("https://api.perfectorse.site/api/bank-details", {
+        userId: user?.userId,
         accountNumber,
         ifscCode,
       });
@@ -46,11 +46,11 @@ function BankDetails() {
     }
   };
   const getLastFourDigits = (number) => {
-    return "****" + number.slice(-4);
+    return "****" + number?.slice(-4);
   };
 
   const getFirstThreeDigits = (code) => {
-    return "***" + code.slice(0, 3);
+    return "***" + code?.slice(0, 3);
   };
 
   return (
@@ -58,7 +58,7 @@ function BankDetails() {
       <div>
         <div className="w-full text-white bg-myblue-200 h-12 px-3 flex items-center justify-center fixed top-0">
           <div className="flex absolute left-0 ml-2">
-            <Link to="/profile">
+            <Link to="/home/profile">
               <FaArrowLeftLong size={20} className="mx-2" />
             </Link>
           </div>

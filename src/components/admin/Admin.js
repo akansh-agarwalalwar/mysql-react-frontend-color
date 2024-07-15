@@ -9,16 +9,15 @@ export default function AdminDashboard() {
   const fetchUsers = async () => {
     try {
       const response = await fetch("https://api.perfectorse.site/all-users");
-      const data = await response.json();
+      const data = await response?.json();
       setUsers(data);
     } catch (error) {
-      console.error("Error fetching users:", error);
     }
   };
   const fetchApproveUser = async () =>{
     try {
       const response = await fetch("https://api.perfectorse.site/api/payments/pending");
-      const data = await response.json();
+      const data = await response?.json();
       setApproveUser(data);
     }
     catch(error){
@@ -28,7 +27,7 @@ export default function AdminDashboard() {
   const fetchToPayUser = async () =>{
     try {
       const response = await fetch("https://api.perfectorse.site/api/withdrawl/history");
-      const data = await response.json();
+      const data = await response?.json();
       setToPay(data);
     }
     catch(error){
@@ -45,7 +44,7 @@ export default function AdminDashboard() {
   return (
     <div className="flex">
       <NavBarAdmin users={users} />
-      <div className="bg-richblue-50 w-full p-8 ml-[200px] overflow-auto h-screen">
+      <div className="bg-myblue-500 w-full p-8 ml-[200px] overflow-auto h-screen">
         <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
         <div className="justify-evenly flex">
           <Link to='/admin/payment-approve'>

@@ -16,7 +16,7 @@ export const UserProvider = ({ children }) => {
       const response = await axios.get(`https://api.perfectorse.site/api/balance/${user.userId}`);
       if (response.status === 200) {
         const usc = user;
-        usc.balance = response.data[0].balance;
+        usc.balance = response?.data[0]?.balance;
         // setBalance(response.data.balance);
         setUser({...usc});
       }

@@ -35,7 +35,7 @@ function PaymentPage() {
 
     try {
       const existingTransaction = await axios.get(
-        `https://localhost:3001/check-transaction/${inputValue}`
+        `https://api.perfectorse.site/check-transaction/${inputValue}`
       );
       if (existingTransaction.data.exists) {
         toast.error("Transaction ID already in use", {
@@ -44,12 +44,12 @@ function PaymentPage() {
         return;
       }
       const data = {
-        userId: user.userId,
+        userId: user?.userId,
         amount: amount, // Pass amount from location state
         input: inputValue,
       };
 
-      await axios.post("https://localhost:3001/image-upload", data);
+      await axios.post("https://api.perfectorse.site/image-upload", data);
       toast.success("Request submitted");
       navigate("/home");
     } catch (error) {
@@ -82,7 +82,7 @@ function PaymentPage() {
             className="border-2 p-2 rounded-md mb-4"
           />
           <button
-            className={`bg-myblue-200 text-white p-2 rounded-md border font-bold shadow shadow-xl ${
+            className={`bg-myblue-200 text-white p-2 rounded-md border font-bold shadow-xl ${
               isConfirmButtonDisabled && "opacity-50 cursor-not-allowed"
             }`}
             onClick={handleConfirm}

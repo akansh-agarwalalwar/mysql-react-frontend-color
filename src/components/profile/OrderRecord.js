@@ -16,8 +16,8 @@ function OrderRecord() {
 
   useEffect(() => {
     if (user && user.userId) {
-      fetchthirtySecond(user.userId);
-      fetchtwomin(user.userId);
+      fetchthirtySecond(user?.userId);
+      fetchtwomin(user?.userId);
     }
   }, [user]);
 
@@ -25,10 +25,10 @@ function OrderRecord() {
     try {
       setLoading(true);
       const response = await axios.get(
-        `https://localhost:3001/api/thirty-second-history/${userId}`
+        `https://api.perfectorse.site/api/thirty-second-history/${userId}`
       );
       if (response.status === 200) {
-        setThirtySecond(response.data);
+        setThirtySecond(response?.data);
       } else {
         throw new Error("Failed to fetch Thirty Second history");
       }
@@ -43,10 +43,10 @@ function OrderRecord() {
     try {
       setLoading(true);
       const response = await axios.get(
-        `https://localhost:3001/api/two-min-history/${userId}`
+        `https://api.perfectorse.site/api/two-min-history/${userId}`
       );
       if (response.status === 200) {
-        setTwomin(response.data);
+        setTwomin(response?.data);
       }
     } catch (error) {
       setError(error.message);
@@ -64,10 +64,10 @@ function OrderRecord() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 bg-myblue-500">
+    <div className="container mx-auto px-4 py-8 bg-myblue-500 h-screen">
       <div className="w-full bg-myblue-200 h-12 px-3 flex items-center justify-center fixed top-0 left-0 z-10">
         <div className="absolute left-0 ml-2">
-          <Link to="/profile">
+          <Link to="/home/profile">
             <FaArrowLeftLong size={20} className="text-white mx-2" />
           </Link>
         </div>
@@ -105,7 +105,7 @@ function OrderRecord() {
             ? thirtySecond?.map((record) => (
                 <div
                   key={record.id}
-                  className="bg-white rounded-lg shadow-md p-6 border border-myblue-200 shadow-xl"
+                  className="bg-white rounded-lg p-6 border border-myblue-200 shadow-xl"
                 >
                   <p>
                     <span className="font-semibold">Amount:</span>{" "}
@@ -128,11 +128,11 @@ function OrderRecord() {
                   </p>
                 </div>
               ))
-            : twomin.map((record) => (
+            : twomin?.map((record) => (
               
               <div
                   key={record.id}
-                  className="bg-white rounded-lg shadow-md p-6 border border-myblue-200 shadow-xl"
+                  className="bg-white rounded-lg p-6 border border-myblue-200 shadow-xl"
                 >
                   <p>
                     <span className="font-semibold">Amount:</span>{" "}

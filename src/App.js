@@ -23,7 +23,8 @@ import Invite from "./components/dashboard/Invite";
 import OrderRecord from "./components/profile/OrderRecord";
 import ThreeMin from "./components/game/ThreeMin";
 import DailyBonus from "./components/dashboard/DailyBonus";
-import GameModeSecond from './components/admin/GameModeSecond'
+import GameModeSecond from "./components/admin/GameModeSecond";
+import MainHomepage from "./components/dashboard/MainHomepage";
 function App() {
   return (
     <UserProvider>
@@ -32,26 +33,37 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/home" element={<HomePage />} />
+          <Route path="/home" element={<MainHomepage />}>
+            <Route index element={<HomePage />} />
+            <Route path="profile">
+              <Route index element={<ProfileMainPage />} />
+              <Route path="financial-details" element={<FinancialDetails />} />
+              <Route path="order-record" element={<OrderRecord />} />
+              <Route path="bank-details" element={<BankDetails />} />
+              <Route path="setting" element={<Settings />} />
+            </Route>
+            <Route path="invite" element={<Invite />} />
+            <Route path="recharge">
+              <Route index element={<Recharge />} />
+              <Route path="payment-page" element={<PaymentPage />} />
+            </Route>
+
+            <Route path="withdraw" element={<Withdraw />} />
+            <Route path="daily-bonus" element={<DailyBonus />} />
+            <Route path="thirty-second-page" element={<ThirtySecond />} />
+            <Route path="threeMin" element={<ThreeMin />} />
+          </Route>
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/recharge" element={<Recharge />} />
-          <Route path="/withdraw" element={<Withdraw />} />
-          <Route path="/invite" element={<Invite />} />
-          <Route path="/profile" element={<ProfileMainPage />} />
-          <Route path="/payment-page" element={<PaymentPage />} />
-          <Route path="/financial-details" element={<FinancialDetails />} />
-          <Route path="/order-record" element={<OrderRecord />} />
-          <Route path="/bank-details" element={<BankDetails />} />
-          <Route path="/setting" element={<Settings />} />
-          <Route path="/admin/*" element={<Admin />} />
-          <Route path="/admin/users" element={<AllUsers />} />
-          <Route path="/admin/payment-approve" element={< PaymentApprove/>} />
-          <Route path="/admin/to-pay" element={<ToPay />} />
-          <Route path="/admin/game-mode" element={<GameMode />} />
-          <Route path="/thirty-second-page" element={<ThirtySecond />} />
-          <Route path="/threeMin" element={<ThreeMin />} />
-          <Route path="/daily-bonus" element={<DailyBonus />} />
-          <Route path="/admin/game-mode/two-min" element={<GameModeSecond />} />
+
+          <Route path="/admin">
+          <Route index element={<Admin />} />
+            <Route path="users" element={<AllUsers />} />
+            <Route path="payment-approve" element={<PaymentApprove />} />
+            <Route path="to-pay" element={<ToPay />} />
+            <Route path="game-mode" element={<GameMode />} />
+            <Route path="game-mode/two-min" element={<GameModeSecond />} />
+          </Route>
+
           {/* <Route path="/admin/game-mode/30sec" element={<DisplayTableOfThirtySec />} /> */}
           {/* <Route path="/manual/thirty-second" element={<ManualPage />} /> */}
         </Routes>
