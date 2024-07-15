@@ -25,7 +25,7 @@ function DailyBonus() {
     } else {
       console.log("Claiming bonus for user ID:", user.userId);
       try {
-        const response = await axios.post('http://api.perfectorse.site/api/claim-bonus', { userId: user.userId });
+        const response = await axios.post('https://api.perfectorse.site/api/claim-bonus', { userId: user.userId });
         setUser({ ...user, balance: response.data.newBalance });
         setBonusEarned(true);
         localStorage.setItem("lastBonusClaimed", new Date().toISOString());
