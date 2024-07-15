@@ -1,44 +1,9 @@
 import React, { useState, useEffect } from "react";
 import NavBarAdmin from "./NavBarAdmin";
 import axios from "axios";
-// import io from 'socket.io-client';
-
-// const socket = io('https://3.7.253.226:3001');
-
 export default function GameMode() {
   const [periodNumber, setPeriodNumber] = useState("");
   const [color, setColor] = useState("");
-  // const [timer, setTimer] = useState(30);
-
-  // useEffect(() => {
-  //   socket.on('timer', (newTimer) => {
-  //     setTimer(newTimer);
-  //   });
-  // return () => {
-  //   socket.off('timer');
-  // };
-  // }, [timer]); 
-
-  // useEffect(() => {
-  //   const ws = new WebSocket('ws://localhost:3001');
-
-  //   ws.onmessage = (event) => {
-  //     const data = JSON.parse(event.data);
-  //     setTimer(data.timer);
-  //   };
-
-  //   ws.onopen = () => {
-  //     console.log('Connected to WebSocket');
-  //   };
-
-  //   ws.onclose = () => {
-  //     console.log('Disconnected from WebSocket');
-  //   };
-
-  //   return () => {
-  //     ws.close();
-  //   };
-  // }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -61,8 +26,8 @@ export default function GameMode() {
     } catch (error) {
       console.error("Error:", error);
       if (error.response) {
-        console.error("Error response data:", error.response.data);
-        alert(`Failed to update period: ${error.response.data.error}`);
+        console.error("Error response data:", error.response?.data);
+        alert(`Failed to update period: ${error.response?.data?.error}`);
       } else {
         alert("Failed to update period.");
       }

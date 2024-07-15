@@ -81,7 +81,7 @@ export default function Login() {
           </div>
           <div className="mt-6">
             <button
-              className="w-full p-3 bg-myblue-200 text-white rounded-md hover:bg-myblue-200 transition disabled:bg-gray-400"
+              className="w-full p-3 bg-myblue-200 text-white rounded-md"
               type="submit"
               disabled={loading}
             >

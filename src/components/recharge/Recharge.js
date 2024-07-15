@@ -13,7 +13,7 @@ const Recharge = () => {
   const handleRecharge = () => {
     const parsedAmount = parseInt(amount);
     if (parsedAmount >= 200 && parsedAmount <=10000) {
-      navigate("/payment-page", { state: { amount: parsedAmount } });
+      navigate("/home/recharge/payment-page", { state: { amount: parsedAmount } });
     } else {
       setError("Amount must be 200 INR or more");
     }
@@ -44,7 +44,7 @@ const Recharge = () => {
           />
         </div>
         <div className="grid grid-cols-4 gap-4">
-          {[500, 1000, 2500, 10000].map((value) => (
+          {[500, 1000, 2500, 10000]?.map((value) => (
             <button
               key={value}
               className="p-2 text-myblue-400 rounded-md border border-myblue-200"

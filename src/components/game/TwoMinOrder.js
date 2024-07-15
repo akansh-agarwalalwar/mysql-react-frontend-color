@@ -11,7 +11,7 @@ function TwoMinOrder({ newBets }) {
         const response = await axios.get(
           "https://api.perfectorse.site/api/lastPeriodNumber/two-min"
         );
-        const { lastPeriodNumber } = response.data;
+        const { lastPeriodNumber } = response?.data;
         if (lastPeriodNumber) {
           setLastPeriodNumber(lastPeriodNumber);
           fetchUserBets(lastPeriodNumber); // Fetch user bets for the last period
@@ -37,7 +37,7 @@ function TwoMinOrder({ newBets }) {
   };
 
   useEffect(() => {
-    if (newBets.length > 0) {
+    if (newBets?.length > 0) {
       setUserBets((prevBets) => [...prevBets, ...newBets]);
     }
   }, [newBets]);
@@ -60,9 +60,9 @@ function TwoMinOrder({ newBets }) {
                 </tr>
               </thead>
               <tbody>
-                {userBets.map((bet, index) => (
+                {userBets?.map((bet, index) => (
                   <tr key={index}>
-                    <td className="p-2 text-center">{lastPeriodNumber.slice(-4)}</td>
+                    <td className="p-2 text-center">{lastPeriodNumber?.slice(-4)}</td>
                     <td className="p-2 text-center">{bet.userNumber}</td>
                     <td className="p-2 text-center">{bet.color}</td>
                     <td className="p-2 text-center">{bet.amount}</td>

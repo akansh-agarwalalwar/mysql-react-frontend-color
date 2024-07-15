@@ -13,9 +13,9 @@ function FinancialDetails() {
   const [error, setError] = useState(null);
   const [activeHistory, setActiveHistory] = useState("recharge");
   useEffect(() => {
-    if (user && user.userId) {
-      fetchRechargeHistory(user.userId);
-      fetchWithdrawHistory(user.userId);
+    if (user && user?.userId) {
+      fetchRechargeHistory(user?.userId);
+      fetchWithdrawHistory(user?.userId);
     }
   }, [user]);
 
@@ -26,7 +26,7 @@ function FinancialDetails() {
         `https://api.perfectorse.site/api/payemnt/history123?userId=${userId}`
       );
       if (response.status === 200) {
-        setRechargeHistory(response.data);
+        setRechargeHistory(response?.data);
       } else {
         throw new Error("Failed to fetch recharge history");
       }
@@ -44,7 +44,7 @@ function FinancialDetails() {
         `https://api.perfectorse.site/api/show/withdrawl/history?userId=${userId}`
       );
       if (response.status === 200) {
-        setWithdrawHistory(response.data);
+        setWithdrawHistory(response?.data);
       } else {
         throw new Error("Failed to fetch withdrawal history");
       }
@@ -67,7 +67,7 @@ function FinancialDetails() {
     <div className="container mx-auto px-4 py-8 bg-myblue-500 h-screen">
       <div className="w-full bg-myblue-200 h-12 px-3 flex items-center justify-center fixed top-0 left-0 z-10">
         <div className="absolute left-0 ml-2">
-          <Link to="/profile">
+          <Link to="/home/profile">
             <FaArrowLeftLong size={20} className="text-white mx-2" />
           </Link>
         </div>

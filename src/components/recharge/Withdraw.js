@@ -48,11 +48,11 @@ function Withdraw() {
   };
 
   const getLastFourDigits = (number) => {
-    return "***" + number.slice(-4);
+    return "***" + number?.slice(-4);
   };
 
   const getFirstThreeCharacters = (code) => {
-    return "***" + code.slice(0, 3);
+    return "***" + code?.slice(0, 3);
   };
 
   return (

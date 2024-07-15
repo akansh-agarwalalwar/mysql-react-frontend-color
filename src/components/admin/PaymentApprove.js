@@ -12,7 +12,7 @@ function PaymentApprove() {
         const response = await axios.get(
           "https://api.perfectorse.site/api/payments/pending"
         );
-        setPendingPayments(response.data);
+        setPendingPayments(response?.data);
       } catch (error) {
         console.error("Error fetching pending payments:", error);
       }
@@ -22,7 +22,7 @@ function PaymentApprove() {
         const response = await axios.get(
           "https://api.perfectorse.site/api/payments/updatedHistory"
         );
-        setPaymentHistory(response.data);
+        setPaymentHistory(response?.data);
       } catch (error) {
         console.error("Error fetching payment history:", error);
       }
@@ -36,11 +36,11 @@ function PaymentApprove() {
     try {
       await axios.post("https://api.perfectorse.site/api/payments/approve", { id });
       const approvedPayment = pendingPayments.find(
-        (payment) => payment.id === id
+        (payment) => payment?.id === id
       );
 
       setPendingPayments( 
-        pendingPayments.filter((payment) => payment.id !== id)
+        pendingPayments?.filter((payment) => payment?.id !== id)
       );
       setPaymentHistory([
         ...paymentHistory,
@@ -55,7 +55,7 @@ function PaymentApprove() {
     try {
       await axios.post("https://api.perfectorse.site/api/payments/deny", { id });
       setPendingPayments(
-        pendingPayments.filter((payment) => payment.id !== id)
+        pendingPayments?.filter((payment) => payment?.id !== id)
       );
     } catch (error) {
       console.error("Error denying payment:", error);
@@ -92,23 +92,23 @@ function PaymentApprove() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {pendingPayments.slice().reverse().map((payment) => (
-                <tr key={payment.id}>
+              {pendingPayments?.slice()?.reverse()?.map((payment) => (
+                <tr key={payment?.id}>
                   <td className="py-4 px-6">{payment.userId}</td>
                   <td className="py-4 px-6">{payment.amount}</td>
                   <td className="py-4 px-6">
-                    {payment.transaction_id || "N/A"}
+                    {payment?.transaction_id || "N/A"}
                   </td>
                   <td className="py-4 px-6 text-center">
                     <button
                       className="bg-green-500 py-1 px-3 rounded-lg mr-2 hover:bg-green-600"
-                      onClick={() => handleApprove(payment.id)}
+                      onClick={() => handleApprove(payment?.id)}
                     >
                       Approve
                     </button>
                     <button
                       className="bg-red-500 py-1 px-3 rounded-lg hover:bg-red-600"
-                      onClick={() => handleDeny(payment.id)}
+                      onClick={() => handleDeny(payment?.id)}
                     >
                       Deny
                     </button>
@@ -139,16 +139,16 @@ function PaymentApprove() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {paymentHistory.slice().reverse().map((payment) => (
+              {paymentHistory?.slice()?.reverse()?.map((payment) => (
                 <tr key={payment.id} className="hover:bg-gray-100">
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {payment.userId}
+                    {payment?.userId}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {payment.amount}
+                    {payment?.amount}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {payment.status}
+                    {payment?.status}
                   </td>
                 </tr>
               ))}

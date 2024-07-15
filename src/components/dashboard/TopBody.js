@@ -18,23 +18,23 @@ export default function TopBody() {
         <div>
           <p>Balance</p>
           <p className="flex items-center gap-2 text-xl font-semibold">
-            {user.balance}
+            {user?.balance}
             <IoReload className="cursor-pointer" onClick={fetchUserData} />
           </p>
           <p className="text-richblue-5 text-sm">
             ID:
             <span className="text-richblue-5 text-sm uppercase">
-              {user.userId}
+              {user?.userId}
             </span>
           </p>
         </div>
         <div className="flex flex-col-reverse gap-2">
-          <Link to="/recharge">
+          <Link to="/home/recharge">
             <button className="bg-pink-400 w-fit text-white font-semibold py-1 px-2 rounded">
               Recharge
             </button>
           </Link>
-          <Link to="/withdraw">
+          <Link to="/home/withdraw">
             <button className="bg-caribbeangreen-300 w-fit text-white font-semibold py-1 px-2 rounded">
               Withdraw
             </button>

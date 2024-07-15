@@ -22,17 +22,17 @@ const sideNavData = [
   {
     title: "Order Record",
     icon: <MdLibraryBooks />,
-    path: "/order-record",
+    path: "/home/profile/order-record",
   },
   {
     title: "Financial Details",
     icon: <TbReceiptRupee />,
-    path: "/financial-details",
+    path: "/home/profile/financial-details",
   },
   {
     title: "Bank Details",
     icon: <AiTwotoneBank />,
-    path: "/bank-details",
+    path: "/home/profile/bank-details",
   },
   {
     title: "Download",
@@ -63,7 +63,7 @@ const ProfileMainPage = () => {
 
   useEffect(() => {
     const profileImages = [one, two, three, four];
-    const randomImage = profileImages[Math.floor(Math.random() * profileImages.length)];
+    const randomImage = profileImages[Math.floor(Math.random() * profileImages?.length)];
     setProfileImage(randomImage);
   }, []);
 
@@ -71,7 +71,6 @@ const ProfileMainPage = () => {
     await logout();
     navigate("/login");
   };
-
   return (
     <div className="flex flex-col px-8 bg-myblue-500 min-h-screen text-richblack-5">
       <div className="flex items-center mt-8">
@@ -101,7 +100,7 @@ const ProfileMainPage = () => {
             </h1>
           </div>
           <div className=" flex items-center justify-center ">
-            <Link to="/setting">
+            <Link to="/home/profile/setting">
               <IoSettingsOutline className=" rounded-full h-9 w-9 text-richblack-900" />
             </Link>
           </div>
@@ -110,7 +109,7 @@ const ProfileMainPage = () => {
       <div className="mt-5">
         <h2 className="text-xl font-bold mb-4 text-black">Quick Links</h2>
         <ul className="flex flex-col space-y-2">
-          {sideNavData.map((item, index) => (
+          {sideNavData?.map((item, index) => (
             <div
               className={`rounded-lg px-7 border-b border-richblack-100 ${
                 index % 2 === 0 ? "bg-richblue-5" : "bg-white"
@@ -122,8 +121,8 @@ const ProfileMainPage = () => {
                 className={`flex items-center justify-between py-4`}
               >
                 <div className="flex items-center space-x-2">
-                  <p className="text-2xl text-myblue-400">{item.icon}</p>
-                  <p className=" text-lg text-black">{item.title}</p>
+                  <p className="text-2xl text-myblue-400">{item?.icon}</p>
+                  <p className=" text-lg text-black">{item?.title}</p>
                 </div>
                 <MdKeyboardArrowRight className="text-myblue-400" />
               </Link>

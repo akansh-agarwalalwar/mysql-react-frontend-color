@@ -21,7 +21,7 @@ export default function ForgotPassword() {
         newPassword: newPassword,
       });
       if (response.data.message) {
-        setStatusMessage(response.data.message);
+        setStatusMessage(response?.data?.message);
       } else {
         setStatusMessage("Password updated successfully");
         navigate('/login');

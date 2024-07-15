@@ -28,8 +28,8 @@ function GameModeSecond() {
     } catch (error) {
       console.error("Error:", error);
       if (error.response) {
-        console.error("Error response data:", error.response.data);
-        alert(`Failed to update period: ${error.response.data.error}`);
+        console.error("Error response data:", error.response?.data);
+        alert(`Failed to update period: ${error.response.data?.error}`);
       } else {
         alert("Failed to update period.");
       }
