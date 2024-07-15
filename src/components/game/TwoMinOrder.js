@@ -14,7 +14,7 @@ function TwoMinOrder({ newBets }) {
         const { lastPeriodNumber } = response?.data;
         if (lastPeriodNumber) {
           setLastPeriodNumber(lastPeriodNumber);
-          fetchUserBets(lastPeriodNumber); // Fetch user bets for the last period
+          // fetchUserBets(lastPeriodNumber); // Fetch user bets for the last period
         } else {
           // console.error("Last periodNumber is undefined");
         }
@@ -25,16 +25,16 @@ function TwoMinOrder({ newBets }) {
     fetchLastPeriodNumber();
   }, []);
 
-  const fetchUserBets = async (periodNumber) => {
-    try {
-      const response = await axios.get(
-        `https://api.perfectorse.site/api/userBets/two-min/${periodNumber}`
-      );
-      setUserBets(response.data);
-    } catch (error) {
-      // console.error("Error fetching user bets:", error);
-    }
-  };
+  // const fetchUserBets = async (periodNumber) => {
+  //   try {
+  //     const response = await axios.get(
+  //       `https://api.perfectorse.site/api/userBets/two-min/${periodNumber}`
+  //     );
+  //     setUserBets(response?.data);
+  //   } catch (error) {
+  //     // console.error("Error fetching user bets:", error);
+  //   }
+  // };
 
   useEffect(() => {
     if (newBets?.length > 0) {
@@ -46,7 +46,7 @@ function TwoMinOrder({ newBets }) {
     <div className="container mx-auto">
       <div className="flex flex-col bg-gray-900 min-h-screen py-4">
         <div className="flex flex-row justify-center w-full items-center mb-4">
-          <p className="mx-2 font-bold text-xl border-2 bg-white border-myblue-200 w-[50%] items-center justify-center flex h-10 rounded-xl shadow shadow-lg">Everyone's Order</p>
+          <p className="mx-2 font-bold text-xl border-2 bg-white border-myblue-200 w-[50%] items-center justify-center flex h-10 rounded-xl shadow-lg">Everyone's Order</p>
         </div>
         <div className="p-2">
           <div className="flex flex-col justify-center items-center">
