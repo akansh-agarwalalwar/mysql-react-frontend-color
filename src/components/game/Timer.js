@@ -200,7 +200,7 @@ function Timer() {
     },
   ];
 
-  const isDisabled = time <= 10;
+  const isDisabled = time <= 11;
 
   const handleColorBoxClick = (color) => {
     setSelectedColor(color);
@@ -307,12 +307,11 @@ function Timer() {
   return (
     <div className="flex flex-col bg-gray-900 min-h-screen bg-myblue-500">
       {/* Header */}
-      <div className="flex flex-row justify-between bg-myblue-200 w-full text-white items-center h-12 md:h-8">
+      <div className="flex flex-row bg-myblue-200 w-full text-white items-center h-12 md:h-8">
         <Link to="/home">
           <FaArrowLeftLong className="mx-2 " />
         </Link>
         <p className=" text-xl">Fast-Parity</p>
-        <p className="mr-2">Rules</p>
       </div>
       {/* Timer Section */}
       <div className="p-2">
@@ -433,7 +432,7 @@ function Timer() {
         </div>
       )}
       {/* Last Table Data */}
-      {time <= 10 ? (
+      {time <= 11 ? (
         <div className="flex p-2 flex-col mr-4 ml-4 justify-center items-center h-[150px] border-2 border-myblue-200 mt-11 shadow-lg bg-white">
           <h2 className="text-myblue-200 font-bold">WAIT FOR RESULT......</h2>
         </div>

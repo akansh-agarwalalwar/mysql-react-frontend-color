@@ -8,24 +8,29 @@ import "./DailyBonus.css";
 
 function DailyBonus() {
   const { user, setUser } = useContext(UserContext);
-  console.log(user);
+  // console.log(user);
   const [bonusEarned, setBonusEarned] = useState(false);
   const [animateIn, setAnimateIn] = useState(false);
+  const [hasRecharged, setHasRecharged] = useState(false);
 
   useEffect(() => {
-    console.log(user)
+    // console.log(user)
     const userAlreadyEarnedBonus = checkUserBonus();
     setBonusEarned(userAlreadyEarnedBonus);
     setAnimateIn(true);
+    checkIfUserHasRecharged();
   }, [user]);
   
+ 
   const handleClaimBonus = async () => {
     if (bonusEarned) {
       alert("You have already claimed your daily bonus for today!");
+    } else if (!hasRecharged) {
+      alert("You need to recharge your account at least once to claim the daily bonus!");
     } else {
       try {
         const response = await axios.post('https://api.perfectorse.site/api/claim-bonus', { userId: user?.userId });
-        setUser({ ...user, balance: response?.data?.newBalance });
+        setUser({...user, balance: response?.data?.newBalance });
         setBonusEarned(true);
         localStorage?.setItem("lastBonusClaimed", new Date().toISOString());
       } catch (error) {
@@ -46,6 +51,17 @@ function DailyBonus() {
     return timeDifference < oneDay;
   };
 
+  const checkIfUserHasRecharged = async () => {
+    try {
+      const response = await axios.get(`https://api.perfectorse.site/api/user/${user?.userId}/recharge-history`);
+      const rechargeHistory = response.data;
+      if (rechargeHistory.length > 0) {
+        setHasRecharged(true);
+      }
+    } catch (error) {
+      console.error("Error checking recharge history:", error);
+    }
+  };
   return (
     <div className={`flex flex-col w-full h-screen bg-myblue-500 ${animateIn ? 'fade-in-top active' : ''}`}>
       <div className="flex flex-row bg-myblue-200 w-full text-white items-center h-12">

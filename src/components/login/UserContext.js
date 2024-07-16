@@ -11,19 +11,19 @@ export const UserProvider = ({ children }) => {
     return userCookie ? JSON.parse(userCookie) : null;
   });
   
-  const fetchUserData = async () => {
-    try {
-      const response = await axios.get(`https://api.perfectorse.site/api/balance/${user.userId}`);
-      if (response.status === 200) {
-        const usc = user;
-        usc.balance = response?.data[0]?.balance;
-        // setBalance(response.data.balance);
-        setUser({...usc});
-      }
-    } catch (error) {
-      // console.error("Error fetching user data:", error);
-    }
-  };
+  // const fetchUserData = async () => {
+  //   try {
+  //     const response = await axios.get(`https://api.perfectorse.site/api/balance/${user.userId}`);
+  //     if (response.status === 200) {
+  //       const usc = user;
+  //       usc.balance = response?.data[0]?.balance;
+  //       // setBalance(response.data.balance);
+  //       setUser({...usc});
+  //     }
+  //   } catch (error) {
+  //     // console.error("Error fetching user data:", error);
+  //   }
+  // };
 
   const logout = async () => {
     try {
@@ -37,7 +37,7 @@ export const UserProvider = ({ children }) => {
   
   useEffect(() => {
     if (user) {
-      fetchUserData(user,setUser);
+      // fetchUserData(user,setUser);
       Cookies.set("user", JSON.stringify(user), { expires: 1 });
       // console.log(user);
       const balance = user?.balance;
@@ -47,7 +47,7 @@ export const UserProvider = ({ children }) => {
   }, [JSON.stringify(user)]);
 
   return (
-    <UserContext.Provider value={{ user, fetchUserData, setUser, logout }}>
+    <UserContext.Provider value={{ user, setUser, logout }}>
       {children}
     </UserContext.Provider>
   );

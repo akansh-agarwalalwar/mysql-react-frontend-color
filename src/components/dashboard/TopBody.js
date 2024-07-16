@@ -6,9 +6,9 @@ import axios from "axios";
 export default function TopBody() {
   const { user, fetchUserData } = useContext(UserContext);
   
-  useEffect(() => {
-    fetchUserData();
-  }, []);
+  // useEffect(() => {
+  //   fetchUserData();
+  // }, []);
   
   const [balance, setBalance] = useState(user.balance !== undefined ? user.balance : "Loading...");
 
@@ -19,7 +19,7 @@ export default function TopBody() {
           <p>Balance</p>
           <p className="flex items-center gap-2 text-xl font-semibold">
             {user?.balance}
-            <IoReload className="cursor-pointer" onClick={fetchUserData} />
+            {/* <IoReload className="cursor-pointer" onClick={fetchUserData} /> */}
           </p>
           <p className="text-richblue-5 text-sm">
             ID:

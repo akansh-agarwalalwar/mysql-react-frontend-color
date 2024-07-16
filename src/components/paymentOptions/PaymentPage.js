@@ -24,7 +24,6 @@ function PaymentPage() {
       setInputValue(value);
     }
   };
-
   const handleConfirm = async () => {
     if (inputValue.length !== 12) {
       toast.error("Transaction ID must be 12 digits long", {
@@ -32,7 +31,6 @@ function PaymentPage() {
       });
       return;
     }
-
     try {
       const existingTransaction = await axios.get(
         `https://api.perfectorse.site/check-transaction/${inputValue}`
@@ -48,7 +46,6 @@ function PaymentPage() {
         amount: amount, // Pass amount from location state
         input: inputValue,
       };
-
       await axios.post("https://api.perfectorse.site/image-upload", data);
       toast.success("Request submitted");
       navigate("/home");
