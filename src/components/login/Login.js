@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext,useEffect } from "react";
 import Axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import UserContext from "./UserContext";
@@ -11,7 +11,12 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
+  useEffect(() => {
+    const userSession = sessionStorage.getItem("user");
+    if (!userSession) {
+      navigate("/login"); // redirect to login page if no user session found
+    }
+  }, []);
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -34,7 +39,8 @@ export default function Login() {
           ? { adminId, adminemail }
           : { userId, username, useremail, mobileNumber, balance };
         setUser(user);
-        Cookies.set("user", JSON.stringify(user), { expires: 1 });
+        // Cookies.set("user", JSON.stringify(user), { expires: 1 });
+        sessionStorage.setItem("user", JSON.stringify(user));
 
         if (adminId) {
           navigate("/admin");
