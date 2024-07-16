@@ -8,6 +8,7 @@ import { RxCross1 } from "react-icons/rx";
 import UserContext from "../login/UserContext";
 import EveryOneOrder from "./EveryOneOrder";
 import axios from "axios";
+import { IoIosTrophy } from "react-icons/io";
 
 function Timer() {
   const { user, setUser, fetchUserData } = useContext(UserContext);
@@ -50,7 +51,9 @@ function Timer() {
   }, []);
   const fetchLastPeriodData = async () => {
     try {
-      const response = await axios.get("https://api.perfectorse.site/winner-api");
+      const response = await axios.get(
+        "https://api.perfectorse.site/winner-api"
+      );
       setLastPeriodData(response?.data);
       // console.log(response.data)
     } catch (error) {
@@ -181,21 +184,21 @@ function Timer() {
       title: "Red",
       color: "red",
       icon: <FaHorseHead style={{ color: "#FF0000" }} />,
-      ratio: "1:2",
+      ratio: "x2",
       values: [1, 3, 7, 9],
     },
     {
       title: "Violet",
       color: "purple",
       icon: <FaHorseHead style={{ color: "#800080" }} />,
-      ratio: "1:4.5",
+      ratio: "x4.5",
       values: [0, 5],
     },
     {
       title: "Green",
       color: "green",
       icon: <FaHorseHead style={{ color: "#00FF00" }} />,
-      ratio: "1:2",
+      ratio: "x2",
       values: [2, 4, 6, 8],
     },
   ];
@@ -248,15 +251,18 @@ function Timer() {
     }
 
     try {
-      const response = await axios.post("https://api.perfectorse.site/place-bet", {
-        userId: user.userId,
-        periodNumber: formatPeriod(period),
-        periodDate: new Date().toISOString().split("T")[0],
-        betType: selectedColor?.title,
-        berforeBetAmount: user?.balance,
-        betAmount: betAmount,
-        possiblePayout: possiblePayout[selectedColor?.title]?.toFixed(2),
-      });
+      const response = await axios.post(
+        "https://api.perfectorse.site/place-bet",
+        {
+          userId: user.userId,
+          periodNumber: formatPeriod(period),
+          periodDate: new Date().toISOString().split("T")[0],
+          betType: selectedColor?.title,
+          berforeBetAmount: user?.balance,
+          betAmount: betAmount,
+          possiblePayout: possiblePayout[selectedColor?.title]?.toFixed(2),
+        }
+      );
 
       // console.log("Response from server:", response.data);
 
@@ -314,11 +320,14 @@ function Timer() {
         <p className=" text-xl">Fast-Parity</p>
       </div>
       {/* Timer Section */}
-      <div className="p-2">
-        <div className="flex flex-row justify-between w-full items-center h-15 my-2 px-3">
+      <div className="w-full">
+        <div className="flex flex-row justify-between w-full items-center h-16 my-2 px-3 bg-white mb-2">
           <div className="flex flex-col">
-            <p className="text-l">Periods Timer</p>
-            <div className="rounded-lg p-3 shadow-lg h-8 flex items-center bg-white">
+            <div className="flex flex-row gap-2 items-center justify-center">
+              <IoIosTrophy />
+              <p className="text-l">Period Number</p>
+            </div>
+            <div className="rounded-lg p-3 h-8 flex items-center bg-white justify-center">
               <h2 className="text-xl text-black font-mono">
                 {formatPeriod(period)}
               </h2>
@@ -326,7 +335,7 @@ function Timer() {
           </div>
           <div>
             <p className="text-l">Count Down</p>
-            <div className="rounded-lg p-3 shadow-lg h-8 items-center flex justify-center bg-white">
+            <div className="rounded-lg p-3 h-8 items-center flex justify-center bg-white">
               <h2 className="text-2xl font-mono">{formatTime(time)}</h2>
             </div>
           </div>
@@ -337,7 +346,7 @@ function Timer() {
             <div className=" w-1/4">
               <div
                 key={colorBox.color}
-                className={`flex flex-col justify-center items-center border-2 border-myblue-200 rounded-lg p-2 cursor-pointer bg-white shadow-lg ${
+                className={`flex flex-col justify-center items-center border-2 border-myblue-200 rounded-lg p-2 cursor-pointer bg-white ${
                   isDisabled ? "opacity-50 cursor-not-allowed" : ""
                 }`}
                 onClick={() => !isDisabled && handleColorBoxClick(colorBox)}
@@ -345,7 +354,7 @@ function Timer() {
                 <div className="text-4xl">{colorBox.icon}</div>
                 <div className="mt-2">{colorBox.title}</div>
               </div>
-              <div className=" ml-7">{colorBox.ratio}</div>
+              <div className="ml-8">{colorBox.ratio}</div>
             </div>
           ))}
         </div>
@@ -404,25 +413,34 @@ function Timer() {
           </div>
         </div>
       </Popup>
-      <div className="flex flex-row justify-center w-full items-center mb-4">
-        <p className="mx-2 font-bold text-xl border-2 bg-white border-myblue-200 w-[50%] items-center justify-center flex h-10 rounded-xl shadow-lg">
-          Result
-        </p>
-      </div>
+
       {/* WINNER DIVISION */}
-      <div className="flex flex-row justify-around border-2 border-myblue-200 shadow-lg h-14 items-center mx-4 rounded-xl bg-white">
-        <div>{lastPeriodData ? lastPeriodData?.periodNumber : "Loading..."}</div>
-        <div>{lastPeriodData ? lastPeriodData?.color : "Loading..."}</div>
-        {lastPeriodData && (
-          <div
-            className={`w-8 h-8 rounded-full ${getColorClass(
-              lastPeriodData?.color
-            )}`}
-          ></div>
-        )}
+      <div className="flex flex-col justify-center w-full items-center mb-4 bg-white ">
+        <p className="mx-2 font-bold text-xl w-[50%] items-center justify-center flex ">
+          Parity Result
+        </p>
+        <div className="flex flex-col justify-center w-full items-center mb-4 mt-2 border border-myblue-200"></div>
+        <div className="justify-around flex flex-row  w-full">
+          <p className="text-center">Period Number</p>
+          <p className=" text-center">Color</p>
+        </div>
+        <div className="flex flex-row justify-around h-14 items-center mx-4 rounded-xl w-full">
+          <div>
+            {lastPeriodData ? lastPeriodData?.periodNumber : "Loading..."}
+          </div>
+          {/* <div>{lastPeriodData ? lastPeriodData?.color : "Loading..."}</div> */}
+          {lastPeriodData && (
+            <div
+              className={`w-8 h-8 rounded-full ${getColorClass(
+                lastPeriodData?.color
+              )}`}
+            ></div>
+          )}
+        </div>
       </div>
+
       {showRandomBets && (
-        <div className="flex p-2 bg-gray-800 flex-col">
+        <div className="flex flex-col">
           <EveryOneOrder
             key={refresh}
             period={formatPeriod(period)}
@@ -433,7 +451,7 @@ function Timer() {
       )}
       {/* Last Table Data */}
       {time <= 11 ? (
-        <div className="flex p-2 flex-col mr-4 ml-4 justify-center items-center h-[150px] border-2 border-myblue-200 mt-11 shadow-lg bg-white">
+        <div className="flex p-2 flex-col mr-4 ml-4 justify-center items-center h-[150px] border-2 border-myblue-200 mt-4 shadow-lg bg-white">
           <h2 className="text-myblue-200 font-bold">WAIT FOR RESULT......</h2>
         </div>
       ) : (

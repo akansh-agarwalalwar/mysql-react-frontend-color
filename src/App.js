@@ -47,14 +47,12 @@ function App() {
               <Route index element={<Recharge />} />
               <Route path="payment-page" element={<PaymentPage />} />
             </Route>
-
             <Route path="withdraw" element={<Withdraw />} />
             <Route path="daily-bonus" element={<DailyBonus />} />
             <Route path="thirty-second-page" element={<ThirtySecond />} />
             <Route path="threeMin" element={<ThreeMin />} />
           </Route>
           <Route path="/forgot-password" element={<ForgotPassword />} />
-
           <Route path="/admin">
           <Route index element={<Admin />} />
             <Route path="users" element={<AllUsers />} />
@@ -63,7 +61,6 @@ function App() {
             <Route path="game-mode" element={<GameMode />} />
             <Route path="game-mode/two-min" element={<GameModeSecond />} />
           </Route>
-
           {/* <Route path="/admin/game-mode/30sec" element={<DisplayTableOfThirtySec />} /> */}
           {/* <Route path="/manual/thirty-second" element={<ManualPage />} /> */}
         </Routes>

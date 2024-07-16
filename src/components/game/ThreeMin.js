@@ -9,6 +9,7 @@ import UserContext from "../login/UserContext";
 import EveryOneOrder from "./EveryOneOrder";
 import axios from "axios";
 import TwoMinOrder from "./TwoMinOrder";
+import { IoIosTrophy } from "react-icons/io";
 
 function TwoMin() {
   const { user, setUser, fetchUserData } = useContext(UserContext);
@@ -23,22 +24,26 @@ function TwoMin() {
   const [refresh, setRefresh] = useState(0);
   const [possiblePayout, setPossiblePayout] = useState({
     Red: 19.6,
-    Violet: 44.10,
+    Violet: 44.1,
     Green: 19.6,
   });
   const [lastPeriodData, setLastPeriodData] = useState(null);
   const [errorMessage, setErrorMessage] = useState(""); // State for error message
   const [newBets, setNewBets] = useState([]);
   const [showRandomBets, setShowRandomBets] = useState(false); // State to show random bets
-  
+
   useEffect(() => {
     const fetchInitialPeriodAndTime = async () => {
       try {
-        const periodResponse = await axios.get("https://api.perfectorse.site/period-timer/two-min");
+        const periodResponse = await axios.get(
+          "https://api.perfectorse.site/period-timer/two-min"
+        );
         setPeriod(Number(periodResponse?.data?.periodNumber));
 
-        const timeResponse = await axios.get("https://api.perfectorse.site/period-time/get-time/two-min");
-        setTime((timeResponse?.data?.countdown || 120));
+        const timeResponse = await axios.get(
+          "https://api.perfectorse.site/period-time/get-time/two-min"
+        );
+        setTime(timeResponse?.data?.countdown || 120);
       } catch (error) {
         // console.error("Error fetching initial period and time:", error);
       }
@@ -48,7 +53,9 @@ function TwoMin() {
 
   const fetchLastPeriodData = async () => {
     try {
-      const response = await axios.get("https://api.perfectorse.site/winner-api/two-min");
+      const response = await axios.get(
+        "https://api.perfectorse.site/winner-api/two-min"
+      );
       setLastPeriodData(response?.data);
 
       // console.log(response.data)
@@ -91,10 +98,13 @@ function TwoMin() {
           countdown: time,
         });
         if (time === 7) {
-          await axios.post("https://api.perfectorse.site/update-status/two-min", {
-            periodNumber: formatPeriod(period),
-            periodDate: new Date().toISOString().split("T")[0],
-          });
+          await axios.post(
+            "https://api.perfectorse.site/update-status/two-min",
+            {
+              periodNumber: formatPeriod(period),
+              periodDate: new Date().toISOString().split("T")[0],
+            }
+          );
         }
       } catch (error) {
         // console.error("Error sending time data to server:", error);
@@ -113,9 +123,12 @@ function TwoMin() {
     if (time === 10) {
       const updateAmounts = async () => {
         try {
-          await axios.post("https://api.perfectorse.site/update-amounts/two-min", {
-            periodNumber: formatPeriod(period),
-          });
+          await axios.post(
+            "https://api.perfectorse.site/update-amounts/two-min",
+            {
+              periodNumber: formatPeriod(period),
+            }
+          );
           // console.log("Amounts updated successfully.");
         } catch (error) {
           // console.error("Error updating amounts:", error);
@@ -126,10 +139,13 @@ function TwoMin() {
   }, [time]);
   const savePeriodToDatabase = async (newPeriod) => {
     try {
-      await axios.post("https://api.perfectorse.site/period-timer/post/two-min", {
-        periodNumber: newPeriod,
-        periodDate: new Date().toISOString().split("T")[0],
-      });
+      await axios.post(
+        "https://api.perfectorse.site/period-timer/post/two-min",
+        {
+          periodNumber: newPeriod,
+          periodDate: new Date().toISOString().split("T")[0],
+        }
+      );
     } catch (error) {
       // console.error("Error saving period to database:", error);
     }
@@ -138,7 +154,10 @@ function TwoMin() {
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
-    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart("2", "0")}`;
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
+      "2",
+      "0"
+    )}`;
   };
 
   const formatPeriod = (period) => {
@@ -150,18 +169,21 @@ function TwoMin() {
       title: "Red",
       color: "red",
       icon: <FaHorseHead style={{ color: "#FF0000" }} />,
+      ratio: "x2",
       values: [1, 3, 7, 9],
     },
     {
       title: "Violet",
       color: "purple",
       icon: <FaHorseHead style={{ color: "#800080" }} />,
+      ratio: "x4.5",
       values: [0, 5],
     },
     {
       title: "Green",
       color: "green",
       icon: <FaHorseHead style={{ color: "#00FF00" }} />,
+      ratio: "x2",
       values: [2, 4, 6, 8],
     },
   ];
@@ -214,16 +236,18 @@ function TwoMin() {
     }
 
     try {
-      const response = await axios.post("https://api.perfectorse.site/place-bet/two-min", {
-        userId: user.userId,
-        periodNumber: formatPeriod(period),
-        periodDate: new Date().toISOString().split("T")[0],
-        betType: selectedColor?.title,
-        berforeBetAmount: user?.balance,
-        betAmount: betAmount,
-        possiblePayout: possiblePayout[selectedColor?.title]?.toFixed(2),
-      });
- 
+      const response = await axios.post(
+        "https://api.perfectorse.site/place-bet/two-min",
+        {
+          userId: user.userId,
+          periodNumber: formatPeriod(period),
+          periodDate: new Date().toISOString().split("T")[0],
+          betType: selectedColor?.title,
+          berforeBetAmount: user?.balance,
+          betAmount: betAmount,
+          possiblePayout: possiblePayout[selectedColor?.title]?.toFixed(2),
+        }
+      );
 
       // console.log("Response from server:", response.data);
 
@@ -241,7 +265,7 @@ function TwoMin() {
     closePopup();
   };
   useEffect(() => {
-    if (time <= 117 && time >=30) {
+    if (time <= 117 && time >= 30) {
       setShowRandomBets(true);
       generateRandomBets();
     } else {
@@ -252,14 +276,18 @@ function TwoMin() {
     const newBets = [];
     const colors = ["Red", "Violet", "Green"];
     const amounts = [100, 200, 500, 1000];
-  
+
     for (let i = 0; i < 30; i++) {
       const randomColor = colors[Math.floor(Math.random() * colors.length)];
       const randomAmount = amounts[Math.floor(Math.random() * amounts.length)];
       const randomUserNumber = Math.floor(1000 + Math.random() * 9000);
-      newBets.push({ color: randomColor, amount: randomAmount, userNumber: randomUserNumber });
+      newBets.push({
+        color: randomColor,
+        amount: randomAmount,
+        userNumber: randomUserNumber,
+      });
     }
-  
+
     setNewBets(newBets);
   };
   const getColorClass = (color) => {
@@ -276,21 +304,23 @@ function TwoMin() {
   };
 
   return (
-    <div className="flex flex-col bg-gray-900 min-h-screen">
+    <div className="flex flex-col bg-myblue-500 min-h-screen">
       {/* Header */}
       <div className="flex flex-row bg-myblue-200 w-full text-white items-center h-12 md:h-8">
         <Link to="/home">
           <FaArrowLeftLong className="mx-2" />
         </Link>
         <p className="text-xl">Fast-Parity</p>
-       
       </div>
       {/* Timer Section */}
-      <div className="p-2 mt-2">
-        <div className="flex flex-row justify-between w-full items-center h-15 my-2 px-3">
+      <div className="w-full">
+        <div className="flex flex-row justify-between w-full items-center h-16 my-2 px-3 bg-white mb-2">
           <div className="flex flex-col">
-          <p className="text-l">Periods Timer</p>
-            <div className="rounded-lg p-3 shadow-lg h-8 flex items-center bg-white">
+            <div className="flex flex-row gap-2 items-center justify-center">
+              <IoIosTrophy />
+              <p className="text-l">Period Number</p>
+            </div>
+            <div className="rounded-lg p-3 h-8 flex items-center bg-white justify-center">
               <h2 className="text-xl text-black font-mono">
                 {formatPeriod(period)}
               </h2>
@@ -298,33 +328,38 @@ function TwoMin() {
           </div>
           <div>
             <p className="text-l">Count Down</p>
-            <div className="rounded-lg p-3 shadow-lg h-8 items-center flex justify-center bg-white">
+            <div className="rounded-lg p-3 h-8 items-center flex justify-center bg-white">
               <h2 className="text-2xl font-mono">{formatTime(time)}</h2>
             </div>
           </div>
         </div>
         {/* Color Boxes */}
-        <div className="p-2 mt-4 bg-gray-800 flex justify-around flex-wrap">
+        <div className="p-2 mt-2 bg-gray-800 flex justify-around flex-wrap ">
           {colorBoxes?.map((colorBox) => (
             <div className=" w-1/4">
-            <div
-              key={colorBox?.color}
-              className={`flex flex-col justify-center items-center border-2 border-myblue-200 rounded-lg p-2 cursor-pointer bg-white shadow-lg ${
-                isDisabled ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-              onClick={() => !isDisabled && handleColorBoxClick(colorBox)}
-            >
-              <div className="text-4xl">{colorBox.icon}</div>
-              <div className="mt-2">{colorBox.title}</div>
+              <div
+                key={colorBox.color}
+                className={`flex flex-col justify-center items-center border-2 border-myblue-200 rounded-lg p-2 cursor-pointer bg-white ${
+                  isDisabled ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+                onClick={() => !isDisabled && handleColorBoxClick(colorBox)}
+              >
+                <div className="text-4xl">{colorBox.icon}</div>
+                <div className="mt-2">{colorBox.title}</div>
+              </div>
+              <div className="ml-8">{colorBox.ratio}</div>
             </div>
-            <div className=" ml-7">{colorBox.ratio}</div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
       </div>
 
       {/* Popup Modal */}
-      <Popup open={!!selectedColor && time>11} closeOnDocumentClick onClose={closePopup} modal>
+      <Popup
+        open={!!selectedColor && time > 11}
+        closeOnDocumentClick
+        onClose={closePopup}
+        modal
+      >
         <div className="modal bg-white rounded-lg p-4 shadow-lg max-w-xs mx-auto border-2 border-myblue-200">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-bold">{selectedColor?.title}</h2>
@@ -337,7 +372,9 @@ function TwoMin() {
             <p>{`Balance: ${user?.balance}`}</p>
           </div>
           {/* Error Message */}
-          {errorMessage && <div className="text-red-100 mb-4">{errorMessage}</div>}
+          {errorMessage && (
+            <div className="text-red-100 mb-4">{errorMessage}</div>
+          )}
           {/* Input Field for Amount */}
           <div className="mb-4">
             <label htmlFor="amountInput">Enter Amount:</label>
@@ -370,33 +407,49 @@ function TwoMin() {
       </Popup>
 
       {/* WINNER DIVISION */}
-      <div className="flex flex-row justify-around border-2 border-myblue-200 shadow-lg h-14 items-center mx-4 rounded-xl bg-white">
-        <div>{lastPeriodData ? lastPeriodData?.periodNumber : "Loading..."}</div>
-        <div>{lastPeriodData ? lastPeriodData?.color : "Loading..."}</div>
-        {lastPeriodData && (
-          <div
-            className={`w-8 h-8 rounded-full ${getColorClass(
-              lastPeriodData?.color
-            )}`}
-          ></div>
-        )}
+      <div className="flex flex-col justify-center w-full items-center mb-4 bg-white ">
+        <p className="mx-2 font-bold text-xl w-[50%] items-center justify-center flex ">
+          Parity Result
+        </p>
+        <div className="flex flex-col justify-center w-full items-center mb-4 mt-2 border border-myblue-200"></div>
+        <div className="justify-around flex flex-row  w-full">
+          <p className="text-center">Period Number</p>
+          <p className=" text-center">Color</p>
+        </div>
+        <div className="flex flex-row justify-around h-14 items-center mx-4 rounded-xl w-full">
+          <div>
+            {lastPeriodData ? lastPeriodData?.periodNumber : "Loading..."}
+          </div>
+          {/* <div>{lastPeriodData ? lastPeriodData?.color : "Loading..."}</div> */}
+          {lastPeriodData && (
+            <div
+              className={`w-8 h-8 rounded-full ${getColorClass(
+                lastPeriodData?.color
+              )}`}
+            ></div>
+          )}
+        </div>
       </div>
 
       {/* EveryOneOrder Component */}
       {showRandomBets && (
-        <div className="flex p-2 bg-gray-800 flex-col">
-          <TwoMinOrder key={refresh} period={formatPeriod(period)} newBets={newBets} />
-          <hr/>
+        <div className="flex flex-col">
+          <TwoMinOrder
+            key={refresh}
+            period={formatPeriod(period)}
+            newBets={newBets}
+          />
+          <hr />
         </div>
       )}
 
       {/* Last Table Data */}
       {time <= 30 ? (
-        <div className="flex p-2 flex-col mr-4 ml-4 justify-center items-center h-[150px] border-2 border-myblue-200 mt-11 shadow-lg bg-white">
-        <h2 className="text-myblue-200 font-bold">WAIT FOR RESULT......</h2>
-      </div>
+        <div className="flex p-2 flex-col mr-4 ml-4 justify-center items-center h-[150px] border-2 border-myblue-200 mt-4 shadow-lg bg-white">
+          <h2 className="text-myblue-200 font-bold">WAIT FOR RESULT......</h2>
+        </div>
       ) : (
-        <div className="flex p-2 bg-gray-800 flex-col">
+        <div className="flex p-2 flex-col">
           {/* <EveryOneOrder key={refresh} period={formatPeriod(period - 1)} newBets={lastTableData} /> */}
         </div>
       )}
