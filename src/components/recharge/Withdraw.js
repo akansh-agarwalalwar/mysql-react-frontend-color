@@ -2,69 +2,67 @@ import React, { useContext, useState, useEffect } from "react";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import UserContext from "../login/UserContext";
 import { Link, useNavigate } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 
 function Withdraw() {
   const { user } = useContext(UserContext);
-  const [amountset, setAmountset] = useState('');
-  const [message, setMessage] = useState('');
+  const [amountset, setAmountset] = useState("");
+  const [message, setMessage] = useState("");
   const [bankDetails, setBankDetails] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchBankDetails = async () => {
       try {
-        const res = await axios.get(`https://api.perfectorse.site/api/bank-details/${user.userId}`);
+        const res = await axios.get(
+          `https://api.perfectorse.site/api/bank-details/${user.userId}`
+        );
         if (res.status === 200) {
           setBankDetails(res.data);
         }
-      } catch (err) {
-      }
+      } catch (err) {}
     };
     if (user && user.userId) {
       fetchBankDetails();
     }
   }, [user]);
-
   const handleWithdraw = async () => {
     const amount = parseFloat(amountset);
-    if (isNaN(amount) || amount <= 0 ) {
+    if (isNaN(amount) || amount <= 0) {
       // setMessage('Amount must be greater than zero');
       return;
     }
     try {
-      const response = await axios.post('https://api.perfectorse.site/api/withdraw', { userId: user.userId, amount });
+      const response = await axios.post(
+        "https://api.perfectorse.site/api/withdraw",
+        { userId: user.userId, amount }
+      );
       // console.log(response.data);
       // alert('Withdrawal successful!');
-      navigate('/home');
+      navigate("/home");
     } catch (error) {
       // console.error('There was an error sending the request!', error);
       // setMessage((error.response?.data?.message));
     }
   };
-
   const handleAddBankDetails = () => {
-    navigate("/bank-details");
+    navigate("/home/profile/bank-details");
   };
-
   const getLastFourDigits = (number) => {
     return "***" + number?.slice(-4);
   };
-
   const getFirstThreeCharacters = (code) => {
     return "***" + code?.slice(0, 3);
   };
-
   return (
     <div className="flex flex-col justify-between h-screen w-full bg-myblue-500">
       <div>
-      <div className="flex flex-row bg-myblue-200 w-full text-white items-center h-12">
-        <Link to="/home">
-          <FaArrowLeftLong className="mx-3" />
-        </Link>
-        <p className="text-xl">Withdraw</p>
-        
-      </div>
+        <div className="flex flex-row bg-myblue-200 w-full text-white items-center h-12">
+          <Link to="/home">
+            <FaArrowLeftLong className="mx-3" />
+          </Link>
+          <p className="text-xl">Withdraw</p>
+        </div>
         <div className="relative mt-6">
           <div className="my-4 text-center">
             <p className="text-xl">
@@ -83,16 +81,20 @@ function Withdraw() {
               <p className="text-xl">
                 Bank Details
                 <br />
-                <span className="font-bold text-xl">{getLastFourDigits(bankDetails.accountNumber)}</span>
+                <span className="font-bold text-xl">
+                  {getLastFourDigits(bankDetails.accountNumber)}
+                </span>
                 <br />
-                <span className="font-bold text-xl">{getFirstThreeCharacters(bankDetails.ifscCode)}</span>
+                <span className="font-bold text-xl">
+                  {getFirstThreeCharacters(bankDetails.ifscCode)}
+                </span>
               </p>
             </div>
           </div>
         ) : (
           <div>
             {/* Display add bank details button if bank card does not exist */}
-            <button 
+            <button
               className="bg-myblue-200 rounded-md w-full h-9"
               onClick={handleAddBankDetails}
             >
@@ -113,8 +115,12 @@ function Withdraw() {
           />
         </div>
         <div className="flex items-center justify-center w-full mt-3">
-          <button 
-            className={`bg-myblue-200 rounded-md w-full h-9 ${amountset < 300 || amountset > 7500 ? 'opacity-50 cursor-not-allowed' : ''}`}
+          <button
+            className={`bg-myblue-200 rounded-md w-full h-9 ${
+              amountset < 300 || amountset > 7500
+                ? "opacity-50 cursor-not-allowed"
+                : ""
+            }`}
             onClick={handleWithdraw}
             disabled={amountset < 300 || amountset > 7500}
           >

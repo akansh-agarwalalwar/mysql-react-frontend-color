@@ -28,7 +28,7 @@
   "scripts": {
     "start": "react-scripts start",
     "preview": "serve -s build",
-    "build": "react-scripts build",
+    "build": "react-scripts build && rm -rf build/static/js/*.map",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
