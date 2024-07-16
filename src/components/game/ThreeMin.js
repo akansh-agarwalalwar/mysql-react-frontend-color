@@ -166,7 +166,7 @@ function TwoMin() {
     },
   ];
 
-  const isDisabled = time <= 10;
+  const isDisabled = time <= 30;
 
   const handleColorBoxClick = (color) => {
     setSelectedColor(color);
@@ -208,7 +208,7 @@ function TwoMin() {
     const betAmount = contractMoney * selectedNumber;
     const possiblePayoutValue = possiblePayout[selectedColor.title].toFixed(2);
 
-    if (user?.balance <= 10) {
+    if (user?.balance < 10) {
       setErrorMessage("Insufficient balance"); // Set error message if balance is insufficient
       return;
     }
@@ -241,7 +241,7 @@ function TwoMin() {
     closePopup();
   };
   useEffect(() => {
-    if (time <= 117 && time > 11) {
+    if (time <= 117 && time >=30) {
       setShowRandomBets(true);
       generateRandomBets();
     } else {
@@ -278,12 +278,12 @@ function TwoMin() {
   return (
     <div className="flex flex-col bg-gray-900 min-h-screen">
       {/* Header */}
-      <div className="flex flex-row justify-between bg-myblue-200 w-full text-white items-center h-12 md:h-8">
+      <div className="flex flex-row bg-myblue-200 w-full text-white items-center h-12 md:h-8">
         <Link to="/home">
           <FaArrowLeftLong className="mx-2" />
         </Link>
         <p className="text-xl">Fast-Parity</p>
-        <p className="mr-2">Rules</p>
+       
       </div>
       {/* Timer Section */}
       <div className="p-2 mt-2">
@@ -391,7 +391,7 @@ function TwoMin() {
       )}
 
       {/* Last Table Data */}
-      {time <= 11 ? (
+      {time <= 30 ? (
         <div className="flex p-2 flex-col mr-4 ml-4 justify-center items-center h-[150px] border-2 border-myblue-200 mt-11 shadow-lg bg-white">
         <h2 className="text-myblue-200 font-bold">WAIT FOR RESULT......</h2>
       </div>
