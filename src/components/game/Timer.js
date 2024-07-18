@@ -31,7 +31,11 @@ function Timer() {
   const [newBets, setNewBets] = useState([]);
   const [showRandomBets, setShowRandomBets] = useState(false);
   const [lastTableData, setLastTableData] = useState([]);
+  const [showWinPopup, setShowWinPopup] = useState(false);
 
+  const handleWin = () => {
+    setShowWinPopup(true);
+  };
   useEffect(() => {
     const fetchInitialPeriodAndTime = async () => {
       try {
@@ -138,7 +142,7 @@ function Timer() {
   }, [time]);
 
   useEffect(() => {
-    if (time <= 27 && time > 11) {
+    if (time <= 28 && time > 11) {
       setShowRandomBets(true);
       generateRandomBets();
     } else {
@@ -207,7 +211,7 @@ function Timer() {
 
   const handleColorBoxClick = (color) => {
     setSelectedColor(color);
-    setSelectedNumber(1); // Reset selected number to default
+    setSelectedNumber(1);
     handleContractMoneyChange(contractMoney, color?.title);
   };
 
@@ -240,11 +244,11 @@ function Timer() {
     setSelectedNumber(1);
     setContractMoney(10);
   };
-
+  const [betAmount, setBetAmount] = useState(0);
   const handleConfirm = async () => {
     const betAmount = contractMoney * selectedNumber;
-    const possiblePayoutValue = possiblePayout[selectedColor.title].toFixed(2);
-
+    // const possiblePayoutValue = possiblePayout[selectedColor.title].toFixed(2);
+    setBetAmount(betAmount);
     if (user?.balance <= 10) {
       setErrorMessage("Insufficient balance");
       return;
@@ -269,9 +273,8 @@ function Timer() {
       if (response.status !== 200) {
         throw new Error("Error placing bet");
       }
-
       // console.log("Bet placed successfully:", response.data);
-
+      // setUser((prevUser) => ({ ...prevUser, balance: (prevUser.balance - betAmount).toFixed(2) }));
       await fetchUserData();
     } catch (error) {
       // console.error("Error placing bet:", error);
@@ -353,8 +356,8 @@ function Timer() {
               >
                 <div className="text-4xl">{colorBox.icon}</div>
                 <div className="mt-2">{colorBox.title}</div>
+                <div className="">{colorBox.ratio}</div>
               </div>
-              <div className="ml-8">{colorBox.ratio}</div>
             </div>
           ))}
         </div>
@@ -362,14 +365,15 @@ function Timer() {
       {/* Popup Modal */}
       <Popup
         open={!!selectedColor && time > 11}
-        closeOnDocumentClick
         onClose={closePopup}
-        modal
+        className="absolute right-0 left-0 w-full rounded-2xl"
       >
-        <div className="modal bg-white rounded-lg p-4 shadow-lg max-w-xs mx-auto border-2 border-myblue-200 ">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold">{selectedColor?.title}</h2>
-            <button onClick={closePopup}>
+        <div className=" bg-white rounded-lg p-4 shadow-lg w-full mx-auto border-2 border-myblue-200 right-0 bottom-0 left-0">
+          <div className="flex flex-row items-center mb-4">
+            <h2 className="text-xl font-bold w-full items-center justify-center ">
+              {selectedColor?.title}
+            </h2>
+            <button onClick={closePopup} className="justify-end">
               <RxCross1 />
             </button>
           </div>
@@ -451,7 +455,7 @@ function Timer() {
       )}
       {/* Last Table Data */}
       {time <= 11 ? (
-        <div className="flex p-2 flex-col mr-4 ml-4 justify-center items-center h-[150px] border-2 border-myblue-200 mt-4 shadow-lg bg-white">
+        <div className="flex p-2 flex-col mr-4 ml-4 justify-center items-center h-[150px] border-2 border-myblue-200 mt-2 bg-white">
           <h2 className="text-myblue-200 font-bold">WAIT FOR RESULT......</h2>
         </div>
       ) : (
