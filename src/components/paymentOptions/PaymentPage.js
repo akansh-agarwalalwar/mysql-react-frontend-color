@@ -79,7 +79,7 @@ function PaymentPage() {
             className="border-2 p-2 rounded-md mb-4"
           />
           <button
-            className={`bg-myblue-200 text-white p-2 rounded-md border font-bold shadow-xl ${
+            className={`bg-myblue-200 text-white p-2 rounded-md font-bold shadow-xl ${
               isConfirmButtonDisabled && "opacity-50 cursor-not-allowed"
             }`}
             onClick={handleConfirm}

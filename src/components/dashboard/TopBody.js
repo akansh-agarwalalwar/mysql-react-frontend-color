@@ -6,9 +6,9 @@ import axios from "axios";
 export default function TopBody() {
   const { user, fetchUserData } = useContext(UserContext);
   
-  // useEffect(() => {
-  //   fetchUserData();
-  // }, []);
+  useEffect(() => {
+    fetchUserData();
+  }, []);
   
   const [balance, setBalance] = useState(user.balance !== undefined ? user.balance : "Loading...");
 

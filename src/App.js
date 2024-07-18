@@ -25,7 +25,17 @@ import ThreeMin from "./components/game/ThreeMin";
 import DailyBonus from "./components/dashboard/DailyBonus";
 import GameModeSecond from "./components/admin/GameModeSecond";
 import MainHomepage from "./components/dashboard/MainHomepage";
+
+
 function App() {
+
+  // function disableRightClick() {
+  //   document.addEventListener("contextmenu", (event) => {
+  //     event.preventDefault();
+  //   }, false);
+  // }
+  
+  // disableRightClick();
   return (
     <UserProvider>
       <Router>

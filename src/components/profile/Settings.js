@@ -28,7 +28,7 @@ function Settings() {
   return (
     <div className="px-4 py-6">
       <div className="flex items-center bg-myblue-200 py-2 px-4 fixed top-0 left-0 right-0">
-        <Link to='/home/profile'>
+        <Link to='/home'>
         <div className="text-white">
           <FaArrowLeftLong size={20} />
         </div>
