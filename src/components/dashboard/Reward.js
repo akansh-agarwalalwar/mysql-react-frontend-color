@@ -3,7 +3,7 @@ import { IoGiftOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 export default function Reward() {
   return (
-    <div className='flex justify-evenly mt-4'>
+    <div className='flex justify-evenly mt-4 max-w-md mx-auto'>
       {/* <div className="border-2 solid  text-richblue p-4 rounded-lg flex-row flex justify-center items-center ">
         <div>
         

@@ -72,7 +72,7 @@ const ProfileMainPage = () => {
     navigate("/login");
   };
   return (
-    <div className="flex flex-col px-8 bg-myblue-500 min-h-screen text-richblack-5">
+    <div className="flex flex-col px-8 bg-myblue-500 min-h-screen text-richblack-5 max-w-md mx-auto">
       <div className="flex items-center mt-8">
         <div className="  rounded-full p-3 flex justify-center items-center -ml-5">
           {profileImage ? (

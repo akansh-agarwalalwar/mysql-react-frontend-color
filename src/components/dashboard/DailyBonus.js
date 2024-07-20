@@ -29,7 +29,7 @@ function DailyBonus() {
       alert("You need to recharge your account at least once to claim the daily bonus!");
     } else {
       try {
-        const response = await axios.post('https://api.perfectorse.site/api/claim-bonus', { userId: user?.userId });
+        const response = await axios.post(`http://localhost:3001/api/claim-bonus`, { userId: user?.userId });
         setUser({...user, balance: response?.data?.newBalance });
         setBonusEarned(true);
         localStorage?.setItem("lastBonusClaimed", new Date().toISOString());
@@ -53,7 +53,7 @@ function DailyBonus() {
 
   const checkIfUserHasRecharged = async () => {
     try {
-      const response = await axios.get(`https://api.perfectorse.site/api/user/${user?.userId}/recharge-history`);
+      const response = await axios.get(`http://localhost:3001/api/user/${user?.userId}/recharge-history`);
       const rechargeHistory = response.data;
       if (rechargeHistory.length > 0) {
         setHasRecharged(true);

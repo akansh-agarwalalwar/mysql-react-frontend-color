@@ -6,7 +6,7 @@ import Reward from './Reward';
 
 export default function HomePage() {
   return (
-    <div className='overflow-y-auto bg-myblue-500 h-screen'>
+    <div className='overflow-y-auto bg-myblue-500 h-screen max-w-md mx-auto'>
         <TopBody/>
         <Reward/>
         <Body/>

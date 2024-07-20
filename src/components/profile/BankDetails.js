@@ -54,9 +54,10 @@ function BankDetails() {
   };
 
   return (
-    <div className="flex flex-col w-full bg-myblue-500 h-screen">
+    <div className="max-w-md mx-auto">
+    <div className="flex flex-col bg-myblue-500 h-screen ">
       <div>
-        <div className="w-full text-white bg-myblue-200 h-12 px-3 flex items-center justify-center fixed top-0">
+        <div className=" text-white bg-myblue-200 h-12 px-3 flex items-center justify-center fixed top-0 w-[29.2%]">
           <div className="flex absolute left-0 ml-2">
             <Link to="/home/profile">
               <FaArrowLeftLong size={20} className="mx-2" />
@@ -129,6 +130,7 @@ function BankDetails() {
           </div>
         )}
       </div>
+    </div>
     </div>
   );
 }

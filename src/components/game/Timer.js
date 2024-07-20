@@ -9,16 +9,24 @@ import UserContext from "../login/UserContext";
 import EveryOneOrder from "./EveryOneOrder";
 import axios from "axios";
 import { IoIosTrophy } from "react-icons/io";
+const calculateTimerInfo = () => {
+  const time = Date.now();
+  const timeInSeconds = Math.floor(time / 1000);
+  const timerNumber = Math.floor(timeInSeconds / 30);
+  const countDown = Math.floor(30 - (timeInSeconds % 30));
+  return {
+    timerNumber,
+    countDown,
+  };
+};
 
 function Timer() {
-  const { user, setUser, fetchUserData } = useContext(UserContext);
-  const [time, setTime] = useState(30);
-  const [period, setPeriod] = useState("");
+  const [data, setData] = useState(calculateTimerInfo);
+  const { user, fetchUserData } = useContext(UserContext);
+  const [periodNumber, setPeriodNumber] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedNumber, setSelectedNumber] = useState(1);
   const [contractMoney, setContractMoney] = useState(10);
-  const [records, setRecords] = useState([]);
-  const [userBalance, setUserBalance] = useState(0);
   const [winAmount, setWinAmount] = useState(19.6);
   const [refresh, setRefresh] = useState(0);
   const [possiblePayout, setPossiblePayout] = useState({
@@ -30,107 +38,61 @@ function Timer() {
   const [errorMessage, setErrorMessage] = useState("");
   const [newBets, setNewBets] = useState([]);
   const [showRandomBets, setShowRandomBets] = useState(false);
-  const [lastTableData, setLastTableData] = useState([]);
-  const [showWinPopup, setShowWinPopup] = useState(false);
-
-  const handleWin = () => {
-    setShowWinPopup(true);
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes.toString().padStart(2, "0")}:${remainingSeconds
+      .toString()
+      .padStart(2, "0")}`;
   };
+
   useEffect(() => {
-    const fetchInitialPeriodAndTime = async () => {
-      try {
-        const periodResponse = await axios.get(
-          "https://api.perfectorse.site/period-timer"
-        );
-        setPeriod(Number(periodResponse?.data?.periodNumber));
-        const timeResponse = await axios.get(
-          "https://api.perfectorse.site/period-time"
-        );
-        setTime((timeResponse.data.countdown || 30) - 3);
-      } catch (error) {
-        // console.error("Error fetching initial period and time:", error);
-      }
+    const timerID = setInterval(() => {
+      setData(calculateTimerInfo());
+      setPeriodNumber(data.timerNumber);
+    }, 1000);
+    return () => {
+      clearInterval(timerID);
     };
-    fetchInitialPeriodAndTime();
   }, []);
+
   const fetchLastPeriodData = async () => {
     try {
-      const response = await axios.get(
-        "https://api.perfectorse.site/winner-api"
-      );
-      setLastPeriodData(response?.data);
-      // console.log(response.data)
+      const response = await axios.get("https://api.perfectorse.site/winner-api");
+      const data = response?.data;
+      console.log(data);
+      setLastPeriodData(data);
     } catch (error) {
-      // console.error("Error fetching last period data:", error);
       setErrorMessage("Failed to fetch last period data. Please try again.");
     }
   };
+  const sendTimeDataToServer = async () => {
+    try {
+      const periodNumber = data.timerNumber;
+      const periodDate = new Date().toISOString().split("T")[0];
 
-  useEffect(() => {
-    fetchLastPeriodData();
-  }, []);
-
-  useEffect(() => {
-    if (time === 0) {
-      setPeriod((prevPeriod) => {
-        const newPeriod = prevPeriod + 1;
-        savePeriodToDatabase(newPeriod);
-        return newPeriod;
-      });
-      setTime(30);
-    } else {
-      const timerId = setInterval(() => {
-        setTime((prevTime) => prevTime - 1);
-      }, 1000);
-      return () => clearInterval(timerId);
-    }
-  }, [time]);
-
-  useEffect(() => {
-    if (time === 29) {
-      fetchLastPeriodData();
-    }
-
-    const sendTimeDataToServer = async () => {
-      try {
-        const periodNumber = formatPeriod(period);
-        const periodTime = new Date().toISOString().split("T")[1].split(".")[0];
-        const periodDate = new Date().toISOString().split("T")[0];
-
-        // console.log("Sending period time data:", { periodNumber, periodTime, periodDate, countdown: time });
-
-        await axios.post("https://api.perfectorse.site/period-time", {
+      if (data.countDown === 7) {
+        // console.log("Updating status with:", { periodNumber, periodDate });
+        await axios.post("https://api.perfectorse.site/update-status", {
           periodNumber,
-          periodTime,
           periodDate,
-          countdown: time,
         });
-
-        if (time === 7) {
-          // console.log("Updating status with:", { periodNumber, periodDate });
-          await axios.post("https://api.perfectorse.site/update-status", {
-            periodNumber,
-            periodDate,
-          });
-        }
-      } catch (error) {
-        // console.error("Error sending time data to server:", error);
       }
-    };
+    } catch (error) {
+      // console.error("Error sending time data to server:", error);
+    }
+  };
 
-    const intervalId = setInterval(() => {
-      sendTimeDataToServer();
-      setRefresh((prev) => prev + 1);
-    }, 1000);
-    return () => clearInterval(intervalId);
-  }, [period, time]);
-
+  useEffect(()=>{
+    fetchLastPeriodData();
+    sendTimeDataToServer();
+  },[data.countDown])
   useEffect(() => {
-    if (time === 10) {
+    if (data.countDown === 10) {
       const updateAmounts = async () => {
         try {
           await axios.post("https://api.perfectorse.site/update-amounts", {
-            periodNumber: formatPeriod(period),
+            periodNumber: data?.timerNumber,
           });
           // console.log("Amounts updated successfully.");
         } catch (error) {
@@ -139,49 +101,7 @@ function Timer() {
       };
       updateAmounts();
     }
-  }, [time]);
-
-  useEffect(() => {
-    if (time <= 28 && time > 11) {
-      setShowRandomBets(true);
-      generateRandomBets();
-    } else {
-      setShowRandomBets(false);
-    }
-  }, [time]);
-
-  const savePeriodToDatabase = async (newPeriod) => {
-    try {
-      const periodDate = new Date().toISOString().split("T")[0];
-
-      // console.log("Saving period to database:", { periodNumber: newPeriod, periodDate });
-
-      const response = await axios.post(
-        "https://api.perfectorse.site/period-timer/post",
-        {
-          periodNumber: newPeriod,
-          periodDate: periodDate,
-        }
-      );
-
-      // console.log(response.data);
-    } catch (error) {
-      // console.error("Error saving period to database:", error);
-    }
-  };
-
-  const formatTime = (time) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = time % 60;
-    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
-      2,
-      "0"
-    )}`;
-  };
-
-  const formatPeriod = (period) => {
-    return String(period).padStart(9, "0");
-  };
+  }, [data?.countDown]);
 
   const colorBoxes = [
     {
@@ -207,7 +127,7 @@ function Timer() {
     },
   ];
 
-  const isDisabled = time <= 11;
+  const isDisabled = data.countDown <= 11;
 
   const handleColorBoxClick = (color) => {
     setSelectedColor(color);
@@ -255,36 +175,28 @@ function Timer() {
     }
 
     try {
-      const response = await axios.post(
-        "https://api.perfectorse.site/place-bet",
-        {
-          userId: user.userId,
-          periodNumber: formatPeriod(period),
-          periodDate: new Date().toISOString().split("T")[0],
-          betType: selectedColor?.title,
-          berforeBetAmount: user?.balance,
-          betAmount: betAmount,
-          possiblePayout: possiblePayout[selectedColor?.title]?.toFixed(2),
-        }
-      );
-
+      const response = await axios.post("https://api.perfectorse.site/place-bet", {
+        userId: user.userId,
+        periodNumber: data.timerNumber,
+        periodDate: new Date().toISOString().split("T")[0],
+        betType: selectedColor?.title,
+        berforeBetAmount: user?.balance,
+        betAmount: betAmount,
+        possiblePayout: possiblePayout[selectedColor?.title]?.toFixed(2),
+      });
       // console.log("Response from server:", response.data);
-
       if (response.status !== 200) {
         throw new Error("Error placing bet");
       }
       // console.log("Bet placed successfully:", response.data);
-      // setUser((prevUser) => ({ ...prevUser, balance: (prevUser.balance - betAmount).toFixed(2) }));
       await fetchUserData();
     } catch (error) {
       // console.error("Error placing bet:", error);
     }
-
     closePopup();
   };
-
   const getColorClass = (color) => {
-    switch (color.toLowerCase()) {
+    switch (color?.toLowerCase()) {
       case "red":
         return "bg-red-100";
       case "green":
@@ -301,10 +213,10 @@ function Timer() {
     const colors = ["Red", "Violet", "Green"];
     const amounts = [100, 200, 500, 1000];
 
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 15; i++) {
       const randomColor = colors[Math.floor(Math.random() * colors.length)];
       const randomAmount = amounts[Math.floor(Math.random() * amounts.length)];
-      const randomUserNumber = Math.floor(1000 + Math.random() * 9000); // Generate a random 4-digit user number
+      const randomUserNumber = Math.floor(1000 + Math.random() * 9000);
       newBets.push({
         color: randomColor,
         amount: randomAmount,
@@ -313,8 +225,9 @@ function Timer() {
     }
     setNewBets(newBets);
   };
+
   return (
-    <div className="flex flex-col bg-gray-900 min-h-screen bg-myblue-500">
+    <div className="flex flex-col bg-gray-900 min-h-screen bg-myblue-500 max-w-md mx-auto">
       {/* Header */}
       <div className="flex flex-row bg-myblue-200 w-full text-white items-center h-12 md:h-8">
         <Link to="/home">
@@ -332,14 +245,18 @@ function Timer() {
             </div>
             <div className="rounded-lg p-3 h-8 flex items-center bg-white justify-center">
               <h2 className="text-xl text-black font-mono">
-                {formatPeriod(period)}
+                {/* {formatPeriod(period)} */}
+                {data.timerNumber}
               </h2>
             </div>
           </div>
           <div>
             <p className="text-l">Count Down</p>
             <div className="rounded-lg p-3 h-8 items-center flex justify-center bg-white">
-              <h2 className="text-2xl font-mono">{formatTime(time)}</h2>
+              {/* <h2 className="text-2xl font-mono">{formatTime(time)}</h2> */}
+              <h2 className="text-2xl font-mono">
+                {formatTime(data.countDown)}
+              </h2>
             </div>
           </div>
         </div>
@@ -364,7 +281,7 @@ function Timer() {
       </div>
       {/* Popup Modal */}
       <Popup
-        open={!!selectedColor && time > 11}
+        open={!!selectedColor && data.countDown > 11}
         onClose={closePopup}
         className="absolute right-0 left-0 w-full rounded-2xl"
       >
@@ -417,50 +334,49 @@ function Timer() {
           </div>
         </div>
       </Popup>
-
       {/* WINNER DIVISION */}
       <div className="flex flex-col justify-center w-full items-center mb-4 bg-white ">
         <p className="mx-2 font-bold text-xl w-[50%] items-center justify-center flex ">
           Parity Result
         </p>
-        <div className="flex flex-col justify-center w-full items-center mb-4 mt-2 border border-myblue-200"></div>
-        <div className="justify-around flex flex-row  w-full">
+        <div className="flex flex-col justify-center w-full items-center mb-4 mt-2 border h-[1px] border-myblue-200"></div>
+        <div className="justify-around flex flex-row w-full border-spacing-2 ">
           <p className="text-center">Period Number</p>
-          <p className=" text-center">Color</p>
+          {/* <p className="text-center">Amount</p> */}
+          <p className=" text-center">Result</p>
         </div>
-        <div className="flex flex-row justify-around h-14 items-center mx-4 rounded-xl w-full">
-          <div>
-            {lastPeriodData ? lastPeriodData?.periodNumber : "Loading..."}
+        <div className="flex flex-col h-14 items-center w-full">
+          {/* <hr className="border w-full"></hr> */}
+          <div className="flex flex-row w-full justify-around items-center mt-1">
+            <div>
+              {data.timerNumber - 1}
+              {/* {lastPeriodData ? lastPeriodData?.periodNumber : data?.countDown < 29 ? lastPeriodData?.periodNumber : "Loading..."} */}
+            </div>
+            {/* <div>{lastPeriodData ? lastPeriodData?.color : "Loading..."}</div> */}
+            {lastPeriodData && (
+              <div
+                className={`w-5 h-5 rounded-full ml-4 mt-1 ${getColorClass(
+                  lastPeriodData?.color
+                )}`}
+              ></div>
+            )}
           </div>
-          {/* <div>{lastPeriodData ? lastPeriodData?.color : "Loading..."}</div> */}
-          {lastPeriodData && (
-            <div
-              className={`w-8 h-8 rounded-full ${getColorClass(
-                lastPeriodData?.color
-              )}`}
-            ></div>
-          )}
         </div>
       </div>
-
       {showRandomBets && (
         <div className="flex flex-col">
           <EveryOneOrder
             key={refresh}
-            period={formatPeriod(period)}
+            period={data.timerNumber}
             newBets={newBets}
           />
           <hr></hr>
         </div>
       )}
       {/* Last Table Data */}
-      {time <= 11 ? (
+      {data.countDown <= 11 && (
         <div className="flex p-2 flex-col mr-4 ml-4 justify-center items-center h-[150px] border-2 border-myblue-200 mt-2 bg-white">
           <h2 className="text-myblue-200 font-bold">WAIT FOR RESULT......</h2>
-        </div>
-      ) : (
-        <div className="flex p-2 bg-gray-800 flex-col">
-          {/* <EveryOneOrder key={refresh} period={formatPeriod(period - 1)} newBets={lastTableData} /> */}
         </div>
       )}
     </div>

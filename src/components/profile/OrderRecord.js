@@ -64,9 +64,9 @@ function OrderRecord() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 bg-myblue-500 h-screen">
-      <div className="w-full bg-myblue-200 h-12 px-3 flex items-center justify-center fixed top-0 left-0 z-10">
-        <div className="absolute left-0 ml-2">
+    <div className=" bg-myblue-500 h-screen max-w-md mx-auto">
+      <div className=" bg-myblue-200 h-12 px-3 flex items-center justify-center top-0 ">
+        <div className=" left-0 ml-2 justify-start">
           <Link to="/home/profile">
             <FaArrowLeftLong size={20} className="text-white mx-2" />
           </Link>

@@ -5,7 +5,7 @@ import fastParityTwoMin from "../../images/game_two.jpg";
 import upcomingOne from "../../images/game_three.jpg";
 export default function Body() {
   return (
-    <div className="flex flex-col justify-between mt-5 px-2 overflow-y-auto overflow-scroll pb-8">
+    <div className="flex flex-col justify-between mt-5 px-2 overflow-y-auto overflow-scroll pb-8 ">
       <div className="flex flex-row">
         <div className="w-full mr-2">
           <Link to="/home/thirty-second-page">

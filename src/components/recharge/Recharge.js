@@ -12,17 +12,21 @@ const Recharge = () => {
 
   const handleRecharge = () => {
     const parsedAmount = parseInt(amount);
-    if (parsedAmount >= 200 && parsedAmount <=10000) {
-      navigate("/home/recharge/payment-page", { state: { amount: parsedAmount } });
+    if (parsedAmount >= 200 && parsedAmount <= 10000) {
+      navigate("/home/recharge/payment-page", {
+        state: { amount: parsedAmount },
+      });
     } else {
       setError("Amount must be 200 INR or more");
     }
   };
 
-  const isRechargeButtonDisabled = !(parseInt(amount) >= 200 && parseInt(amount)<= 10000);
+  const isRechargeButtonDisabled = !(
+    parseInt(amount) >= 200 && parseInt(amount) <= 10000
+  );
 
   return (
-    <div className="bg-myblue-500 h-screen">
+    <div className="bg-myblue-500 h-screen max-w-md mx-auto">
       <div className="flex flex-row bg-myblue-200 w-full text-white items-center h-12">
         <Link to="/home">
           <FaArrowLeftLong size={20} className="mx-4" />
@@ -67,17 +71,17 @@ const Recharge = () => {
         <div className="mt-3">
           <div>
             <p className="font-bold text-sm">
-              1. Press Recharge Button To Generate QR Code
+              1. Press Recharge Button After Entering Amount
             </p>
             <p className="ml-4 text-sm">
-              To display QR code button, press Recharge button or edit the
-              deposit by pressing deposit field
+              Press Recharge button or edit the deposit by pressing deposit
+              field
             </p>
           </div>
           <div className="mt-3">
             <p className="font-bold text-sm">2. Pay with QR Code</p>
             <p className="ml-4 text-sm">
-              Scan a QR code using Paytm or make a screenshot with payment app
+              Scan a QR code using Paytm and pay the amount 
             </p>
           </div>
           <div className="mt-3">
@@ -87,7 +91,7 @@ const Recharge = () => {
               deposit by pressing deposit field
             </p>
           </div>
-          <hr className="mt-3" />
+          {/* <hr className="mt-3" />
           <div className="flex flex-col justify-center w-full items-center mt-3 mb-[50px]">
             <div>
               <p>Having Problem ?</p>
@@ -95,7 +99,7 @@ const Recharge = () => {
             <div className="flex flex-row justify-center items-center bg-red-100 border-2 p-1 rounded-lg shadow shadow-xl">
               <div className="text-sm ml-1 text-white">Video Guide</div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
       <BottomNav />

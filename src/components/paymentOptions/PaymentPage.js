@@ -58,7 +58,7 @@ function PaymentPage() {
   const isConfirmButtonDisabled = inputValue.length !== 12;
 
   return (
-    <div className="bg-myblue-500 h-screen">
+    <div className="bg-myblue-500 h-screen max-w-md mx-auto">
       <div className="flex flex-row bg-myblue-200 w-full text-white items-center h-12">
         <Link to="/home">
           <FaArrowLeftLong className="mx-3" />

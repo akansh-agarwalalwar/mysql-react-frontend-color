@@ -19,7 +19,7 @@ function Invite() {
   const inviteReferCode = async (userId) => {
     try {
       const response = await fetch(
-        `https://api.perfectorse.site/api/invite/refer/${userId}`
+        `${process.env.BACKEND_URL}/api/invite/refer/${userId}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -38,7 +38,7 @@ function Invite() {
   }; 
 
   return (
-    <div className="flex flex-col w-full h-screen bg-myblue-500">
+    <div className="flex flex-col w-full h-screen bg-myblue-500 max-w-md mx-auto">
      <div className="flex flex-row bg-myblue-200 w-full text-white items-center h-12">
         <Link to="/home">
           <FaArrowLeftLong size={20} className="mx-4" />

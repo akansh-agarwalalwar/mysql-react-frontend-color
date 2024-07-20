@@ -130,7 +130,7 @@ export default function Signup() {
     }
   };
   return (
-    <div className="min-h-screen bg-myblue-500 flex justify-center items-center p-4">
+    <div className="min-h-screen bg-myblue-500 flex justify-center items-center p-4 max-w-md mx-auto">
       <div className="p-8 rounded-lg shadow-lg w-[80%] max-w-md border-2 border-myblue-200 bg-white">
         <div className="text-center mb-6">
           <h1 className="text-3xl font-bold text-myblue-200">Sign Up</h1>

@@ -55,7 +55,7 @@ function Withdraw() {
     return "***" + code?.slice(0, 3);
   };
   return (
-    <div className="flex flex-col justify-between h-screen w-full bg-myblue-500">
+    <div className="flex flex-col justify-between h-screen w-full bg-myblue-500 max-w-md mx-auto">
       <div>
         <div className="flex flex-row bg-myblue-200 w-full text-white items-center h-12">
           <Link to="/home">

@@ -6,20 +6,26 @@ import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import { RxCross1 } from "react-icons/rx";
 import UserContext from "../login/UserContext";
-import EveryOneOrder from "./EveryOneOrder";
 import axios from "axios";
 import TwoMinOrder from "./TwoMinOrder";
 import { IoIosTrophy } from "react-icons/io";
-
+const calculateTimerInfo = () => {
+  const time = Date.now();
+  const timeInSeconds = Math.floor(time / 1000);
+  const timerNumber = Math.floor(timeInSeconds / 120);
+  const countDown = Math.floor(120 - (timeInSeconds % 120));
+  return {
+    timerNumber,
+    countDown,
+  };
+};
 function TwoMin() {
-  const { user, setUser, fetchUserData } = useContext(UserContext);
-  const [time, setTime] = useState(120); // 2 minutes in seconds
+  const [data, setData] = useState(calculateTimerInfo);
+  const { user, fetchUserData } = useContext(UserContext);
   const [period, setPeriod] = useState("");
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedNumber, setSelectedNumber] = useState(1);
   const [contractMoney, setContractMoney] = useState(10);
-  const [records, setRecords] = useState([]);
-  const [userBalance, setUserBalance] = useState(0);
   const [winAmount, setWinAmount] = useState(19.6);
   const [refresh, setRefresh] = useState(0);
   const [possiblePayout, setPossiblePayout] = useState({
@@ -31,24 +37,14 @@ function TwoMin() {
   const [errorMessage, setErrorMessage] = useState(""); // State for error message
   const [newBets, setNewBets] = useState([]);
   const [showRandomBets, setShowRandomBets] = useState(false); // State to show random bets
-
   useEffect(() => {
-    const fetchInitialPeriodAndTime = async () => {
-      try {
-        const periodResponse = await axios.get(
-          "https://api.perfectorse.site/period-timer/two-min"
-        );
-        setPeriod(Number(periodResponse?.data?.periodNumber));
-
-        const timeResponse = await axios.get(
-          "https://api.perfectorse.site/period-time/get-time/two-min"
-        );
-        setTime(timeResponse?.data?.countdown || 120);
-      } catch (error) {
-        // console.error("Error fetching initial period and time:", error);
-      }
+    const timerID = setInterval(() => {
+      setData(calculateTimerInfo());
+      // setPeriodNumber(data.timerNumber);
+    }, 1000);
+    return () => {
+      clearInterval(timerID);
     };
-    fetchInitialPeriodAndTime();
   }, []);
 
   const fetchLastPeriodData = async () => {
@@ -64,71 +60,30 @@ function TwoMin() {
     }
   };
 
-  useEffect(() => {
-    fetchLastPeriodData();
-  }, []);
-
-  useEffect(() => {
-    if (time === 0) {
-      setPeriod((prevPeriod) => {
-        const newPeriod = prevPeriod + 1;
-        savePeriodToDatabase(newPeriod);
-        return newPeriod;
-      });
-      setTime(120); // Reset to 120 seconds
-    } else {
-      const timerId = setInterval(() => {
-        setTime((prevTime) => prevTime - 1);
-      }, 1000);
-      return () => clearInterval(timerId);
-    }
-  }, [time]);
-
-  useEffect(() => {
-    if (time === 119) {
-      fetchLastPeriodData();
-    }
-
-    const sendTimeDataToServer = async () => {
-      try {
-        await axios.post("https://api.perfectorse.site/period-time/two-min", {
-          periodNumber: formatPeriod(period),
-          periodTime: new Date().toISOString().split("T")[1].split(".")[0],
+  const sendTimeDataToServer = async () => {
+    try {
+      if (data.countDown === 7) {
+        await axios.post("https://api.perfectorse.site/update-status/two-min", {
+          periodNumber: data.timerNumber,
           periodDate: new Date().toISOString().split("T")[0],
-          countdown: time,
         });
-        if (time === 7) {
-          await axios.post(
-            "https://api.perfectorse.site/update-status/two-min",
-            {
-              periodNumber: formatPeriod(period),
-              periodDate: new Date().toISOString().split("T")[0],
-            }
-          );
-        }
-      } catch (error) {
-        // console.error("Error sending time data to server:", error);
       }
-    };
-
-    const intervalId = setInterval(() => {
-      sendTimeDataToServer();
-      setRefresh((prev) => prev + 1);
-    }, 1000);
-
-    return () => clearInterval(intervalId);
-  }, [period, time]);
+    } catch (error) {
+      // console.error("Error sending time data to server:", error);
+    }
+  };
+  useEffect(() => {
+    sendTimeDataToServer();
+    fetchLastPeriodData();
+  }, [data.countDown]);
 
   useEffect(() => {
-    if (time === 10) {
+    if (data.countDown === 10) {
       const updateAmounts = async () => {
         try {
-          await axios.post(
-            "https://api.perfectorse.site/update-amounts/two-min",
-            {
-              periodNumber: formatPeriod(period),
-            }
-          );
+          await axios.post("https://api.perfectorse.site/update-amounts/two-min", {
+            periodNumber: data.timerNumber,
+          });
           // console.log("Amounts updated successfully.");
         } catch (error) {
           // console.error("Error updating amounts:", error);
@@ -136,33 +91,7 @@ function TwoMin() {
       };
       updateAmounts();
     }
-  }, [time]);
-  const savePeriodToDatabase = async (newPeriod) => {
-    try {
-      await axios.post(
-        "https://api.perfectorse.site/period-timer/post/two-min",
-        {
-          periodNumber: newPeriod,
-          periodDate: new Date().toISOString().split("T")[0],
-        }
-      );
-    } catch (error) {
-      // console.error("Error saving period to database:", error);
-    }
-  };
-
-  const formatTime = (time) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = time % 60;
-    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
-      "2",
-      "0"
-    )}`;
-  };
-
-  const formatPeriod = (period) => {
-    return String(period).padStart(9, "0");
-  };
+  }, [data.countDown]);
 
   const colorBoxes = [
     {
@@ -188,14 +117,20 @@ function TwoMin() {
     },
   ];
 
-  const isDisabled = time <= 30;
+  const isDisabled = data.countDown <= 30;
 
   const handleColorBoxClick = (color) => {
     setSelectedColor(color);
     setSelectedNumber(1); // Reset selected number to default
     handleContractMoneyChange(contractMoney, color.title);
   };
-
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes.toString().padStart(2, "0")}:${remainingSeconds
+      .toString()
+      .padStart(2, "0")}`;
+  };
   const handleContractMoneyChange = (
     amount,
     colorTitle = selectedColor?.title
@@ -240,7 +175,7 @@ function TwoMin() {
         "https://api.perfectorse.site/place-bet/two-min",
         {
           userId: user.userId,
-          periodNumber: formatPeriod(period),
+          periodNumber: data.timerNumber,
           periodDate: new Date().toISOString().split("T")[0],
           betType: selectedColor?.title,
           berforeBetAmount: user?.balance,
@@ -265,13 +200,13 @@ function TwoMin() {
     closePopup();
   };
   useEffect(() => {
-    if (time <= 117 && time >= 30) {
+    if (data.countDown <= 117 && data.countDown >= 30) {
       setShowRandomBets(true);
       generateRandomBets();
     } else {
       setShowRandomBets(false);
     }
-  }, [time]);
+  }, [data.countDown]);
   const generateRandomBets = () => {
     const newBets = [];
     const colors = ["Red", "Violet", "Green"];
@@ -304,7 +239,7 @@ function TwoMin() {
   };
 
   return (
-    <div className="flex flex-col bg-myblue-500 min-h-screen">
+    <div className="flex flex-col bg-myblue-500 min-h-screen max-w-md mx-auto">
       {/* Header */}
       <div className="flex flex-row bg-myblue-200 w-full text-white items-center h-12 md:h-8">
         <Link to="/home">
@@ -322,14 +257,16 @@ function TwoMin() {
             </div>
             <div className="rounded-lg p-3 h-8 flex items-center bg-white justify-center">
               <h2 className="text-xl text-black font-mono">
-                {formatPeriod(period)}
+                {data.timerNumber}
               </h2>
             </div>
           </div>
           <div>
             <p className="text-l">Count Down</p>
             <div className="rounded-lg p-3 h-8 items-center flex justify-center bg-white">
-              <h2 className="text-2xl font-mono">{formatTime(time)}</h2>
+              <h2 className="text-2xl font-mono">
+                {formatTime(data.countDown)}
+              </h2>
             </div>
           </div>
         </div>
@@ -346,8 +283,8 @@ function TwoMin() {
               >
                 <div className="text-4xl">{colorBox.icon}</div>
                 <div className="mt-2">{colorBox.title}</div>
+                <div className="">{colorBox.ratio}</div>
               </div>
-              <div className="ml-8">{colorBox.ratio}</div>
             </div>
           ))}
         </div>
@@ -355,7 +292,7 @@ function TwoMin() {
 
       {/* Popup Modal */}
       <Popup
-        open={!!selectedColor && time > 11}
+        open={!!selectedColor && data.countDown > 11}
         closeOnDocumentClick
         onClose={closePopup}
         modal
@@ -436,7 +373,7 @@ function TwoMin() {
         <div className="flex flex-col">
           <TwoMinOrder
             key={refresh}
-            period={formatPeriod(period)}
+            period={data.timerNumber}
             newBets={newBets}
           />
           <hr />
@@ -444,13 +381,9 @@ function TwoMin() {
       )}
 
       {/* Last Table Data */}
-      {time <= 30 ? (
+      {data.countDown <= 30 && (
         <div className="flex p-2 flex-col mr-4 ml-4 justify-center items-center h-[150px] border-2 border-myblue-200 mt-4 shadow-lg bg-white">
           <h2 className="text-myblue-200 font-bold">WAIT FOR RESULT......</h2>
-        </div>
-      ) : (
-        <div className="flex p-2 flex-col">
-          {/* <EveryOneOrder key={refresh} period={formatPeriod(period - 1)} newBets={lastTableData} /> */}
         </div>
       )}
     </div>
