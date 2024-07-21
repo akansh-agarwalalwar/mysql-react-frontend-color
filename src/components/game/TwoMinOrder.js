@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import calculateTimerInfoTwoMin from "./calculateTimerInfoTwoMin";
 function TwoMinOrder({ newBets }) {
   const [lastPeriodNumber, setLastPeriodNumber] = useState("");
   const [userBets, setUserBets] = useState([]);
-
+  const [data, setData] = useState(calculateTimerInfoTwoMin);
   // useEffect(() => {
   //   const fetchLastPeriodNumber = async () => {
   //     try {
@@ -57,24 +57,16 @@ function TwoMinOrder({ newBets }) {
               <thead>
                 <tr>
                   <th className="p-2">
-                    <div className="rounded-3xl shadow">
-                      Number
-                    </div>
+                    <div className="rounded-3xl shadow">Number</div>
                   </th>
                   <th className="p-2">
-                    <div className="rounded-3xl shadow">
-                      User
-                    </div>
+                    <div className="rounded-3xl shadow">User</div>
                   </th>
                   <th className="p-2">
-                    <div className="rounded-3xl shadow">
-                      Color
-                    </div>
+                    <div className="rounded-3xl shadow">Color</div>
                   </th>
                   <th className="p-2">
-                    <div className="rounded-3xl shadow">
-                      Amount
-                    </div>
+                    <div className="rounded-3xl shadow">Amount</div>
                   </th>
                 </tr>
               </thead>
@@ -82,7 +74,7 @@ function TwoMinOrder({ newBets }) {
                 {userBets?.map((bet, index) => (
                   <tr key={index}>
                     <td className="p-2 text-center">
-                      {lastPeriodNumber?.slice(-4)}
+                      {String(data.timerNumber).padEnd(4, "0")}
                     </td>
                     <td className="p-2 text-center">{bet.userNumber}</td>
                     <td className="p-2 text-center">{bet.color}</td>

@@ -29,13 +29,13 @@ import MainHomepage from "./components/dashboard/MainHomepage";
 
 function App() {
 
-  // function disableRightClick() {
-  //   document.addEventListener("contextmenu", (event) => {
-  //     event.preventDefault();
-  //   }, false);
-  // }
+  function disableRightClick() {
+    document.addEventListener("contextmenu", (event) => {
+      event.preventDefault();
+    }, false);
+  }
   
-  // disableRightClick();
+  disableRightClick();
   return (
     
     <UserProvider>

@@ -58,7 +58,7 @@ function Timer() {
 
   const fetchLastPeriodData = async () => {
     try {
-      const response = await axios.get("https://api.perfectorse.site/winner-api");
+      const response = await axios.get("http://localhost:3001/winner-api");
       const data = response?.data;
       console.log(data);
       setLastPeriodData(data);
@@ -66,11 +66,9 @@ function Timer() {
       setErrorMessage("Failed to fetch last period data. Please try again.");
     }
   };
-  
-
   useEffect(()=>{
     fetchLastPeriodData();
-  },[])
+  },[data.countDown===30])
 
   const colorBoxes = [
     {
@@ -144,7 +142,7 @@ function Timer() {
     }
 
     try {
-      const response = await axios.post("https://api.perfectorse.site/place-bet", {
+      const response = await axios.post("http://localhost:3001/place-bet", {
         userId: user.userId,
         periodNumber: data.timerNumber,
         periodDate: new Date().toISOString().split("T")[0],
@@ -325,8 +323,8 @@ function Timer() {
           {/* <hr className="border w-full"></hr> */}
           <div className="flex flex-row w-full justify-around items-center mt-1">
             <div>
-              {data.timerNumber - 1}
-              {/* {lastPeriodData ? lastPeriodData?.periodNumber : data?.countDown < 29 ? lastPeriodData?.periodNumber : "Loading..."} */}
+              {/* {data.timerNumber - 1} */}
+              {lastPeriodData ? lastPeriodData?.periodNumber : data?.countDown < 29 ? lastPeriodData?.periodNumber : "Loading..."}
             </div>
             {/* <div>{lastPeriodData ? lastPeriodData?.color : "Loading..."}</div> */}
             {lastPeriodData && (

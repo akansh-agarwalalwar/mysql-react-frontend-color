@@ -9,18 +9,19 @@ import UserContext from "../login/UserContext";
 import axios from "axios";
 import TwoMinOrder from "./TwoMinOrder";
 import { IoIosTrophy } from "react-icons/io";
-const calculateTimerInfo = () => {
-  const time = Date.now();
-  const timeInSeconds = Math.floor(time / 1000);
-  const timerNumber = Math.floor(timeInSeconds / 120);
-  const countDown = Math.floor(120 - (timeInSeconds % 120));
-  return {
-    timerNumber,
-    countDown,
-  };
-};
+import calculateTimerInfoTwoMin from "./calculateTimerInfoTwoMin";
+// const calculateTimerInfo = () => {
+//   const time = Date.now();
+//   const timeInSeconds = Math.floor(time / 1000);
+//   const timerNumber = Math.floor(timeInSeconds / 120);
+//   const countDown = Math.floor(120 - (timeInSeconds % 120));
+//   return {
+//     timerNumber,
+//     countDown,
+//   };
+// };
 function TwoMin() {
-  const [data, setData] = useState(calculateTimerInfo);
+  const [data, setData] = useState(calculateTimerInfoTwoMin);
   const { user, fetchUserData } = useContext(UserContext);
   const [period, setPeriod] = useState("");
   const [selectedColor, setSelectedColor] = useState(null);
@@ -39,21 +40,19 @@ function TwoMin() {
   const [showRandomBets, setShowRandomBets] = useState(false); // State to show random bets
   useEffect(() => {
     const timerID = setInterval(() => {
-      setData(calculateTimerInfo());
+      setData(calculateTimerInfoTwoMin());
       // setPeriodNumber(data.timerNumber);
     }, 1000);
     return () => {
       clearInterval(timerID);
     };
   }, []);
-
   const fetchLastPeriodData = async () => {
     try {
       const response = await axios.get(
         "https://api.perfectorse.site/winner-api/two-min"
       );
       setLastPeriodData(response?.data);
-
       // console.log(response.data)
     } catch (error) {
       // console.error(error);
@@ -61,7 +60,7 @@ function TwoMin() {
   };
 useEffect(()=>{
   fetchLastPeriodData()
-})
+},[data.countDown ===30])
   const colorBoxes = [
     {
       title: "Red",
@@ -326,8 +325,8 @@ useEffect(()=>{
           {/* <hr className="border w-full"></hr> */}
           <div className="flex flex-row w-full justify-around items-center mt-1">
             <div>
-              {data.timerNumber - 1}
-              {/* {lastPeriodData ? lastPeriodData?.periodNumber : data?.countDown < 29 ? lastPeriodData?.periodNumber : "Loading..."} */}
+              {/* {data.timerNumber - 1} */}
+              {lastPeriodData ? lastPeriodData?.periodNumber : data?.countDown < 29 ? lastPeriodData?.periodNumber : "Loading..."}
             </div>
             {/* <div>{lastPeriodData ? lastPeriodData?.color : "Loading..."}</div> */}
             {lastPeriodData && (
