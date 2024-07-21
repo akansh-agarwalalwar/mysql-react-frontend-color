@@ -5,25 +5,25 @@ function TwoMinOrder({ newBets }) {
   const [lastPeriodNumber, setLastPeriodNumber] = useState("");
   const [userBets, setUserBets] = useState([]);
 
-  useEffect(() => {
-    const fetchLastPeriodNumber = async () => {
-      try {
-        const response = await axios.get(
-          "https://api.perfectorse.site/api/lastPeriodNumber/two-min"
-        );
-        const { lastPeriodNumber } = response?.data;
-        if (lastPeriodNumber) {
-          setLastPeriodNumber(lastPeriodNumber);
-          // fetchUserBets(lastPeriodNumber); // Fetch user bets for the last period
-        } else {
-          // console.error("Last periodNumber is undefined");
-        }
-      } catch (error) {
-        // console.error("Error fetching last periodNumber:", error);
-      }
-    };
-    fetchLastPeriodNumber();
-  }, []);
+  // useEffect(() => {
+  //   const fetchLastPeriodNumber = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         "https://api.perfectorse.site/api/lastPeriodNumber/two-min"
+  //       );
+  //       const { lastPeriodNumber } = response?.data;
+  //       if (lastPeriodNumber) {
+  //         setLastPeriodNumber(lastPeriodNumber);
+  //         // fetchUserBets(lastPeriodNumber); // Fetch user bets for the last period
+  //       } else {
+  //         // console.error("Last periodNumber is undefined");
+  //       }
+  //     } catch (error) {
+  //       // console.error("Error fetching last periodNumber:", error);
+  //     }
+  //   };
+  //   fetchLastPeriodNumber();
+  // }, []);
 
   // const fetchUserBets = async (periodNumber) => {
   //   try {

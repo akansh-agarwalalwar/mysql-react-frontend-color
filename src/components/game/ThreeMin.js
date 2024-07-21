@@ -59,40 +59,9 @@ function TwoMin() {
       // console.error(error);
     }
   };
-
-  const sendTimeDataToServer = async () => {
-    try {
-      if (data.countDown === 7) {
-        await axios.post("https://api.perfectorse.site/update-status/two-min", {
-          periodNumber: data.timerNumber,
-          periodDate: new Date().toISOString().split("T")[0],
-        });
-      }
-    } catch (error) {
-      // console.error("Error sending time data to server:", error);
-    }
-  };
-  useEffect(() => {
-    sendTimeDataToServer();
-    fetchLastPeriodData();
-  }, [data.countDown]);
-
-  useEffect(() => {
-    if (data.countDown === 10) {
-      const updateAmounts = async () => {
-        try {
-          await axios.post("https://api.perfectorse.site/update-amounts/two-min", {
-            periodNumber: data.timerNumber,
-          });
-          // console.log("Amounts updated successfully.");
-        } catch (error) {
-          // console.error("Error updating amounts:", error);
-        }
-      };
-      updateAmounts();
-    }
-  }, [data.countDown]);
-
+useEffect(()=>{
+  fetchLastPeriodData()
+})
   const colorBoxes = [
     {
       title: "Red",
@@ -353,18 +322,22 @@ function TwoMin() {
           <p className="text-center">Period Number</p>
           <p className=" text-center">Color</p>
         </div>
-        <div className="flex flex-row justify-around h-14 items-center mx-4 rounded-xl w-full">
-          <div>
-            {lastPeriodData ? lastPeriodData?.periodNumber : "Loading..."}
+        <div className="flex flex-col h-10 items-center w-full">
+          {/* <hr className="border w-full"></hr> */}
+          <div className="flex flex-row w-full justify-around items-center mt-1">
+            <div>
+              {data.timerNumber - 1}
+              {/* {lastPeriodData ? lastPeriodData?.periodNumber : data?.countDown < 29 ? lastPeriodData?.periodNumber : "Loading..."} */}
+            </div>
+            {/* <div>{lastPeriodData ? lastPeriodData?.color : "Loading..."}</div> */}
+            {lastPeriodData && (
+              <div
+                className={`w-5 h-5 rounded-full ml-4 mt-1 ${getColorClass(
+                  lastPeriodData?.color
+                )}`}
+              ></div>
+            )}
           </div>
-          {/* <div>{lastPeriodData ? lastPeriodData?.color : "Loading..."}</div> */}
-          {lastPeriodData && (
-            <div
-              className={`w-8 h-8 rounded-full ${getColorClass(
-                lastPeriodData?.color
-              )}`}
-            ></div>
-          )}
         </div>
       </div>
 

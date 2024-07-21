@@ -12,7 +12,6 @@ function DailyBonus() {
   const [bonusEarned, setBonusEarned] = useState(false);
   const [animateIn, setAnimateIn] = useState(false);
   const [hasRecharged, setHasRecharged] = useState(false);
-
   useEffect(() => {
     // console.log(user)
     const userAlreadyEarnedBonus = checkUserBonus();
@@ -21,7 +20,6 @@ function DailyBonus() {
     checkIfUserHasRecharged();
   }, [user]);
   
- 
   const handleClaimBonus = async () => {
     if (bonusEarned) {
       alert("You have already claimed your daily bonus for today!");

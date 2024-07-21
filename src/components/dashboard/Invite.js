@@ -19,7 +19,7 @@ function Invite() {
   const inviteReferCode = async (userId) => {
     try {
       const response = await fetch(
-        `${process.env.BACKEND_URL}/api/invite/refer/${userId}`
+        `http://localhost:3001/api/invite/refer/${userId}`
       );
       if (response.ok) {
         const data = await response.json();

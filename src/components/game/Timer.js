@@ -66,42 +66,11 @@ function Timer() {
       setErrorMessage("Failed to fetch last period data. Please try again.");
     }
   };
-  const sendTimeDataToServer = async () => {
-    try {
-      const periodNumber = data.timerNumber;
-      const periodDate = new Date().toISOString().split("T")[0];
-
-      if (data.countDown === 7) {
-        // console.log("Updating status with:", { periodNumber, periodDate });
-        await axios.post("https://api.perfectorse.site/update-status", {
-          periodNumber,
-          periodDate,
-        });
-      }
-    } catch (error) {
-      // console.error("Error sending time data to server:", error);
-    }
-  };
+  
 
   useEffect(()=>{
     fetchLastPeriodData();
-    sendTimeDataToServer();
-  },[data.countDown])
-  useEffect(() => {
-    if (data.countDown === 10) {
-      const updateAmounts = async () => {
-        try {
-          await axios.post("https://api.perfectorse.site/update-amounts", {
-            periodNumber: data?.timerNumber,
-          });
-          // console.log("Amounts updated successfully.");
-        } catch (error) {
-          // console.error("Error updating amounts:", error);
-        }
-      };
-      updateAmounts();
-    }
-  }, [data?.countDown]);
+  },[])
 
   const colorBoxes = [
     {
@@ -225,7 +194,14 @@ function Timer() {
     }
     setNewBets(newBets);
   };
-
+  useEffect(() => {
+    if (data.countDown <= 27 && data.countDown >= 11) {
+      setShowRandomBets(true);
+      generateRandomBets();
+    } else {
+      setShowRandomBets(false);
+    }
+  }, [data.countDown]);
   return (
     <div className="flex flex-col bg-gray-900 min-h-screen bg-myblue-500 max-w-md mx-auto">
       {/* Header */}
@@ -345,7 +321,7 @@ function Timer() {
           {/* <p className="text-center">Amount</p> */}
           <p className=" text-center">Result</p>
         </div>
-        <div className="flex flex-col h-14 items-center w-full">
+        <div className="flex flex-col h-10 items-center w-full">
           {/* <hr className="border w-full"></hr> */}
           <div className="flex flex-row w-full justify-around items-center mt-1">
             <div>
