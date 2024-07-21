@@ -45,7 +45,6 @@ function Timer() {
       .toString()
       .padStart(2, "0")}`;
   };
-
   useEffect(() => {
     const timerID = setInterval(() => {
       setData(calculateTimerInfo());
@@ -55,7 +54,6 @@ function Timer() {
       clearInterval(timerID);
     };
   }, []);
-
   const fetchLastPeriodData = async () => {
     try {
       const response = await axios.get("https://api.perfectorse.site/winner-api");
