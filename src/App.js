@@ -34,7 +34,7 @@ function App() {
   // setInterval(() => {
   //   const { countDown } = calculateTimerInfo();
   //   if (countDown <= 10 && countDown >= 8) {
-  //     axios.post(`https://api.perfectorse.site/update-amounts`)
+  //     axios.post(`http://localhost:3001/update-amounts`)
   //       .then(response => {
   //         // console.log("Amounts updated successfully", response.data);
   //       })
@@ -43,7 +43,7 @@ function App() {
   //       });
   //   }
   //   if (countDown <= 7 && countDown >= 5) {
-  //     axios.post(`https://api.perfectorse.site/update-status`)
+  //     axios.post(`http://localhost:3001/update-status`)
   //       .then(response => {
   //         // console.log("Amounts updated successfully", response.data);
   //       })
@@ -56,7 +56,7 @@ function App() {
   // setInterval(() => {
   //   const { countDown } = calculateTimerInfoTwoMin();
   //   if (countDown <= 10 && countDown >= 8) {
-  //     axios.post(`https://api.perfectorse.site/update-amounts/two-min`)
+  //     axios.post(`http://localhost:3001/update-amounts/two-min`)
   //       .then(response => {
   //         // console.log("Amounts updated successfully", response.data);
   //       })
@@ -65,7 +65,7 @@ function App() {
   //       });
   //   }
   //   if (countDown <= 7 && countDown >= 5) {
-  //     axios.post(`https://api.perfectorse.site/update-status/two-min`)
+  //     axios.post(`http://localhost:3001/update-status/two-min`)
   //       .then(response => {
   //         // console.log("Amounts updated successfully", response.data);
   //       })

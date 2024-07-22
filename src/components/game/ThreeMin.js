@@ -50,7 +50,7 @@ function TwoMin() {
   const fetchLastPeriodData = async () => {
     try {
       const response = await axios.get(
-        "https://api.perfectorse.site/winner-api/two-min"
+        "http://localhost:3001/winner-api/two-min"
       );
       setLastPeriodData(response?.data);
       // console.log(response.data)
@@ -140,7 +140,7 @@ useEffect(()=>{
 
     try {
       const response = await axios.post(
-        "https://api.perfectorse.site/place-bet/two-min",
+        "http://localhost:3001/place-bet/two-min",
         {
           userId: user.userId,
           periodNumber: data.timerNumber,
