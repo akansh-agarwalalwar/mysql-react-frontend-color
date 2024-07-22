@@ -96,13 +96,13 @@ function App() {
   // }, 1000);
 
 
-  function disableRightClick() {
-    document.addEventListener("contextmenu", (event) => {
-      event.preventDefault();
-    }, false);
-  }
+  // function disableRightClick() {
+  //   document.addEventListener("contextmenu", (event) => {
+  //     event.preventDefault();
+  //   }, false);
+  // }
   
-  disableRightClick();
+  // disableRightClick();
   return (
     
     <UserProvider>
