@@ -14,7 +14,7 @@ export default function GameMode() {
     try {
       console.log("Sending data:", { periodNumber });
   
-      const response = await axios.post('http://localhost:3001/api/check-and-update-period', {
+      const response = await axios.post('https://api.perfectorse.site/api/check-and-update-period', {
         periodNumber: periodNumber,
       });
       console.log("Response:", response);

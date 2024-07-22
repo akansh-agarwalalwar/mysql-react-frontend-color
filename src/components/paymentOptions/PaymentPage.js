@@ -33,7 +33,7 @@ function PaymentPage() {
     }
     try {
       const existingTransaction = await axios.get(
-        `http://localhost:3001/check-transaction/${inputValue}`
+        `https://api.perfectorse.site/check-transaction/${inputValue}`
       );
       if (existingTransaction.data.exists) {
         toast.error("Transaction ID already in use", {
@@ -46,7 +46,7 @@ function PaymentPage() {
         amount: amount, // Pass amount from location state
         input: inputValue,
       };
-      await axios.post("http://localhost:3001/image-upload", data);
+      await axios.post("https://api.perfectorse.site/image-upload", data);
       toast.success("Request submitted");
       navigate("/home");
     } catch (error) {
