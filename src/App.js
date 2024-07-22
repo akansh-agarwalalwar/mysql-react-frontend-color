@@ -26,29 +26,10 @@ import DailyBonus from "./components/dashboard/DailyBonus";
 import GameModeSecond from "./components/admin/GameModeSecond";
 import MainHomepage from "./components/dashboard/MainHomepage";
 import axios from "axios";
+import calculateTimerInfo from "./components/game/calculateTimerInfo";
+import calculateTimerInfoTwoMin from "./components/game/calculateTimerInfoTwoMin";
 
 function App() {
-  // const calculateTimerInfo = () => {
-  //   const time = Date.now();
-  //   const timeInSeconds = Math.floor(time / 1000);
-  //   const timerNumber = Math.floor(timeInSeconds / 30);
-  //   const countDown = Math.floor(30 - (timeInSeconds % 30));
-  //   return {
-  //     timerNumber,
-  //     countDown,
-  //   };
-  // };
-
-  // const calculateTimerInfoTwoMin = () => {
-  //   const time = Date.now();
-  //   const timeInSeconds = Math.floor(time / 1000);
-  //   const timerNumber = Math.floor(timeInSeconds / 120);
-  //   const countDown = Math.floor(120 - (timeInSeconds % 120));
-  //   return {
-  //     timerNumber,
-  //     countDown,
-  //   };
-  // };
 
   // setInterval(() => {
   //   const { countDown } = calculateTimerInfo();
@@ -71,7 +52,6 @@ function App() {
   //       });
   //   }
   // }, 1000);
-
 
   // setInterval(() => {
   //   const { countDown } = calculateTimerInfoTwoMin();
