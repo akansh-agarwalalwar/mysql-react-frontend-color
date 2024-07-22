@@ -28,72 +28,72 @@ import MainHomepage from "./components/dashboard/MainHomepage";
 import axios from "axios";
 
 function App() {
-  const calculateTimerInfo = () => {
-    const time = Date.now();
-    const timeInSeconds = Math.floor(time / 1000);
-    const timerNumber = Math.floor(timeInSeconds / 30);
-    const countDown = Math.floor(30 - (timeInSeconds % 30));
-    return {
-      timerNumber,
-      countDown,
-    };
-  };
+  // const calculateTimerInfo = () => {
+  //   const time = Date.now();
+  //   const timeInSeconds = Math.floor(time / 1000);
+  //   const timerNumber = Math.floor(timeInSeconds / 30);
+  //   const countDown = Math.floor(30 - (timeInSeconds % 30));
+  //   return {
+  //     timerNumber,
+  //     countDown,
+  //   };
+  // };
 
-  const calculateTimerInfoTwoMin = () => {
-    const time = Date.now();
-    const timeInSeconds = Math.floor(time / 1000);
-    const timerNumber = Math.floor(timeInSeconds / 120);
-    const countDown = Math.floor(120 - (timeInSeconds % 120));
-    return {
-      timerNumber,
-      countDown,
-    };
-  };
+  // const calculateTimerInfoTwoMin = () => {
+  //   const time = Date.now();
+  //   const timeInSeconds = Math.floor(time / 1000);
+  //   const timerNumber = Math.floor(timeInSeconds / 120);
+  //   const countDown = Math.floor(120 - (timeInSeconds % 120));
+  //   return {
+  //     timerNumber,
+  //     countDown,
+  //   };
+  // };
 
-  setInterval(() => {
-    const { countDown } = calculateTimerInfo();
-    if (countDown <= 10 && countDown >= 8) {
-      axios.post(`https://api.perfectorse.site/update-amounts`)
-        .then(response => {
-          // console.log("Amounts updated successfully", response.data);
-        })
-        .catch(error => {
-          // console.error("Error updating amounts", error);
-        });
-    }
-    if (countDown <= 7 && countDown >= 5) {
-      axios.post(`https://api.perfectorse.site/update-status`)
-        .then(response => {
-          // console.log("Amounts updated successfully", response.data);
-        })
-        .catch(error => {
-          // console.error("Error updating amounts", error);
-        });
-    }
-  }, 1000);
+  // setInterval(() => {
+  //   const { countDown } = calculateTimerInfo();
+  //   if (countDown <= 10 && countDown >= 8) {
+  //     axios.post(`https://api.perfectorse.site/update-amounts`)
+  //       .then(response => {
+  //         // console.log("Amounts updated successfully", response.data);
+  //       })
+  //       .catch(error => {
+  //         // console.error("Error updating amounts", error);
+  //       });
+  //   }
+  //   if (countDown <= 7 && countDown >= 5) {
+  //     axios.post(`https://api.perfectorse.site/update-status`)
+  //       .then(response => {
+  //         // console.log("Amounts updated successfully", response.data);
+  //       })
+  //       .catch(error => {
+  //         // console.error("Error updating amounts", error);
+  //       });
+  //   }
+  // }, 1000);
 
 
-  setInterval(() => {
-    const { countDown } = calculateTimerInfoTwoMin();
-    if (countDown <= 10 && countDown >= 8) {
-      axios.post(`https://api.perfectorse.site/update-amounts/two-min`)
-        .then(response => {
-          // console.log("Amounts updated successfully", response.data);
-        })
-        .catch(error => {
-          // console.error("Error updating amounts", error);
-        });
-    }
-    if (countDown <= 7 && countDown >= 5) {
-      axios.post(`https://api.perfectorse.site/update-status/two-min`)
-        .then(response => {
-          // console.log("Amounts updated successfully", response.data);
-        })
-        .catch(error => {
-          // console.error("Error updating amounts", error);
-        });
-    }
-  }, 1000);
+  // setInterval(() => {
+  //   const { countDown } = calculateTimerInfoTwoMin();
+  //   if (countDown <= 10 && countDown >= 8) {
+  //     axios.post(`https://api.perfectorse.site/update-amounts/two-min`)
+  //       .then(response => {
+  //         // console.log("Amounts updated successfully", response.data);
+  //       })
+  //       .catch(error => {
+  //         // console.error("Error updating amounts", error);
+  //       });
+  //   }
+  //   if (countDown <= 7 && countDown >= 5) {
+  //     axios.post(`https://api.perfectorse.site/update-status/two-min`)
+  //       .then(response => {
+  //         // console.log("Amounts updated successfully", response.data);
+  //       })
+  //       .catch(error => {
+  //         // console.error("Error updating amounts", error);
+  //       });
+  //   }
+  // }, 1000);
 
 
   function disableRightClick() {
