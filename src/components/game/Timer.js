@@ -34,7 +34,7 @@ function Timer() {
     Violet: 44.1,
     Green: 19.6,
   });
-  const [lastPeriodData, setLastPeriodData] = useState(null);
+  const [lastPeriodData, setLastPeriodData] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [newBets, setNewBets] = useState([]);
   const [showRandomBets, setShowRandomBets] = useState(false);
@@ -57,16 +57,17 @@ function Timer() {
   const fetchLastPeriodData = async () => {
     try {
       const response = await axios.get("https://api.perfectorse.site/winner-api");
-      const data = response?.data;
-      console.log(data);
+      const data = response.data;
+      // console.log(data);
       setLastPeriodData(data);
+      // console.log("DATA", lastPeriodData);
     } catch (error) {
       setErrorMessage("Failed to fetch last period data. Please try again.");
     }
   };
-  useEffect(()=>{
+  useEffect(() => {
     fetchLastPeriodData();
-  },[data.countDown===30])
+  }, [data.countDown === 30]);
 
   const colorBoxes = [
     {
@@ -307,30 +308,33 @@ function Timer() {
         </div>
       </Popup>
       {/* WINNER DIVISION */}
-      <div className="flex flex-col justify-center w-full items-center mb-4 bg-white ">
-        <p className="mx-2 font-bold text-xl w-[50%] items-center justify-center flex ">
+      <div className="flex flex-col w-full mb-4 bg-white h-[230px] ">
+        <p className=" font-bold text-xl w-full items-center justify-center flex mt-1">
           Parity Result
         </p>
         <div className="flex flex-col justify-center w-full items-center mb-4 mt-2 border h-[1px] border-myblue-200"></div>
-        <div className="justify-around flex flex-row w-full border-spacing-2 ">
-          <p className="text-center">Period Number</p>
-          {/* <p className="text-center">Amount</p> */}
-          <p className=" text-center">Result</p>
-        </div>
         <div className="flex flex-col h-10 items-center w-full">
-          {/* <hr className="border w-full"></hr> */}
-          <div className="flex flex-row w-full justify-around items-center mt-1">
-            <div>
-              {/* {data.timerNumber - 1} */}
-              {lastPeriodData ? lastPeriodData?.periodNumber : data?.countDown < 29 ? lastPeriodData?.periodNumber : "Loading..."}
-            </div>
-            {/* <div>{lastPeriodData ? lastPeriodData?.color : "Loading..."}</div> */}
+          <div className="flex flex-row w-full justify-around items-center">            
             {lastPeriodData && (
-              <div
-                className={`w-5 h-5 rounded-full ml-4 mt-1 ${getColorClass(
-                  lastPeriodData?.color
-                )}`}
-              ></div>
+              <div className="grid grid-cols-9 gap-3 w-full mx-2">
+                {lastPeriodData?.slice()?.reverse()?.map((item, index) => {
+                  const periodNumberLastThreeDigits = item?.periodNumber
+                    ?.toString()
+                    .slice(-3);
+                  return (
+                    <div key={index} className="flex flex-col items-center">
+                      <div
+                        className={`w-7 h-7 rounded-full ${getColorClass(
+                          item?.color
+                        )}`}
+                      ></div>
+                      <span className="text-xs mt-1">
+                        {periodNumberLastThreeDigits}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
             )}
           </div>
         </div>

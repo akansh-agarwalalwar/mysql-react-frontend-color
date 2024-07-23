@@ -47,7 +47,7 @@ const sideNavData = [
   {
     title: "Support",
     icon: <MdContactSupport />,
-    // path: "/support",
+    onClick: () => window.open("https://t.me/your_telegram_channel", "_blank"),
   },
   {
     title: "Complaint",

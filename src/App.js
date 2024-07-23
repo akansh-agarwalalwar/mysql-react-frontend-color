@@ -32,28 +32,6 @@ import calculateTimerInfoTwoMin from "./components/game/calculateTimerInfoTwoMin
 function App() {
 
   // setInterval(() => {
-  //   const { countDown } = calculateTimerInfo();
-  //   if (countDown <= 10 && countDown >= 8) {
-  //     axios.post(`https://api.perfectorse.site/update-amounts`)
-  //       .then(response => {
-  //         // console.log("Amounts updated successfully", response.data);
-  //       })
-  //       .catch(error => {
-  //         // console.error("Error updating amounts", error);
-  //       });
-  //   }
-  //   if (countDown <= 7 && countDown >= 5) {
-  //     axios.post(`https://api.perfectorse.site/update-status`)
-  //       .then(response => {
-  //         // console.log("Amounts updated successfully", response.data);
-  //       })
-  //       .catch(error => {
-  //         // console.error("Error updating amounts", error);
-  //       });
-  //   }
-  // }, 1000);
-
-  // setInterval(() => {
   //   const { countDown } = calculateTimerInfoTwoMin();
   //   if (countDown <= 10 && countDown >= 8) {
   //     axios.post(`https://api.perfectorse.site/update-amounts/two-min`)

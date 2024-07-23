@@ -10,16 +10,6 @@ import axios from "axios";
 import TwoMinOrder from "./TwoMinOrder";
 import { IoIosTrophy } from "react-icons/io";
 import calculateTimerInfoTwoMin from "./calculateTimerInfoTwoMin";
-// const calculateTimerInfo = () => {
-//   const time = Date.now();
-//   const timeInSeconds = Math.floor(time / 1000);
-//   const timerNumber = Math.floor(timeInSeconds / 120);
-//   const countDown = Math.floor(120 - (timeInSeconds % 120));
-//   return {
-//     timerNumber,
-//     countDown,
-//   };
-// };
 function TwoMin() {
   const [data, setData] = useState(calculateTimerInfoTwoMin);
   const { user, fetchUserData } = useContext(UserContext);
@@ -34,7 +24,7 @@ function TwoMin() {
     Violet: 44.1,
     Green: 19.6,
   });
-  const [lastPeriodData, setLastPeriodData] = useState(null);
+  const [lastPeriodData, setLastPeriodData] = useState([]);
   const [errorMessage, setErrorMessage] = useState(""); // State for error message
   const [newBets, setNewBets] = useState([]);
   const [showRandomBets, setShowRandomBets] = useState(false); // State to show random bets
@@ -52,15 +42,17 @@ function TwoMin() {
       const response = await axios.get(
         "https://api.perfectorse.site/winner-api/two-min"
       );
-      setLastPeriodData(response?.data);
+      const data = response?.data;
+      setLastPeriodData(data);
+      // console.log(data)
       // console.log(response.data)
     } catch (error) {
       // console.error(error);
     }
   };
-useEffect(()=>{
-  fetchLastPeriodData()
-},[data.countDown ===30])
+  useEffect(() => {
+    fetchLastPeriodData();
+  }, [data.countDown === 30]);
   const colorBoxes = [
     {
       title: "Red",
@@ -312,29 +304,36 @@ useEffect(()=>{
       </Popup>
 
       {/* WINNER DIVISION */}
-      <div className="flex flex-col justify-center w-full items-center mb-4 bg-white ">
-        <p className="mx-2 font-bold text-xl w-[50%] items-center justify-center flex ">
+      <div className="flex flex-col w-full mb-4 bg-white h-[230px] ">
+        <p className=" font-bold text-xl w-full items-center justify-center flex mt-1">
           Parity Result
         </p>
-        <div className="flex flex-col justify-center w-full items-center mb-4 mt-2 border border-myblue-200"></div>
-        <div className="justify-around flex flex-row  w-full">
-          <p className="text-center">Period Number</p>
-          <p className=" text-center">Color</p>
-        </div>
+        <div className="flex flex-col justify-center w-full items-center mb-4 mt-2 border h-[1px] border-myblue-200"></div>
         <div className="flex flex-col h-10 items-center w-full">
-          {/* <hr className="border w-full"></hr> */}
-          <div className="flex flex-row w-full justify-around items-center mt-1">
-            <div>
-              {/* {data.timerNumber - 1} */}
-              {lastPeriodData ? lastPeriodData?.periodNumber : data?.countDown < 29 ? lastPeriodData?.periodNumber : "Loading..."}
-            </div>
-            {/* <div>{lastPeriodData ? lastPeriodData?.color : "Loading..."}</div> */}
+          <div className="flex flex-row w-full justify-around items-center">
             {lastPeriodData && (
-              <div
-                className={`w-5 h-5 rounded-full ml-4 mt-1 ${getColorClass(
-                  lastPeriodData?.color
-                )}`}
-              ></div>
+              <div className="grid grid-cols-9 gap-3 w-full mx-2">
+                {lastPeriodData
+                  ?.slice()
+                  ?.reverse()
+                  ?.map((item, index) => {
+                    const periodNumberLastThreeDigits = item?.periodNumber
+                      ?.toString()
+                      .slice(-3);
+                    return (
+                      <div key={index} className="flex flex-col items-center">
+                        <div
+                          className={`w-7 h-7 rounded-full ${getColorClass(
+                            item?.color
+                          )}`}
+                        ></div>
+                        <span className="text-xs mt-1">
+                          {periodNumberLastThreeDigits}
+                        </span>
+                      </div>
+                    );
+                  })}
+              </div>
             )}
           </div>
         </div>
