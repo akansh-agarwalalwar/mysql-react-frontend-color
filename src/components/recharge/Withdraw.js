@@ -15,7 +15,7 @@ function Withdraw() {
     const fetchBankDetails = async () => {
       try {
         const res = await axios.get(
-          `https://api.perfectorse.site/api/bank-details/${user.userId}`
+          `http://localhost:3001/api/bank-details/${user.userId}`
         );
         if (res.status === 200) {
           setBankDetails(res.data);
@@ -34,7 +34,7 @@ function Withdraw() {
     }
     try {
       const response = await axios.post(
-        "https://api.perfectorse.site/api/withdraw",
+        "http://localhost:3001/api/withdraw",
         { userId: user.userId, amount }
       );
       // console.log(response.data);

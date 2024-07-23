@@ -8,7 +8,7 @@ export default function AdminDashboard() {
   const [ToPay, setToPay] = useState([])
   const fetchUsers = async () => {
     try {
-      const response = await fetch("https://api.perfectorse.site/all-users");
+      const response = await fetch("http://localhost:3001/all-users");
       const data = await response?.json();
       setUsers(data);
     } catch (error) {
@@ -16,7 +16,7 @@ export default function AdminDashboard() {
   };
   const fetchApproveUser = async () =>{
     try {
-      const response = await fetch("https://api.perfectorse.site/api/payments/pending");
+      const response = await fetch("http://localhost:3001/api/payments/pending");
       const data = await response?.json();
       setApproveUser(data);
     }
@@ -26,7 +26,7 @@ export default function AdminDashboard() {
   }
   const fetchToPayUser = async () =>{
     try {
-      const response = await fetch("https://api.perfectorse.site/api/withdrawl/history");
+      const response = await fetch("http://localhost:3001/api/withdrawl/history");
       const data = await response?.json();
       setToPay(data);
     }
