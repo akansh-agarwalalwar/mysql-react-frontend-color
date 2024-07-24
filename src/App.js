@@ -55,12 +55,12 @@ function App() {
 
 
   function disableRightClick() {
-    document.addEventListener("contextmenu", (event) => {
-      event.preventDefault();
-    }, false);
-  }
+  //   document.addEventListener("contextmenu", (event) => {
+  //     event.preventDefault();
+  //   }, false);
+  // }
   
-  disableRightClick();
+  // disableRightClick();
   return (
     
     <UserProvider>

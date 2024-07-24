@@ -30,7 +30,9 @@ function PaymentPage() {
       });
       return;
     }
-  
+
+    setLoading(true);
+
     try {
       const existingTransaction = await axios.get(
         `https://api.perfectorse.site/check-transaction/${inputValue}`
@@ -39,35 +41,41 @@ function PaymentPage() {
         toast.error("Transaction ID already in use", {
           position: "bottom-right",
         });
+        setLoading(false);
         return;
       }
-  
+
       const data = {
         userId: user?.userId,
         amount,
         input: inputValue,
       };
-      
+
       // Measure the time taken for the POST request
       const startTime = Date.now();
-      
-      await axios.post(`https://api.perfectorse.site/image-upload/${user.userId}`, data);
-      
+
+      await axios.post(`https://api.perfectorse.site/image-upload`, data);
+
       const endTime = Date.now();
       console.log(`Time taken for POST request: ${endTime - startTime}ms`);
-  
+
       toast.success("Request submitted");
-      navigate("/home");
+
+      // Delay navigation by 2 seconds
+      setTimeout(() => {
+        navigate("/home");
+      }, 2000);
     } catch (error) {
       toast.error("Failed to confirm payment. Please try again.", {
         position: "bottom-right",
       });
       console.error("Error confirming payment:", error);
+    } finally {
+      setLoading(false);
     }
   };
-  
 
-  const isConfirmButtonDisabled = inputValue.length !== 12;
+  const isConfirmButtonDisabled = inputValue.length !== 12 || loading;
 
   return (
     <div className="bg-myblue-500 h-screen max-w-md mx-auto">
