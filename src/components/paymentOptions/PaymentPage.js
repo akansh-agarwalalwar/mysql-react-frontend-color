@@ -29,7 +29,7 @@ function PaymentPage() {
       });
       return;
     }
-
+  
     try {
       const existingTransaction = await axios.get(
         `https://api.perfectorse.site/check-transaction/${inputValue}`
@@ -40,14 +40,21 @@ function PaymentPage() {
         });
         return;
       }
-
+  
       const data = {
         userId: user?.userId,
-        amount, // Pass amount from location state
+        amount,
         input: inputValue,
       };
-
+      
+      // Measure the time taken for the POST request
+      const startTime = Date.now();
+      
       await axios.post("https://api.perfectorse.site/image-upload", data);
+      
+      const endTime = Date.now();
+      console.log(`Time taken for POST request: ${endTime - startTime}ms`);
+  
       toast.success("Request submitted");
       navigate("/home");
     } catch (error) {
@@ -57,6 +64,7 @@ function PaymentPage() {
       console.error("Error confirming payment:", error);
     }
   };
+  
 
   const isConfirmButtonDisabled = inputValue.length !== 12;
 
