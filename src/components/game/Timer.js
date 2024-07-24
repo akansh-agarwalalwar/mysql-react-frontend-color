@@ -56,6 +56,7 @@ function Timer() {
   }, []);
   const fetchLastPeriodData = async () => {
     try {
+      console.log("-------------------------------------------------------------")
       const response = await axios.get("https://api.perfectorse.site/winner-api");
       const data = response.data;
       // console.log(data);
@@ -67,7 +68,7 @@ function Timer() {
   };
   useEffect(() => {
     fetchLastPeriodData();
-  }, [data.countDown === 30]);
+  }, [data.countDown]);
 
   const colorBoxes = [
     {

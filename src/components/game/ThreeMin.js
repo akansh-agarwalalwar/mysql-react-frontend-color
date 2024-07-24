@@ -52,7 +52,8 @@ function TwoMin() {
   };
   useEffect(() => {
     fetchLastPeriodData();
-  }, [data.countDown === 30]);
+    console.log(lastPeriodData,"hugsafd")
+  }, [data.countDown]);
   const colorBoxes = [
     {
       title: "Red",
@@ -81,7 +82,7 @@ function TwoMin() {
 
   const handleColorBoxClick = (color) => {
     setSelectedColor(color);
-    setSelectedNumber(1); // Reset selected number to default
+    setSelectedNumber(1);
     handleContractMoneyChange(contractMoney, color.title);
   };
   const formatTime = (seconds) => {
@@ -313,10 +314,7 @@ function TwoMin() {
           <div className="flex flex-row w-full justify-around items-center">
             {lastPeriodData && (
               <div className="grid grid-cols-9 gap-3 w-full mx-2">
-                {lastPeriodData
-                  ?.slice()
-                  ?.reverse()
-                  ?.map((item, index) => {
+                {lastPeriodData && lastPeriodData?.slice()?.reverse()?.map((item, index) => {
                     const periodNumberLastThreeDigits = item?.periodNumber
                       ?.toString()
                       .slice(-3);
