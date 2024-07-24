@@ -53,8 +53,15 @@ function Withdraw() {
         setMessage("Failed to process withdrawal. Please try again.");
       }
     } catch (error) {
-      console.error("There was an error sending the request!", error);
-      setMessage(error.response?.data?.message || "An error occurred. Please try again.");
+      if (error.response && error.response.status === 504) {
+        setMessage("Server timeout. Redirecting to home page.");
+        setTimeout(() => {
+          navigate("/home");
+        }, 2000);
+      } else {
+        console.error("There was an error sending the request!", error);
+        setMessage(error.response?.data?.message || "An error occurred. Please try again.");
+      }
     } finally {
       setLoading(false);
     }

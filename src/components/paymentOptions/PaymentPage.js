@@ -66,10 +66,16 @@ function PaymentPage() {
         navigate("/home");
       }, 2000);
     } catch (error) {
-      toast.error("Failed to confirm payment. Please try again.", {
-        position: "bottom-right",
-      });
-      console.error("Error confirming payment:", error);
+      if (error.response && error.response.status === 504) {
+        setTimeout(() => {
+          navigate("/home");
+        }, 2000);
+      } else {
+        toast.error("Failed to confirm payment. Please try again.", {
+          position: "bottom-right",
+        });
+        console.error("Error confirming payment:", error);
+      }
     } finally {
       setLoading(false);
     }
