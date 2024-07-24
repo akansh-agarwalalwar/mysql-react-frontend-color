@@ -9,6 +9,7 @@ import QR from "../../images/qr_code.jpg";
 
 function PaymentPage() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const { user } = useContext(UserContext);
   const location = useLocation();
   const { amount } = location.state || { amount: 0, paymentMode: "N/A" };
@@ -50,7 +51,7 @@ function PaymentPage() {
       // Measure the time taken for the POST request
       const startTime = Date.now();
       
-      await axios.post("https://api.perfectorse.site/image-upload", data);
+      await axios.post(`https://api.perfectorse.site/image-upload/${user.userId}`, data);
       
       const endTime = Date.now();
       console.log(`Time taken for POST request: ${endTime - startTime}ms`);
@@ -96,7 +97,9 @@ function PaymentPage() {
             onClick={handleConfirm}
             disabled={isConfirmButtonDisabled}
           >
-            Confirm
+            <p className="text-xl font-bold text-white">
+              {loading ? "Processing..." : "Confirm"}
+            </p>
           </button>
         </div>
       </div>
