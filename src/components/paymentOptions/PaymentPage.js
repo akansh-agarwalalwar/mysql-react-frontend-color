@@ -11,10 +11,7 @@ function PaymentPage() {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const location = useLocation();
-  const { amount } = location.state || {
-    amount: 0,
-    paymentMode: "N/A",
-  };
+  const { amount } = location.state || { amount: 0, paymentMode: "N/A" };
   const [inputValue, setInputValue] = useState("");
 
   const handleInputChange = (event) => {
@@ -24,6 +21,7 @@ function PaymentPage() {
       setInputValue(value);
     }
   };
+
   const handleConfirm = async () => {
     if (inputValue.length !== 12) {
       toast.error("Transaction ID must be 12 digits long", {
@@ -31,6 +29,7 @@ function PaymentPage() {
       });
       return;
     }
+
     try {
       const existingTransaction = await axios.get(
         `https://api.perfectorse.site/check-transaction/${inputValue}`
@@ -41,17 +40,21 @@ function PaymentPage() {
         });
         return;
       }
+
       const data = {
         userId: user?.userId,
-        amount: amount, // Pass amount from location state
+        amount, // Pass amount from location state
         input: inputValue,
       };
+
       await axios.post("https://api.perfectorse.site/image-upload", data);
       toast.success("Request submitted");
       navigate("/home");
     } catch (error) {
-      // console.error("Error confirming payment:", error);
-      // alert("Failed to confirm payment. Please try again.");
+      toast.error("Failed to confirm payment. Please try again.", {
+        position: "bottom-right",
+      });
+      console.error("Error confirming payment:", error);
     }
   };
 

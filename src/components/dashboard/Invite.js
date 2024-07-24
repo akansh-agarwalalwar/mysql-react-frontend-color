@@ -9,6 +9,8 @@ import BottomNav from "./BottomNav";
 function Invite() {
   const { user } = useContext(UserContext);
   const [referCode, setReferCode] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (user?.userId) {
@@ -17,29 +19,35 @@ function Invite() {
   }, [user]);
 
   const inviteReferCode = async (userId) => {
+    setLoading(true);
     try {
-      const response = await fetch(
-        `https://api.perfectorse.site/api/invite/refer/${userId}`
-      );
+      const response = await fetch(`https://api.perfectorse.site/api/invite/refer/${userId}`);
       if (response.ok) {
         const data = await response.json();
-        setReferCode(data?.userReferenceCode);
+        setReferCode(data?.userReferenceCode || "");
       } else {
-        // console.error("Error fetching referCode: ", response.statusText);
+        setError("Failed to fetch referral code.");
       }
     } catch (error) {
-      console.error("Error fetching referCode:", error);
+      setError("Error fetching referral code.");
+    } finally {
+      setLoading(false);
     }
   };
 
   const copyToClipboard = () => {
-    navigator?.clipboard?.writeText(referCode);
-    toast.success("Copied to clipboard!");
-  }; 
+    if (referCode) {
+      navigator.clipboard.writeText(referCode)
+        .then(() => toast.success("Copied to clipboard!"))
+        .catch(() => toast.error("Failed to copy to clipboard."));
+    } else {
+      toast.error("No referral code to copy.");
+    }
+  };
 
   return (
     <div className="flex flex-col w-full h-screen bg-myblue-500 max-w-md mx-auto">
-     <div className="flex flex-row bg-myblue-200 w-full text-white items-center h-12">
+      <div className="flex flex-row bg-myblue-200 w-full text-white items-center h-12">
         <Link to="/home">
           <FaArrowLeftLong size={20} className="mx-4" />
         </Link>
@@ -49,19 +57,25 @@ function Invite() {
         <div className="border w-[90%] max-w-lg bg-white rounded-lg p-6 shadow-lg border-myblue-200">
           <h1 className="text-lg font-bold mb-4 text-myblue-700">Invite And Earn</h1>
           <p className="text-sm text-gray-500 mb-4">
-            Using Your Refer Code, friends will get a bonus of up to Rs.50
+            Using your referral code, friends will get a bonus of up to Rs.50
           </p>
-          <div className="flex items-center justify-center bg-myblue-300 w-[100px] rounded-lg p-2">
-            <p id="referCode" className="text-sm font-bold text-myblue-700">
-              {referCode}
-            </p>
-            <button
-              onClick={copyToClipboard}
-              className="ml-2 text-myblue-400 hover:text-myblue-500"
-            >
-              <FaCopy size={16} />
-            </button>
-          </div>
+          {loading ? (
+            <p className="text-gray-500">Loading...</p>
+          ) : error ? (
+            <p className="text-red-500">{error}</p>
+          ) : (
+            <div className="flex items-center justify-center bg-myblue-300 w-[100px] rounded-lg p-2">
+              <p id="referCode" className="text-sm font-bold text-myblue-700">
+                {referCode}
+              </p>
+              <button
+                onClick={copyToClipboard}
+                className="ml-2 text-myblue-400 hover:text-myblue-500"
+              >
+                <FaCopy size={16} />
+              </button>
+            </div>
+          )}
         </div>
       </div>
       <ToastContainer />

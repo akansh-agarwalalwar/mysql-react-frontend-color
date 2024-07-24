@@ -27,7 +27,7 @@ function Settings() {
 
   return (
     <div className="px-4 py-6 max-w-md mx-auto">
-      <div className="flex items-center bg-myblue-200 py-2 px-4 fixed top-0 w-[27%]">
+      <div className="flex items-center bg-myblue-200 py-2 px-4 fixed top-0 w-full">
         <Link to='/home'>
         <div className="text-white">
           <FaArrowLeftLong size={20} />

@@ -43,16 +43,12 @@ const sideNavData = [
     title: "Follow Us",
     icon: <RiChatFollowUpFill />,
     // path: "/follow-us",
+    onClick: () => window.open("https://t.me/Perfectorse", "_blank"),
   },
   {
     title: "Support",
     icon: <MdContactSupport />,
-    onClick: () => window.open("https://t.me/your_telegram_channel", "_blank"),
-  },
-  {
-    title: "Complaint",
-    icon: <MdOutlineSupportAgent />,
-    // path: "/complaint",
+    onClick: () => window.open("https://t.me/Perfectorse", "_blank"),
   },
 ];
 
@@ -60,6 +56,7 @@ const ProfileMainPage = () => {
   const { user, logout } = useContext(UserContext);
   const navigate = useNavigate();
   const [profileImage, setProfileImage] = useState(null);
+  const [activeItem, setActiveItem] = useState(null);
 
   useEffect(() => {
     const profileImages = [one, two, three, four];
@@ -71,10 +68,18 @@ const ProfileMainPage = () => {
     await logout();
     navigate("/login");
   };
+
+  const handleItemClick = (item) => {
+    if (item.onClick) {
+      item.onClick();
+    }
+    setActiveItem(item.title);
+  };
+
   return (
     <div className="flex flex-col px-8 bg-myblue-500 min-h-screen text-richblack-5 max-w-md mx-auto">
       <div className="flex items-center mt-8">
-        <div className="  rounded-full p-3 flex justify-center items-center -ml-5">
+        <div className="rounded-full p-3 flex justify-center items-center -ml-5">
           {profileImage ? (
             <div
               style={{
@@ -112,20 +117,22 @@ const ProfileMainPage = () => {
           {sideNavData?.map((item, index) => (
             <div
               className={`rounded-lg px-7 border-b border-richblack-100 ${
-                index % 2 === 0 ? "bg-richblue-5" : "bg-white"
+                item.title === activeItem ? "bg-myblue-100" : (index % 2 === 0 ? "bg-richblue-5" : "bg-white")
               }`}
               key={index}
             >
-              <Link
-                to={item.path}
-                className={`flex items-center justify-between py-4`}
+              <div
+                className={`flex items-center justify-between py-4 cursor-pointer ${
+                  item.title === activeItem ? "text-myblue-500" : "text-black"
+                }`}
+                onClick={() => handleItemClick(item)}
               >
                 <div className="flex items-center space-x-2">
                   <p className="text-2xl text-myblue-400">{item?.icon}</p>
-                  <p className=" text-lg text-black">{item?.title}</p>
+                  <p className="text-lg">{item?.title}</p>
                 </div>
                 <MdKeyboardArrowRight className="text-myblue-400" />
-              </Link>
+              </div>
             </div>
           ))}
         </ul>

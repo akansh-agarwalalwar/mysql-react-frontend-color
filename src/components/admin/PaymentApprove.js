@@ -1,51 +1,36 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import NavBarAdmin from "./NavBarAdmin";
 
 function PaymentApprove() {
   const [pendingPayments, setPendingPayments] = useState([]);
   const [paymentHistory, setPaymentHistory] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchPayments = useCallback(async () => {
+    try {
+      const [pendingResponse, historyResponse] = await Promise.all([
+        axios.get("https://api.perfectorse.site/api/payments/pending"),
+        axios.get("https://api.perfectorse.site/api/payments/updatedHistory")
+      ]);
+      setPendingPayments(pendingResponse.data);
+      setPaymentHistory(historyResponse.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching payments:", error);
+    }
+  }, []);
 
   useEffect(() => {
-    const fetchPendingPayments = async () => {
-      try {
-        const response = await axios.get(
-          "https://api.perfectorse.site/api/payments/pending"
-        );
-        setPendingPayments(response?.data);
-      } catch (error) {
-        console.error("Error fetching pending payments:", error);
-      }
-    };
-    const fetchPaymentHistory = async () => {
-      try {
-        const response = await axios.get(
-          "https://api.perfectorse.site/api/payments/updatedHistory"
-        );
-        setPaymentHistory(response?.data);
-      } catch (error) {
-        console.error("Error fetching payment history:", error);
-      }
-    };
-
-    fetchPendingPayments();
-    fetchPaymentHistory();
-  }, []);
+    fetchPayments();
+  }, [fetchPayments]);
 
   const handleApprove = async (id) => {
     try {
       await axios.post("https://api.perfectorse.site/api/payments/approve", { id });
-      const approvedPayment = pendingPayments.find(
-        (payment) => payment?.id === id
-      );
-
-      setPendingPayments( 
-        pendingPayments?.filter((payment) => payment?.id !== id)
-      );
-      setPaymentHistory([
-        ...paymentHistory,
-        { ...approvedPayment, status: "approved" },
-      ]);
+      const approvedPayment = pendingPayments.find(payment => payment.id === id);
+      setPendingPayments(pendingPayments.filter(payment => payment.id !== id));
+      setPaymentHistory([...paymentHistory, { ...approvedPayment, status: "approved" }]);
     } catch (error) {
       console.error("Error approving payment:", error);
     }
@@ -54,9 +39,7 @@ function PaymentApprove() {
   const handleDeny = async (id) => {
     try {
       await axios.post("https://api.perfectorse.site/api/payments/deny", { id });
-      setPendingPayments(
-        pendingPayments?.filter((payment) => payment?.id !== id)
-      );
+      setPendingPayments(pendingPayments.filter(payment => payment.id !== id));
     } catch (error) {
       console.error("Error denying payment:", error);
     }
@@ -69,7 +52,9 @@ function PaymentApprove() {
         Approve or Deny Payments
       </h2>
       <div className="w-full max-w-4xl overflow-x-auto bg-white shadow-md rounded-lg p-4">
-        {pendingPayments.length === 0 ? (
+        {loading ? (
+          <p className="text-center text-gray-600">Loading...</p>
+        ) : pendingPayments.length === 0 ? (
           <p className="text-center text-gray-600">
             No applications to approve or deny
           </p>
@@ -92,23 +77,21 @@ function PaymentApprove() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {pendingPayments?.slice()?.reverse()?.map((payment) => (
-                <tr key={payment?.id}>
+              {pendingPayments.slice().reverse().map(payment => (
+                <tr key={payment.id}>
                   <td className="py-4 px-6">{payment.userId}</td>
                   <td className="py-4 px-6">{payment.amount}</td>
-                  <td className="py-4 px-6">
-                    {payment?.transaction_id || "N/A"}
-                  </td>
+                  <td className="py-4 px-6">{payment.transaction_id || "N/A"}</td>
                   <td className="py-4 px-6 text-center">
                     <button
                       className="bg-green-500 py-1 px-3 rounded-lg mr-2 hover:bg-green-600"
-                      onClick={() => handleApprove(payment?.id)}
+                      onClick={() => handleApprove(payment.id)}
                     >
                       Approve
                     </button>
                     <button
                       className="bg-red-500 py-1 px-3 rounded-lg hover:bg-red-600"
-                      onClick={() => handleDeny(payment?.id)}
+                      onClick={() => handleDeny(payment.id)}
                     >
                       Deny
                     </button>
@@ -139,17 +122,11 @@ function PaymentApprove() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {paymentHistory?.slice()?.reverse()?.map((payment) => (
+              {paymentHistory.slice().reverse().map(payment => (
                 <tr key={payment.id} className="hover:bg-gray-100">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {payment?.userId}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {payment?.amount}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {payment?.status}
-                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">{payment.userId}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{payment.amount}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{payment.status}</td>
                 </tr>
               ))}
             </tbody>

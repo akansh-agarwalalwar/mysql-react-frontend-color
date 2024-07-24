@@ -1,52 +1,46 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import NavBarAdmin from './NavBarAdmin';
 
-export default function ToPay() {
+const ToPay = () => {
   const [withdrawHistory, setWithdrawHistory] = useState([]);
   const [processedWithdrawHistory, setProcessedWithdrawHistory] = useState([]);
 
-  const fetchWithdrawHistory = async () => {
+  const fetchData = useCallback(async () => {
     try {
-      const response = await axios.get('https://api.perfectorse.site/api/withdrawl/history');
-      setWithdrawHistory(response?.data);
-    } catch (error) {
-      console.error('Error fetching withdraw history:', error);
-    }
-  };
+      const [withdrawResponse, processedResponse] = await Promise.all([
+        axios.get('https://api.perfectorse.site/api/withdrawl/history'),
+        axios.get('https://api.perfectorse.site/api/withdrawl/processed-history')
+      ]);
 
-  const fetchProcessedWithdrawHistory = async () => {
-    try {
-      const response = await axios.get('https://api.perfectorse.site/api/withdrawl/processed-history');
-      setProcessedWithdrawHistory(response?.data);
+      setWithdrawHistory(withdrawResponse.data || []);
+      setProcessedWithdrawHistory(processedResponse.data || []);
     } catch (error) {
-      console.error('Error fetching processed withdraw history:', error);
+      console.error('Error fetching withdraw histories:', error);
     }
-  };
-
-  useEffect(() => {
-    fetchWithdrawHistory();
-    fetchProcessedWithdrawHistory();
   }, []);
 
-  const handleAccept = async (id) => {
-    try {
-      await axios.post('https://api.perfectorse.site/api/withdrawals/accept', { id });
-      setWithdrawHistory(withdrawHistory?.filter((withdrawal) => withdrawal?.id !== id));
-      fetchProcessedWithdrawHistory();
-    } catch (error) {
-      console.error('Error accepting withdrawal:', error);
-    }
-  };
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
-  const handleDeny = async (id) => {
+  const handleAction = async (id, action) => {
     try {
-      await axios.post('https://api.perfectorse.site/api/withdrawals/deny', { id });
-      const deniedWithdrawal = withdrawHistory?.find((withdrawal) => withdrawal?.id === id);
-      setWithdrawHistory(withdrawHistory?.filter((withdrawal) => withdrawal?.id !== id));
-      setProcessedWithdrawHistory([...processedWithdrawHistory, { ...deniedWithdrawal, status: 'denied' }]);
+      const endpoint = action === 'accept'
+        ? 'https://api.perfectorse.site/api/withdrawals/accept'
+        : 'https://api.perfectorse.site/api/withdrawals/deny';
+
+      await axios.post(endpoint, { id });
+      setWithdrawHistory((prev) => prev.filter((withdrawal) => withdrawal.id !== id));
+
+      if (action === 'deny') {
+        const deniedWithdrawal = withdrawHistory.find((withdrawal) => withdrawal.id === id);
+        setProcessedWithdrawHistory((prev) => [...prev, { ...deniedWithdrawal, status: 'denied' }]);
+      } else {
+        fetchData(); // Refresh processed history if accepted
+      }
     } catch (error) {
-      console.error('Error denying withdrawal:', error);
+      console.error(`Error ${action} withdrawal:`, error);
     }
   };
 
@@ -55,42 +49,34 @@ export default function ToPay() {
       <NavBarAdmin />
       <h1 className="font-bold text-2xl my-6 text-gray-800">To Pay</h1>
       <div className="w-full max-w-4xl overflow-x-auto shadow-md rounded-lg p-4">
-        {withdrawHistory?.length === 0 ? (
+        {withdrawHistory.length === 0 ? (
           <p className="text-center text-gray-600">No withdrawals to process</p>
         ) : (
           <table className="min-w-full">
             <thead className="bg-gray-100">
               <tr>
-                <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
-                  User Id
-                </th>
-                <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
-                  Amount
-                </th>
-                <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
-                  Date
-                </th>
-                <th className="py-3 px-6 text-center text-xs font-medium text-gray-600 uppercase tracking-wider">
-                  Actions
-                </th>
+                <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">User Id</th>
+                <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Amount</th>
+                <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Date</th>
+                <th className="py-3 px-6 text-center text-xs font-medium text-gray-600 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {withdrawHistory?.slice()?.reverse()?.map((withdrawal) => (
+              {withdrawHistory.slice().reverse().map((withdrawal) => (
                 <tr key={withdrawal.id}>
-                  <td className="py-4 px-6">{withdrawal?.userId}</td>
-                  <td className="py-4 px-6">{withdrawal?.amount}</td>
-                  <td className="py-4 px-6">{new Date(withdrawal?.withdrawDate).toLocaleDateString()}</td>
+                  <td className="py-4 px-6">{withdrawal.userId}</td>
+                  <td className="py-4 px-6">{withdrawal.amount}</td>
+                  <td className="py-4 px-6">{new Date(withdrawal.withdrawDate).toLocaleDateString()}</td>
                   <td className="py-4 px-6 text-center">
                     <button
                       className="bg-red-500 py-1 px-3 rounded-lg hover:bg-red-600 mr-2"
-                      onClick={() => handleDeny(withdrawal?.id)}
+                      onClick={() => handleAction(withdrawal.id, 'deny')}
                     >
                       Deny
                     </button>
                     <button
                       className="bg-green-500 py-1 px-3 rounded-lg hover:bg-green-600"
-                      onClick={() => handleAccept(withdrawal?.id)}
+                      onClick={() => handleAction(withdrawal.id, 'accept')}
                     >
                       Accept
                     </button>
@@ -109,18 +95,10 @@ export default function ToPay() {
           <table className="min-w-full">
             <thead className="bg-gray-100">
               <tr>
-                <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
-                  User Id
-                </th>
-                <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
-                  Amount
-                </th>
-                <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
-                  Date
-                </th>
-                <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
-                  Status
-                </th>
+                <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">User Id</th>
+                <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Amount</th>
+                <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Date</th>
+                <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Status</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
@@ -138,4 +116,6 @@ export default function ToPay() {
       </div>
     </div>
   );
-}
+};
+
+export default ToPay;
