@@ -57,7 +57,7 @@ function Timer() {
   const fetchLastPeriodData = async () => {
     try {
       console.log("-------------------------------------------------------------")
-      const response = await axios.get("https://api.perfectorse.site/winner-api");
+      const response = await axios.get("https://api.perfectorse.site/-api");
       const data = response.data;
       // console.log(data);
       setLastPeriodData(data);
@@ -142,7 +142,7 @@ function Timer() {
     }
 
     try {
-      const response = await axios.post("https://api.perfectorse.site/place-bet", {
+      const response = await axios.post("http://localhost:3001/place-bet", {
         userId: user.userId,
         periodNumber: data.timerNumber,
         periodDate: new Date().toISOString().split("T")[0],
