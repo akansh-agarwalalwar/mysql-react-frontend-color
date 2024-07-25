@@ -16,7 +16,7 @@ function BankDetails() {
     const fetchBankDetails = async () => {
       try {
         const res = await axios.get(
-          `https://api.perfectorse.site/api/bank-details/${user.userId}`
+          `https://api.perfectorse.site/api/v1/financial/bank-details/${user.userId}`
         );
         if (res.status === 200) {
           setAccountNumber(res?.data?.accountNumber);
@@ -35,7 +35,7 @@ function BankDetails() {
   const handleBankDetails = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("https://api.perfectorse.site/api/bank-details", {
+      const res = await axios.post("https://api.perfectorse.site/api/v1/financial/bank-details", {
         userId: user?.userId,
         accountNumber,
         ifscCode,
@@ -48,7 +48,6 @@ function BankDetails() {
       // console.log(err);
     }
   };
-
   const getLastFourDigits = (number) => {
     return "****" + number?.slice(-4);
   };

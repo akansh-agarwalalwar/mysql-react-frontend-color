@@ -9,8 +9,8 @@ const ToPay = () => {
   const fetchData = useCallback(async () => {
     try {
       const [withdrawResponse, processedResponse] = await Promise.all([
-        axios.get('https://api.perfectorse.site/api/withdrawl/history'),
-        axios.get('https://api.perfectorse.site/api/withdrawl/processed-history')
+        axios.get('https://api.perfectorse.site/api/v1/admin/withdrawlHistory'),
+        axios.get('https://api.perfectorse.site/api/v1/admin/processedWithdrawlHistory')
       ]);
 
       setWithdrawHistory(withdrawResponse.data || []);
@@ -27,8 +27,8 @@ const ToPay = () => {
   const handleAction = async (id, action) => {
     try {
       const endpoint = action === 'accept'
-        ? 'https://api.perfectorse.site/api/withdrawals/accept'
-        : 'https://api.perfectorse.site/api/withdrawals/deny';
+        ? 'https://api.perfectorse.site/api/v1/admin/withdrawlAccept'
+        : 'https://api.perfectorse.site/api/v1/admin/withdrawlDeny';
 
       await axios.post(endpoint, { id });
       setWithdrawHistory((prev) => prev.filter((withdrawal) => withdrawal.id !== id));
@@ -62,7 +62,7 @@ const ToPay = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {withdrawHistory.slice().reverse().map((withdrawal) => (
+              {withdrawHistory?.slice()?.reverse()?.map((withdrawal) => (
                 <tr key={withdrawal.id}>
                   <td className="py-4 px-6">{withdrawal.userId}</td>
                   <td className="py-4 px-6">{withdrawal.amount}</td>
@@ -102,7 +102,7 @@ const ToPay = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {processedWithdrawHistory.slice().reverse().map((withdrawal) => (
+              {processedWithdrawHistory?.slice()?.reverse()?.map((withdrawal) => (
                 <tr key={withdrawal.id}>
                   <td className="py-4 px-6">{withdrawal.userId}</td>
                   <td className="py-4 px-6">{withdrawal.amount}</td>

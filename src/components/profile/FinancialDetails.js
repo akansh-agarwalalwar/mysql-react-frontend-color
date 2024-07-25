@@ -18,12 +18,11 @@ function FinancialDetails() {
       fetchWithdrawHistory(user?.userId);
     }
   }, [user]);
-
   const fetchRechargeHistory = async (userId) => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `https://api.perfectorse.site/api/payemnt/history123?userId=${userId}`
+        `https://api.perfectorse.site/api/v1/financial/recharge-history?userId=${userId}`
       );
       if (response.status === 200) {
         setRechargeHistory(response?.data);
@@ -36,12 +35,11 @@ function FinancialDetails() {
       setLoading(false);
     }
   };
-
   const fetchWithdrawHistory = async (userId) => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `https://api.perfectorse.site/api/show/withdrawl/history?userId=${userId}`
+        `https://api.perfectorse.site/api/v1/financial/withdraw-history?userId=${userId}`
       );
       if (response.status === 200) {
         setWithdrawHistory(response?.data);

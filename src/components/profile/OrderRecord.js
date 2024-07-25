@@ -25,7 +25,7 @@ function OrderRecord() {
     try {
       setLoading(true);
       const response = await axios.get(
-        `https://api.perfectorse.site/api/thirty-second-history/${userId}`
+        `https://api.perfectorse.site/api/v1/financial/thirty-second-history/${userId}`
       );
       if (response.status === 200) {
         setThirtySecond(response?.data);
@@ -43,7 +43,7 @@ function OrderRecord() {
     try {
       setLoading(true);
       const response = await axios.get(
-        `https://api.perfectorse.site/api/two-min-history/${userId}`
+        `https://api.perfectorse.site/api/v1/financial/two-min-history/${userId}`
       );
       if (response.status === 200) {
         setTwomin(response?.data);

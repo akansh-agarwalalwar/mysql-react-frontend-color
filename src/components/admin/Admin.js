@@ -4,36 +4,38 @@ import { Link } from 'react-router-dom';
 
 export default function AdminDashboard() {
   const [users, setUsers] = useState([]);
-  const [approveUser, setApproveUser] = useState([])
-  const [ToPay, setToPay] = useState([])
+  const [approveUser, setApproveUser] = useState([]);
+  const [ToPay, setToPay] = useState([]);
+
   const fetchUsers = async () => {
     try {
-      const response = await fetch("https://api.perfectorse.site/all-users");
-      const data = await response?.json();
-      setUsers(data);
+      const response = await fetch("https://api.perfectorse.site/api/v1/admin/all-users");
+      const data = await response.json();
+      setUsers(data || []);
     } catch (error) {
+      console.error("Error fetching users:", error);
     }
   };
-  const fetchApproveUser = async () =>{
+
+  const fetchApproveUser = async () => {
     try {
-      const response = await fetch("https://api.perfectorse.site/api/payments/pending");
-      const data = await response?.json();
-      setApproveUser(data);
-    }
-    catch(error){
+      const response = await fetch("https://api.perfectorse.site/api/v1/admin/pendingPayment");
+      const data = await response.json();
+      setApproveUser(data || []);
+    } catch (error) {
       console.error("Error fetching approve users:", error);
     }
-  }
-  const fetchToPayUser = async () =>{
+  };
+
+  const fetchToPayUser = async () => {
     try {
-      const response = await fetch("https://api.perfectorse.site/api/withdrawl/history");
-      const data = await response?.json();
-      setToPay(data);
+      const response = await fetch("https://api.perfectorse.site/api/v1/admin/withdrawlHistory");
+      const data = await response.json();
+      setToPay(data || []);
+    } catch (error) {
+      console.error("Error fetching to pay users:", error);
     }
-    catch(error){
-      console.error("Error fetching approve users:", error);
-    }
-  }
+  };
 
   useEffect(() => {
     fetchUsers();

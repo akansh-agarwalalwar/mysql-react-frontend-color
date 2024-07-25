@@ -5,6 +5,7 @@ import UserContext from "../login/UserContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import BottomNav from "./BottomNav";
+import axios from 'axios';
 
 function Invite() {
   const { user } = useContext(UserContext);
@@ -21,13 +22,9 @@ function Invite() {
   const inviteReferCode = async (userId) => {
     setLoading(true);
     try {
-      const response = await fetch(`https://api.perfectorse.site/api/invite/refer/${userId}`);
-      if (response.ok) {
-        const data = await response.json();
-        setReferCode(data?.userReferenceCode || "");
-      } else {
-        setError("Failed to fetch referral code.");
-      }
+      const response = await axios.get(`https://api.perfectorse.site/api/v1/user/refer-and-earn/${userId}`);
+      const data = response.data;
+      setReferCode(data?.userReferenceCode);
     } catch (error) {
       setError("Error fetching referral code.");
     } finally {

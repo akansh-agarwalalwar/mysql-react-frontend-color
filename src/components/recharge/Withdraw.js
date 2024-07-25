@@ -4,7 +4,7 @@ import UserContext from "../login/UserContext";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import debounce from "lodash.debounce";
-
+import toast from "react-hot-toast";
 function Withdraw() {
   const { user } = useContext(UserContext);
   const [amountset, setAmountset] = useState("");
@@ -17,7 +17,7 @@ function Withdraw() {
     const fetchBankDetails = async () => {
       try {
         const res = await axios.get(
-          `https://api.perfectorse.site/api/bank-details/${user.userId}`
+          `https://api.perfectorse.site/api/v1/financial/bank-details/${user.userId}`
         );
         if (res.status === 200) {
           setBankDetails(res.data);
@@ -30,7 +30,6 @@ function Withdraw() {
       fetchBankDetails();
     }
   }, [user]);
-
   const handleWithdraw = async () => {
     const amount = parseFloat(amountset);
     if (isNaN(amount) || amount <= 0) {
@@ -38,17 +37,16 @@ function Withdraw() {
       return;
     }
     setLoading(true);
-    setMessage("");
     try {
       const response = await axios.post(
-        `https://api.perfectorse.site/api/withdraw`,
+        `https://api.perfectorse.site/api/v1/financial/amount-withdraw`,
         { userId: user.userId, amount }
       );
       if (response.status === 200) {
-        setMessage("Withdrawal successful!");
+        toast.success('Withdrawl successfull!');
         setTimeout(() => {
           navigate("/home");
-        }, 1000); // Redirect after a short delay
+        }, 1000);
       } else {
         setMessage("Failed to process withdrawal. Please try again.");
       }

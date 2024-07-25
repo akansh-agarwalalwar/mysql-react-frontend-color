@@ -27,7 +27,6 @@ export default function ForgotPassword() {
         navigate('/login');
       }
     } catch (error) {
-      // console.error("There was an error updating the password:", error);
       setStatusMessage("Password update failed");
     }
   };

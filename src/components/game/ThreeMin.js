@@ -10,6 +10,7 @@ import axios from "axios";
 import TwoMinOrder from "./TwoMinOrder";
 import { IoIosTrophy } from "react-icons/io";
 import calculateTimerInfoTwoMin from "./calculateTimerInfoTwoMin";
+import toast from 'react-hot-toast';
 function TwoMin() {
   const [data, setData] = useState(calculateTimerInfoTwoMin);
   const { user, fetchUserData } = useContext(UserContext);
@@ -40,7 +41,7 @@ function TwoMin() {
   const fetchLastPeriodData = async () => {
     try {
       const response = await axios.get(
-        "https://api.perfectorse.site/winner-api/two-min"
+        "https://api.perfectorse.site/api/v1/user/winner-two-min"
       );
       const data = response?.data;
       setLastPeriodData(data);
@@ -52,8 +53,8 @@ function TwoMin() {
   };
   useEffect(() => {
     fetchLastPeriodData();
-    console.log(lastPeriodData,"hugsafd")
-  }, [data.countDown]);
+    // console.log(lastPeriodData,"hugsafd")
+  }, [data.countDown===120]);
   const colorBoxes = [
     {
       title: "Red",
@@ -130,7 +131,6 @@ function TwoMin() {
       setErrorMessage("Insufficient balance"); // Set error message if balance is insufficient
       return;
     }
-
     try {
       const response = await axios.post(
         "https://api.perfectorse.site/place-bet/two-min",
@@ -144,20 +144,17 @@ function TwoMin() {
           possiblePayout: possiblePayout[selectedColor?.title]?.toFixed(2),
         }
       );
-
+      toast.success('Bet placed successfully!');
       // console.log("Response from server:", response.data);
 
       if (response.status !== 200) {
         throw new Error("Error placing bet");
       }
-
-      // console.log("Bet placed successfully:", response.data);
-
-      // Fetch the latest user data
       await fetchUserData();
     } catch (error) {
       // console.error("Error placing bet:", error);
     }
+    
     closePopup();
   };
   useEffect(() => {
@@ -253,7 +250,7 @@ function TwoMin() {
 
       {/* Popup Modal */}
       <Popup
-        open={!!selectedColor && data.countDown > 11}
+        open={!!selectedColor && data.countDown > 30}
         closeOnDocumentClick
         onClose={closePopup}
         modal

@@ -19,7 +19,7 @@ export default function AllUsers() {
   }, []);
 
   useEffect(() => {
-    const filteredUsers = users.filter(
+    const filteredUsers = users?.filter(
       (user) =>
         user?.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
         user?.useremail.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -31,8 +31,8 @@ export default function AllUsers() {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch("https://api.perfectorse.site/all-users");
-      const data = await response?.json();
+      const response = await axios.get("https://api.perfectorse.site/api/v1/admin/all-users");
+      const data = await response.data;
       setUsers(data);
     } catch (error) {
       console.error("Error fetching users:", error);

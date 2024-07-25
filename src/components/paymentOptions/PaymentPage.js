@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
+import toast from "react-hot-toast";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
@@ -30,17 +30,14 @@ function PaymentPage() {
       });
       return;
     }
-
     setLoading(true);
-
     try {
       const existingTransaction = await axios.get(
-        `https://api.perfectorse.site/check-transaction/${inputValue}`
+        `https://api.perfectorse.site/api/v1/transaction/checkTransactionId/${inputValue}`
       );
-      if (existingTransaction.data.exists) {
-        toast.error("Transaction ID already in use", {
-          position: "bottom-right",
-        });
+      
+      if (existingTransaction.data.message === "Transaction ID already present") {
+        toast.error("Transaction ID already in use");
         setLoading(false);
         return;
       }
@@ -51,17 +48,9 @@ function PaymentPage() {
         input: inputValue,
       };
 
-      // Measure the time taken for the POST request
-      const startTime = Date.now();
-
-      await axios.post(`https://api.perfectorse.site/image-upload`, data);
-
-      const endTime = Date.now();
-      console.log(`Time taken for POST request: ${endTime - startTime}ms`);
-
+      await axios.post(`https://api.perfectorse.site/api/v1/transaction/upload-transaction-id`, data);
       toast.success("Request submitted");
 
-      // Delay navigation by 2 seconds
       setTimeout(() => {
         navigate("/home");
       }, 2000);
@@ -117,7 +106,6 @@ function PaymentPage() {
           </button>
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 }

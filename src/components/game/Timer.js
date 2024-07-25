@@ -9,6 +9,7 @@ import UserContext from "../login/UserContext";
 import EveryOneOrder from "./EveryOneOrder";
 import axios from "axios";
 import { IoIosTrophy } from "react-icons/io";
+import toast from 'react-hot-toast';
 const calculateTimerInfo = () => {
   const time = Date.now();
   const timeInSeconds = Math.floor(time / 1000);
@@ -57,7 +58,7 @@ function Timer() {
   const fetchLastPeriodData = async () => {
     try {
       // console.log("-------------------------------------------------------------")
-      const response = await axios.get("https://api.perfectorse.site/winner-api");
+      const response = await axios.get("https://api.perfectorse.site/api/v1/user/winner-thirty-second");
       const data = response.data;
       // console.log(data);
       setLastPeriodData(data);
@@ -68,7 +69,7 @@ function Timer() {
   };
   useEffect(() => {
     fetchLastPeriodData();
-  }, [data.countDown]);
+  }, [data.countDown===30]);
 
   const colorBoxes = [
     {
@@ -151,6 +152,7 @@ function Timer() {
         betAmount: betAmount,
         possiblePayout: possiblePayout[selectedColor?.title]?.toFixed(2),
       });
+      toast.success('Bet placed successfully!');
       // console.log("Response from server:", response.data);
       if (response.status !== 200) {
         throw new Error("Error placing bet");

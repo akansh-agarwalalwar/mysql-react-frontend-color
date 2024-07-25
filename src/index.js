@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { Toaster } from 'react-hot-toast';
 
 import { disableReactDevTools } from '@fvilers/disable-react-devtools';
 if (process.env.NODE_ENV === 'production') {
@@ -10,8 +11,10 @@ if (process.env.NODE_ENV === 'production') {
 }
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  
-    <App />
+  <>
+  <Toaster />
+  <App />
+  </>
  
 );
 

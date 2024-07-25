@@ -17,7 +17,7 @@ export default function GameMode() {
       console.log("Sending data:", { periodNumber, color });
 
       const response = await axios.post(
-        "https://api.perfectorse.site/api/check-and-update-period",
+        "https://api.perfectorse.site/api/v1/admin/thirtySecond",
         {
           periodNumber,
           color // Send color as well if needed

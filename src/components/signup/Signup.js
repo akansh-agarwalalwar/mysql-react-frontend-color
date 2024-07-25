@@ -21,9 +21,8 @@ export default function Signup() {
       setRegisterStatus("Please verify your OTP first.");
       return;
     }
-    
     try {
-      const response = await Axios.post("https://api.perfectorse.site/register", {
+      const response = await Axios.post("https://api.perfectorse.site/api/v1/signup", {
         username,
         mobileNumber: `+91${mobileNumber}`,
         useremail,
@@ -41,11 +40,10 @@ export default function Signup() {
       setRegisterStatus("Registration failed.");
     }
   };
-
   const sendOtp = async () => {
     try {
       const response = await Axios.post(
-        "https://api.perfectorse.site/send-email-otp",
+        "https://api.perfectorse.site/api/v1/sendOtp",
         {
           useremail,
         }
@@ -65,7 +63,7 @@ export default function Signup() {
   const verifyOtp = async () => {
     try {
       const response = await Axios.post(
-        "https://api.perfectorse.site/verify-email-otp",
+        "https://api.perfectorse.site/api/v1/verifyEmail",
         {
           useremail,
           otp,

@@ -15,10 +15,10 @@ function GameModeSecond() {
       return;
     }
     setLoading(true);
-    setError(""); // Clear any previous errors
+    setError("");
     try {
       const response = await axios.post(
-        "https://api.perfectorse.site/api/check-and-update-period/two-min",
+        "https://api.perfectorse.site/api/v1/admin/twoMin",
         {
           periodNumber,
           color, // Include the color in the request body
