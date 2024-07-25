@@ -56,7 +56,7 @@ function Timer() {
   }, []);
   const fetchLastPeriodData = async () => {
     try {
-      console.log("-------------------------------------------------------------")
+      // console.log("-------------------------------------------------------------")
       const response = await axios.get("https://api.perfectorse.site/winner-api");
       const data = response.data;
       // console.log(data);

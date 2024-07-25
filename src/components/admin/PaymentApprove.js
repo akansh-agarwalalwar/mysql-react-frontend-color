@@ -117,6 +117,9 @@ function PaymentApprove() {
                   Amount
                 </th>
                 <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
+                  Transaction Id
+                </th>
+                <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                   Status
                 </th>
               </tr>
@@ -126,6 +129,7 @@ function PaymentApprove() {
                 <tr key={payment.id} className="hover:bg-gray-100">
                   <td className="px-6 py-4 whitespace-nowrap">{payment.userId}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{payment.amount}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{payment.transaction_id}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{payment.status}</td>
                 </tr>
               ))}
