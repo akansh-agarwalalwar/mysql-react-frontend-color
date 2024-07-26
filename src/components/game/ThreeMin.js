@@ -10,7 +10,7 @@ import axios from "axios";
 import TwoMinOrder from "./TwoMinOrder";
 import { IoIosTrophy } from "react-icons/io";
 import calculateTimerInfoTwoMin from "./calculateTimerInfoTwoMin";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
 function TwoMin() {
   const [data, setData] = useState(calculateTimerInfoTwoMin);
   const { user, fetchUserData } = useContext(UserContext);
@@ -20,11 +20,14 @@ function TwoMin() {
   const [contractMoney, setContractMoney] = useState(10);
   const [winAmount, setWinAmount] = useState(19.6);
   const [refresh, setRefresh] = useState(0);
+  const [userOrders, setUserOrders] = useState([]);
+
   const [possiblePayout, setPossiblePayout] = useState({
     Red: 19.6,
     Violet: 44.1,
     Green: 19.6,
   });
+  const [twomin, setTwomin] = useState([]);
   const [lastPeriodData, setLastPeriodData] = useState([]);
   const [errorMessage, setErrorMessage] = useState(""); // State for error message
   const [newBets, setNewBets] = useState([]);
@@ -54,7 +57,32 @@ function TwoMin() {
   useEffect(() => {
     fetchLastPeriodData();
     // console.log(lastPeriodData,"hugsafd")
-  }, [data.countDown===120]);
+  }, [data.countDown === 120]);
+  useEffect(() => {
+    if (user && user.userId) {
+      fetchtwomin(user?.userId);
+    }
+
+  }, [user]);
+  const fetchtwomin = async (userId) => {
+    try {
+      // setLoading(true);
+      const response = await axios.get(
+        `https://api.perfectorse.site/api/v1/financial/two-min-history/${userId}`
+      );
+      if (response.status === 200) {
+        setTwomin(response?.data);
+      }
+    } catch (error) {
+      // setError(error.message);
+      console.error(error)
+    } finally {
+      // setLoading(false);
+    }
+  };
+
+
+
   const colorBoxes = [
     {
       title: "Red",
@@ -144,17 +172,26 @@ function TwoMin() {
           possiblePayout: possiblePayout[selectedColor?.title]?.toFixed(2),
         }
       );
-      toast.success('Bet placed successfully!');
+      toast.success("Bet placed successfully!");
       // console.log("Response from server:", response.data);
 
       if (response.status !== 200) {
         throw new Error("Error placing bet");
       }
+      setUserOrders((prevOrders) => [
+        ...prevOrders,
+        {
+          periodNumber: data.timerNumber,
+          betType: selectedColor?.title,
+          betAmount,
+          possiblePayout: possiblePayout[selectedColor?.title]?.toFixed(2),
+        },
+      ]);
       await fetchUserData();
     } catch (error) {
       // console.error("Error placing bet:", error);
     }
-    
+
     closePopup();
   };
   useEffect(() => {
@@ -164,7 +201,7 @@ function TwoMin() {
     } else {
       setShowRandomBets(false);
     }
-  }, [data.countDown]);
+  }, []);
   const generateRandomBets = () => {
     const newBets = [];
     const colors = ["Red", "Violet", "Green"];
@@ -195,7 +232,11 @@ function TwoMin() {
         return "bg-gray-300"; // Default color if the winner's color is not recognized
     }
   };
-
+  useEffect(() => {
+    if (data.countDown === 118) {
+      window.location.reload();
+    }
+  }, [data.countDown]);
   return (
     <div className="flex flex-col bg-myblue-500 min-h-screen max-w-md mx-auto">
       {/* Header */}
@@ -303,7 +344,7 @@ function TwoMin() {
 
       {/* WINNER DIVISION */}
       <div className="flex flex-col w-full mb-4 bg-white h-[230px] ">
-        <p className=" font-bold text-xl w-full items-center justify-center flex mt-1">
+        <p className="text-xl w-full items-center justify-center flex mt-1">
           Parity Result
         </p>
         <div className="flex flex-col justify-center w-full items-center mb-4 mt-2 border h-[1px] border-myblue-200"></div>
@@ -311,31 +352,101 @@ function TwoMin() {
           <div className="flex flex-row w-full justify-around items-center">
             {lastPeriodData && (
               <div className="grid grid-cols-9 gap-3 w-full mx-2">
-                {lastPeriodData && lastPeriodData?.slice()?.reverse()?.map((item, index) => {
-                    const periodNumberLastThreeDigits = item?.periodNumber
-                      ?.toString()
-                      .slice(-3);
-                    return (
-                      <div key={index} className="flex flex-col items-center">
-                        <div
-                          className={`w-7 h-7 rounded-full ${getColorClass(
-                            item?.color
-                          )}`}
-                        ></div>
-                        <span className="text-xs mt-1">
-                          {periodNumberLastThreeDigits}
-                        </span>
-                      </div>
-                    );
-                  })}
+                {lastPeriodData &&
+                  lastPeriodData
+                    ?.slice()
+                    ?.reverse()
+                    ?.map((item, index) => {
+                      const periodNumberLastThreeDigits = item?.periodNumber
+                        ?.toString()
+                        .slice(-3);
+                      return (
+                        <div key={index} className="flex flex-col items-center">
+                          <div
+                            className={`w-7 h-7 rounded-full ${getColorClass(
+                              item?.color
+                            )}`}
+                          ></div>
+                          <span className="text-xs mt-1">
+                            {periodNumberLastThreeDigits}
+                          </span>
+                        </div>
+                      );
+                    })}
               </div>
             )}
           </div>
         </div>
       </div>
 
+      <div className="flex flex-row justify-around w-full items-center">
+        <div
+          className={`flex flex-col items-center cursor-pointer w-full text-xl ${
+            showRandomBets ? "border-myblue-200 text-black bg-white " : ""
+          }`}
+          onClick={() => setShowRandomBets(true)}
+        >
+          Parity Record
+        </div>
+        <div
+          className={`flex flex-col items-center cursor-pointer w-full text-xl ${
+            !showRandomBets
+              ? "border-myblue-200 text-black bg-white"
+              : "text-gray-500"
+          }`}
+          onClick={() => setShowRandomBets(false)}
+        >
+          User Record
+        </div>
+      </div>
+
+      {showRandomBets ? (
+        <div className="flex flex-col border-t-2 border-myblue-200">
+          <TwoMinOrder
+            key={refresh}
+            period={data.timerNumber}
+            newBets={newBets}
+          />
+          <hr />
+        </div>
+      ) : (
+        <div className="bg-white">
+          <div className="flex flex-col justify-center items-center border-t-2 border-myblue-200">
+            {twomin &&
+              <table className="table-auto w-full">
+                <thead className="border-t-2 mt-3 border-myblue-200">
+                  <tr>
+                    <th className="p-2">
+                      <div className="rounded-3xl">Number</div>
+                    </th>
+                    <th className="p-2">
+                      <div className="rounded-3xl">Color</div>
+                    </th>
+                    <th className="p-2">
+                      <div className="rounded-3xl">Amount</div>
+                    </th>
+                    <th className="p-2">
+                      <div className="rounded-3xl">Status</div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {twomin?.slice(0,10)?.map((order, index) => (
+                    <tr key={index} className="border-t">
+                      <td className="p-2 text-center">{order.periodNumber}</td>
+                      <td className="p-2 text-center">{order.betType}</td>
+                      <td className="p-2 text-center">{order.betAmount}</td>
+                      <td className="p-2 text-center">{order.status ? order.status : 'Pending'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            }
+          </div>
+        </div>
+      )}
       {/* EveryOneOrder Component */}
-      {showRandomBets && (
+      {/* {showRandomBets && (
         <div className="flex flex-col">
           <TwoMinOrder
             key={refresh}
@@ -344,14 +455,14 @@ function TwoMin() {
           />
           <hr />
         </div>
-      )}
+      )} */}
 
       {/* Last Table Data */}
-      {data.countDown <= 30 && (
+      {/* {data.countDown <= 30 && (
         <div className="flex p-2 flex-col mr-4 ml-4 justify-center items-center h-[150px] border-2 border-myblue-200 mt-4 shadow-lg bg-white">
           <h2 className="text-myblue-200 font-bold">WAIT FOR RESULT......</h2>
         </div>
-      )}
+      )} */}
     </div>
   );
 }

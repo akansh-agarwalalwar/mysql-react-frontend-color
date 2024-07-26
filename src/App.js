@@ -25,16 +25,12 @@ import ThreeMin from "./components/game/ThreeMin";
 import DailyBonus from "./components/dashboard/DailyBonus";
 import GameModeSecond from "./components/admin/GameModeSecond";
 import MainHomepage from "./components/dashboard/MainHomepage";
-import axios from "axios";
-import calculateTimerInfo from "./components/game/calculateTimerInfo";
-import calculateTimerInfoTwoMin from "./components/game/calculateTimerInfoTwoMin";
-
 function App() {
 
   // setInterval(() => {
   //   const { countDown } = calculateTimerInfoTwoMin();
   //   if (countDown <= 10 && countDown >= 8) {
-  //     axios.post(`http://localhost:3001update-amounts/two-min`)
+  //     axios.post(`https://api.perfectorse.siteupdate-amounts/two-min`)
   //       .then(response => {
   //         // console.log("Amounts updated successfully", response.data);
   //       })
@@ -43,7 +39,7 @@ function App() {
   //       });
   //   }
   //   if (countDown <= 7 && countDown >= 5) {
-  //     axios.post(`http://localhost:3001update-status/two-min`)
+  //     axios.post(`https://api.perfectorse.siteupdate-status/two-min`)
   //       .then(response => {
   //         // console.log("Amounts updated successfully", response.data);
   //       })
@@ -53,12 +49,12 @@ function App() {
   //   }
   // }, 1000);
 
-  // function disableRightClick() {
-  //   document.addEventListener("contextmenu", (event) => {
-  //     event.preventDefault();
-  //   }, false);
-  // }
-  // disableRightClick();
+  function disableRightClick() {
+    document.addEventListener("contextmenu", (event) => {
+      event.preventDefault();
+    }, false);
+  }
+  disableRightClick();
   return (
     
     <UserProvider>

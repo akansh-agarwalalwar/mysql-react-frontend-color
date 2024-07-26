@@ -14,12 +14,12 @@ function TwoMinOrder({ newBets }) {
   return (
     <div className=" bg-white w-full">
       <div className="flex flex-col min-h-screen">
-        <div className="flex flex-col justify-center w-full items-center">
-          <p className="mx-2 font-bold text-xl w-[50%] items-center justify-center flex">
+        {/* <div className="flex flex-col justify-center w-full items-center">
+          <p className="mx-2 text-xl w-[50%] items-center justify-center flex">
             Parity Order
           </p>
           <div className="flex flex-col justify-center w-full items-center mt-2 border border-myblue-200"></div>
-        </div>
+        </div> */}
         <div className="">
           <div className="flex flex-col justify-center items-center">
             <table className="table-auto w-full">

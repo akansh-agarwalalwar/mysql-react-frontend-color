@@ -14,6 +14,7 @@ function OrderRecord() {
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("30sec");
 
+  
   useEffect(() => {
     if (user && user.userId) {
       fetchthirtySecond(user?.userId);
@@ -60,7 +61,7 @@ function OrderRecord() {
   };
 
   const getStatusClass = (status) => {
-    return status === "denied" ? "text-red-100" : "text-green-100";
+    return status === "lose" ? "text-red-100" : "text-green-100";
   };
 
   return (
@@ -124,7 +125,7 @@ function OrderRecord() {
                       record.status
                     )}`}
                   >
-                    Status: {record.status}
+                    Status:  {record.status ? record.status : 'Pending'}
                   </p>
                 </div>
               ))
@@ -151,7 +152,7 @@ function OrderRecord() {
                       record.status
                     )}`}
                   >
-                    Status: {record.status}
+                    Status: {record.status ? record.status : 'Pending'}
                   </p>
                 </div>
               ))}

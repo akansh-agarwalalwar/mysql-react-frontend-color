@@ -9,7 +9,7 @@ import UserContext from "../login/UserContext";
 import EveryOneOrder from "./EveryOneOrder";
 import axios from "axios";
 import { IoIosTrophy } from "react-icons/io";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
 const calculateTimerInfo = () => {
   const time = Date.now();
   const timeInSeconds = Math.floor(time / 1000);
@@ -22,6 +22,7 @@ const calculateTimerInfo = () => {
 };
 
 function Timer() {
+  const [userOrders, setUserOrders] = useState([]);
   const [data, setData] = useState(calculateTimerInfo);
   const { user, fetchUserData } = useContext(UserContext);
   const [periodNumber, setPeriodNumber] = useState(null);
@@ -39,6 +40,7 @@ function Timer() {
   const [errorMessage, setErrorMessage] = useState("");
   const [newBets, setNewBets] = useState([]);
   const [showRandomBets, setShowRandomBets] = useState(false);
+  const [thirtySecond, setThirtySecond] = useState([]);
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
@@ -58,7 +60,9 @@ function Timer() {
   const fetchLastPeriodData = async () => {
     try {
       // console.log("-------------------------------------------------------------")
-      const response = await axios.get("https://api.perfectorse.site/api/v1/user/winner-thirty-second");
+      const response = await axios.get(
+        "https://api.perfectorse.site/api/v1/user/winner-thirty-second"
+      );
       const data = response.data;
       // console.log(data);
       setLastPeriodData(data);
@@ -69,8 +73,29 @@ function Timer() {
   };
   useEffect(() => {
     fetchLastPeriodData();
-  }, [data.countDown===30]);
-
+  }, [data.countDown === 30]);
+  useEffect(() => {
+    if (user && user.userId) {
+      fetchthirtySecond(user?.userId);
+    }
+  }, [user]);
+  const fetchthirtySecond = async (userId) => {
+    try {
+      // setLoading(true);
+      const response = await axios.get(
+        `https://api.perfectorse.site/api/v1/financial/thirty-second-history/${userId}`
+      );
+      if (response.status === 200) {
+        setThirtySecond(response?.data);
+      } else {
+        throw new Error("Failed to fetch Thirty Second history");
+      }
+    } catch (error) {
+      // setError(error.message);
+    } finally {
+      // setLoading(false);
+    }
+  };
   const colorBoxes = [
     {
       title: "Red",
@@ -152,12 +177,21 @@ function Timer() {
         betAmount: betAmount,
         possiblePayout: possiblePayout[selectedColor?.title]?.toFixed(2),
       });
-      toast.success('Bet placed successfully!');
+      toast.success("Bet placed successfully!");
       // console.log("Response from server:", response.data);
       if (response.status !== 200) {
         throw new Error("Error placing bet");
       }
       // console.log("Bet placed successfully:", response.data);
+      setUserOrders((prevOrders) => [
+        ...prevOrders,
+        {
+          periodNumber: data.timerNumber,
+          betType: selectedColor?.title,
+          betAmount,
+          possiblePayout: possiblePayout[selectedColor?.title]?.toFixed(2),
+        },
+      ]);
       await fetchUserData();
     } catch (error) {
       // console.error("Error placing bet:", error);
@@ -200,6 +234,11 @@ function Timer() {
       generateRandomBets();
     } else {
       setShowRandomBets(false);
+    }
+  }, []);
+  useEffect(() => {
+    if (data.countDown === 28) {
+      window.location.reload();
     }
   }, [data.countDown]);
   return (
@@ -312,37 +351,110 @@ function Timer() {
       </Popup>
       {/* WINNER DIVISION */}
       <div className="flex flex-col w-full mb-4 bg-white h-[230px] ">
-        <p className=" font-bold text-xl w-full items-center justify-center flex mt-1">
+        <p className="text-xl w-full items-center justify-center flex mt-1">
           Parity Result
         </p>
-        <div className="flex flex-col justify-center w-full items-center mb-4 mt-2 border h-[1px] border-myblue-200"></div>
+        <div className="flex flex-col justify-center w-full items-center mb-4 mt-1 border h-[1px] border-myblue-200"></div>
         <div className="flex flex-col h-10 items-center w-full">
-          <div className="flex flex-row w-full justify-around items-center">            
+          <div className="flex flex-row w-full justify-around items-center">
             {lastPeriodData && (
               <div className="grid grid-cols-9 gap-3 w-full mx-2">
-                {lastPeriodData?.slice()?.reverse()?.map((item, index) => {
-                  const periodNumberLastThreeDigits = item?.periodNumber
-                    ?.toString()
-                    .slice(-3);
-                  return (
-                    <div key={index} className="flex flex-col items-center">
-                      <div
-                        className={`w-7 h-7 rounded-full ${getColorClass(
-                          item?.color
-                        )}`}
-                      ></div>
-                      <span className="text-xs mt-1">
-                        {periodNumberLastThreeDigits}
-                      </span>
-                    </div>
-                  );
-                })}
+                {lastPeriodData
+                  ?.slice()
+                  ?.reverse()
+                  ?.map((item, index) => {
+                    const periodNumberLastThreeDigits = item?.periodNumber
+                      ?.toString()
+                      .slice(-3);
+                    return (
+                      <div key={index} className="flex flex-col items-center">
+                        <div
+                          className={`w-7 h-7 rounded-full ${getColorClass(
+                            item?.color
+                          )}`}
+                        ></div>
+                        <span className="text-xs mt-1">
+                          {periodNumberLastThreeDigits}
+                        </span>
+                      </div>
+                    );
+                  })}
               </div>
             )}
           </div>
         </div>
       </div>
-      {showRandomBets && (
+
+      <div className="flex flex-row justify-around w-full items-center">
+        <div
+          className={`flex flex-col items-center cursor-pointer w-full text-xl ${
+            showRandomBets
+              ? "border-myblue-200 text-black bg-white "
+              : ""
+          }`}
+          onClick={() => setShowRandomBets(true)}
+        >
+          Parity Record
+        </div>
+        <div
+          className={`flex flex-col items-center cursor-pointer w-full text-xl ${
+            !showRandomBets
+              ? "border-myblue-200 text-black bg-white"
+              : "text-gray-500"
+          }`}
+          onClick={() => setShowRandomBets(false)}
+        >
+          User Record
+        </div>
+      </div>
+
+      {showRandomBets ? (
+        <div className="flex flex-col border-t-2 border-myblue-200">
+          <EveryOneOrder
+            key={refresh}
+            period={data.timerNumber}
+            newBets={newBets}
+          />
+          <hr />
+        </div>
+      ) : (
+        <div className="bg-white">
+          <div className="flex flex-col justify-center items-center border-myblue-200">
+            {thirtySecond &&
+              <table className="table-auto w-full">
+                <thead className="border-t-2 mt-3 border-myblue-200">
+                  <tr>
+                    <th className="p-2">
+                      <div className="rounded-3xl">Number</div>
+                    </th>
+                    <th className="p-2">
+                      <div className="rounded-3xl">Color</div>
+                    </th>
+                    <th className="p-2">
+                      <div className="rounded-3xl">Amount</div>
+                    </th>
+                    <th className="p-2">
+                      <div className="rounded-3xl">Status</div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {thirtySecond?.slice(0,10)?.map((order, index) => (
+                    <tr key={index} className="border-t">
+                      <td className="p-2 text-center">{order.periodNumber}</td>
+                      <td className="p-2 text-center">{order.betType}</td>
+                      <td className="p-2 text-center">{order.betAmount}</td>
+                      <td className="p-2 text-center">{order.status ? order.status : 'Pending'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            }
+          </div>
+        </div>
+      )}
+
+      {/* {showRandomBets && (
         <div className="flex flex-col">
           <EveryOneOrder
             key={refresh}
@@ -351,13 +463,13 @@ function Timer() {
           />
           <hr></hr>
         </div>
-      )}
+      )} */}
       {/* Last Table Data */}
-      {data.countDown <= 11 && (
+      {/* {data.countDown <= 11 && (
         <div className="flex p-2 flex-col mr-4 ml-4 justify-center items-center h-[150px] border-2 border-myblue-200 mt-2 bg-white">
           <h2 className="text-myblue-200 font-bold">WAIT FOR RESULT......</h2>
         </div>
-      )}
+      )} */}
     </div>
   );
 }
