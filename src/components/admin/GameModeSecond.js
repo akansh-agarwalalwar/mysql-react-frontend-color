@@ -26,7 +26,7 @@ function GameModeSecond() {
     setError("");
     try {
       const response = await axios.post(
-        "http://api.perfectorse.site/api/v1/admin/twoMin",
+        "https://api.perfectorse.site/api/v1/admin/twoMin",
         { periodNumber, color }
       );
       if (response.status === 200) {
@@ -56,7 +56,7 @@ function GameModeSecond() {
 
   const fetchGameModeData = useCallback(async () => {
     try {
-      const res = await axios.get("http://api.perfectorse.site/api/v1/admin/manual-two-min");
+      const res = await axios.get("https://api.perfectorse.site/api/v1/admin/manual-two-min");
       setGameMode(res.data);
     } catch (error) {
       console.error(error);

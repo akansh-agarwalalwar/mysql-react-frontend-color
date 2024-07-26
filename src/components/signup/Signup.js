@@ -22,7 +22,7 @@ export default function Signup() {
       return;
     }
     try {
-      const response = await Axios.post("http://api.perfectorse.site/api/v1/signup", {
+      const response = await Axios.post("httpa://api.perfectorse.site/api/v1/signup", {
         username,
         mobileNumber: `+91${mobileNumber}`,
         useremail,
@@ -43,7 +43,7 @@ export default function Signup() {
   const sendOtp = async () => {
     try {
       const response = await Axios.post(
-        "http://api.perfectorse.site/api/v1/sendOtp",
+        "https://api.perfectorse.site/api/v1/sendOtp",
         {
           useremail,
         }
@@ -63,7 +63,7 @@ export default function Signup() {
   const verifyOtp = async () => {
     try {
       const response = await Axios.post(
-        "http://api.perfectorse.site/api/v1/verifyEmail",
+        "https://api.perfectorse.site/api/v1/verifyEmail",
         {
           useremail,
           otp,

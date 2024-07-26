@@ -9,7 +9,7 @@ export default function AdminDashboard() {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch("http://api.perfectorse.site/api/v1/admin/all-users");
+      const response = await fetch("https://api.perfectorse.site/api/v1/admin/all-users");
       const data = await response.json();
       setUsers(data || []);
     } catch (error) {
@@ -19,7 +19,7 @@ export default function AdminDashboard() {
 
   const fetchApproveUser = async () => {
     try {
-      const response = await fetch("http://api.perfectorse.site/api/v1/admin/pendingPayment");
+      const response = await fetch("https://api.perfectorse.site/api/v1/admin/pendingPayment");
       const data = await response.json();
       setApproveUser(data || []);
     } catch (error) {
@@ -29,7 +29,7 @@ export default function AdminDashboard() {
 
   const fetchToPayUser = async () => {
     try {
-      const response = await fetch("http://api.perfectorse.site/api/v1/admin/withdrawlHistory");
+      const response = await fetch("https://api.perfectorse.site/api/v1/admin/withdrawlHistory");
       const data = await response.json();
       setToPay(data || []);
     } catch (error) {
