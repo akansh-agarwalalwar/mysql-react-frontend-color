@@ -166,7 +166,6 @@ function Timer() {
       setErrorMessage("Insufficient balance");
       return;
     }
-
     try {
       const response = await axios.post("https://api.perfectorse.site/place-bet", {
         userId: user.userId,

@@ -26,37 +26,17 @@ import DailyBonus from "./components/dashboard/DailyBonus";
 import GameModeSecond from "./components/admin/GameModeSecond";
 import MainHomepage from "./components/dashboard/MainHomepage";
 function App() {
-
-  // setInterval(() => {
-  //   const { countDown } = calculateTimerInfoTwoMin();
-  //   if (countDown <= 10 && countDown >= 8) {
-  //     axios.post(`https://api.perfectorse.siteupdate-amounts/two-min`)
-  //       .then(response => {
-  //         // console.log("Amounts updated successfully", response.data);
-  //       })
-  //       .catch(error => {
-  //         // console.error("Error updating amounts", error);
-  //       });
-  //   }
-  //   if (countDown <= 7 && countDown >= 5) {
-  //     axios.post(`https://api.perfectorse.siteupdate-status/two-min`)
-  //       .then(response => {
-  //         // console.log("Amounts updated successfully", response.data);
-  //       })
-  //       .catch(error => {
-  //         // console.error("Error updating amounts", error);
-  //       });
-  //   }
-  // }, 1000);
-
   function disableRightClick() {
-    document.addEventListener("contextmenu", (event) => {
-      event.preventDefault();
-    }, false);
+    document.addEventListener(
+      "contextmenu",
+      (event) => {
+        event.preventDefault();
+      },
+      false
+    );
   }
   disableRightClick();
   return (
-    
     <UserProvider>
       <Router>
         <Routes>
@@ -77,14 +57,14 @@ function App() {
               <Route index element={<Recharge />} />
               <Route path="payment-page" element={<PaymentPage />} />
             </Route>
-            <Route path="withdraw" element={<Withdraw />} />
-            <Route path="daily-bonus" element={<DailyBonus />} />
-            <Route path="thirty-second-page" element={<ThirtySecond />} />
-            <Route path="threeMin" element={<ThreeMin />} />
           </Route>
+          <Route path="thirty-second-page" element={<ThirtySecond />} />
+          <Route path="withdraw" element={<Withdraw />} />
+          <Route path="daily-bonus" element={<DailyBonus />} />
+          <Route path="threeMin" element={<ThreeMin />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/admin">
-          <Route index element={<Admin />} />
+            <Route index element={<Admin />} />
             <Route path="users" element={<AllUsers />} />
             <Route path="payment-approve" element={<PaymentApprove />} />
             <Route path="to-pay" element={<ToPay />} />

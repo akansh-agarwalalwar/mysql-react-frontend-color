@@ -71,7 +71,7 @@ export default function AllUsers() {
 
   const fetchBankDetails = async (userId) => {
     try {
-      const res = await fetch(`https://api.perfectorse.site/api/bank?userId=${userId}`);
+      const res = await fetch(`http://localhost:3001/api/v1/admin/bank?userId=${userId}`);
       if (!res.ok) {
         throw new Error(`https error! status: ${res.status}`);
       }

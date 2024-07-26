@@ -46,12 +46,12 @@ export default function NavBarAdmin({ users }) {
           </li>
           <li className="relative group">
             <Link to="/admin/game-mode" className="text-white hover:underline">
-              Game Mode
+              Thirty Second Mode
             </Link>
           </li>
           <li className="relative group">
             <Link to="/admin/game-mode/two-min" className="text-white hover:underline">
-              Game Mode Second
+              Two Minute Mode
             </Link>
           </li>
 

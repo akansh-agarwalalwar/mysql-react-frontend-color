@@ -34,7 +34,7 @@ export default function TopBody() {
               Recharge
             </button>
           </Link>
-          <Link to="/home/withdraw">
+          <Link to="/withdraw">
             <button className="bg-caribbeangreen-300 w-fit text-white font-semibold py-1 px-2 rounded">
               Withdraw
             </button>

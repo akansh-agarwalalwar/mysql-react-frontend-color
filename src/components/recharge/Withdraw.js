@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import debounce from "lodash.debounce";
 import toast from "react-hot-toast";
+import "../../index.css"
 function Withdraw() {
   const { user } = useContext(UserContext);
   const [amountset, setAmountset] = useState("");
@@ -80,7 +81,7 @@ function Withdraw() {
   const debouncedHandleWithdraw = debounce(handleWithdraw, 300);
 
   return (
-    <div className="flex flex-col h-screen w-full bg-myblue-500 max-w-md mx-auto">
+    <div className="no-bottom-nav flex flex-col h-screen w-full bg-myblue-500 max-w-md mx-auto justify-between">
       <div>
         <div className="flex flex-row bg-myblue-200 w-full text-white items-center h-12">
           <Link to="/home">
