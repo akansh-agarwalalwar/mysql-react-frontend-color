@@ -17,7 +17,7 @@ function BankDetails() {
     const fetchBankDetails = async () => {
       try {
         const res = await axios.get(
-          `https://api.perfectorse.site/api/v1/financial/bank-details/${user.userId}`
+          `http://localhost:3001/api/v1/financial/bank-details/${user.userId}`
         );
         if (res.status === 200) {
           setAccountNumber(res?.data?.accountNumber);
@@ -32,12 +32,11 @@ function BankDetails() {
       fetchBankDetails();
     }
   }, [user]);
-
   const handleBankDetails = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "https://api.perfectorse.site/api/v1/financial/bank-details",
+        "http://localhost:3001/api/v1/financial/bank-details",
         {
           userId: user?.userId,
           accountNumber,
@@ -46,18 +45,16 @@ function BankDetails() {
       );
       toast.success("Bank details added successfully!");
       setBankDetailsAvailable(true);
-      navigate("/home/profile/bank-details");
     } catch (err) {
       toast.error("Failed to add bank details.");
       // console.log(err);
     }
   };
-
   const editBankDetails = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "https://api.perfectorse.site/api/v1/financial/edit-bank-details",
+        "http://localhost:3001/api/v1/financial/edit-bank-details",
         {
           userId: user?.userId,
           accountNumber,
@@ -66,7 +63,6 @@ function BankDetails() {
       );
       toast.success("Bank details updated successfully!");
       setIsEditing(false);
-      navigate("/home/profile/bank-details");
     } catch (err) {
       toast.error("Failed to update bank details.");
       // console.log(err);
@@ -75,7 +71,7 @@ function BankDetails() {
   const deleteBankDetails = async () => {
     try {
       await axios.post(
-        `https://api.perfectorse.site/api/v1/financial/delete-bank-details`,
+        `http://localhost:3001/api/v1/financial/delete-bank-details`,
         {
           userId: user?.userId,
         }
@@ -84,7 +80,6 @@ function BankDetails() {
       setAccountNumber("");
       setIfscCode("");
       setBankDetailsAvailable(false);
-      navigate("/home/profile/bank-details");
     } catch (err) {
       toast.error("Failed to delete bank details.");
       // console.log(err);
