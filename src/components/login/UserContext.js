@@ -13,7 +13,7 @@ export const UserProvider = ({ children }) => {
   
   const fetchUserData = async () => {
     try {
-      const response = await axios.get(`https://api.perfectorse.site/api/v1/user/balance/${user.userId}`);
+      const response = await axios.get(`http://api.perfectorse.site/api/v1/user/balance/${user.userId}`);
       if (response.status === 200) {
         const usc = user;
         usc.balance = response?.data[0]?.balance;
@@ -27,7 +27,7 @@ export const UserProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await axios.post("https://api.perfectorse.site/api/v1/logout");
+      await axios.post("http://api.perfectorse.site/api/v1/logout");
       setUser(null);
       Cookies.remove('user');
     } catch (error) {

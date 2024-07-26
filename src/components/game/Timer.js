@@ -61,7 +61,7 @@ function Timer() {
     try {
       // console.log("-------------------------------------------------------------")
       const response = await axios.get(
-        "https://api.perfectorse.site/api/v1/user/winner-thirty-second"
+        "http://api.perfectorse.site/api/v1/user/winner-thirty-second"
       );
       const data = response.data;
       // console.log(data);
@@ -83,7 +83,7 @@ function Timer() {
     try {
       // setLoading(true);
       const response = await axios.get(
-        `https://api.perfectorse.site/api/v1/financial/thirty-second-history/${userId}`
+        `http://api.perfectorse.site/api/v1/financial/thirty-second-history/${userId}`
       );
       if (response.status === 200) {
         setThirtySecond(response?.data);
@@ -167,7 +167,7 @@ function Timer() {
       return;
     }
     try {
-      const response = await axios.post("https://api.perfectorse.site/place-bet", {
+      const response = await axios.post("http://api.perfectorse.site/place-bet", {
         userId: user.userId,
         periodNumber: data.timerNumber,
         periodDate: new Date().toISOString().split("T")[0],
@@ -368,7 +368,7 @@ function Timer() {
                     return (
                       <div key={index} className="flex flex-col items-center">
                         <div
-                          className={`w-7 h-7 rounded-full ${getColorClass(
+                          className={`w-7 h-7 rounded-full border ${getColorClass(
                             item?.color
                           )}`}
                         ></div>
@@ -387,9 +387,7 @@ function Timer() {
       <div className="flex flex-row justify-around w-full items-center">
         <div
           className={`flex flex-col items-center cursor-pointer w-full text-xl ${
-            showRandomBets
-              ? "border-myblue-200 text-black bg-white "
-              : ""
+            showRandomBets ? "border-myblue-200 text-black bg-white " : ""
           }`}
           onClick={() => setShowRandomBets(true)}
         >
@@ -419,7 +417,7 @@ function Timer() {
       ) : (
         <div className="bg-white">
           <div className="flex flex-col justify-center items-center border-myblue-200">
-            {thirtySecond &&
+            {thirtySecond && (
               <table className="table-auto w-full">
                 <thead className="border-t-2 mt-3 border-myblue-200">
                   <tr>
@@ -438,17 +436,19 @@ function Timer() {
                   </tr>
                 </thead>
                 <tbody>
-                  {thirtySecond?.slice(0,10)?.map((order, index) => (
+                  {thirtySecond?.slice(0, 10)?.map((order, index) => (
                     <tr key={index} className="border-t">
                       <td className="p-2 text-center">{order.periodNumber}</td>
                       <td className="p-2 text-center">{order.betType}</td>
                       <td className="p-2 text-center">{order.betAmount}</td>
-                      <td className="p-2 text-center">{order.status ? order.status : 'Pending'}</td>
+                      <td className="p-2 text-center">
+                        {order.status ? order.status : "Pending"}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
-            }
+            )}
           </div>
         </div>
       )}

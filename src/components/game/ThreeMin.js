@@ -44,7 +44,7 @@ function TwoMin() {
   const fetchLastPeriodData = async () => {
     try {
       const response = await axios.get(
-        "https://api.perfectorse.site/api/v1/user/winner-two-min"
+        "http://api.perfectorse.site/api/v1/user/winner-two-min"
       );
       const data = response?.data;
       setLastPeriodData(data);
@@ -68,7 +68,7 @@ function TwoMin() {
     try {
       // setLoading(true);
       const response = await axios.get(
-        `https://api.perfectorse.site/api/v1/financial/two-min-history/${userId}`
+        `http://api.perfectorse.site/api/v1/financial/two-min-history/${userId}`
       );
       if (response.status === 200) {
         setTwomin(response?.data);
@@ -161,7 +161,7 @@ function TwoMin() {
     }
     try {
       const response = await axios.post(
-        "https://api.perfectorse.site/place-bet/two-min",
+        "http://api.perfectorse.site/place-bet/two-min",
         {
           userId: user.userId,
           periodNumber: data.timerNumber,
@@ -207,7 +207,7 @@ function TwoMin() {
     const colors = ["Red", "Violet", "Green"];
     const amounts = [100, 200, 500, 1000];
 
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 15; i++) {
       const randomColor = colors[Math.floor(Math.random() * colors.length)];
       const randomAmount = amounts[Math.floor(Math.random() * amounts.length)];
       const randomUserNumber = Math.floor(1000 + Math.random() * 9000);
@@ -363,7 +363,7 @@ function TwoMin() {
                       return (
                         <div key={index} className="flex flex-col items-center">
                           <div
-                            className={`w-7 h-7 rounded-full ${getColorClass(
+                            className={`w-7 h-7 rounded-full border ${getColorClass(
                               item?.color
                             )}`}
                           ></div>

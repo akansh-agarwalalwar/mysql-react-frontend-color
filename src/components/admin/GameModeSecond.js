@@ -1,59 +1,52 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import NavBarAdmin from "./NavBarAdmin";
 import axios from "axios";
 import calculateTimerInfoTwoMin from "../game/calculateTimerInfoTwoMin";
+import toast from "react-hot-toast";
 
 function GameModeSecond() {
   const [data, setData] = useState(calculateTimerInfoTwoMin);
   const [periodNumber, setPeriodNumber] = useState("");
-  const [timerNumber, setTimerNumber] = useState(0);
-  const [countDownTwoMin, setCountDownTwoMin] = useState(0);
   const [color, setColor] = useState("");
-  const [loading, setLoading] = useState(false); // State to handle loading
-  const [error, setError] = useState(""); // State to handle errors
-  // const { timerNumber, countDownTwoMin } = calculateTimerInfoTwoMin();
+  const [loading, setLoading] = useState(false); 
+  const [error, setError] = useState(""); 
   const [gameMode, setGameMode] = useState({
     red: 0,
     green: 0,
     violet: 0,
   });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!periodNumber || !color) {
-      alert("Please fill out all fields.");
+      toast.error("Please fill out all fields.");
       return;
     }
     setLoading(true);
     setError("");
     try {
       const response = await axios.post(
-        "https://api.perfectorse.site/api/v1/admin/twoMin",
-        {
-          periodNumber,
-          color, // Include the color in the request body
-        }
+        "http://api.perfectorse.site/api/v1/admin/twoMin",
+        { periodNumber, color }
       );
       if (response.status === 200) {
-        alert("Period updated successfully!");
+        toast.success("Period updated successfully!");
       } else {
-        alert("Failed to update period.");
+        toast.error("Failed to update period.");
       }
     } catch (error) {
       console.error("Error:", error);
       if (error.response) {
         console.error("Error response data:", error.response.data);
-        alert(
-          `Failed to update period: ${
-            error.response.data?.error || error.message
-          }`
-        );
+        toast.error("Failed to update period.");
       } else {
-        alert("Failed to update period.");
+        toast.error("Failed to update period.");
       }
     } finally {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       setData(calculateTimerInfoTwoMin());
@@ -61,18 +54,21 @@ function GameModeSecond() {
     return () => clearInterval(intervalId);
   }, []);
 
-  const BetAmountsManual = async () => {
+  const fetchGameModeData = useCallback(async () => {
     try {
-      const res = await axios.get(
-        "https://api.perfectorse.site/api/v1/admin/manual-two-min"
-      );
-      const data = res?.data;
-      console.log(data);
-      setGameMode(data);
+      const res = await axios.get("http://api.perfectorse.site/api/v1/admin/manual-two-min");
+      setGameMode(res.data);
     } catch (error) {
       console.error(error);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchGameModeData();
+    const intervalId = setInterval(fetchGameModeData, 1000);
+    return () => clearInterval(intervalId);
+  }, [fetchGameModeData]);
+
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
@@ -80,26 +76,13 @@ function GameModeSecond() {
       .toString()
       .padStart(2, "0")}`;
   };
-  useEffect(() => {
-    BetAmountsManual();
-  }, [countDownTwoMin]);
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      axios
-        .get("https://api.perfectorse.site/api/v1/admin/manual-two-min")
-        .then((response) => {
-          const data = response.data;
-          setGameMode(data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }, 1000); // 1000ms = 1s
 
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
+  const handleButtonClick = (e, color) => {
+    e.preventDefault();
+    setColor(color);
+    setPeriodNumber(data.timerNumber);
+  };
+
   return (
     <div>
       <NavBarAdmin />
@@ -111,13 +94,29 @@ function GameModeSecond() {
         <div className="flex flex-col">
           <div className="flex flex-row gap-5 p-4">
             <div className="border w-[100px] h-7">{gameMode.red}</div>
-            <div className="border w-[100px] h-7">{gameMode.green}</div>
             <div className="border w-[100px] h-7">{gameMode.violet}</div>
+            <div className="border w-[100px] h-7">{gameMode.green}</div>
           </div>
           <div className="flex flex-row gap-5 p-4">
-            <button className="bg-red-100 p-4 w-[100px]">Red</button>
-            <button className="bg-green-100 p-4 w-[100px]">Green</button>
-            <button className="bg-Voilet p-4 w-[100px]">Violet</button>
+            <button
+              onClick={(e) => handleButtonClick(e, "Red")}
+              className="bg-red-100 p-4 w-[100px]"
+            >
+              Red
+            </button>
+            <button
+              onClick={(e) => handleButtonClick(e, "Violet")}
+              className="bg-Voilet p-4 w-[100px]"
+            >
+              Violet
+            </button>
+            <button
+              onClick={(e) => handleButtonClick(e, "Green")}
+              className="bg-green-100 p-4 w-[100px]"
+            >
+              Green
+            </button>
+            
           </div>
         </div>
         <form className="flex flex-col space-y-4 mx-8" onSubmit={handleSubmit}>

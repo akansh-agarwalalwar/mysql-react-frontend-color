@@ -61,7 +61,7 @@ function DailyBonus() {
     }
   };
   return (
-    <div className={`flex flex-col w-full h-screen bg-myblue-500 ${animateIn ? 'fade-in-top active' : ''}`}>
+    <div className={`flex flex-col max-w-md mx-auto h-screen bg-myblue-500 ${animateIn ? 'fade-in-top active' : ''}`}>
       <div className="flex flex-row bg-myblue-200 w-full text-white items-center h-12">
         <Link to="/home">
           <FaArrowLeftLong className="mx-3" />
