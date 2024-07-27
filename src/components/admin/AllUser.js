@@ -126,7 +126,7 @@ export default function AllUsers() {
   return (
     <div className="">
       <NavBarAdmin />
-      <div className="bg-myblue-500 p-8 ml-[200px] overflow-auto h-screen">
+      <div className="bg-myblue-500 p-8 sm:ml-[200px] overflow-auto h-screen mt-6">
         <h1 className="text-3xl font-bold mb-4">All Users</h1>
         <input
           type="text"
@@ -213,7 +213,7 @@ export default function AllUsers() {
 
         {isModalOpen && clickedUser && (
           <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 ">
-            <div className="bg-white p-8 rounded-lg w-3/4 max-h-full overflow-auto">
+            <div className="bg-white p-8 rounded-lg w-full sm:w-3/4 max-h-full overflow-auto">
               <div className="flex justify-end">
                 <button onClick={closeModal}>
                   <RxCross1 className="w-6 h-6" />
@@ -223,204 +223,248 @@ export default function AllUsers() {
               <table className="min-w-full divide-y divide-gray-200">
                 <thead>
                   <tr>
-                    <th className="px-6 py-4 whitespace-nowrap text-center">
+                    <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
                       ID
                     </th>
-                    <th className="px-6 py-4 whitespace-nowrap text-center">
+                    <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
                       UserID
                     </th>
-                    <th className="px-6 py-4 whitespace-nowrap text-center">
+                    <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
                       Username
                     </th>
-                    <th className="px-6 py-4 whitespace-nowrap text-center">
+                    <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
                       Email
                     </th>
-                    <th className="px-6 py-4 whitespace-nowrap text-center">
+                    <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
                       Mobile Number
                     </th>
-                    <th className="px-6 py-4 whitespace-nowrap text-center">
+                    <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
                       Balance
                     </th>
-                    <th className="px-6 py-4 whitespace-nowrap text-center">
+                    <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
                       User Refer Code
                     </th>
-                    <th className="px-6 py-4 whitespace-nowrap text-center">
+                    <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
                       User Code
                     </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   <tr>
-                    <td className="px-6 py-4 whitespace-nowrap text-center">
+                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
                       {clickedUser?.id}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-center">
+                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
                       {clickedUser?.IDOfUser}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-center">
+                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
                       {clickedUser?.username}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-center">
+                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
                       {clickedUser?.useremail}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-center">
+                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
                       {clickedUser?.mobileNumber}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-center">
+                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
                       {clickedUser?.balance}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-center">
-                      {clickedUser?.userReferenceCode}
+                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                      {clickedUser?.userrefercode}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-center">
-                      {clickedUser?.referenceCode}
+                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                      {clickedUser?.usercode}
                     </td>
                   </tr>
                 </tbody>
               </table>
-
-              <div className="flex flex-row mt-4">
+              <div className="mt-4 flex justify-between">
                 <button
-                  onClick={() => setActiveTab("RechargeHistory")}
-                  className={`px-4 py-2 rounded ${
+                  className={`py-2 px-4 rounded ${
                     activeTab === "RechargeHistory"
                       ? "bg-blue-500 text-white"
-                      : "bg-gray-200 text-gray-700"
+                      : "bg-gray-200 text-gray-800"
                   }`}
+                  onClick={() => {
+                    setActiveTab("RechargeHistory");
+                    fetchRechargeHistory(clickedUser?.IDOfUser);
+                  }}
                 >
-                  Recharge
+                  Recharge History
                 </button>
                 <button
-                  onClick={handleShowWithdrawHistory}
-                  className={`px-4 py-2 rounded ml-4 ${
+                  className={`py-2 px-4 rounded ${
                     activeTab === "WithdrawHistory"
                       ? "bg-blue-500 text-white"
-                      : "bg-gray-200 text-gray-700"
+                      : "bg-gray-200 text-gray-800"
                   }`}
+                  onClick={handleShowWithdrawHistory}
                 >
-                  Withdraw
+                  Withdraw History
                 </button>
                 <button
-                  onClick={handleShowBankDetails}
-                  className={`px-4 py-2 rounded ml-4 ${
+                  className={`py-2 px-4 rounded ${
                     activeTab === "BankDetails"
                       ? "bg-blue-500 text-white"
-                      : "bg-gray-200 text-gray-700"
+                      : "bg-gray-200 text-gray-800"
                   }`}
+                  onClick={handleShowBankDetails}
                 >
                   Bank Details
                 </button>
               </div>
 
               {activeTab === "RechargeHistory" && (
-                <div className="flex flex-col mt-4">
-                  <h3 className="text-xl font-bold mb-4">Recharge History</h3>
+                <div className="mt-4">
+                  <h3 className="text-lg font-semibold mb-2">
+                    Recharge History
+                  </h3>
                   <table className="min-w-full divide-y divide-gray-200">
                     <thead>
                       <tr>
-                        <th className="px-6 py-4 whitespace-nowrap text-center">
-                          Status
+                        <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                          Amount
                         </th>
-                        <th className="px-6 py-4 whitespace-nowrap text-center">
+                        <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
                           Date
                         </th>
-                        <th className="px-6 py-4 whitespace-nowrap text-center">
-                          Amount
+                        <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                          Status
                         </th>
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {rechargeHistory
-                        ?.slice()
-                        ?.reverse()
-                        ?.map((recharge) => (
-                          <tr key={recharge?.id}>
-                            <td className="px-6 py-4 whitespace-nowrap text-center">
-                              {recharge?.status}
+                      {rechargeHistory?.length > 0 ? (
+                        rechargeHistory?.map((record, index) => (
+                          <tr key={index}>
+                            <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                              {record.amount}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-center">
-                              {recharge?.rechargeDate}
+                            <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                              {record.date}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-center">
-                              {recharge?.amount}
+                            <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                              {record.status}
                             </td>
                           </tr>
-                        ))}
+                        ))
+                      ) : (
+                        <tr>
+                          <td
+                            colSpan="3"
+                            className="px-6 py-4 whitespace-nowrap text-center"
+                          >
+                            No recharge history available.
+                          </td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </div>
               )}
 
               {activeTab === "WithdrawHistory" && (
-                <div className="flex flex-col mt-4">
-                  <h3 className="text-xl font-bold mb-4">Withdraw History</h3>
+                <div className="mt-4">
+                  <h3 className="text-lg font-semibold mb-2">
+                    Withdraw History
+                  </h3>
                   <table className="min-w-full divide-y divide-gray-200">
                     <thead>
                       <tr>
-                        <th className="px-6 py-4 whitespace-nowrap text-center">
-                          Status
+                        <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                          Amount
                         </th>
-                        <th className="px-6 py-4 whitespace-nowrap text-center">
+                        <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
                           Date
                         </th>
-                        <th className="px-6 py-4 whitespace-nowrap text-center">
-                          Amount
+                        <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                          Status
                         </th>
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {withdrawHistory
-                        ?.slice()
-                        ?.reverse()
-                        ?.map((withdraw) => (
-                          <tr key={withdraw?.id}>
-                            <td className="px-6 py-4 whitespace-nowrap text-center">
-                              {withdraw?.status}
+                      {withdrawHistory?.length > 0 ? (
+                        withdrawHistory?.map((record, index) => (
+                          <tr key={index}>
+                            <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                              {record.amount}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-center">
-                              {withdraw?.withdrawDate}
+                            <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                              {record.date}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-center">
-                              {withdraw?.amount}
+                            <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                              {record.status}
                             </td>
                           </tr>
-                        ))}
+                        ))
+                      ) : (
+                        <tr>
+                          <td
+                            colSpan="3"
+                            className="px-6 py-4 whitespace-nowrap text-center"
+                          >
+                            No withdraw history available.
+                          </td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </div>
               )}
+
               {activeTab === "BankDetails" && (
-                <div className="flex flex-col mt-4">
-                  <h3 className="text-xl font-bold mb-4">Bank Details</h3>
+                <div className="mt-4">
+                  <h3 className="text-lg font-semibold mb-2">Bank Details</h3>
                   <table className="min-w-full divide-y divide-gray-200">
                     <thead>
                       <tr>
-                        <th className="px-6 py-4 whitespace-nowrap text-center">
+                        <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                          Account Holder Name
+                        </th>
+                        <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
                           Account Number
                         </th>
-                        <th className="px-6 py-4 whitespace-nowrap text-center">
+                        <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
                           IFSC Code
+                        </th>
+                        <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                          Bank Name
+                        </th>
+                        <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                          Bank Branch
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-200">
-                      {bankDetails?.length === 0 ? (
-                        <tr>
-                          <td colSpan="2" className="px-6 py-4 text-center">
-                            No bank details available?.
-                          </td>
-                        </tr>
-                      ) : (
-                        bankDetails?.map((bank) => (
-                          <tr key={bank?.id}>
-                            <td className="px-6 py-4 whitespace-nowrap text-center">
-                              {bank?.accountNumber}
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {bankDetails?.length > 0 ? (
+                        bankDetails?.map((bank, index) => (
+                          <tr key={index}>
+                            <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                              {bank.accountHolderName}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-center">
-                              {bank?.ifscCode}
+                            <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                              {bank.accountNumber}
+                            </td>
+                            <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                              {bank.ifscCode}
+                            </td>
+                            <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                              {bank.bankName}
+                            </td>
+                            <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                              {bank.bankBranch}
                             </td>
                           </tr>
                         ))
+                      ) : (
+                        <tr>
+                          <td
+                            colSpan="5"
+                            className="px-6 py-4 whitespace-nowrap text-center"
+                          >
+                            No bank details available.
+                          </td>
+                        </tr>
                       )}
                     </tbody>
                   </table>

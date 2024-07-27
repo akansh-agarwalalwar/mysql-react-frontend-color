@@ -22,7 +22,7 @@ function Invite() {
   const inviteReferCode = async (userId) => {
     setLoading(true);
     try {
-      const response = await axios.get(`httpa://api.perfectorse.site/api/v1/user/refer-and-earn/${userId}`);
+      const response = await axios.get(`https://api.perfectorse.site/api/v1/user/refer-and-earn/${userId}`);
       const data = response.data;
       setReferCode(data?.userReferenceCode);
     } catch (error) {

@@ -44,23 +44,23 @@ export default function AdminDashboard() {
   }, []);
 
   return (
-    <div className="flex">
+    <div className="flex flex-col lg:flex-row">
       <NavBarAdmin users={users} />
-      <div className="bg-myblue-500 w-full p-8 ml-[200px] overflow-auto h-screen">
+      <div className="bg-myblue-500 w-full p-8 lg:ml-[200px] overflow-auto h-screen mt-6">
         <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
-        <div className="justify-evenly flex">
+        <div className="flex flex-col lg:flex-row justify-evenly">
           <Link to='/admin/payment-approve'>
-            <div className="bg-white shadow-md rounded-lg p-6 w-64 text-center">
+            <div className="bg-white shadow-md rounded-lg p-6 w-full lg:w-64 text-center mb-4 lg:mb-0">
               <h2 className="text-xl font-bold mb-2">Approve</h2>
               <p className="text-4xl font-semibold text-blue-600">{approveUser.length}</p>
             </div>
           </Link>
-          <div className="bg-white shadow-md rounded-lg p-6 w-64 text-center">
+          <div className="bg-white shadow-md rounded-lg p-6 w-full lg:w-64 text-center mb-4 lg:mb-0">
             <h2 className="text-xl font-bold mb-2">Total Users</h2>
             <p className="text-4xl font-semibold text-blue-600">{users.length}</p>
           </div>
           <Link to='/admin/to-pay'>
-            <div className="bg-white shadow-md rounded-lg p-6 w-64 text-center">
+            <div className="bg-white shadow-md rounded-lg p-6 w-full lg:w-64 text-center mb-4 lg:mb-0">
               <h2 className="text-xl font-bold mb-2">Pay</h2>
               <p className="text-4xl font-semibold text-blue-600">{ToPay.length}</p>
             </div>

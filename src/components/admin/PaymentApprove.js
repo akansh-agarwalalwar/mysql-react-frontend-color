@@ -32,10 +32,10 @@ function PaymentApprove() {
       const approvedPayment = pendingPayments.find(payment => payment.id === id);
       setPendingPayments(pendingPayments.filter(payment => payment.id !== id));
       setPaymentHistory([...paymentHistory, { ...approvedPayment, status: "approved" }]);
-      toast.success("Approved Succesfully")
+      toast.success("Approved Successfully");
     } catch (error) {
       console.error("Error approving payment:", error);
-      toast.error("Error While Approving")
+      toast.error("Error While Approving");
     }
   };
 
@@ -43,10 +43,10 @@ function PaymentApprove() {
     try {
       await axios.post("https://api.perfectorse.site/api/v1/admin/adminPaymentDeny", { id });
       setPendingPayments(pendingPayments.filter(payment => payment.id !== id));
-      toast.success("Declined")
+      toast.success("Declined");
     } catch (error) {
       console.error("Error denying payment:", error);
-      toast.error("Error While Declining")
+      toast.error("Error While Declining");
     }
   };
 
@@ -108,7 +108,7 @@ function PaymentApprove() {
         )}
       </div>
       <h2 className="font-bold text-2xl mt-8 mb-4 text-gray-800">Payment History</h2>
-      <div className="w-full max-w-4xl bg-white shadow-md rounded-lg p-4">
+      <div className="w-full max-w-4xl overflow-x-auto bg-white shadow-md rounded-lg p-4">
         {paymentHistory.length === 0 ? (
           <p className="text-center text-gray-600">No payment history available</p>
         ) : (
