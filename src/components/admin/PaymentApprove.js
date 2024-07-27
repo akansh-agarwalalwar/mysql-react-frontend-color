@@ -11,8 +11,8 @@ function PaymentApprove() {
   const fetchPayments = useCallback(async () => {
     try {
       const [pendingResponse, historyResponse] = await Promise.all([
-        axios.get("https://api.perfectorse.site/api/v1/admin/pendingPayment"),
-        axios.get("https://api.perfectorse.site/api/v1/admin/adminUpdatedHistory")
+        axios.get("http://localhost:3001/api/v1/admin/pendingPayment"),
+        axios.get("http://localhost:3001/api/v1/admin/adminUpdatedHistory")
       ]);
       setPendingPayments(pendingResponse.data);
       setPaymentHistory(historyResponse.data);
@@ -28,7 +28,7 @@ function PaymentApprove() {
 
   const handleApprove = async (id) => {
     try {
-      await axios.post("https://api.perfectorse.site/api/v1/admin/adminPaymentApprove", { id });
+      await axios.post("http://localhost:3001/api/v1/admin/adminPaymentApprove", { id });
       const approvedPayment = pendingPayments.find(payment => payment.id === id);
       setPendingPayments(pendingPayments.filter(payment => payment.id !== id));
       setPaymentHistory([...paymentHistory, { ...approvedPayment, status: "approved" }]);
@@ -41,7 +41,7 @@ function PaymentApprove() {
 
   const handleDeny = async (id) => {
     try {
-      await axios.post("https://api.perfectorse.site/api/v1/admin/adminPaymentDeny", { id });
+      await axios.post("http://localhost:3001/api/v1/admin/adminPaymentDeny", { id });
       setPendingPayments(pendingPayments.filter(payment => payment.id !== id));
       toast.success("Declined");
     } catch (error) {

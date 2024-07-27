@@ -21,7 +21,6 @@ function TwoMin() {
   const [winAmount, setWinAmount] = useState(19.6);
   const [refresh, setRefresh] = useState(0);
   const [userOrders, setUserOrders] = useState([]);
-
   const [possiblePayout, setPossiblePayout] = useState({
     Red: 19.6,
     Violet: 44.1,
@@ -44,7 +43,7 @@ function TwoMin() {
   const fetchLastPeriodData = async () => {
     try {
       const response = await axios.get(
-        "https://api.perfectorse.site/api/v1/user/winner-two-min"
+        "http://localhost:3001/api/v1/user/winner-two-min"
       );
       const data = response?.data;
       setLastPeriodData(data);
@@ -68,7 +67,7 @@ function TwoMin() {
     try {
       // setLoading(true);
       const response = await axios.get(
-        `https://api.perfectorse.site/api/v1/financial/two-min-history/${userId}`
+        `http://localhost:3001/api/v1/financial/two-min-history/${userId}`
       );
       if (response.status === 200) {
         setTwomin(response?.data);
@@ -194,32 +193,47 @@ function TwoMin() {
 
     closePopup();
   };
-  useEffect(() => {
-    if (data.countDown <= 117 && data.countDown >= 30) {
-      setShowRandomBets(true);
-      generateRandomBets();
-    } else {
-      setShowRandomBets(false);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (data.countDown <= 117 && data.countDown >= 30) {
+  //     setShowRandomBets(true);
+  //     generateRandomBets();
+  //   } else {
+  //     setShowRandomBets(false);
+  //   }
+  // }, []);
   const generateRandomBets = () => {
-    const newBets = [];
     const colors = ["Red", "Violet", "Green"];
     const amounts = [100, 200, 500, 1000];
+    const bets = [];
 
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 5; i++) {
       const randomColor = colors[Math.floor(Math.random() * colors.length)];
       const randomAmount = amounts[Math.floor(Math.random() * amounts.length)];
       const randomUserNumber = Math.floor(1000 + Math.random() * 9000);
-      newBets.push({
+      bets.push({
         color: randomColor,
         amount: randomAmount,
         userNumber: randomUserNumber,
       });
     }
 
-    setNewBets(newBets);
+    setNewBets(bets);
   };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const newTimerData = calculateTimerInfoTwoMin();
+      setData(newTimerData);
+
+      if (newTimerData.countDown <= 117 && newTimerData.countDown >= 30) {
+        setShowRandomBets(true);
+        generateRandomBets();
+      } else {
+        setShowRandomBets(false);
+      }
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
   const getColorClass = (color) => {
     switch (color.toLowerCase()) {
       case "red":

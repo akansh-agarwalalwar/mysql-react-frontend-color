@@ -2,25 +2,16 @@ import React, { useState, useEffect, useContext } from "react";
 import { FaHorseHead } from "react-icons/fa";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { Link } from "react-router-dom";
-import Popup from "reactjs-popup";
-import "reactjs-popup/dist/index.css";
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
 import { RxCross1 } from "react-icons/rx";
 import UserContext from "../login/UserContext";
 import EveryOneOrder from "./EveryOneOrder";
 import axios from "axios";
 import { IoIosTrophy } from "react-icons/io";
 import toast from "react-hot-toast";
-const calculateTimerInfo = () => {
-  const time = Date.now();
-  const timeInSeconds = Math.floor(time / 1000);
-  const timerNumber = Math.floor(timeInSeconds / 30);
-  const countDown = Math.floor(30 - (timeInSeconds % 30));
-  return {
-    timerNumber,
-    countDown,
-  };
-};
-
+import calculateTimerInfo from "./calculateTimerInfo";
+import './index.css'
 function Timer() {
   const [userOrders, setUserOrders] = useState([]);
   const [data, setData] = useState(calculateTimerInfo);
@@ -61,7 +52,7 @@ function Timer() {
     try {
       // console.log("-------------------------------------------------------------")
       const response = await axios.get(
-        "https://api.perfectorse.site/api/v1/user/winner-thirty-second"
+        "http://localhost:3001/api/v1/user/winner-thirty-second"
       );
       const data = response.data;
       // console.log(data);
@@ -83,7 +74,7 @@ function Timer() {
     try {
       // setLoading(true);
       const response = await axios.get(
-        `https://api.perfectorse.site/api/v1/financial/thirty-second-history/${userId}`
+        `http://localhost:3001/api/v1/financial/thirty-second-history/${userId}`
       );
       if (response.status === 200) {
         setThirtySecond(response?.data);
@@ -167,7 +158,7 @@ function Timer() {
       return;
     }
     try {
-      const response = await axios.post("https://api.perfectorse.site/place-bet", {
+      const response = await axios.post("http://localhost:3001/place-bet", {
         userId: user.userId,
         periodNumber: data.timerNumber,
         periodDate: new Date().toISOString().split("T")[0],
@@ -211,35 +202,43 @@ function Timer() {
   };
 
   const generateRandomBets = () => {
-    const newBets = [];
     const colors = ["Red", "Violet", "Green"];
     const amounts = [100, 200, 500, 1000];
+    const bets = [];
 
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 5; i++) {
       const randomColor = colors[Math.floor(Math.random() * colors.length)];
       const randomAmount = amounts[Math.floor(Math.random() * amounts.length)];
       const randomUserNumber = Math.floor(1000 + Math.random() * 9000);
-      newBets.push({
+      bets.push({
         color: randomColor,
         amount: randomAmount,
         userNumber: randomUserNumber,
       });
     }
-    setNewBets(newBets);
+
+    setNewBets(bets);
   };
   useEffect(() => {
-    if (data.countDown <= 27 && data.countDown >= 11) {
-      setShowRandomBets(true);
-      generateRandomBets();
-    } else {
-      setShowRandomBets(false);
-    }
+    const interval = setInterval(() => {
+      const newTimerData = calculateTimerInfo();
+      setData(newTimerData);
+
+      if (newTimerData.countDown <= 27 && newTimerData.countDown >= 11) {
+        setShowRandomBets(true);
+        generateRandomBets();
+      } else {
+        setShowRandomBets(false);
+      }
+    }, 3000);
+
+    return () => clearInterval(interval);
   }, []);
-  useEffect(() => {
-    if (data.countDown === 28) {
-      window.location.reload();
-    }
-  }, [data.countDown]);
+  // useEffect(() => {
+  //   if (data.countDown === 28) {
+  //     window.location.reload();
+  //   }
+  // }, [data.countDown]);
   return (
     <div className="flex flex-col bg-gray-900 min-h-screen bg-myblue-500 max-w-md mx-auto">
       {/* Header */}
@@ -264,7 +263,7 @@ function Timer() {
               </h2>
             </div>
           </div>
-          <div>
+          <div class="form-action">
             <p className="text-l">Count Down</p>
             <div className="rounded-lg p-3 h-8 items-center flex justify-center bg-white">
               {/* <h2 className="text-2xl font-mono">{formatTime(time)}</h2> */}
@@ -452,23 +451,6 @@ function Timer() {
           </div>
         </div>
       )}
-
-      {/* {showRandomBets && (
-        <div className="flex flex-col">
-          <EveryOneOrder
-            key={refresh}
-            period={data.timerNumber}
-            newBets={newBets}
-          />
-          <hr></hr>
-        </div>
-      )} */}
-      {/* Last Table Data */}
-      {/* {data.countDown <= 11 && (
-        <div className="flex p-2 flex-col mr-4 ml-4 justify-center items-center h-[150px] border-2 border-myblue-200 mt-2 bg-white">
-          <h2 className="text-myblue-200 font-bold">WAIT FOR RESULT......</h2>
-        </div>
-      )} */}
     </div>
   );
 }

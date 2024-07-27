@@ -15,7 +15,7 @@ export default function Login() {
   useEffect(() => {
     const userSession = sessionStorage.getItem("user");
     if (!userSession) {
-      navigate("/login"); // redirect to login page if no user session found
+      navigate("/login");
     }
   }, []);
   const handleLogin = async (e) => {
@@ -23,7 +23,7 @@ export default function Login() {
     setLoading(true);
     try {
       const response = await Axios.post(
-        "https://api.perfectorse.site/api/v1/login",
+        "http://localhost:3001/api/v1/login",
         {
           useremail,
           password,
