@@ -57,6 +57,7 @@ function GameModeSecond() {
   const fetchGameModeData = useCallback(async () => {
     try {
       const res = await axios.get("https://api.perfectorse.site/api/v1/admin/manual-two-min");
+      console.log(res?.data)
       setGameMode(res.data);
     } catch (error) {
       console.error(error);

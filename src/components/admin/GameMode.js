@@ -39,7 +39,7 @@ export default function GameMode() {
       if (response.status === 200) {
         toast.success("Period updated successfully!");
       } else {
-        alert("Failed to update period.");
+        toast.error("Failed to update period.");
       }
     } catch (error) {
       console.error("Error:", error);

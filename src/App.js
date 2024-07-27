@@ -27,16 +27,16 @@ import GameModeSecond from "./components/admin/GameModeSecond";
 import MainHomepage from "./components/dashboard/MainHomepage";
 import Maintainance from "./components/maintainance/Maintainance";
 function App() {
-  function disableRightClick() {
-    document.addEventListener(
-      "contextmenu",
-      (event) => {
-        event.preventDefault();
-      },
-      false
-    );
-  }
-  disableRightClick();
+  // function disableRightClick() {
+  //   document.addEventListener(
+  //     "contextmenu",
+  //     (event) => {
+  //       event.preventDefault();
+  //     },
+  //     false
+  //   );
+  // }
+  // disableRightClick();
   return (
     // <>
     // <Maintainance/>

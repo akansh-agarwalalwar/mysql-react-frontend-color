@@ -161,7 +161,7 @@ function TwoMin() {
     }
     try {
       const response = await axios.post(
-        "http://api.perfectorse.site/place-bet/two-min",
+        "https://api.perfectorse.site/place-bet/two-min",
         {
           userId: user.userId,
           periodNumber: data.timerNumber,
@@ -207,7 +207,7 @@ function TwoMin() {
     const colors = ["Red", "Violet", "Green"];
     const amounts = [100, 200, 500, 1000];
 
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 30; i++) {
       const randomColor = colors[Math.floor(Math.random() * colors.length)];
       const randomAmount = amounts[Math.floor(Math.random() * amounts.length)];
       const randomUserNumber = Math.floor(1000 + Math.random() * 9000);
