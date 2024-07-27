@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-
+import toast from 'react-hot-toast'
 export default function Signup() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -31,13 +31,15 @@ export default function Signup() {
       });
       if (response.data.message === "Registration Successful") {
         setRegisterStatus(response?.data?.message);
+        toast.success("Registration Successfull")
         navigate("/login");
       } else {
         setRegisterStatus(response?.data?.message);
+        toast.error("Registration Failed")
       }
     } catch (error) {
       // console.error("Error during registration:", error);
-      setRegisterStatus("Registration failed.");
+      toast.error("Registration Failed")
     }
   };
   const sendOtp = async () => {
@@ -51,12 +53,15 @@ export default function Signup() {
       if (response.data.message === "OTP sent successfully") {
         setOtpSent(true);
         setOtpStatus(response?.data?.message);
+        toast.success("OTP Sent")
       } else {
         setOtpStatus(response?.data?.message);
+        toast.error("OTP Failed")
       }
     } catch (error) {
       // console.error("Error sending OTP:", error);
       setOtpStatus("Failed to send OTP.");
+      toast.error("OTP Failed")
     }
   };
 
@@ -71,12 +76,16 @@ export default function Signup() {
       );
       if (response.data.message === "OTP verified successfully") {
         setOtpStatus(response?.data?.message);
+        toast.success("OTP Verified")
       } else {
         setOtpStatus(response?.data?.message);
+        toast.error("OTP Failed")
       }
     } catch (error) {
       // console.error("Error verifying OTP:", error);
-      setOtpStatus("Failed to verify OTP.");
+      // setOtpStatus("Failed to verify OTP.");
+      toast.error("Failed to verify OTP")
+      
     }
   };
 

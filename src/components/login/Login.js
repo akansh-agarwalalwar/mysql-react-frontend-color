@@ -3,6 +3,7 @@ import Axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import UserContext from "./UserContext";
 import Cookies from "js-cookie";
+import toast from "react-hot-toast";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -46,16 +47,20 @@ export default function Login() {
         sessionStorage.setItem("user", JSON.stringify(user));
 
         if (adminId) {
+          toast.success("Login Successfull")
           navigate("/admin");
         } else {
+          toast.success("Login Successfull")
           navigate("/home");
         }
       } else {
         setError("Invalid email or password");
+        toast.success("Invalid email or password")
       }
     } catch (error) {
       // console.error("There was an error with the login:", error);
-      setError("Login failed. Please try again.");
+      toast.error("Login failed. Please try again.")
+      // setError("Login failed. Please try again.");
     } finally {
       setLoading(false);
     }

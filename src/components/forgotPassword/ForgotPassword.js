@@ -20,17 +20,19 @@ export default function ForgotPassword() {
     }
     try {
       const response = await Axios.post(
-        "https://api.perfectorse.site/api/v1/forgotPassword",
+        "https://localhost:3001/api/v1/forgotPassword",
         {
           useremail: useremail,
           newPassword: newPassword,
         }
       );
-      if (response.data.message) {
+      if (response.data.message=== "Password updated successfully.") {
         setStatusMessage(response.data.message);
-      } else {
         toast.success("Password updated successfully");
         navigate("/login");
+      } else {
+        toast.error("Password updation Failed");
+        
       }
     } catch (error) {
       toast.error("Password update failed");
