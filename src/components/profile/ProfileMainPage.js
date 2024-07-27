@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import BottomNav from "../dashboard/BottomNav";
-import { FaRegUser, FaDownload } from "react-icons/fa6";
+import { FaRegUser } from "react-icons/fa6";
 import UserContext from "../login/UserContext";
 import { IoSettingsOutline } from "react-icons/io5";
-import one from '../../images/profile_one.jpg'
-import two from '../../images/profile_two.jpg'
-import three from '../../images/profile_three.jpg'
-import four from '../../images/profile_four.jpg'
+import one from "../../images/profile_one.jpg";
+import two from "../../images/profile_two.jpg";
+import three from "../../images/profile_three.jpg";
+import four from "../../images/profile_four.jpg";
 import {
   MdLibraryBooks,
   MdContactSupport,
@@ -35,14 +35,8 @@ const sideNavData = [
     path: "/home/profile/bank-details",
   },
   {
-    title: "Download",
-    icon: <FaDownload />,
-    // path: "/download",
-  },
-  {
     title: "Follow Us",
     icon: <RiChatFollowUpFill />,
-    path: "/follow-us",
     onClick: () => window.open("https://t.me/Perfectorse", "_blank"),
   },
   {
@@ -50,11 +44,6 @@ const sideNavData = [
     icon: <MdContactSupport />,
     onClick: () => window.open("https://t.me/Perfectorse", "_blank"),
   },
-  // {
-  //   title: "Complaint",
-  //   icon: <MdOutlineSupportAgent />,
-  //   // path: "/complaint",
-  // },
 ];
 
 const ProfileMainPage = () => {
@@ -64,7 +53,8 @@ const ProfileMainPage = () => {
 
   useEffect(() => {
     const profileImages = [one, two, three, four];
-    const randomImage = profileImages[Math.floor(Math.random() * profileImages?.length)];
+    const randomImage =
+      profileImages[Math.floor(Math.random() * profileImages?.length)];
     setProfileImage(randomImage);
   }, []);
 
@@ -72,19 +62,20 @@ const ProfileMainPage = () => {
     await logout();
     navigate("/login");
   };
+
   return (
     <div className="flex flex-col px-8 bg-myblue-500 min-h-screen text-richblack-5 max-w-md mx-auto">
       <div className="flex items-center mt-8">
-        <div className="  rounded-full p-3 flex justify-center items-center -ml-5">
+        <div className="rounded-full p-3 flex justify-center items-center -ml-5">
           {profileImage ? (
             <div
               style={{
                 backgroundImage: `url(${profileImage})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                width: '48px',
-                height: '48px',
-                borderRadius: '50%',
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                width: "48px",
+                height: "48px",
+                borderRadius: "50%",
               }}
             />
           ) : (
@@ -96,13 +87,13 @@ const ProfileMainPage = () => {
             <p className="text-2xl text-start border-b border-richblack-50 uppercase text-richblack-900">
               {user ? user.username : "Not Logged In"}
             </p>
-            <h1 className=" text-richblack-700">
+            <h1 className="text-richblack-700">
               ID : {user ? user.userId : "Not Logged In"}
             </h1>
           </div>
-          <div className=" flex items-center justify-center ">
+          <div className="flex items-center justify-center">
             <Link to="/home/profile/setting">
-              <IoSettingsOutline className=" rounded-full h-9 w-9 text-richblack-900" />
+              <IoSettingsOutline className="rounded-full h-9 w-9 text-richblack-900" />
             </Link>
           </div>
         </div>
@@ -116,17 +107,28 @@ const ProfileMainPage = () => {
                 index % 2 === 0 ? "bg-richblue-5" : "bg-white"
               }`}
               key={index}
+              onClick={item.onClick ? item.onClick : null}
             >
-              <Link
-                to={item.path}
-                className={`flex items-center justify-between py-4`}
-              >
-                <div className="flex items-center space-x-2">
-                  <p className="text-2xl text-myblue-400">{item?.icon}</p>
-                  <p className=" text-lg text-black">{item?.title}</p>
+              {item.path ? (
+                <Link
+                  to={item.path}
+                  className="flex items-center justify-between py-4"
+                >
+                  <div className="flex items-center space-x-2">
+                    <p className="text-2xl text-myblue-400">{item.icon}</p>
+                    <p className="text-lg text-black">{item.title}</p>
+                  </div>
+                  <MdKeyboardArrowRight className="text-myblue-400" />
+                </Link>
+              ) : (
+                <div className="flex items-center justify-between py-4">
+                  <div className="flex items-center space-x-2">
+                    <p className="text-2xl text-myblue-400">{item.icon}</p>
+                    <p className="text-lg text-black">{item.title}</p>
+                  </div>
+                  <MdKeyboardArrowRight className="text-myblue-400" />
                 </div>
-                <MdKeyboardArrowRight className="text-myblue-400" />
-              </Link>
+              )}
             </div>
           ))}
         </ul>

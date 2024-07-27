@@ -34,15 +34,14 @@ export default function NavBarAdmin({ users }) {
         {isNavOpen ? "Close Menu" : "Open Menu"}
       </button>
       <nav
-        className={`bg-myblue-200 p-6 h-screen lg:h-auto flex flex-col lg:flex-row lg:justify-between w-full lg:w-[200px] fixed top-0 left-0 lg:relative transition-transform transform ${
+        className={`bg-myblue-200 p-6 h-screen flex flex-col justify-between w-full lg:w-[200px] fixed top-0 left-0 lg:relative transition-transform transform ${
           isNavOpen ? "translate-x-0" : "-translate-x-full"
         } lg:translate-x-0 z-40`}
       >
         <div>
-          <ul className="flex flex-col lg:flex-row lg:space-x-4 space-y-4 lg:space-y-0">
-            =
+          <ul className="flex flex-col space-y-4 mt-10">
             <li>
-              <Link to="/admin" className="text-white hover:underline mt-10" onClick={closeNav}>
+              <Link to="/admin" className="text-white hover:underline" onClick={closeNav}>
                 Dashboard
               </Link>
             </li>
@@ -73,10 +72,10 @@ export default function NavBarAdmin({ users }) {
             </li>
           </ul>
         </div>
-        <div className="mt-6 lg:mt-0 flex flex-col lg:flex-row lg:items-center lg:space-x-2">
+        <div className="mt-6 flex flex-col space-y-2">
           <button
             onClick={exportToExcel}
-            className="bg-blue-600 text-white py-2 px-4 rounded mb-2 lg:mb-0 lg:mr-2"
+            className="bg-blue-600 text-white py-2 px-4 rounded"
           >
             Export to Excel
           </button>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import NavBarAdmin from './NavBarAdmin';
-
+import toast from "react-hot-toast";
 const ToPay = () => {
   const [withdrawHistory, setWithdrawHistory] = useState([]);
   const [processedWithdrawHistory, setProcessedWithdrawHistory] = useState([]);
@@ -42,6 +42,15 @@ const ToPay = () => {
     } catch (error) {
       console.error(`Error ${action} withdrawal:`, error);
     }
+  };
+  
+  const handleCopy = (userId) => {
+    navigator.clipboard.writeText(userId).then(() => {
+      toast.success("User ID copied to clipboard");
+    }).catch(error => {
+      console.error("Error copying user ID:", error);
+      toast.error("Error copying User ID");
+    });
   };
 
   return (
@@ -104,7 +113,16 @@ const ToPay = () => {
             <tbody className="divide-y divide-gray-200">
               {processedWithdrawHistory?.slice()?.reverse()?.map((withdrawal) => (
                 <tr key={withdrawal.id}>
-                  <td className="py-4 px-6">{withdrawal.userId}</td>
+                  <td className="py-4 px-6 flex items-center">
+                    {withdrawal.userId}
+                    <button
+                      className="ml-2 bg-blue-500 py-1 px-2 rounded-lg text-white hover:bg-blue-600 text-xs md:text-sm"
+                      onClick={() => handleCopy(withdrawal.userId)}
+                    >
+                      Copy
+                      
+                    </button>
+                    </td>
                   <td className="py-4 px-6">{withdrawal.amount}</td>
                   <td className="py-4 px-6">{new Date(withdrawal.withdrawDate).toLocaleDateString()}</td>
                   <td className="py-4 px-6">{withdrawal.status}</td>

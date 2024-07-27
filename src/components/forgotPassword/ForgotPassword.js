@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
-import Axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom';
-
+import React, { useState } from "react";
+import Axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
+import toast from 'react-hot-toast'
 export default function ForgotPassword() {
   const navigate = useNavigate();
-  const [mobileNumber, setMobileNumber] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [statusMessage, setStatusMessage] = useState('');
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [statusMessage, setStatusMessage] = useState("");
+  const [otp, setOtp] = useState("");
+  const [useremail, setEmail] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpStatus, setOtpStatus] = useState("");
 
   const handleForgotPassword = async (e) => {
     e.preventDefault();
@@ -16,76 +19,156 @@ export default function ForgotPassword() {
       return;
     }
     try {
-      const response = await Axios.post("https://api.perfectorse.site/forgot-password", {
-        mobileNumber: mobileNumber,
-        newPassword: newPassword,
-      });
+      const response = await Axios.post(
+        "https://api.perfectorse.site/api/v1/forgotPassword",
+        {
+          useremail: useremail,
+          newPassword: newPassword,
+        }
+      );
       if (response.data.message) {
-        setStatusMessage(response?.data?.message);
+        setStatusMessage(response.data.message);
       } else {
-        setStatusMessage("Password updated successfully");
-        navigate('/login');
+        toast.success("Password updated successfully");
+        navigate("/login");
       }
     } catch (error) {
-      setStatusMessage("Password update failed");
+      toast.error("Password update failed");
+    }
+  };
+
+  const sendOtp = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await Axios.post(
+        "https://api.perfectorse.site/api/v1/sendOtp",
+        {
+          useremail,
+        }
+      );
+      if (response.data.message === "OTP sent successfully") {
+        setOtpSent(true);
+        setOtpStatus(response.data.message);
+      } else {
+        setOtpStatus(response.data.message);
+      }
+    } catch (error) {
+      setOtpStatus("Failed to send OTP.");
+    }
+  };
+
+  const verifyOtp = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await Axios.post(
+        "https://api.perfectorse.site/api/v1/verifyEmail",
+        {
+          useremail,
+          otp,
+        }
+      );
+      if (response.data.message === "OTP verified successfully") {
+        setOtpStatus(response.data.message);
+      } else {
+        setOtpStatus(response.data.message);
+      }
+    } catch (error) {
+      setOtpStatus("Failed to verify OTP.");
+    }
+  };
+
+  const handleEmailChange = (e) => {
+    const email = e.target.value;
+    const emailRegex = /^[a-zA-Z0-9@.]+$/;
+    if (emailRegex.test(email)) {
+      setEmail(email);
+    } else {
+      setEmail("");
     }
   };
 
   return (
-    <div className="min-h-screen bg-blue-700 flex justify-center items-center p-4 max-w-md mx-auto">
-      <div className="bg-blue-300 p-8 rounded-lg shadow-lg w-full max-w-md">
+    <div className="min-h-screen bg-myblue-500 flex justify-center items-center p-4 w-full max-w-md mx-auto">
+      <div className="p-5 rounded-lg shadow-xl w-[80%] border-2 border-myblue-200">
         <div className="text-center mb-6">
-          <h1 className="text-4xl font-bold text-white">Forgot Password</h1>
+          <h1 className="text-3xl font-bold text-myblue-200">Forgot Password</h1>
         </div>
         <form className="space-y-4" onSubmit={handleForgotPassword}>
           <div className="flex flex-col">
-            <label className="text-white mb-2">Mobile Number</label>
+            <label className="mb-2">Email</label>
             <input
-              type="number"
-              placeholder="Mobile Number"
+              type="email"
+              placeholder="Enter Email"
               className="p-2 rounded-md border border-gray-300"
-              value={mobileNumber}
-              onChange={(e) => setMobileNumber(e.target.value)}
+              value={useremail}
+              onChange={handleEmailChange}
             />
+            <button
+              className="mt-2 rounded-md transition border-2 border-myblue-200 text-sm p-2 w-full"
+              onClick={sendOtp}
+              disabled={!useremail}
+            >
+              Send OTP
+            </button>
           </div>
-          <div className="flex flex-col">
-            <label className="text-white mb-2">New Password</label>
-            <input
-              type="password"
-              placeholder="New Password"
-              className="p-2 rounded-md border border-gray-300"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-            />
-          </div>
-          <div className="flex flex-col">
-            <label className="text-white mb-2">Confirm Password</label>
-            <input
-              type="password"
-              placeholder="Confirm Password"
-              className="p-2 rounded-md border border-gray-300"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-          </div>
+          {otpSent && otpStatus !== "OTP verified successfully" && (
+            <div className="flex flex-col mt-4">
+              <label className="mb-1 text-sm">OTP</label>
+              <div className="relative flex items-center">
+                <input
+                  type="text"
+                  placeholder="OTP"
+                  className={`p-1 rounded-md border w-full ${
+                    otpStatus === "OTP verified successfully"
+                      ? "border-green-100"
+                      : "border-red-100"
+                  }`}
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                />
+              </div>
+              <button
+                className="mt-2 rounded-md transition border-2 border-myblue-200 text-sm p-2"
+                onClick={verifyOtp}
+              >
+                Verify OTP
+              </button>
+              <div className="mt-2 text-xs">{otpStatus}</div>
+            </div>
+          )}
+          {otpStatus === "OTP verified successfully" && (
+            <div className="flex flex-col mt-4">
+              <label className="mb-2">New Password</label>
+              <input
+                type="password"
+                placeholder="New Password"
+                className="p-2 rounded-md border border-gray-300"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+              />
+              <label className="mb-2">Confirm Password</label>
+              <input
+                type="password"
+                placeholder="Confirm Password"
+                className="p-2 rounded-md border border-gray-300"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+            </div>
+          )}
           {statusMessage && (
-            <div className="text-red-500 text-sm">{statusMessage}</div>
+            <div className="text-red-100 text-sm">{statusMessage}</div>
           )}
           <div className="mt-6">
             <button
-              className="w-full p-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
+              className="w-full p-3 bg-myblue-200 text-white rounded-md"
               type="submit"
             >
               Submit
             </button>
           </div>
           <div className="text-center mt-4">
-            <Link
-              to="/login"
-              className="text-white hover:underline hover:text-blue-600"
-            >
-              Back to Login Page
-            </Link>
+            <Link to="/login">Back to Login Page</Link>
           </div>
         </form>
       </div>

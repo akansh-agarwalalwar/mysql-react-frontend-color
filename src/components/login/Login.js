@@ -1,4 +1,4 @@
-import React, { useState, useContext,useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import UserContext from "./UserContext";
@@ -21,10 +21,13 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await Axios.post("https://api.perfectorse.site/api/v1/login", {
-        useremail,
-        password,
-      });
+      const response = await Axios.post(
+        "https://api.perfectorse.site/api/v1/login",
+        {
+          useremail,
+          password,
+        }
+      );
       if (response.status === 200) {
         const {
           userId,
@@ -84,6 +87,11 @@ export default function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+            <Link to='/forgot-password'>
+              <div className="w-full flex justify-end mt-1">
+                <p>Forgot Password</p>
+              </div>
+            </Link>
           </div>
           <div className="mt-6">
             <button

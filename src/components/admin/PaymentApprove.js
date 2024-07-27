@@ -50,13 +50,22 @@ function PaymentApprove() {
     }
   };
 
+  const handleCopy = (userId) => {
+    navigator.clipboard.writeText(userId).then(() => {
+      toast.success("User ID copied to clipboard");
+    }).catch(error => {
+      console.error("Error copying user ID:", error);
+      toast.error("Error copying User ID");
+    });
+  };
+
   return (
     <div className="flex flex-col items-center bg-gray-100 min-h-screen py-8">
       <NavBarAdmin />
       <h2 className="font-bold text-2xl my-6 text-gray-800">
         Approve or Deny Payments
       </h2>
-      <div className="w-full max-w-4xl overflow-x-auto bg-white shadow-md rounded-lg p-4">
+      <div className="w-full max-w-6xl overflow-x-auto bg-white shadow-md rounded-lg p-4">
         {loading ? (
           <p className="text-center text-gray-600">Loading...</p>
         ) : pendingPayments.length === 0 ? (
@@ -64,7 +73,7 @@ function PaymentApprove() {
             No applications to approve or deny
           </p>
         ) : (
-          <table className="min-w-full">
+          <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-100">
               <tr>
                 <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
@@ -83,19 +92,27 @@ function PaymentApprove() {
             </thead>
             <tbody className="divide-y divide-gray-200">
               {pendingPayments.slice().reverse().map(payment => (
-                <tr key={payment.id}>
-                  <td className="py-4 px-6">{payment.userId}</td>
+                <tr key={payment.id} className="text-sm">
+                  <td className="py-4 px-6 flex items-center">
+                    {payment.userId}
+                    <button
+                      className="ml-2 bg-blue-500 py-1 px-2 rounded-lg text-white hover:bg-blue-600 text-xs md:text-sm"
+                      onClick={() => handleCopy(payment.userId)}
+                    >
+                      Copy
+                    </button>
+                  </td>
                   <td className="py-4 px-6">{payment.amount}</td>
                   <td className="py-4 px-6">{payment.transaction_id || "N/A"}</td>
                   <td className="py-4 px-6 text-center">
                     <button
-                      className="bg-green-500 py-1 px-3 rounded-lg mr-2 hover:bg-green-600"
+                      className="bg-green-500 py-1 px-2 rounded-lg mr-2 hover:bg-green-600 text-xs md:text-sm"
                       onClick={() => handleApprove(payment.id)}
                     >
                       Approve
                     </button>
                     <button
-                      className="bg-red-500 py-1 px-3 rounded-lg hover:bg-red-600"
+                      className="bg-red-500 py-1 px-2 rounded-lg hover:bg-red-600 text-xs md:text-sm"
                       onClick={() => handleDeny(payment.id)}
                     >
                       Deny
@@ -108,11 +125,11 @@ function PaymentApprove() {
         )}
       </div>
       <h2 className="font-bold text-2xl mt-8 mb-4 text-gray-800">Payment History</h2>
-      <div className="w-full max-w-4xl overflow-x-auto bg-white shadow-md rounded-lg p-4">
+      <div className="w-full max-w-6xl overflow-x-auto bg-white shadow-md rounded-lg p-4">
         {paymentHistory.length === 0 ? (
           <p className="text-center text-gray-600">No payment history available</p>
         ) : (
-          <table className="min-w-full">
+          <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-100">
               <tr>
                 <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
@@ -131,11 +148,19 @@ function PaymentApprove() {
             </thead>
             <tbody className="divide-y divide-gray-200">
               {paymentHistory.slice().reverse().map(payment => (
-                <tr key={payment.id} className="hover:bg-gray-100">
-                  <td className="px-6 py-4 whitespace-nowrap">{payment.userId}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{payment.amount}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{payment.transaction_id}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{payment.status}</td>
+                <tr key={payment.id} className="text-sm">
+                  <td className="py-4 px-6 flex items-center">
+                    {payment.userId}
+                    <button
+                      className="ml-2 bg-blue-500 py-1 px-2 rounded-lg text-white hover:bg-blue-600 text-xs md:text-sm"
+                      onClick={() => handleCopy(payment.userId)}
+                    >
+                      Copy
+                    </button>
+                  </td>
+                  <td className="py-4 px-6">{payment.amount}</td>
+                  <td className="py-4 px-6">{payment.transaction_id}</td>
+                  <td className="py-4 px-6">{payment.status}</td>
                 </tr>
               ))}
             </tbody>

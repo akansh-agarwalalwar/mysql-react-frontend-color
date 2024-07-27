@@ -46,21 +46,21 @@ export default function AdminDashboard() {
   return (
     <div className="flex flex-col lg:flex-row">
       <NavBarAdmin users={users} />
-      <div className="bg-myblue-500 w-full p-8 lg:ml-[200px] overflow-auto h-screen mt-6">
+      <div className="bg-myblue-500 w-full p-8 lg:ml-[200px] overflow-auto h-screen mt-6 lg:mt-0">
         <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
-        <div className="flex flex-col lg:flex-row justify-evenly">
-          <Link to='/admin/payment-approve'>
-            <div className="bg-white shadow-md rounded-lg p-6 w-full lg:w-64 text-center mb-4 lg:mb-0">
+        <div className="flex flex-col lg:flex-row justify-around gap-4">
+          <Link to='/admin/payment-approve' className="w-full lg:w-64">
+            <div className="bg-white shadow-md rounded-lg p-6 text-center mb-4 lg:mb-0">
               <h2 className="text-xl font-bold mb-2">Approve</h2>
               <p className="text-4xl font-semibold text-blue-600">{approveUser.length}</p>
             </div>
           </Link>
-          <div className="bg-white shadow-md rounded-lg p-6 w-full lg:w-64 text-center mb-4 lg:mb-0">
+          <div className="bg-white shadow-md rounded-lg p-6 text-center w-full lg:w-64 mb-4 lg:mb-0">
             <h2 className="text-xl font-bold mb-2">Total Users</h2>
             <p className="text-4xl font-semibold text-blue-600">{users.length}</p>
           </div>
-          <Link to='/admin/to-pay'>
-            <div className="bg-white shadow-md rounded-lg p-6 w-full lg:w-64 text-center mb-4 lg:mb-0">
+          <Link to='/admin/to-pay' className="w-full lg:w-64">
+            <div className="bg-white shadow-md rounded-lg p-6 text-center mb-4 lg:mb-0">
               <h2 className="text-xl font-bold mb-2">Pay</h2>
               <p className="text-4xl font-semibold text-blue-600">{ToPay.length}</p>
             </div>
