@@ -52,7 +52,7 @@ function Timer() {
     try {
       // console.log("-------------------------------------------------------------")
       const response = await axios.get(
-        "http://localhost:3001/api/v1/user/winner-thirty-second"
+        "https://api.perfectorse.site/api/v1/user/winner-thirty-second"
       );
       const data = response.data;
       // console.log(data);
@@ -74,7 +74,7 @@ function Timer() {
     try {
       // setLoading(true);
       const response = await axios.get(
-        `http://localhost:3001/api/v1/financial/thirty-second-history/${userId}`
+        `https://api.perfectorse.site/api/v1/financial/thirty-second-history/${userId}`
       );
       if (response.status === 200) {
         setThirtySecond(response?.data);
@@ -158,7 +158,7 @@ function Timer() {
       return;
     }
     try {
-      const response = await axios.post("http://localhost:3001/place-bet", {
+      const response = await axios.post("https://api.perfectorse.site/place-bet", {
         userId: user.userId,
         periodNumber: data.timerNumber,
         periodDate: new Date().toISOString().split("T")[0],

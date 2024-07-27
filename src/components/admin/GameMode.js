@@ -26,7 +26,7 @@ export default function GameMode() {
     setError("");
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/v1/admin/thirtySecond",
+        "https://api.perfectorse.site/api/v1/admin/thirtySecond",
         {
           periodNumber,
           color
@@ -60,7 +60,7 @@ export default function GameMode() {
 
   const fetchGameModeData = useCallback(async () => {
     try {
-      const res = await axios.get("http://localhost:3001/api/v1/admin/manual-thirty-second");
+      const res = await axios.get("https://api.perfectorse.site/api/v1/admin/manual-thirty-second");
       setGameMode(res.data);
     } catch (error) {
       console.error(error);

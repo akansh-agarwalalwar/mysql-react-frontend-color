@@ -9,8 +9,8 @@ const ToPay = () => {
   const fetchData = useCallback(async () => {
     try {
       const [withdrawResponse, processedResponse] = await Promise.all([
-        axios.get('http://localhost:3001/api/v1/admin/withdrawlHistory'),
-        axios.get('http://localhost:3001/api/v1/admin/processedWithdrawlHistory')
+        axios.get('https://api.perfectorse.site/api/v1/admin/withdrawlHistory'),
+        axios.get('https://api.perfectorse.site/api/v1/admin/processedWithdrawlHistory')
       ]);
 
       setWithdrawHistory(withdrawResponse.data || []);
@@ -27,8 +27,8 @@ const ToPay = () => {
   const handleAction = async (id, action) => {
     try {
       const endpoint = action === 'accept'
-        ? 'http://localhost:3001/api/v1/admin/withdrawlAccept'
-        : 'http://localhost:3001/api/v1/admin/withdrawlDeny';
+        ? 'https://api.perfectorse.site/api/v1/admin/withdrawlAccept'
+        : 'https://api.perfectorse.site/api/v1/admin/withdrawlDeny';
 
       await axios.post(endpoint, { id });
       setWithdrawHistory((prev) => prev.filter((withdrawal) => withdrawal.id !== id));
