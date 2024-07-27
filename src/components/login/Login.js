@@ -94,7 +94,7 @@ export default function Login() {
             />
             <Link to='/forgot-password'>
               <div className="w-full flex justify-end mt-1">
-                <p>Forgot Password</p>
+                <p>Forgot Password ?</p>
               </div>
             </Link>
           </div>
