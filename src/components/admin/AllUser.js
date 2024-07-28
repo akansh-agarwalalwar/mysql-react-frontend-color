@@ -42,7 +42,7 @@ export default function AllUsers() {
   const fetchRechargeHistory = async (userId) => {
     try {
       const response = await fetch(
-        `https://api.perfectorse.site/api/payments/history?userId=${userId}`
+        `https://api.perfectorse.site/api/v1/financial/recharge-history?userId=${userId}`
       );
       if (!response.ok) {
         throw new Error(`https error! status: ${response?.status}`);
@@ -57,7 +57,7 @@ export default function AllUsers() {
   const fetchWithdrawHistory = async (userId) => {
     try {
       const response = await fetch(
-        `https://api.perfectorse.site/api/show/withdrawl/history?userId=${userId}`
+        `https://api.perfectorse.site/api/v1/financial/withdraw-history?userId=${userId}`
       );
       if (!response.ok) {
         throw new Error(`https error! status: ${response?.status}`);
@@ -68,7 +68,6 @@ export default function AllUsers() {
       console.error("Error fetching withdraw history:", error);
     }
   };
-
   const fetchBankDetails = async (userId) => {
     try {
       const res = await fetch(`https://api.perfectorse.site/api/v1/admin/bank?userId=${userId}`);
@@ -232,14 +231,17 @@ export default function AllUsers() {
                         <tr>
                           <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">Amount</th>
                           <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">Date</th>
+                          <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">Status</th>
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
                         {rechargeHistory.length > 0 ? (
-                          rechargeHistory.map((history) => (
+                          rechargeHistory?.slice().reverse()?.map((history) => (
                             <tr key={history.id}>
                               <td className="px-6 py-4 whitespace-nowrap text-center">{history.amount}</td>
-                              <td className="px-6 py-4 whitespace-nowrap text-center">{new Date(history.date).toLocaleString()}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-center">{new Date(history.rechargeDate).toLocaleString()}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-center">{history.status}</td>
+
                             </tr>
                           ))
                         ) : (
@@ -262,14 +264,16 @@ export default function AllUsers() {
                         <tr>
                           <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">Amount</th>
                           <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">Date</th>
+                          <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">Status</th>
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
                         {withdrawHistory.length > 0 ? (
-                          withdrawHistory.map((history) => (
+                          withdrawHistory?.slice()?.reverse()?.map((history) => (
                             <tr key={history.id}>
                               <td className="px-6 py-4 whitespace-nowrap text-center">{history.amount}</td>
-                              <td className="px-6 py-4 whitespace-nowrap text-center">{new Date(history.date).toLocaleString()}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-center">{new Date(history.withdrawDate).toLocaleString()}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-center">{history.status}</td>
                             </tr>
                           ))
                         ) : (

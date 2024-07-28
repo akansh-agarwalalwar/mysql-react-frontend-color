@@ -147,7 +147,7 @@ function PaymentApprove() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {paymentHistory.slice().reverse().map(payment => (
+              {paymentHistory?.slice(-10)?.reverse()?.map(payment => (
                 <tr key={payment.id} className="text-sm">
                   <td className="py-4 px-6 flex items-center">
                     {payment.userId}

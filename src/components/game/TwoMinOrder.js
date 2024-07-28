@@ -34,7 +34,7 @@ function TwoMinOrder({ newBets }) {
                 </tr>
               </thead>
               <tbody>
-                {userBets?.map((bet, index) => (
+                {userBets?.slice().reverse().map((bet, index) => (
                   <motion.tr
                     key={index}
                     initial={{ opacity: 0, x: -100 }}

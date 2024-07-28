@@ -34,9 +34,9 @@ function EveryOneOrder({ newBets }) {
                 </tr>
               </thead>
               <tbody>
-                {userBets?.map((bet, index) => (
+                {userBets?.slice().reverse().map((bet, index) => (
                   <motion.tr
-                    key={index}
+                    key={bet.userNumber} // Use a unique key for each row
                     initial={{ opacity: 0, x: -100 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}

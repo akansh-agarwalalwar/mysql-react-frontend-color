@@ -234,11 +234,11 @@ function Timer() {
 
     return () => clearInterval(interval);
   }, []);
-  // useEffect(() => {
-  //   if (data.countDown === 28) {
-  //     window.location.reload();
-  //   }
-  // }, [data.countDown]);
+  useEffect(() => {
+    if (data.countDown === 28) {
+      window.location.reload();
+    }
+  }, [data.countDown]);
   return (
     <div className="flex flex-col bg-gray-900 min-h-screen bg-myblue-500 max-w-md mx-auto">
       {/* Header */}
