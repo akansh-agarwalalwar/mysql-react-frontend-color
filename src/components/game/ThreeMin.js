@@ -11,6 +11,7 @@ import TwoMinOrder from "./TwoMinOrder";
 import { IoIosTrophy } from "react-icons/io";
 import calculateTimerInfoTwoMin from "./calculateTimerInfoTwoMin";
 import toast from "react-hot-toast";
+import { LuAlarmClock } from "react-icons/lu";
 function TwoMin() {
   const [data, setData] = useState(calculateTimerInfoTwoMin);
   const { user, fetchUserData } = useContext(UserContext);
@@ -30,7 +31,9 @@ function TwoMin() {
   const [lastPeriodData, setLastPeriodData] = useState([]);
   const [errorMessage, setErrorMessage] = useState(""); // State for error message
   const [newBets, setNewBets] = useState([]);
-  const [showRandomBets, setShowRandomBets] = useState(false); // State to show random bets
+  const [showRandomBets, setShowRandomBets] = useState(false);
+  const [activeTab, setActiveTab] = useState("parityRecord");
+
   useEffect(() => {
     const timerID = setInterval(() => {
       setData(calculateTimerInfoTwoMin());
@@ -193,20 +196,12 @@ function TwoMin() {
 
     closePopup();
   };
-  // useEffect(() => {
-  //   if (data.countDown <= 117 && data.countDown >= 30) {
-  //     setShowRandomBets(true);
-  //     generateRandomBets();
-  //   } else {
-  //     setShowRandomBets(false);
-  //   }
-  // }, []);
   const generateRandomBets = () => {
     const colors = ["Red", "Violet", "Green"];
     const amounts = [100, 200, 500, 1000];
     const bets = [];
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 10; i++) {
       const randomColor = colors[Math.floor(Math.random() * colors.length)];
       const randomAmount = amounts[Math.floor(Math.random() * amounts.length)];
       const randomUserNumber = Math.floor(1000 + Math.random() * 9000);
@@ -224,16 +219,14 @@ function TwoMin() {
       const newTimerData = calculateTimerInfoTwoMin();
       setData(newTimerData);
 
-      if (newTimerData.countDown <= 117 && newTimerData.countDown >= 30) {
+      if (newTimerData.countDown >= 30) {
         setShowRandomBets(true);
         generateRandomBets();
-      } else {
-        setShowRandomBets(false);
       }
-    }, 5000);
-
+    }, 3000);
+    generateRandomBets()
     return () => clearInterval(interval);
-  }, []);
+  }, [showRandomBets,data.countDown]);
   const getColorClass = (color) => {
     switch (color.toLowerCase()) {
       case "red":
@@ -274,9 +267,11 @@ function TwoMin() {
               </h2>
             </div>
           </div>
-          <div>
-            <p className="text-l">Count Down</p>
-            <div className="rounded-lg p-3 h-8 items-center flex justify-center bg-white">
+          <div className="flex flex-col">
+            <p className="text-l ml-4">Count Down</p>
+            <div className="rounded-lg p-3 h-8 items-center flex justify-center bg-white flex-row">
+              {/* <h2 className="text-2xl font-mono">{formatTime(time)}</h2> */}
+              <LuAlarmClock className="mr-3" />
               <h2 className="text-2xl font-mono">
                 {formatTime(data.countDown)}
               </h2>
@@ -393,92 +388,85 @@ function TwoMin() {
         </div>
       </div>
 
-      <div className="flex flex-row justify-around w-full items-center">
-        <div
-          className={`flex flex-col items-center cursor-pointer w-full text-xl ${
-            showRandomBets ? "border-myblue-200 text-black bg-white " : ""
-          }`}
-          onClick={() => setShowRandomBets(true)}
-        >
-          Parity Record
-        </div>
-        <div
-          className={`flex flex-col items-center cursor-pointer w-full text-xl ${
-            !showRandomBets
-              ? "border-myblue-200 text-black bg-white"
-              : "text-gray-500"
-          }`}
-          onClick={() => setShowRandomBets(false)}
-        >
-          User Record
-        </div>
-      </div>
-
-      {showRandomBets ? (
-        <div className="flex flex-col border-t-2 border-myblue-200">
-          <TwoMinOrder
-            key={refresh}
-            period={data.timerNumber}
-            newBets={newBets}
-          />
-          <hr />
-        </div>
-      ) : (
-        <div className="bg-white">
-          <div className="flex flex-col justify-center items-center border-t-2 border-myblue-200">
-            {twomin &&
-              <table className="table-auto w-full">
-                <thead className="border-t-2 mt-3 border-myblue-200">
-                  <tr>
-                    <th className="p-2">
-                      <div className="rounded-3xl">Number</div>
-                    </th>
-                    <th className="p-2">
-                      <div className="rounded-3xl">Color</div>
-                    </th>
-                    <th className="p-2">
-                      <div className="rounded-3xl">Amount</div>
-                    </th>
-                    <th className="p-2">
-                      <div className="rounded-3xl">Status</div>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {twomin?.slice(0,10)?.map((order, index) => (
-                    <tr key={index} className="border-t">
-                      <td className="p-2 text-center">{order.periodNumber}</td>
-                      <td className="p-2 text-center">{order.betType}</td>
-                      <td className="p-2 text-center">{order.betAmount}</td>
-                      <td className="p-2 text-center">{order.status ? order.status : 'Pending'}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            }
+      <div className="flex flex-col justify-around w-full items-center">
+        <div className="flex flex-row w-full justify-around items-center">
+          <div
+            className={`flex flex-col items-center cursor-pointer w-full text-xl ${
+              activeTab === "parityRecord"
+                ? "border-myblue-200 text-black bg-white"
+                : "text-gray-500"
+            }`}
+            onClick={() => setActiveTab("parityRecord")}
+          >
+            Parity Record
+          </div>
+          <div
+            className={`flex flex-col items-center cursor-pointer w-full text-xl ${
+              activeTab === "userRecord"
+                ? "border-myblue-200 text-black bg-white"
+                : "text-gray-500"
+            }`}
+            onClick={() => setActiveTab("userRecord")}
+          >
+            User Record
           </div>
         </div>
-      )}
-      {/* EveryOneOrder Component */}
-      {/* {showRandomBets && (
-        <div className="flex flex-col">
-          <TwoMinOrder
-            key={refresh}
-            period={data.timerNumber}
-            newBets={newBets}
-          />
-          <hr />
-        </div>
-      )} */}
 
-      {/* Last Table Data */}
-      {/* {data.countDown <= 30 && (
-        <div className="flex p-2 flex-col mr-4 ml-4 justify-center items-center h-[150px] border-2 border-myblue-200 mt-4 shadow-lg bg-white">
-          <h2 className="text-myblue-200 font-bold">WAIT FOR RESULT......</h2>
-        </div>
-      )} */}
+        {activeTab === "parityRecord" ? (
+          <div className="flex flex-col border-t-2 border-myblue-200 w-full">
+            {/* Content for Parity Record tab */}
+            <TwoMinOrder
+              key={refresh}
+              period={data.timerNumber}
+              newBets={newBets}
+            />
+            <hr />
+          </div>
+        ) : (
+          <div className="flex flex-col w-full">
+            {/* Content for User Record tab */}
+            <div className="bg-white">
+              <div className="flex flex-col justify-center items-center border-myblue-200 w-full">
+                {twomin && (
+                  <table className="table-auto w-full">
+                    <thead className="border-t-2 mt-3 border-myblue-200">
+                      <tr>
+                        <th className="p-2">
+                          <div className="rounded-3xl">Number</div>
+                        </th>
+                        <th className="p-2">
+                          <div className="rounded-3xl">Color</div>
+                        </th>
+                        <th className="p-2">
+                          <div className="rounded-3xl">Amount</div>
+                        </th>
+                        <th className="p-2">
+                          <div className="rounded-3xl">Status</div>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {twomin?.slice(0, 10)?.map((order, index) => (
+                        <tr key={index} className="border-t">
+                          <td className="p-2 text-center">
+                            {order.periodNumber}
+                          </td>
+                          <td className="p-2 text-center">{order.betType}</td>
+                          <td className="p-2 text-center">{order.betAmount}</td>
+                          <td className="p-2 text-center">
+                            {order.status ? order.status : "Pending"}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
-
 export default TwoMin;

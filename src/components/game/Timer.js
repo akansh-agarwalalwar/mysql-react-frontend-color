@@ -2,8 +2,8 @@ import React, { useState, useEffect, useContext } from "react";
 import { FaHorseHead } from "react-icons/fa";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { Link } from "react-router-dom";
-import Popup from 'reactjs-popup';
-import 'reactjs-popup/dist/index.css';
+import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
 import { RxCross1 } from "react-icons/rx";
 import UserContext from "../login/UserContext";
 import EveryOneOrder from "./EveryOneOrder";
@@ -11,7 +11,8 @@ import axios from "axios";
 import { IoIosTrophy } from "react-icons/io";
 import toast from "react-hot-toast";
 import calculateTimerInfo from "./calculateTimerInfo";
-import './index.css'
+import "./index.css";
+import { LuAlarmClock } from "react-icons/lu";
 function Timer() {
   const [userOrders, setUserOrders] = useState([]);
   const [data, setData] = useState(calculateTimerInfo);
@@ -32,6 +33,7 @@ function Timer() {
   const [newBets, setNewBets] = useState([]);
   const [showRandomBets, setShowRandomBets] = useState(false);
   const [thirtySecond, setThirtySecond] = useState([]);
+  const [activeTab, setActiveTab] = useState("parityRecord");
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
@@ -158,15 +160,18 @@ function Timer() {
       return;
     }
     try {
-      const response = await axios.post("https://api.perfectorse.site/place-bet", {
-        userId: user.userId,
-        periodNumber: data.timerNumber,
-        periodDate: new Date().toISOString().split("T")[0],
-        betType: selectedColor?.title,
-        berforeBetAmount: user?.balance,
-        betAmount: betAmount,
-        possiblePayout: possiblePayout[selectedColor?.title]?.toFixed(2),
-      });
+      const response = await axios.post(
+        "https://api.perfectorse.site/place-bet",
+        {
+          userId: user.userId,
+          periodNumber: data.timerNumber,
+          periodDate: new Date().toISOString().split("T")[0],
+          betType: selectedColor?.title,
+          berforeBetAmount: user?.balance,
+          betAmount: betAmount,
+          possiblePayout: possiblePayout[selectedColor?.title]?.toFixed(2),
+        }
+      );
       toast.success("Bet placed successfully!");
       // console.log("Response from server:", response.data);
       if (response.status !== 200) {
@@ -206,7 +211,7 @@ function Timer() {
     const amounts = [100, 200, 500, 1000];
     const bets = [];
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 10; i++) {
       const randomColor = colors[Math.floor(Math.random() * colors.length)];
       const randomAmount = amounts[Math.floor(Math.random() * amounts.length)];
       const randomUserNumber = Math.floor(1000 + Math.random() * 9000);
@@ -263,10 +268,11 @@ function Timer() {
               </h2>
             </div>
           </div>
-          <div class="form-action">
-            <p className="text-l">Count Down</p>
-            <div className="rounded-lg p-3 h-8 items-center flex justify-center bg-white">
+          <div className="flex flex-col">
+            <p className="text-l ml-4">Count Down</p>
+            <div className="rounded-lg p-3 h-8 items-center flex justify-center bg-white flex-row">
               {/* <h2 className="text-2xl font-mono">{formatTime(time)}</h2> */}
+              <LuAlarmClock className="mr-3" />
               <h2 className="text-2xl font-mono">
                 {formatTime(data.countDown)}
               </h2>
@@ -382,75 +388,84 @@ function Timer() {
           </div>
         </div>
       </div>
-
-      <div className="flex flex-row justify-around w-full items-center">
-        <div
-          className={`flex flex-col items-center cursor-pointer w-full text-xl ${
-            showRandomBets ? "border-myblue-200 text-black bg-white " : ""
-          }`}
-          onClick={() => setShowRandomBets(true)}
-        >
-          Parity Record
-        </div>
-        <div
-          className={`flex flex-col items-center cursor-pointer w-full text-xl ${
-            !showRandomBets
-              ? "border-myblue-200 text-black bg-white"
-              : "text-gray-500"
-          }`}
-          onClick={() => setShowRandomBets(false)}
-        >
-          User Record
-        </div>
-      </div>
-
-      {showRandomBets ? (
-        <div className="flex flex-col border-t-2 border-myblue-200">
-          <EveryOneOrder
-            key={refresh}
-            period={data.timerNumber}
-            newBets={newBets}
-          />
-          <hr />
-        </div>
-      ) : (
-        <div className="bg-white">
-          <div className="flex flex-col justify-center items-center border-myblue-200">
-            {thirtySecond && (
-              <table className="table-auto w-full">
-                <thead className="border-t-2 mt-3 border-myblue-200">
-                  <tr>
-                    <th className="p-2">
-                      <div className="rounded-3xl">Number</div>
-                    </th>
-                    <th className="p-2">
-                      <div className="rounded-3xl">Color</div>
-                    </th>
-                    <th className="p-2">
-                      <div className="rounded-3xl">Amount</div>
-                    </th>
-                    <th className="p-2">
-                      <div className="rounded-3xl">Status</div>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {thirtySecond?.slice(0, 10)?.map((order, index) => (
-                    <tr key={index} className="border-t">
-                      <td className="p-2 text-center">{order.periodNumber}</td>
-                      <td className="p-2 text-center">{order.betType}</td>
-                      <td className="p-2 text-center">{order.betAmount}</td>
-                      <td className="p-2 text-center">
-                        {order.status ? order.status : "Pending"}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
+      <div className="flex flex-col justify-around w-full items-center">
+        <div className="flex flex-row w-full justify-around items-center">
+          <div
+            className={`flex flex-col items-center cursor-pointer w-full text-xl ${
+              activeTab === "parityRecord"
+                ? "border-myblue-200 text-black bg-white"
+                : "text-gray-500"
+            }`}
+            onClick={() => setActiveTab("parityRecord")}
+          >
+            Parity Record
+          </div>
+          <div
+            className={`flex flex-col items-center cursor-pointer w-full text-xl ${
+              activeTab === "userRecord"
+                ? "border-myblue-200 text-black bg-white"
+                : "text-gray-500"
+            }`}
+            onClick={() => setActiveTab("userRecord")}
+          >
+            User Record
           </div>
         </div>
-      )}
+
+        {activeTab === "parityRecord" ? (
+          <div className="flex flex-col border-t-2 border-myblue-200 w-full">
+            {/* Content for Parity Record tab */}
+            <EveryOneOrder
+              key={refresh}
+              period={data.timerNumber}
+              newBets={newBets}
+            />
+            <hr />
+          </div>
+        ) : (
+          <div className="flex flex-col w-full">
+            {/* Content for User Record tab */}
+            <div className="bg-white">
+              <div className="flex flex-col justify-center items-center border-myblue-200 w-full">
+                {thirtySecond && (
+                  <table className="table-auto w-full">
+                    <thead className="border-t-2 mt-3 border-myblue-200">
+                      <tr>
+                        <th className="p-2">
+                          <div className="rounded-3xl">Number</div>
+                        </th>
+                        <th className="p-2">
+                          <div className="rounded-3xl">Color</div>
+                        </th>
+                        <th className="p-2">
+                          <div className="rounded-3xl">Amount</div>
+                        </th>
+                        <th className="p-2">
+                          <div className="rounded-3xl">Status</div>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {thirtySecond?.slice(0, 10)?.map((order, index) => (
+                        <tr key={index} className="border-t">
+                          <td className="p-2 text-center">
+                            {order.periodNumber}
+                          </td>
+                          <td className="p-2 text-center">{order.betType}</td>
+                          <td className="p-2 text-center">{order.betAmount}</td>
+                          <td className="p-2 text-center">
+                            {order.status ? order.status : "Pending"}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

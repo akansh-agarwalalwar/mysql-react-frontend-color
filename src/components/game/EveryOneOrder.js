@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 function EveryOneOrder({ newBets }) {
   const [data, setData] = useState(calculateTimerInfo());
   const [userBets, setUserBets] = useState([]);
+  const [refresh, setRefresh] = useState(0);
 
   useEffect(() => {
     if (newBets?.length > 0) {
@@ -18,6 +19,13 @@ function EveryOneOrder({ newBets }) {
       });
     }
   }, [newBets]);
+  useEffect(() => {
+    if (data.countDown <= 11) {
+      // Do nothing, countdown is less than 11 seconds
+    } else {
+      setRefresh(refresh + 1);
+    }
+  }, [data.countDown]);
 
   return (
     <div className="bg-white w-full">
