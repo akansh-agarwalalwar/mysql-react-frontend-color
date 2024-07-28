@@ -204,19 +204,19 @@ export default function AllUsers() {
 
               <div className="mt-6 flex flex-col sm:flex-row sm:justify-around">
                 <button
-                  className={`px-4 py-2 rounded-md text-white ${activeTab === "RechargeHistory" ? "bg-blue-600" : "bg-gray-600"}`}
+                  className={`px-4 py-2 rounded-md text-white ${activeTab === "RechargeHistory" ? "bg-blue-600" : "bg-secondary"}`}
                   onClick={() => { setActiveTab("RechargeHistory"); fetchRechargeHistory(clickedUser?.IDOfUser); }}
                 >
                   Recharge History
                 </button>
                 <button
-                  className={`px-4 py-2 rounded-md text-white ${activeTab === "WithdrawHistory" ? "bg-blue-600" : "bg-gray-600"}`}
+                  className={`px-4 py-2 rounded-md text-white ${activeTab === "WithdrawHistory" ? "bg-blue-600" : "bg-secondary"}`}
                   onClick={handleShowWithdrawHistory}
                 >
                   Withdraw History
                 </button>
                 <button
-                  className={`px-4 py-2 rounded-md text-white ${activeTab === "BankDetails" ? "bg-blue-600" : "bg-gray-600"}`}
+                  className={`px-4 py-2 rounded-md text-white ${activeTab === "BankDetails" ? "bg-blue-600" : "bg-secondary"}`}
                   onClick={handleShowBankDetails}
                 >
                   Bank Details
