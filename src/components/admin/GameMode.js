@@ -39,7 +39,7 @@ export default function GameMode() {
         toast.error("Failed to update period.");
       }
     } catch (error) {
-      console.error("Error:", error);
+      // console.error("Error:", error);
       if (error.response) {
         console.error("Error response data:", error.response.data);
         toast.error(`Failed to update period`);

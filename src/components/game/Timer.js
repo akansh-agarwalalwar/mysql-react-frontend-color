@@ -152,8 +152,11 @@ function Timer() {
   };
   const [betAmount, setBetAmount] = useState(0);
   const handleConfirm = async () => {
+    if (user?.balance < contractMoney * selectedNumber) {
+      setErrorMessage("Insufficient balance");
+      return;
+    }
     const betAmount = contractMoney * selectedNumber;
-    // const possiblePayoutValue = possiblePayout[selectedColor.title].toFixed(2);
     setBetAmount(betAmount);
     if (user?.balance <= 10) {
       setErrorMessage("Insufficient balance");
@@ -251,7 +254,7 @@ function Timer() {
         <Link to="/home">
           <FaArrowLeftLong className="mx-2 " />
         </Link>
-        <p className=" text-xl">Fast-Parity</p>
+        <p className=" text-xl">Crazy30</p>
       </div>
       {/* Timer Section */}
       <div className="w-full">
@@ -339,11 +342,13 @@ function Timer() {
               onClick={handleConfirm}
               disabled={
                 contractMoney < 10 ||
-                user?.balance < contractMoney * selectedNumber
-              } // Disable if balance is insufficient
+                user?.balance < contractMoney * selectedNumber ||
+                contractMoney > user?.balance
+              }
               className={`bg-myblue-200 p-2 rounded-lg w-full shadow-lg text-white ${
                 contractMoney < 10 ||
-                user?.balance < contractMoney * selectedNumber
+                user?.balance < contractMoney * selectedNumber ||
+                contractMoney > user?.balance
                   ? "opacity-50 cursor-not-allowed"
                   : ""
               }`}

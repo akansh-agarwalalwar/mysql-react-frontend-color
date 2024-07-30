@@ -132,7 +132,7 @@ function Withdraw() {
           <input
             type="number"
             className="w-full h-10 p-1 border rounded-md border-myblue-200"
-            placeholder=" 300 ~ 7500 "
+            placeholder=" 500 ~ 7500 "
             value={amountset}
             onChange={(e) => setAmountset(e.target.value)}
           />

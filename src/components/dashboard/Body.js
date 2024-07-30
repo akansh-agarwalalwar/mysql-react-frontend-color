@@ -20,7 +20,7 @@ export default function Body() {
               />
               <div className="absolute bottom-0 w-full bg-white bg-opacity-30 backdrop-blur-sm p-2">
                 <p className="text-center font-bold text-white">
-                  Fast-Parity
+                  Crazy30
                 </p>
               </div>
             </div>
@@ -39,7 +39,7 @@ export default function Body() {
               />
               <div className="absolute bottom-0 w-full bg-white bg-opacity-30 backdrop-blur-sm p-2">
                 <p className="text-center font-bold text-white">
-                  Fast-Parity
+                  Crazy2PM
                 </p>
               </div>
             </div>
@@ -53,7 +53,7 @@ export default function Body() {
               <img
                 src={upcomingOne}
                 className="object-cover w-full h-full"
-                alt="Fast Parity"
+                alt=""
               />
               <div className="absolute w-full bg-white bg-opacity-30 p-2">
                 <p className="text-center font-bold text-white">
@@ -69,7 +69,7 @@ export default function Body() {
               <img
                 src={upcomingOne}
                 className="object-cover w-full h-full"
-                alt="Fast Parity"
+                alt=""
               />
               <div className="absolute w-full bg-white bg-opacity-30 p-2">
                 <p className="text-center font-bold text-white">

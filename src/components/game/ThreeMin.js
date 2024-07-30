@@ -64,7 +64,6 @@ function TwoMin() {
     if (user && user.userId) {
       fetchtwomin(user?.userId);
     }
-
   }, [user]);
   const fetchtwomin = async (userId) => {
     try {
@@ -77,13 +76,11 @@ function TwoMin() {
       }
     } catch (error) {
       // setError(error.message);
-      console.error(error)
+      console.error(error);
     } finally {
       // setLoading(false);
     }
   };
-
-
 
   const colorBoxes = [
     {
@@ -154,11 +151,15 @@ function TwoMin() {
   };
 
   const handleConfirm = async () => {
+    if (user?.balance < contractMoney * selectedNumber) {
+      setErrorMessage("Insufficient balance");
+      return;
+    }
     const betAmount = contractMoney * selectedNumber;
     const possiblePayoutValue = possiblePayout[selectedColor.title].toFixed(2);
 
     if (user?.balance < 10) {
-      setErrorMessage("Insufficient balance"); // Set error message if balance is insufficient
+      setErrorMessage("Insufficient balance");
       return;
     }
     try {
@@ -224,9 +225,9 @@ function TwoMin() {
         generateRandomBets();
       }
     }, 3000);
-    generateRandomBets()
+    generateRandomBets();
     return () => clearInterval(interval);
-  }, [showRandomBets,data.countDown]);
+  }, [showRandomBets, data.countDown]);
   const getColorClass = (color) => {
     switch (color.toLowerCase()) {
       case "red":
@@ -251,7 +252,7 @@ function TwoMin() {
         <Link to="/home">
           <FaArrowLeftLong className="mx-2" />
         </Link>
-        <p className="text-xl">Fast-Parity</p>
+        <p className="text-xl">Crazy2PM</p>
       </div>
       {/* Timer Section */}
       <div className="w-full">
@@ -340,9 +341,17 @@ function TwoMin() {
           <div className="mb-4">
             <button
               onClick={handleConfirm}
-              disabled={contractMoney < 10}
+              disabled={
+                contractMoney < 10 ||
+                user?.balance < contractMoney * selectedNumber ||
+                contractMoney > user?.balance
+              }
               className={`bg-myblue-200 p-2 rounded-lg w-full shadow-lg text-white ${
-                contractMoney < 10 ? "opacity-50 cursor-not-allowed" : ""
+                contractMoney < 10 ||
+                user?.balance < contractMoney * selectedNumber ||
+                contractMoney > user?.balance
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
               }`}
             >
               Confirm

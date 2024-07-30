@@ -35,6 +35,11 @@ const sideNavData = [
     path: "/home/profile/bank-details",
   },
   {
+    title: "Download",
+    icon: <AiTwotoneBank />,
+    path: "/home/profile/bank-details",
+  },
+  {
     title: "Follow Us",
     icon: <RiChatFollowUpFill />,
     onClick: () => window.open("https://t.me/Perfectorse", "_blank"),
