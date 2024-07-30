@@ -26,7 +26,7 @@ export default function AllUsers() {
         user?.mobileNumber.includes(searchQuery) ||
         user?.IDOfUser.includes(searchQuery)
     );
-    setDisplayedUsers(filteredUsers.slice(0, 10));
+    setDisplayedUsers(filteredUsers.slice());
   }, [searchQuery, users]);
 
   const fetchUsers = async () => {

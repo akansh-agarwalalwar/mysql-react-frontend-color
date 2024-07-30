@@ -77,7 +77,7 @@ function Withdraw() {
     return "***" + code?.slice(0, 3);
   };
 
-  const debouncedHandleWithdraw = debounce(handleWithdraw, 300);
+  const debouncedHandleWithdraw = debounce(handleWithdraw, 500);
 
   return (
     <div className="no-bottom-nav flex flex-col h-screen w-full bg-myblue-500 max-w-md mx-auto justify-between">
@@ -140,12 +140,12 @@ function Withdraw() {
         <div className="flex items-center justify-center w-full mt-3">
           <button
             className={`bg-myblue-200 rounded-md w-full h-9 ${
-              amountset < 300 || amountset > 7500 || loading
+              amountset < 500 || amountset > 7500 || loading
                 ? "opacity-50 cursor-not-allowed"
                 : ""
             }`}
             onClick={debouncedHandleWithdraw}
-            disabled={amountset < 300 || amountset > 7500}
+            disabled={amountset < 500 || amountset > 7500}
           >
             <p className="text-xl font-bold text-white">
               {loading ? "Processing..." : "Confirm"}
