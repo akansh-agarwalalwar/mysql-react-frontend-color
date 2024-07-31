@@ -196,6 +196,15 @@ function Timer() {
     }
     closePopup();
   };
+  const getWinPopUp=async()=>{
+    try {
+      const res = await axios.get("http://localhost:3001/api/v1/user/getWinPopUp");
+      const data = res.data
+      console.log(data)
+    } catch (error) {
+      
+    }
+  }
   const getColorClass = (color) => {
     switch (color?.toLowerCase()) {
       case "red":
@@ -243,10 +252,14 @@ function Timer() {
     return () => clearInterval(interval);
   }, []);
   useEffect(() => {
-    if (data.countDown === 28) {
+    if (data.countDown === 29) {
       window.location.reload();
     }
+    if(data.countDown === 28){
+      getWinPopUp();
+    }
   }, [data.countDown]);
+  
   return (
     <div className="flex flex-col bg-gray-900 min-h-screen bg-myblue-500 max-w-md mx-auto">
       {/* Header */}
