@@ -48,7 +48,7 @@ function Invite() {
         <Link to="/home">
           <FaArrowLeftLong size={20} className="mx-4" />
         </Link>
-        <p className="text-xl font-bold -mt-0.5">Invite</p>
+        <p className="text-xl font-bold -mt-0.5">Earn</p>
       </div>
       <div className="flex flex-col items-center justify-center flex-grow">
         <div className="border w-[90%] max-w-lg bg-white rounded-lg p-6 shadow-lg border-myblue-200">
@@ -59,7 +59,7 @@ function Invite() {
           {loading ? (
             <p className="text-gray-500">Loading...</p>
           ) : error ? (
-            <p className="text-red-500">{error}</p>
+            <p className="text-red-100">{error}</p>
           ) : (
             <div className="flex items-center justify-center bg-myblue-300 w-[100px] rounded-lg p-2">
               <p id="referCode" className="text-sm font-bold text-myblue-700">

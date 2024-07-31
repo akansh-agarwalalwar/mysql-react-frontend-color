@@ -31,7 +31,9 @@ export default function AllUsers() {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("https://api.perfectorse.site/api/v1/admin/all-users");
+      const response = await axios.get(
+        "https://api.perfectorse.site/api/v1/admin/all-users"
+      );
       const data = await response.data;
       setUsers(data);
     } catch (error) {
@@ -70,13 +72,15 @@ export default function AllUsers() {
   };
   const fetchBankDetails = async (userId) => {
     try {
-      const res = await fetch(`https://api.perfectorse.site/api/v1/admin/bank?userId=${userId}`);
+      const res = await fetch(
+        `https://api.perfectorse.site/api/v1/admin/bank?userId=${userId}`
+      );
       if (!res.ok) {
         throw new Error(`https error! status: ${res.status}`);
       }
       const data = await res.json();
 
-      if (data && typeof data === 'object' && !Array.isArray(data)) {
+      if (data && typeof data === "object" && !Array.isArray(data)) {
         setBankDetails([data]); // Ensure data is an array before setting the state
       } else {
         setBankDetails([]);
@@ -85,6 +89,20 @@ export default function AllUsers() {
       console.error("Error fetching bank details:", error);
     }
   };
+
+const deleteUser = async (userId) => {
+  try {
+    // Ensure userId is correctly formatted
+    if (!userId) {
+      throw new Error('Invalid userId');
+    }
+    
+    const response = await axios.delete(`https://api.perfectorse.site/api/v1/admin/deleteUser/${userId}`);
+    console.log(response.data.message); // Log the response message
+  } catch (error) {
+    console.error("Error deleting user:", error.response ? error.response.data : error.message);
+  }
+};
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
@@ -135,12 +153,42 @@ export default function AllUsers() {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th scope="col" className="py-3 text-xs text-center uppercase tracking-wider">ID</th>
-                <th scope="col" className="py-3 text-xs text-center uppercase tracking-wider">UserID</th>
-                <th scope="col" className="py-3 text-center text-xs uppercase tracking-wider">Username</th>
-                <th scope="col" className="py-3 text-center text-xs uppercase tracking-wider">Email</th>
-                <th scope="col" className="py-3 text-center text-xs uppercase tracking-wider">Mobile Number</th>
-                <th scope="col" className="py-3 text-center text-xs uppercase tracking-wider">Balance</th>
+                <th
+                  scope="col"
+                  className="py-3 text-xs text-center uppercase tracking-wider"
+                >
+                  ID
+                </th>
+                <th
+                  scope="col"
+                  className="py-3 text-xs text-center uppercase tracking-wider"
+                >
+                  UserID
+                </th>
+                <th
+                  scope="col"
+                  className="py-3 text-center text-xs uppercase tracking-wider"
+                >
+                  Username
+                </th>
+                <th
+                  scope="col"
+                  className="py-3 text-center text-xs uppercase tracking-wider"
+                >
+                  Email
+                </th>
+                <th
+                  scope="col"
+                  className="py-3 text-center text-xs uppercase tracking-wider"
+                >
+                  Mobile Number
+                </th>
+                <th
+                  scope="col"
+                  className="py-3 text-center text-xs uppercase tracking-wider"
+                >
+                  Balance
+                </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -153,12 +201,24 @@ export default function AllUsers() {
                     onClick={() => handleClickUser(user)}
                     className="cursor-pointer hover:bg-gray-100"
                   >
-                    <td className="px-6 py-4 whitespace-nowrap text-center">{user?.id}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-center">{user?.IDOfUser}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-center">{user?.username}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-center">{user?.useremail}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-center">{user?.mobileNumber}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-center">{user?.balance}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-center">
+                      {user?.id}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-center">
+                      {user?.IDOfUser}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-center">
+                      {user?.username}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-center">
+                      {user?.useremail}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-center">
+                      {user?.mobileNumber}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-center">
+                      {user?.balance}
+                    </td>
                   </tr>
                 ))}
             </tbody>
@@ -174,48 +234,94 @@ export default function AllUsers() {
                 </button>
               </div>
               <h2 className="text-2xl font-bold mb-4">User Details</h2>
+              <button onClick={deleteUser}>Delete User</button>
               <table className="min-w-full divide-y divide-gray-200">
                 <thead>
                   <tr>
-                    <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">ID</th>
-                    <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">UserID</th>
-                    <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">Username</th>
-                    <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">Email</th>
-                    <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">Mobile Number</th>
-                    <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">Balance</th>
-                    <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">User Refer Code</th>
-                    <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">User Code</th>
+                    <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                      ID
+                    </th>
+                    <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                      UserID
+                    </th>
+                    <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                      Username
+                    </th>
+                    <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                      Email
+                    </th>
+                    <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                      Mobile Number
+                    </th>
+                    <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                      Balance
+                    </th>
+                    <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                      User Refer Code
+                    </th>
+                    <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                      User Code
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   <tr>
-                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">{clickedUser?.id}</td>
-                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">{clickedUser?.IDOfUser}</td>
-                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">{clickedUser?.username}</td>
-                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">{clickedUser?.useremail}</td>
-                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">{clickedUser?.mobileNumber}</td>
-                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">{clickedUser?.balance}</td>
-                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">{clickedUser?.userReferCode}</td>
-                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">{clickedUser?.userCode}</td>
+                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                      {clickedUser?.id}
+                    </td>
+                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                      {clickedUser?.IDOfUser}
+                    </td>
+                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                      {clickedUser?.username}
+                    </td>
+                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                      {clickedUser?.useremail}
+                    </td>
+                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                      {clickedUser?.mobileNumber}
+                    </td>
+                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                      {clickedUser?.balance}
+                    </td>
+                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                      {clickedUser?.userReferCode}
+                    </td>
+                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
+                      {clickedUser?.userCode}
+                    </td>
                   </tr>
                 </tbody>
               </table>
 
               <div className="mt-6 flex flex-col sm:flex-row sm:justify-around">
                 <button
-                  className={`px-4 py-2 rounded-md text-white ${activeTab === "RechargeHistory" ? "bg-blue-600" : "bg-secondary"}`}
-                  onClick={() => { setActiveTab("RechargeHistory"); fetchRechargeHistory(clickedUser?.IDOfUser); }}
+                  className={`px-4 py-2 rounded-md text-white ${
+                    activeTab === "RechargeHistory"
+                      ? "bg-blue-600"
+                      : "bg-secondary"
+                  }`}
+                  onClick={() => {
+                    setActiveTab("RechargeHistory");
+                    fetchRechargeHistory(clickedUser?.IDOfUser);
+                  }}
                 >
                   Recharge History
                 </button>
                 <button
-                  className={`px-4 py-2 rounded-md text-white ${activeTab === "WithdrawHistory" ? "bg-blue-600" : "bg-secondary"}`}
+                  className={`px-4 py-2 rounded-md text-white ${
+                    activeTab === "WithdrawHistory"
+                      ? "bg-blue-600"
+                      : "bg-secondary"
+                  }`}
                   onClick={handleShowWithdrawHistory}
                 >
                   Withdraw History
                 </button>
                 <button
-                  className={`px-4 py-2 rounded-md text-white ${activeTab === "BankDetails" ? "bg-blue-600" : "bg-secondary"}`}
+                  className={`px-4 py-2 rounded-md text-white ${
+                    activeTab === "BankDetails" ? "bg-blue-600" : "bg-secondary"
+                  }`}
                   onClick={handleShowBankDetails}
                 >
                   Bank Details
@@ -224,29 +330,49 @@ export default function AllUsers() {
 
               {activeTab === "RechargeHistory" && (
                 <div>
-                  <h3 className="text-xl font-semibold mt-6">Recharge History</h3>
+                  <h3 className="text-xl font-semibold mt-6">
+                    Recharge History
+                  </h3>
                   <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200">
                       <thead className="bg-gray-50">
                         <tr>
-                          <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">Amount</th>
-                          <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">Date</th>
-                          <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">Status</th>
+                          <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">
+                            Amount
+                          </th>
+                          <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">
+                            Date
+                          </th>
+                          <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">
+                            Status
+                          </th>
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
                         {rechargeHistory.length > 0 ? (
-                          rechargeHistory?.slice().reverse()?.map((history) => (
-                            <tr key={history.id}>
-                              <td className="px-6 py-4 whitespace-nowrap text-center">{history.amount}</td>
-                              <td className="px-6 py-4 whitespace-nowrap text-center">{new Date(history.rechargeDate).toLocaleString()}</td>
-                              <td className="px-6 py-4 whitespace-nowrap text-center">{history.status}</td>
-
-                            </tr>
-                          ))
+                          rechargeHistory
+                            ?.slice()
+                            .reverse()
+                            ?.map((history) => (
+                              <tr key={history.id}>
+                                <td className="px-6 py-4 whitespace-nowrap text-center">
+                                  {history.amount}
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-center">
+                                  {new Date(
+                                    history.rechargeDate
+                                  ).toLocaleString()}
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-center">
+                                  {history.status}
+                                </td>
+                              </tr>
+                            ))
                         ) : (
                           <tr>
-                            <td className="px-6 py-4 text-center" colSpan="2">No Recharge History Found</td>
+                            <td className="px-6 py-4 text-center" colSpan="2">
+                              No Recharge History Found
+                            </td>
                           </tr>
                         )}
                       </tbody>
@@ -257,28 +383,49 @@ export default function AllUsers() {
 
               {activeTab === "WithdrawHistory" && (
                 <div>
-                  <h3 className="text-xl font-semibold mt-6">Withdraw History</h3>
+                  <h3 className="text-xl font-semibold mt-6">
+                    Withdraw History
+                  </h3>
                   <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200">
                       <thead className="bg-gray-50">
                         <tr>
-                          <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">Amount</th>
-                          <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">Date</th>
-                          <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">Status</th>
+                          <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">
+                            Amount
+                          </th>
+                          <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">
+                            Date
+                          </th>
+                          <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">
+                            Status
+                          </th>
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
                         {withdrawHistory.length > 0 ? (
-                          withdrawHistory?.slice()?.reverse()?.map((history) => (
-                            <tr key={history.id}>
-                              <td className="px-6 py-4 whitespace-nowrap text-center">{history.amount}</td>
-                              <td className="px-6 py-4 whitespace-nowrap text-center">{new Date(history.withdrawDate).toLocaleString()}</td>
-                              <td className="px-6 py-4 whitespace-nowrap text-center">{history.status}</td>
-                            </tr>
-                          ))
+                          withdrawHistory
+                            ?.slice()
+                            ?.reverse()
+                            ?.map((history) => (
+                              <tr key={history.id}>
+                                <td className="px-6 py-4 whitespace-nowrap text-center">
+                                  {history.amount}
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-center">
+                                  {new Date(
+                                    history.withdrawDate
+                                  ).toLocaleString()}
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-center">
+                                  {history.status}
+                                </td>
+                              </tr>
+                            ))
                         ) : (
                           <tr>
-                            <td className="px-6 py-4 text-center" colSpan="2">No Withdraw History Found</td>
+                            <td className="px-6 py-4 text-center" colSpan="2">
+                              No Withdraw History Found
+                            </td>
                           </tr>
                         )}
                       </tbody>
@@ -294,25 +441,43 @@ export default function AllUsers() {
                     <table className="min-w-full divide-y divide-gray-200">
                       <thead className="bg-gray-50">
                         <tr>
-                          <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">Bank Name</th>
-                          <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">Account Number</th>
-                          <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">IFSC Code</th>
-                          <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">Account Holder</th>
+                          <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">
+                            Bank Name
+                          </th>
+                          <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">
+                            Account Number
+                          </th>
+                          <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">
+                            IFSC Code
+                          </th>
+                          <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">
+                            Account Holder
+                          </th>
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
                         {bankDetails.length > 0 ? (
                           bankDetails.map((details) => (
                             <tr key={details.id}>
-                              <td className="px-6 py-4 whitespace-nowrap text-center">{details.bankName}</td>
-                              <td className="px-6 py-4 whitespace-nowrap text-center">{details.accountNumber}</td>
-                              <td className="px-6 py-4 whitespace-nowrap text-center">{details.ifscCode}</td>
-                              <td className="px-6 py-4 whitespace-nowrap text-center">{details.accountHolder}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-center">
+                                {details.bankName}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-center">
+                                {details.accountNumber}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-center">
+                                {details.ifscCode}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-center">
+                                {details.accountHolder}
+                              </td>
                             </tr>
                           ))
                         ) : (
                           <tr>
-                            <td className="px-6 py-4 text-center" colSpan="4">No Bank Details Found</td>
+                            <td className="px-6 py-4 text-center" colSpan="4">
+                              No Bank Details Found
+                            </td>
                           </tr>
                         )}
                       </tbody>

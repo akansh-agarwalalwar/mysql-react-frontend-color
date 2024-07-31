@@ -65,6 +65,7 @@ const ToPay = () => {
             <thead className="bg-gray-100">
               <tr>
                 <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">User Id</th>
+                <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Name</th>
                 <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Amount</th>
                 <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Date</th>
                 <th className="py-3 px-6 text-center text-xs font-medium text-gray-600 uppercase tracking-wider">Actions</th>
@@ -73,7 +74,16 @@ const ToPay = () => {
             <tbody className="divide-y divide-gray-200">
               {withdrawHistory?.slice()?.reverse()?.map((withdrawal) => (
                 <tr key={withdrawal.id}>
-                  <td className="py-4 px-6">{withdrawal.userId}</td>
+                  <td className="py-4 px-6">{withdrawal.userId}
+                  <button
+                      className="ml-2 bg-blue-500 py-1 px-2 rounded-lg text-white hover:bg-blue-600 text-xs md:text-sm"
+                      onClick={() => handleCopy(withdrawal.userId)}
+                    >
+                      Copy
+                      
+                    </button>
+                  </td>
+                  <td className="py-4 px-6">{withdrawal.username}</td>
                   <td className="py-4 px-6">{withdrawal.amount}</td>
                   <td className="py-4 px-6">{new Date(withdrawal.withdrawDate).toLocaleDateString()}</td>
                   <td className="py-4 px-6 text-center">
@@ -105,13 +115,14 @@ const ToPay = () => {
             <thead className="bg-gray-100">
               <tr>
                 <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">User Id</th>
+                <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Name</th>
                 <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Amount</th>
                 <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Date</th>
                 <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Status</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {processedWithdrawHistory?.slice()?.reverse()?.map((withdrawal) => (
+              {processedWithdrawHistory?.map((withdrawal) => (
                 <tr key={withdrawal.id}>
                   <td className="py-4 px-6 flex items-center">
                     {withdrawal.userId}
@@ -123,6 +134,7 @@ const ToPay = () => {
                       
                     </button>
                     </td>
+                  <td className="py-4 px-6">{withdrawal.username}</td>
                   <td className="py-4 px-6">{withdrawal.amount}</td>
                   <td className="py-4 px-6">{new Date(withdrawal.withdrawDate).toLocaleDateString()}</td>
                   <td className="py-4 px-6">{withdrawal.status}</td>

@@ -80,6 +80,9 @@ function PaymentApprove() {
                   User Id
                 </th>
                 <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
+                  Name
+                </th>
+                <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                   Amount
                 </th>
                 <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
@@ -102,6 +105,7 @@ function PaymentApprove() {
                       Copy
                     </button>
                   </td>
+                  <td className="py-4 px-6">{payment.username}</td>
                   <td className="py-4 px-6">{payment.amount}</td>
                   <td className="py-4 px-6">{payment.transaction_id || "N/A"}</td>
                   <td className="py-4 px-6 text-center">
@@ -136,6 +140,9 @@ function PaymentApprove() {
                   User ID
                 </th>
                 <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
+                  Name
+                </th>
+                <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                   Amount
                 </th>
                 <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
@@ -158,6 +165,7 @@ function PaymentApprove() {
                       Copy
                     </button>
                   </td>
+                  <td className="py-4 px-6">{payment.username}</td>
                   <td className="py-4 px-6">{payment.amount}</td>
                   <td className="py-4 px-6">{payment.transaction_id}</td>
                   <td className="py-4 px-6">{payment.status}</td>
