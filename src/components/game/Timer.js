@@ -198,7 +198,7 @@ function Timer() {
   };
   const getWinPopUp=async()=>{
     try {
-      const res = await axios.get("http://localhost:3001/api/v1/user/getWinPopUp");
+      const res = await axios.get("https://api.perfectorse.site/api/v1/user/getWinPopUp");
       const data = res.data
       console.log(data)
     } catch (error) {

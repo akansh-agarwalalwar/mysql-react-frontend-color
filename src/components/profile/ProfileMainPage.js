@@ -34,11 +34,11 @@ const sideNavData = [
     icon: <AiTwotoneBank />,
     path: "/home/profile/bank-details",
   },
-  {
-    title: "Download",
-    icon: <AiTwotoneBank />,
-    path: "/home/profile/bank-details",
-  },
+  // {
+  //   title: "Download",
+  //   icon: <AiTwotoneBank />,
+  //   path: "/home/profile/bank-details",
+  // },
   {
     title: "Follow Us",
     icon: <RiChatFollowUpFill />,
@@ -57,7 +57,7 @@ const ProfileMainPage = () => {
   const [profileImage, setProfileImage] = useState(null);
 
   useEffect(() => {
-    const profileImages = [one, two, three, four];
+    const profileImages = [one];
     const randomImage =
       profileImages[Math.floor(Math.random() * profileImages?.length)];
     setProfileImage(randomImage);

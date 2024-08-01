@@ -2,10 +2,9 @@ import React, { useEffect, useContext, useState } from "react";
 import { FaArrowLeftLong, FaCopy } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import UserContext from "../login/UserContext";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import BottomNav from "./BottomNav";
 import axios from 'axios';
+import toast from "react-hot-toast";
 
 function Invite() {
   const { user } = useContext(UserContext);
@@ -75,7 +74,6 @@ function Invite() {
           )}
         </div>
       </div>
-      <ToastContainer />
       <BottomNav />
     </div>
   );

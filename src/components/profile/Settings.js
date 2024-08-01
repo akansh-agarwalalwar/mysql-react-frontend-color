@@ -14,7 +14,7 @@ function Settings() {
 
   useEffect(() => {
     // Array of profile images
-    const profileImages = [one, two, three, four];
+    const profileImages = [one];
     // Randomly select an image
     const randomImage = profileImages[Math.floor(Math.random() * profileImages?.length)];
     setProfileImage(randomImage);
@@ -23,7 +23,6 @@ function Settings() {
   const capitalizeFirstLetter = (string) => {
     return string ? string.charAt(0).toUpperCase() + string.slice(1) : "Not Logged In";
   };
-
 
   return (
     <div className="px-4 py-6 max-w-md mx-auto">
