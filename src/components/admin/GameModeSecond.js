@@ -56,7 +56,9 @@ function GameModeSecond() {
 
   const fetchGameModeData = useCallback(async () => {
     try {
-      const res = await axios.get("https://api.perfectorse.site/api/v1/admin/manual-two-min");
+      const res = await axios.get(
+        "https://api.perfectorse.site/api/v1/admin/manual-two-min"
+      );
       console.log(res?.data);
       setGameMode(res.data);
     } catch (error) {
@@ -85,18 +87,25 @@ function GameModeSecond() {
   };
 
   return (
-    <div>
+    <div className="flex flex-row">
       <NavBarAdmin />
       <div className="flex flex-col items-center justify-center w-full min-h-screen py-8">
+        <p className="flex justify-center text-2xl mb-8">2 min Game</p>
         <div className="flex flex-col items-center mb-8">
           <p className="text-xl"> Period: {data.timerNumber}</p>
           <p className="text-xl">Timer: {formatTime(data.countDown)}</p>
         </div>
         <div className="flex flex-col items-center mb-8">
           <div className="flex flex-row gap-5 p-4">
-            <div className="border w-[100px] h-7 flex items-center justify-center">{gameMode.red}</div>
-            <div className="border w-[100px] h-7 flex items-center justify-center">{gameMode.violet}</div>
-            <div className="border w-[100px] h-7 flex items-center justify-center">{gameMode.green}</div>
+            <div className="border w-[100px] h-7 flex items-center justify-center">
+              {gameMode.red}
+            </div>
+            <div className="border w-[100px] h-7 flex items-center justify-center">
+              {gameMode.violet}
+            </div>
+            <div className="border w-[100px] h-7 flex items-center justify-center">
+              {gameMode.green}
+            </div>
           </div>
           <div className="flex flex-row gap-5 p-4">
             <button
@@ -119,7 +128,10 @@ function GameModeSecond() {
             </button>
           </div>
         </div>
-        <form className="flex flex-col space-y-4 w-full max-w-sm mx-auto px-4" onSubmit={handleSubmit}>
+        <form
+          className="flex flex-col space-y-4 w-full max-w-sm mx-auto px-4"
+          onSubmit={handleSubmit}
+        >
           <div className="flex flex-row items-center space-x-2">
             <p className="w-32">Period Number</p>
             <input

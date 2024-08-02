@@ -3,18 +3,21 @@ import NavBarAdmin from "./NavBarAdmin";
 import axios from "axios";
 import calculateTimerInfo from "../game/calculateTimerInfo";
 import toast from "react-hot-toast";
+// import useIsDesktop from "../hooks/useIsDesktop";
 
 export default function GameMode() {
   const [data, setData] = useState(calculateTimerInfo);
   const [periodNumber, setPeriodNumber] = useState("");
   const [color, setColor] = useState("");
-  const [loading, setLoading] = useState(false); 
-  const [error, setError] = useState(""); 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [gameMode, setGameMode] = useState({
     red: 0,
     green: 0,
     violet: 0,
   });
+
+  // const isDesktop = useIsDesktop();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,7 +32,7 @@ export default function GameMode() {
         "https://api.perfectorse.site/api/v1/admin/thirtySecond",
         {
           periodNumber,
-          color
+          color,
         }
       );
 
@@ -39,10 +42,9 @@ export default function GameMode() {
         toast.error("Failed to update period.");
       }
     } catch (error) {
-      // console.error("Error:", error);
       if (error.response) {
         console.error("Error response data:", error.response.data);
-        toast.error(`Failed to update period`);
+        toast.error("Failed to update period.");
       } else {
         toast.error("Failed to update period.");
       }
@@ -60,7 +62,9 @@ export default function GameMode() {
 
   const fetchGameModeData = useCallback(async () => {
     try {
-      const res = await axios.get("https://api.perfectorse.site/api/v1/admin/manual-thirty-second");
+      const res = await axios.get(
+        "https://api.perfectorse.site/api/v1/admin/manual-thirty-second"
+      );
       setGameMode(res.data);
     } catch (error) {
       console.error(error);
@@ -88,18 +92,25 @@ export default function GameMode() {
   };
 
   return (
-    <div>
+    <div className="flex flex-row">
       <NavBarAdmin />
-      <div className="flex flex-col items-center justify-center w-full min-h-screen py-8">
+      <div className="flex flex-col items-center justify-center w-full py-8">
+        <p className="flex justify-center text-2xl mb-8">30 Sec Game</p>
         <div className="flex flex-col items-center mb-8">
           <p className="text-xl"> Period: {data.timerNumber}</p>
           <p className="text-xl">Timer: {formatTime(data.countDown)}</p>
         </div>
         <div className="flex flex-col items-center mb-8">
           <div className="flex flex-row gap-5 p-4">
-            <div className="border w-[100px] h-7 flex items-center justify-center">{gameMode.red}</div>
-            <div className="border w-[100px] h-7 flex items-center justify-center">{gameMode.violet}</div>
-            <div className="border w-[100px] h-7 flex items-center justify-center">{gameMode.green}</div>
+            <div className="border w-[100px] h-7 flex items-center justify-center">
+              {gameMode.red}
+            </div>
+            <div className="border w-[100px] h-7 flex items-center justify-center">
+              {gameMode.violet}
+            </div>
+            <div className="border w-[100px] h-7 flex items-center justify-center">
+              {gameMode.green}
+            </div>
           </div>
           <div className="flex flex-row gap-5 p-4">
             <button
@@ -122,7 +133,10 @@ export default function GameMode() {
             </button>
           </div>
         </div>
-        <form className="flex flex-col space-y-4 w-full max-w-sm mx-auto px-4" onSubmit={handleSubmit}>
+        <form
+          className="flex flex-col space-y-4 w-full max-w-sm mx-auto px-4"
+          onSubmit={handleSubmit}
+        >
           <div className="flex flex-row items-center space-x-2">
             <p className="w-32">Period Number</p>
             <input

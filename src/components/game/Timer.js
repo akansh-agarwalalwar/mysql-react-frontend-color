@@ -240,7 +240,6 @@ function Timer() {
     const interval = setInterval(() => {
       const newTimerData = calculateTimerInfo();
       setData(newTimerData);
-
       if (newTimerData.countDown <= 27 && newTimerData.countDown >= 11) {
         setShowRandomBets(true);
         generateRandomBets();
@@ -248,7 +247,6 @@ function Timer() {
         setShowRandomBets(false);
       }
     }, 3000);
-
     return () => clearInterval(interval);
   }, []);
   useEffect(() => {
@@ -259,7 +257,6 @@ function Timer() {
       getWinPopUp();
     }
   }, [data.countDown]);
-  
   return (
     <div className="flex flex-col bg-gray-900 min-h-screen bg-myblue-500 max-w-md mx-auto">
       {/* Header */}

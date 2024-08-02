@@ -3,6 +3,23 @@ import NavBarAdmin from "./NavBarAdmin";
 import { RxCross1 } from "react-icons/rx";
 import axios from "axios";
 
+const useIsDesktop = () => {
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  return isDesktop;
+};
+
 export default function AllUsers() {
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -13,6 +30,7 @@ export default function AllUsers() {
   const [withdrawHistory, setWithdrawHistory] = useState([]);
   const [bankDetails, setBankDetails] = useState([]);
   const [activeTab, setActiveTab] = useState("RechargeHistory");
+  const isDesktop = useIsDesktop();
 
   useEffect(() => {
     fetchUsers();
@@ -90,19 +108,24 @@ export default function AllUsers() {
     }
   };
 
-const deleteUser = async (userId) => {
-  try {
-    // Ensure userId is correctly formatted
-    if (!userId) {
-      throw new Error('Invalid userId');
+  const deleteUser = async (userId) => {
+    try {
+      // Ensure userId is correctly formatted
+      if (!userId) {
+        throw new Error("Invalid userId");
+      }
+
+      const response = await axios.delete(
+        `https://api.perfectorse.site/api/v1/admin/deleteUser/${userId}`
+      );
+      console.log(response.data.message); // Log the response message
+    } catch (error) {
+      console.error(
+        "Error deleting user:",
+        error.response ? error.response.data : error.message
+      );
     }
-    
-    const response = await axios.delete(`https://api.perfectorse.site/api/v1/admin/deleteUser/${userId}`);
-    console.log(response.data.message); // Log the response message
-  } catch (error) {
-    console.error("Error deleting user:", error.response ? error.response.data : error.message);
-  }
-};
+  };
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
@@ -137,10 +160,20 @@ const deleteUser = async (userId) => {
     setBankDetails([]);
   };
 
+  if (!isDesktop) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-xl font-bold">
+          This page is only available on desktop devices.
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex flex-col lg:flex-row">
+    <div className="flex lg:flex-row">
       <NavBarAdmin />
-      <div className="bg-myblue-500 w-full p-8 sm:ml-[200px] overflow-auto h-screen mt-6">
+      <div className="bg-myblue-500 w-full p-8 overflow-auto h-screen">
         <h1 className="text-3xl font-bold mb-4">All Users</h1>
         <input
           type="text"
@@ -233,201 +266,109 @@ const deleteUser = async (userId) => {
                   <RxCross1 className="w-6 h-6" />
                 </button>
               </div>
-              <h2 className="text-2xl font-bold mb-4">User Details</h2>
-              <button onClick={deleteUser}>Delete User</button>
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead>
-                  <tr>
-                    <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
-                      ID
-                    </th>
-                    <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
-                      UserID
-                    </th>
-                    <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
-                      Username
-                    </th>
-                    <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
-                      Email
-                    </th>
-                    <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
-                      Mobile Number
-                    </th>
-                    <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
-                      Balance
-                    </th>
-                    <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
-                      User Refer Code
-                    </th>
-                    <th className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
-                      User Code
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  <tr>
-                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
-                      {clickedUser?.id}
-                    </td>
-                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
-                      {clickedUser?.IDOfUser}
-                    </td>
-                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
-                      {clickedUser?.username}
-                    </td>
-                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
-                      {clickedUser?.useremail}
-                    </td>
-                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
-                      {clickedUser?.mobileNumber}
-                    </td>
-                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
-                      {clickedUser?.balance}
-                    </td>
-                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
-                      {clickedUser?.userReferCode}
-                    </td>
-                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-center">
-                      {clickedUser?.userCode}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <h2 className="text-2xl font-bold mb-4 w-full flex justify-center">
+                User Details
+              </h2>
+              <button
+                onClick={() => deleteUser(clickedUser.IDOfUser)}
+                className="p-2 mb-2 mr-2 border bg-red-100 text-white"
+              >
+                Delete User
+              </button>
+              <button
+                onClick={() => deleteUser(clickedUser.IDOfUser)}
+                className="p-2 mb-2 sm:mb-0 sm:mr-2 border border-red-500 text-red-500"
+              >
+                Edit User
+              </button>
+              <div className="mb-4">
+                <strong>Username:</strong> {clickedUser?.username}
+              </div>
+              <div className="mb-4">
+                <strong>Email:</strong> {clickedUser?.useremail}
+              </div>
+              <div className="mb-4">
+                <strong>Mobile Number:</strong> {clickedUser?.mobileNumber}
+              </div>
+              <div className="mb-4">
+                <strong>Balance:</strong> {clickedUser?.balance}
+              </div>
 
-              <div className="mt-6 flex flex-col sm:flex-row sm:justify-around">
+              <div className="flex flex-col sm:flex-row justify-between">
                 <button
-                  className={`px-4 py-2 rounded-md text-white ${
-                    activeTab === "RechargeHistory"
-                      ? "bg-blue-600"
-                      : "bg-secondary"
-                  }`}
-                  onClick={() => {
-                    setActiveTab("RechargeHistory");
-                    fetchRechargeHistory(clickedUser?.IDOfUser);
-                  }}
-                >
-                  Recharge History
-                </button>
-                <button
-                  className={`px-4 py-2 rounded-md text-white ${
-                    activeTab === "WithdrawHistory"
-                      ? "bg-blue-600"
-                      : "bg-secondary"
-                  }`}
                   onClick={handleShowWithdrawHistory}
+                  className={`p-2 mb-2 sm:mb-0 sm:mr-2 border ${
+                    activeTab === "WithdrawHistory"
+                      ? "border-blue-500 bg-blue-500 text-white"
+                      : "border-gray-300"
+                  }`}
                 >
                   Withdraw History
                 </button>
                 <button
-                  className={`px-4 py-2 rounded-md text-white ${
-                    activeTab === "BankDetails" ? "bg-blue-600" : "bg-secondary"
-                  }`}
                   onClick={handleShowBankDetails}
+                  className={`p-2 mb-2 sm:mb-0 sm:mr-2 border ${
+                    activeTab === "BankDetails"
+                      ? "border-blue-500 bg-blue-500 text-white"
+                      : "border-gray-300"
+                  }`}
                 >
                   Bank Details
                 </button>
+                <button
+                  onClick={() => setActiveTab("RechargeHistory")}
+                  className={`p-2 border ${
+                    activeTab === "RechargeHistory"
+                      ? "border-blue-500 bg-blue-500 text-white"
+                      : "border-gray-300"
+                  }`}
+                >
+                  Recharge History
+                </button>
               </div>
-
-              {activeTab === "RechargeHistory" && (
-                <div>
-                  <h3 className="text-xl font-semibold mt-6">
-                    Recharge History
-                  </h3>
-                  <div className="overflow-x-auto">
-                    <table className="min-w-full divide-y divide-gray-200">
-                      <thead className="bg-gray-50">
-                        <tr>
-                          <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">
-                            Amount
-                          </th>
-                          <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">
-                            Date
-                          </th>
-                          <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">
-                            Status
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody className="bg-white divide-y divide-gray-200">
-                        {rechargeHistory.length > 0 ? (
-                          rechargeHistory
-                            ?.slice()
-                            .reverse()
-                            ?.map((history) => (
-                              <tr key={history.id}>
-                                <td className="px-6 py-4 whitespace-nowrap text-center">
-                                  {history.amount}
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center">
-                                  {new Date(
-                                    history.rechargeDate
-                                  ).toLocaleString()}
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center">
-                                  {history.status}
-                                </td>
-                              </tr>
-                            ))
-                        ) : (
-                          <tr>
-                            <td className="px-6 py-4 text-center" colSpan="2">
-                              No Recharge History Found
-                            </td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              )}
-
               {activeTab === "WithdrawHistory" && (
                 <div>
-                  <h3 className="text-xl font-semibold mt-6">
+                  <h3 className="text-lg font-bold mt-4 mb-2">
                     Withdraw History
                   </h3>
                   <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200">
                       <thead className="bg-gray-50">
                         <tr>
-                          <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">
+                          <th
+                            scope="col"
+                            className="py-3 text-xs text-center uppercase tracking-wider"
+                          >
                             Amount
                           </th>
-                          <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">
+                          <th
+                            scope="col"
+                            className="py-3 text-xs text-center uppercase tracking-wider"
+                          >
                             Date
                           </th>
-                          <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">
+                          <th
+                            scope="col"
+                            className="py-3 text-xs text-center uppercase tracking-wider"
+                          >
                             Status
                           </th>
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
-                        {withdrawHistory.length > 0 ? (
-                          withdrawHistory
-                            ?.slice()
-                            ?.reverse()
-                            ?.map((history) => (
-                              <tr key={history.id}>
-                                <td className="px-6 py-4 whitespace-nowrap text-center">
-                                  {history.amount}
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center">
-                                  {new Date(
-                                    history.withdrawDate
-                                  ).toLocaleString()}
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-center">
-                                  {history.status}
-                                </td>
-                              </tr>
-                            ))
-                        ) : (
-                          <tr>
-                            <td className="px-6 py-4 text-center" colSpan="2">
-                              No Withdraw History Found
+                        {withdrawHistory.map((record, index) => (
+                          <tr key={index}>
+                            <td className="px-6 py-4 whitespace-nowrap text-center">
+                              {record?.amount}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-center">
+                              {record?.date}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-center">
+                              {record?.status}
                             </td>
                           </tr>
-                        )}
+                        ))}
                       </tbody>
                     </table>
                   </div>
@@ -436,50 +377,72 @@ const deleteUser = async (userId) => {
 
               {activeTab === "BankDetails" && (
                 <div>
-                  <h3 className="text-xl font-semibold mt-6">Bank Details</h3>
+                  <h3 className="text-lg font-bold mt-4 mb-2 w-full flex justify-center">
+                    Bank Details
+                  </h3>
+                  {bankDetails.length > 0 ? (
+                    <div>
+                      {bankDetails.map((bankDetail, index) => (
+                        <div key={index} className="mb-4">
+                          <p>
+                            <strong>Account Number:</strong>{" "}
+                            {bankDetail?.accountNumber}
+                          </p>
+                          <p>
+                            <strong>IFSC Code:</strong> {bankDetail?.ifscCode}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p>No bank details found.</p>
+                  )}
+                </div>
+              )}
+
+              {activeTab === "RechargeHistory" && (
+                <div>
+                  <h3 className="text-lg font-bold mt-4 mb-2">
+                    Recharge History
+                  </h3>
                   <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200">
                       <thead className="bg-gray-50">
                         <tr>
-                          <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">
-                            Bank Name
+                          <th
+                            scope="col"
+                            className="py-3 text-xs text-center uppercase tracking-wider"
+                          >
+                            Amount
                           </th>
-                          <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">
-                            Account Number
+                          <th
+                            scope="col"
+                            className="py-3 text-xs text-center uppercase tracking-wider"
+                          >
+                            Date
                           </th>
-                          <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">
-                            IFSC Code
-                          </th>
-                          <th className="px-6 py-3 text-xs text-center uppercase tracking-wider">
-                            Account Holder
+                          <th
+                            scope="col"
+                            className="py-3 text-xs text-center uppercase tracking-wider"
+                          >
+                            Status
                           </th>
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
-                        {bankDetails.length > 0 ? (
-                          bankDetails.map((details) => (
-                            <tr key={details.id}>
-                              <td className="px-6 py-4 whitespace-nowrap text-center">
-                                {details.bankName}
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap text-center">
-                                {details.accountNumber}
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap text-center">
-                                {details.ifscCode}
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap text-center">
-                                {details.accountHolder}
-                              </td>
-                            </tr>
-                          ))
-                        ) : (
-                          <tr>
-                            <td className="px-6 py-4 text-center" colSpan="4">
-                              No Bank Details Found
+                        {rechargeHistory.map((record, index) => (
+                          <tr key={index}>
+                            <td className="px-6 py-4 whitespace-nowrap text-center">
+                              {record?.amount}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-center">
+                              {record?.date}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-center">
+                              {record?.status}
                             </td>
                           </tr>
-                        )}
+                        ))}
                       </tbody>
                     </table>
                   </div>

@@ -13,8 +13,6 @@ function OrderRecord() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("30sec");
-
-  
   useEffect(() => {
     if (user && user.userId) {
       fetchthirtySecond(user?.userId);
@@ -103,7 +101,7 @@ function OrderRecord() {
       ) : (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {activeTab === "30sec"
-            ? thirtySecond?.map((record) => (
+            ? thirtySecond?.slice(0,10)?.map((record) => (
                 <div
                   key={record.id}
                   className="bg-white rounded-lg p-6 border border-myblue-200 shadow-xl"
@@ -129,7 +127,7 @@ function OrderRecord() {
                   </p>
                 </div>
               ))
-            : twomin?.map((record) => (
+            : twomin?.slice(0,10)?.map((record) => (
               
               <div
                   key={record.id}

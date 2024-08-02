@@ -34,44 +34,44 @@ export default function NavBarAdmin({ users }) {
         {isNavOpen ? "Close Menu" : "Open Menu"}
       </button>
       <nav
-        className={`bg-myblue-200 p-6 h-screen flex flex-col justify-between w-full lg:w-[300px] fixed top-0 left-0 lg:relative transition-transform transform ${
+        className={` bg-richblack-900 p-6 h-screen flex flex-col justify-between w-full lg:w-[300px] fixed top-0 left-0 lg:relative transition-transform transform ${
           isNavOpen ? "translate-x-0" : "-translate-x-full"
         } lg:translate-x-0 z-40`}
       >
         <div>
           <ul className="flex flex-col space-y-4 mt-10 gap-4">
             <li>
-              <Link to="/admin" className="text-white bg-yellow-100 p-2 rounded-md gap-2" onClick={closeNav}>
+              <Link to="/admin" className="text-white p-2 rounded-md gap-2" onClick={closeNav}>
                 Dashboard
               </Link>
             </li>
             <li>
-              <Link to="/admin/users" className="text-white bg-yellow-100 p-2 rounded-md gap-2" onClick={closeNav}>
+              <Link to="/admin/users" className="text-white p-2 rounded-md gap-2" onClick={closeNav}>
                 All Users
               </Link>
             </li>
             <li>
-              <Link to="/admin/payment-approve" className="text-white bg-yellow-100 p-2 rounded-md gap-2" onClick={closeNav}>
+              <Link to="/admin/payment-approve" className="text-white p-2 rounded-md gap-2" onClick={closeNav}>
                 Payment Approve
               </Link>
             </li>
             <li>
-              <Link to="/admin/to-pay" className="text-white bg-yellow-100 p-2 rounded-md gap-2" onClick={closeNav}>
+              <Link to="/admin/to-pay" className="text-white p-2 rounded-md gap-2" onClick={closeNav}>
                 To Pay
               </Link>
             </li>
             <li className="relative group">
-              <Link to="/admin/game-mode" className="text-white bg-yellow-100 p-2 rounded-md gap-2" onClick={closeNav}>
+              <Link to="/admin/game-mode" className="text-white p-2 rounded-md gap-2" onClick={closeNav}>
                 Thirty Second Mode
               </Link>
             </li>
             <li className="relative group">
-              <Link to="/admin/game-mode/two-min" className="text-white bg-yellow-100 p-2 rounded-md gap-2" onClick={closeNav}>
+              <Link to="/admin/game-mode/two-min" className="text-white p-2 rounded-md gap-2" onClick={closeNav}>
                 Two Minute Mode
               </Link>
             </li>
             <li className="relative group">
-              <Link to="/admin/game-mode/two-min" className="text-white bg-yellow-100 p-2 rounded-md gap-2" onClick={closeNav}>
+              <Link to="/admin/game-mode/two-min" className="text-white p-2 rounded-md gap-2" onClick={closeNav}>
                 Inform Notice
               </Link>
             </li>
