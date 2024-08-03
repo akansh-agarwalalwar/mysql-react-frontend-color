@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import NavBarAdmin from "./NavBarAdmin";
 import { RxCross1 } from "react-icons/rx";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function AllUsers() {
   const [users, setUsers] = useState([]);
@@ -32,7 +33,7 @@ export default function AllUsers() {
   const fetchUsers = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3001/api/v1/admin/all-users"
+        "https://api.perfectorse.site/api/v1/admin/all-users"
       );
       const data = await response.data;
       setUsers(data);
@@ -44,7 +45,7 @@ export default function AllUsers() {
   const fetchRechargeHistory = async (userId) => {
     try {
       const response = await fetch(
-        `http://localhost:3001/api/v1/financial/recharge-history?userId=${userId}`
+        `https://api.perfectorse.site/api/v1/financial/recharge-history?userId=${userId}`
       );
       if (!response.ok) {
         throw new Error(`https error! status: ${response?.status}`);
@@ -59,7 +60,7 @@ export default function AllUsers() {
   const fetchWithdrawHistory = async (userId) => {
     try {
       const response = await fetch(
-        `http://localhost:3001/api/v1/financial/withdraw-history?userId=${userId}`
+        `https://api.perfectorse.site/api/v1/financial/withdraw-history?userId=${userId}`
       );
       if (!response.ok) {
         throw new Error(`https error! status: ${response?.status}`);
@@ -73,7 +74,7 @@ export default function AllUsers() {
   const fetchBankDetails = async (userId) => {
     try {
       const res = await fetch(
-        `http://localhost:3001/api/v1/admin/bank?userId=${userId}`
+        `https://api.perfectorse.site/api/v1/admin/bank?userId=${userId}`
       );
       if (!res.ok) {
         throw new Error(`https error! status: ${res.status}`);
@@ -97,8 +98,27 @@ export default function AllUsers() {
         throw new Error("Invalid userId");
       }
 
-      const response = await axios.delete(
-        `http://localhost:3001/api/v1/admin/deleteUser/${userId}`
+      const response = await axios.post(
+        `https://api.perfectorse.site/api/v1/admin/deleteUser/${userId}`
+      );
+      toast.success("Deleted Successfully")
+      // console.log(response.data.message); // Log the response message
+    } catch (error) {
+      console.error(
+        "Error deleting user:",
+        error.response ? error.response.data : error.message
+      );
+    }
+  };
+  const editUser = async (userId) => {
+    try {
+      // Ensure userId is correctly formatted
+      if (!userId) {
+        throw new Error("Invalid userId");
+      }
+
+      const response = await axios.post(
+        `https://api.perfectorse.site/api/v1/admin/editUser/${userId}`
       );
       console.log(response.data.message); // Log the response message
     } catch (error) {
@@ -248,7 +268,7 @@ export default function AllUsers() {
                 Delete User
               </button>
               <button
-                onClick={() => deleteUser(clickedUser.IDOfUser)}
+                onClick={() => editUser(clickedUser.IDOfUser)}
                 className="p-2 mb-2 sm:mb-0 sm:mr-2 border border-red-500 text-red-500"
               >
                 Edit User

@@ -20,7 +20,7 @@ export default function ForgotPassword() {
     }
     try {
       const response = await Axios.post(
-        "http://localhost:3001/api/v1/forgotPassword",
+        "https://api.perfectorse.site/api/v1/forgotPassword",
         {
           useremail: useremail,
           newPassword: newPassword,
@@ -43,7 +43,7 @@ export default function ForgotPassword() {
     e.preventDefault();
     try {
       const response = await Axios.post(
-        "http://localhost:3001/api/v1/sendOtp",
+        "https://api.perfectorse.site/api/v1/sendOtp",
         {
           useremail,
         }
@@ -63,7 +63,7 @@ export default function ForgotPassword() {
     e.preventDefault();
     try {
       const response = await Axios.post(
-        "http://localhost:3001/api/v1/verifyEmail",
+        "https://api.perfectorse.site/api/v1/verifyEmail",
         {
           useremail,
           otp,

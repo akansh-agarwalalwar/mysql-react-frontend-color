@@ -3,6 +3,7 @@ import NavBarAdmin from "./NavBarAdmin";
 import axios from "axios";
 import calculateTimerInfoTwoMin from "../game/calculateTimerInfoTwoMin";
 import toast from "react-hot-toast";
+import UserDetails from "./UserDetails";
 
 function GameModeSecond() {
   const [data, setData] = useState(calculateTimerInfoTwoMin);
@@ -26,7 +27,7 @@ function GameModeSecond() {
     setError("");
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/v1/admin/twoMin",
+        "https://api.perfectorse.site/api/v1/admin/twoMin",
         { periodNumber, color }
       );
       if (response.status === 200) {
@@ -57,9 +58,9 @@ function GameModeSecond() {
   const fetchGameModeData = useCallback(async () => {
     try {
       const res = await axios.get(
-        "http://localhost:3001/api/v1/admin/manual-two-min"
+        "https://api.perfectorse.site/api/v1/admin/manual-two-min"
       );
-      console.log(res?.data);
+      // console.log(res?.data);
       setGameMode(res.data);
     } catch (error) {
       console.error(error);
@@ -89,81 +90,85 @@ function GameModeSecond() {
   return (
     <div className="flex flex-row">
       <NavBarAdmin />
-      <div className="flex flex-col items-center justify-center w-full min-h-screen py-8">
-        <p className="flex justify-center text-2xl mb-8">2 min Game</p>
-        <div className="flex flex-col items-center mb-8">
-          <p className="text-xl"> Period: {data.timerNumber}</p>
-          <p className="text-xl">Timer: {formatTime(data.countDown)}</p>
-        </div>
-        <div className="flex flex-col items-center mb-8">
-          <div className="flex flex-row gap-5 p-4">
-            <div className="border w-[100px] h-7 flex items-center justify-center">
-              {gameMode.red}
+      <div>
+        <div className="flex flex-col w-full min-h-screen py-8">
+          <p className="flex justify-center text-2xl mb-8">2 min Game</p>
+          <div className="flex flex-col items-center mb-8">
+            <p className="text-xl"> Period: {data.timerNumber}</p>
+            <p className="text-xl">Timer: {formatTime(data.countDown)}</p>
+          </div>
+          <div className="flex flex-col items-center mb-8">
+            <div className="flex flex-row gap-5 p-4">
+              <div className="border w-[100px] h-7 flex items-center justify-center">
+                {gameMode.red}
+              </div>
+              <div className="border w-[100px] h-7 flex items-center justify-center">
+                {gameMode.violet}
+              </div>
+              <div className="border w-[100px] h-7 flex items-center justify-center">
+                {gameMode.green}
+              </div>
             </div>
-            <div className="border w-[100px] h-7 flex items-center justify-center">
-              {gameMode.violet}
+            <div className="flex flex-row gap-5 p-4">
+              <button
+                onClick={(e) => handleButtonClick(e, "Red")}
+                className="bg-red-100 p-4 w-[100px] rounded-md"
+              >
+                Red
+              </button>
+              <button
+                onClick={(e) => handleButtonClick(e, "Violet")}
+                className="bg-purple-100 p-4 w-[100px] rounded-md"
+              >
+                Violet
+              </button>
+              <button
+                onClick={(e) => handleButtonClick(e, "Green")}
+                className="bg-green-100 p-4 w-[100px] rounded-md"
+              >
+                Green
+              </button>
             </div>
-            <div className="border w-[100px] h-7 flex items-center justify-center">
-              {gameMode.green}
-            </div>
           </div>
-          <div className="flex flex-row gap-5 p-4">
-            <button
-              onClick={(e) => handleButtonClick(e, "Red")}
-              className="bg-red-100 p-4 w-[100px] rounded-md"
-            >
-              Red
-            </button>
-            <button
-              onClick={(e) => handleButtonClick(e, "Violet")}
-              className="bg-purple-100 p-4 w-[100px] rounded-md"
-            >
-              Violet
-            </button>
-            <button
-              onClick={(e) => handleButtonClick(e, "Green")}
-              className="bg-green-100 p-4 w-[100px] rounded-md"
-            >
-              Green
-            </button>
-          </div>
-        </div>
-        <form
-          className="flex flex-col space-y-4 w-full max-w-sm mx-auto px-4"
-          onSubmit={handleSubmit}
-        >
-          <div className="flex flex-row items-center space-x-2">
-            <p className="w-32">Period Number</p>
-            <input
-              className="border-2 p-2 rounded-md flex-1"
-              type="text"
-              value={periodNumber}
-              onChange={(e) => setPeriodNumber(e.target.value)}
-              placeholder="Enter period number"
-            />
-          </div>
-          <div className="flex flex-row items-center space-x-2">
-            <p className="w-32">Color</p>
-            <input
-              className="border-2 p-2 rounded-md flex-1"
-              type="text"
-              value={color}
-              onChange={(e) => setColor(e.target.value)}
-              placeholder="Enter color"
-            />
-          </div>
-          {error && <p className="text-red-500">{error}</p>}
-          <button
-            type="submit"
-            className={`bg-blue-500 text-white py-2 px-4 rounded-md ${
-              loading ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-            disabled={loading}
+          <form
+            className="flex flex-col space-y-4 w-full max-w-sm mx-auto px-4"
+            onSubmit={handleSubmit}
           >
-            {loading ? "Submitting..." : "Submit"}
-          </button>
-        </form>
+            <div className="flex flex-row items-center space-x-2">
+              <p className="w-32">Period Number</p>
+              <input
+                className="border-2 p-2 rounded-md flex-1"
+                type="text"
+                value={periodNumber}
+                onChange={(e) => setPeriodNumber(e.target.value)}
+                placeholder="Enter period number"
+              />
+            </div>
+            <div className="flex flex-row items-center space-x-2">
+              <p className="w-32">Color</p>
+              <input
+                className="border-2 p-2 rounded-md flex-1"
+                type="text"
+                value={color}
+                onChange={(e) => setColor(e.target.value)}
+                placeholder="Enter color"
+              />
+            </div>
+            {error && <p className="text-red-500">{error}</p>}
+            <button
+              type="submit"
+              className={`bg-blue-500 text-white py-2 px-4 rounded-md ${
+                loading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+              disabled={loading}
+            >
+              {loading ? "Submitting..." : "Submit"}
+            </button>
+          </form>
+        </div>
       </div>
+
+      <UserDetails/>
     </div>
   );
 }

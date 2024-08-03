@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import NavBarAdmin from "./NavBarAdmin";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function AdminDashboard() {
   const [users, setUsers] = useState([]);
@@ -10,13 +11,16 @@ export default function AdminDashboard() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [mobile, setMobile] = useState("");
+  const [mobileNumber, setMobile] = useState("");
+  const [IDOfUser, setIdUser] = useState("");
+  const [userReferenceCode, setUserRefernceCode] = useState("");
 
   const fetchUsers = async () => {
     try {
       const response = await fetch(
-        "http://localhost:3001/api/v1/admin/all-users"
+        "https://api.perfectorse.site/api/v1/admin/all-users"
       );
+      if (!response.ok) throw new Error("Network response was not ok");
       const data = await response.json();
       setUsers(data);
     } catch (error) {
@@ -27,8 +31,9 @@ export default function AdminDashboard() {
   const fetchApproveUser = async () => {
     try {
       const response = await fetch(
-        "http://localhost:3001/api/v1/admin/pendingPayment"
+        "https://api.perfectorse.site/api/v1/admin/pendingPayment"
       );
+      if (!response.ok) throw new Error("Network response was not ok");
       const data = await response.json();
       setApproveUser(data || []);
     } catch (error) {
@@ -39,8 +44,9 @@ export default function AdminDashboard() {
   const fetchToPayUser = async () => {
     try {
       const response = await fetch(
-        "http://localhost:3001/api/v1/admin/withdrawlHistory"
+        "https://api.perfectorse.site/api/v1/admin/withdrawlHistory"
       );
+      if (!response.ok) throw new Error("Network response was not ok");
       const data = await response.json();
       setToPay(data || []);
     } catch (error) {
@@ -52,23 +58,36 @@ export default function AdminDashboard() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/v1/admin/createUser",
+        "https://api.perfectorse.site/api/v1/admin/createUser",
         {
           username,
-          mobile,
+          mobileNumber,
           email,
           password,
+          IDOfUser,
+          userReferenceCode,
         }
-      );
-      const data = await response.json();
-      console.log(data);
-      setUsers([...users, data]);
-      setUsername("");
-      setEmail("");
-      setPassword("");
-      setMobile("");
+      ).then((response) => {
+        return response.data;
+      });
+
+      if (response.status === 201) {
+        const data = response.data;
+        console.log(data);
+        setUsers([...users, data]);
+        setUsername("");
+        setEmail("");
+        setPassword("");
+        setMobile("");
+        setIdUser("");
+        setUserRefernceCode("");
+        toast.success("User created successfully.");
+      } else {
+        throw new Error("Failed to create user");
+      }
     } catch (error) {
       console.error("Error creating user:", error);
+      toast.error("Error creating user. Please try again.");
     }
   };
 
@@ -144,9 +163,33 @@ export default function AdminDashboard() {
               </label>
               <input
                 type="tel"
-                value={mobile}
+                value={mobileNumber}
                 onChange={(e) => setMobile(e.target.value)}
                 placeholder="Mobile Number"
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                IDOfUser
+              </label>
+              <input
+                type="number"
+                value={IDOfUser}
+                onChange={(e) => setIdUser(e.target.value)}
+                placeholder="User Id"
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Reference Code
+              </label>
+              <input
+                type="text"
+                value={userReferenceCode}
+                onChange={(e) => setUserRefernceCode(e.target.value)}
+                placeholder="Reference Code"
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
             </div>

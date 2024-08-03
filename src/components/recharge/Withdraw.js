@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import debounce from "lodash.debounce";
 import toast from "react-hot-toast";
-import "../../index.css"
+import "../../index.css";
 function Withdraw() {
   const { user } = useContext(UserContext);
   const [amountset, setAmountset] = useState("");
@@ -18,7 +18,7 @@ function Withdraw() {
     const fetchBankDetails = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3001/api/v1/financial/bank-details/${user.userId}`
+          `https://api.perfectorse.site/api/v1/financial/bank-details/${user.userId}`
         );
         if (res.status === 200) {
           setBankDetails(res.data);
@@ -40,11 +40,11 @@ function Withdraw() {
     setLoading(true);
     try {
       const response = await axios.post(
-        `http://localhost:3001/api/v1/financial/amount-withdraw`,
+        `https://api.perfectorse.site/api/v1/financial/amount-withdraw`,
         { userId: user.userId, amount }
       );
       if (response.status === 200) {
-        toast.success('Withdrawl successfull!');
+        toast.success("Withdrawl successfull!");
         setTimeout(() => {
           navigate("/home");
         }, 1000);
@@ -59,7 +59,10 @@ function Withdraw() {
         }, 2000);
       } else {
         console.error("There was an error sending the request!", error);
-        setMessage(error.response?.data?.message || "An error occurred. Please try again.");
+        setMessage(
+          error.response?.data?.message ||
+            "An error occurred. Please try again."
+        );
       }
     } finally {
       setLoading(false);
@@ -140,12 +143,12 @@ function Withdraw() {
         <div className="flex items-center justify-center w-full mt-3">
           <button
             className={`bg-myblue-200 rounded-md w-full h-9 ${
-              amountset < 500 || amountset > 7500 || loading
+              amountset < 500 || amountset > 7500 || loading || !bankDetails
                 ? "opacity-50 cursor-not-allowed"
                 : ""
             }`}
             onClick={debouncedHandleWithdraw}
-            disabled={amountset < 500 || amountset > 7500}
+            disabled={amountset < 500 || amountset > 7500 || !bankDetails}
           >
             <p className="text-xl font-bold text-white">
               {loading ? "Processing..." : "Confirm"}
@@ -155,6 +158,13 @@ function Withdraw() {
         {message && (
           <div className="mt-4 text-center">
             <p className="text-red-100">{message}</p>
+          </div>
+        )}
+        {!bankDetails && (
+          <div className="mt-4 text-center">
+            <p className="text-red-100">
+              Please add bank details to proceed with withdrawal.
+            </p>
           </div>
         )}
       </div>
