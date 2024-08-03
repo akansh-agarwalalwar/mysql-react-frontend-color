@@ -15,7 +15,7 @@ export default function AdminDashboard() {
   const fetchUsers = async () => {
     try {
       const response = await fetch(
-        "https://api.perfectorse.site/api/v1/admin/all-users"
+        "http://localhost:3001/api/v1/admin/all-users"
       );
       const data = await response.json();
       setUsers(data);
@@ -27,7 +27,7 @@ export default function AdminDashboard() {
   const fetchApproveUser = async () => {
     try {
       const response = await fetch(
-        "https://api.perfectorse.site/api/v1/admin/pendingPayment"
+        "http://localhost:3001/api/v1/admin/pendingPayment"
       );
       const data = await response.json();
       setApproveUser(data || []);
@@ -39,7 +39,7 @@ export default function AdminDashboard() {
   const fetchToPayUser = async () => {
     try {
       const response = await fetch(
-        "https://api.perfectorse.site/api/v1/admin/withdrawlHistory"
+        "http://localhost:3001/api/v1/admin/withdrawlHistory"
       );
       const data = await response.json();
       setToPay(data || []);
@@ -52,7 +52,7 @@ export default function AdminDashboard() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://api.perfectorse.site/api/v1/admin/createUser",
+        "http://localhost:3001/api/v1/admin/createUser",
         {
           username,
           mobile,
