@@ -3,23 +3,6 @@ import NavBarAdmin from "./NavBarAdmin";
 import { RxCross1 } from "react-icons/rx";
 import axios from "axios";
 
-// const useIsDesktop = () => {
-//   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
-
-//   useEffect(() => {
-//     const handleResize = () => {
-//       setIsDesktop(window.innerWidth >= 1024);
-//     };
-
-//     window.addEventListener("resize", handleResize);
-//     return () => {
-//       window.removeEventListener("resize", handleResize);
-//     };
-//   }, []);
-
-//   return isDesktop;
-// };
-
 export default function AllUsers() {
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -30,7 +13,6 @@ export default function AllUsers() {
   const [withdrawHistory, setWithdrawHistory] = useState([]);
   const [bankDetails, setBankDetails] = useState([]);
   const [activeTab, setActiveTab] = useState("RechargeHistory");
-  // const isDesktop = useIsDesktop();
 
   useEffect(() => {
     fetchUsers();
@@ -159,16 +141,6 @@ export default function AllUsers() {
     setWithdrawHistory([]);
     setBankDetails([]);
   };
-
-  // if (!isDesktop) {
-  //   return (
-  //     <div className="flex items-center justify-center h-screen">
-  //       <p className="text-xl font-bold">
-  //         This page is only available on desktop devices.
-  //       </p>
-  //     </div>
-  //   );
-  // }
 
   return (
     <div className="flex lg:flex-row">

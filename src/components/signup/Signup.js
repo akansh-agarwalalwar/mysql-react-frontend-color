@@ -302,9 +302,6 @@ export default function Signup() {
     if (!username) {
       newErrors.username = "Username is required.";
     }
-    if (mobileNumber.length !== 10) {
-      newErrors.mobileNumber = "Mobile number must be 10 digits.";
-    }
     if (!useremail) {
       newErrors.useremail = "Email is required.";
     }
@@ -319,7 +316,7 @@ export default function Signup() {
     }
 
     return newErrors;
-  }, [username, mobileNumber, useremail, password, confirmPassword, checked]);
+  }, [username, useremail, password, confirmPassword, checked]);
 
   useEffect(() => {
     const errors = isFormValid();
