@@ -30,7 +30,7 @@ export default function AllUsers() {
   const [withdrawHistory, setWithdrawHistory] = useState([]);
   const [bankDetails, setBankDetails] = useState([]);
   const [activeTab, setActiveTab] = useState("RechargeHistory");
-  const isDesktop = useIsDesktop();
+  // const isDesktop = useIsDesktop();
 
   useEffect(() => {
     fetchUsers();
