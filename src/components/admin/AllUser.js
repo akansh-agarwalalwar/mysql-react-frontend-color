@@ -3,22 +3,22 @@ import NavBarAdmin from "./NavBarAdmin";
 import { RxCross1 } from "react-icons/rx";
 import axios from "axios";
 
-const useIsDesktop = () => {
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
+// const useIsDesktop = () => {
+//   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsDesktop(window.innerWidth >= 1024);
-    };
+//   useEffect(() => {
+//     const handleResize = () => {
+//       setIsDesktop(window.innerWidth >= 1024);
+//     };
 
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+//     window.addEventListener("resize", handleResize);
+//     return () => {
+//       window.removeEventListener("resize", handleResize);
+//     };
+//   }, []);
 
-  return isDesktop;
-};
+//   return isDesktop;
+// };
 
 export default function AllUsers() {
   const [users, setUsers] = useState([]);
@@ -160,15 +160,15 @@ export default function AllUsers() {
     setBankDetails([]);
   };
 
-  if (!isDesktop) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <p className="text-xl font-bold">
-          This page is only available on desktop devices.
-        </p>
-      </div>
-    );
-  }
+  // if (!isDesktop) {
+  //   return (
+  //     <div className="flex items-center justify-center h-screen">
+  //       <p className="text-xl font-bold">
+  //         This page is only available on desktop devices.
+  //       </p>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="flex lg:flex-row">
