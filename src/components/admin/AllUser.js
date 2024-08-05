@@ -92,27 +92,31 @@ export default function AllUsers() {
   };
 
   const deleteUser = async (userId) => {
-    try {
-      // Ensure userId is correctly formatted
-      if (!userId) {
-        throw new Error("Invalid userId");
-      }
+    const confirmCreate = window.confirm(
+      "Are you sure you want to create a new user?"
+    );
+    if (confirmCreate) {
+      try {
+        // Ensure userId is correctly formatted
+        if (!userId) {
+          throw new Error("Invalid userId");
+        }
 
-      const response = await axios.post(
-        `https://api.perfectorse.site/api/v1/admin/deleteUser/${userId}`
-      );
-      toast.success("Deleted Successfully")
-      // console.log(response.data.message); // Log the response message
-    } catch (error) {
-      console.error(
-        "Error deleting user:",
-        error.response ? error.response.data : error.message
-      );
+        const response = await axios.post(
+          `https://api.perfectorse.site/api/v1/admin/deleteUser/${userId}`
+        );
+        toast.success("Deleted Successfully");
+        // console.log(response.data.message); // Log the response message
+      } catch (error) {
+        console.error(
+          "Error deleting user:",
+          error.response ? error.response.data : error.message
+        );
+      }
     }
   };
   const editUser = async (userId) => {
     try {
-      // Ensure userId is correctly formatted
       if (!userId) {
         throw new Error("Invalid userId");
       }

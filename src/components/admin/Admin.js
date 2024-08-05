@@ -56,38 +56,42 @@ export default function AdminDashboard() {
 
   const createUser = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post(
-        "https://api.perfectorse.site/api/v1/admin/createUser",
-        {
-          username,
-          mobileNumber,
-          email,
-          password,
-          IDOfUser,
-          userReferenceCode,
-        }
-      ).then((response) => {
-        return response.data;
-      });
+    const confirmCreate = window.confirm(
+      "Are you sure you want to create a new user?"
+    );
+    if (confirmCreate) {
+      try {
+        const response = await axios
+          .post("https://api.perfectorse.site/api/v1/admin/createUser", {
+            username,
+            mobileNumber,
+            email,
+            password,
+            IDOfUser,
+            userReferenceCode,
+          })
+          .then((response) => {
+            return response.data;
+          });
 
-      if (response.status === 201) {
-        const data = response.data;
-        console.log(data);
-        setUsers([...users, data]);
-        setUsername("");
-        setEmail("");
-        setPassword("");
-        setMobile("");
-        setIdUser("");
-        setUserRefernceCode("");
-        toast.success("User created successfully.");
-      } else {
-        throw new Error("Failed to create user");
+        if (response.status === 201) {
+          const data = response.data;
+          console.log(data);
+          setUsers([...users, data]);
+          setUsername("");
+          setEmail("");
+          setPassword("");
+          setMobile("");
+          setIdUser("");
+          setUserRefernceCode("");
+          toast.success("User created successfully.");
+        } else {
+          throw new Error("Failed to create user");
+        }
+      } catch (error) {
+        console.error("Error creating user:", error);
+        toast.error("Error creating user. Please try again.");
       }
-    } catch (error) {
-      console.error("Error creating user:", error);
-      toast.error("Error creating user. Please try again.");
     }
   };
 

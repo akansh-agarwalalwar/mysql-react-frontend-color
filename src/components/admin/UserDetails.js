@@ -89,7 +89,7 @@ function UserDetails() {
                           <button
                             onClick={() => handleUserIdClick(user.IDOfUser)}
                           >
-                            {user.IDOfUser}
+                            {user.username}
                           </button>
                         </td>
                         <td className="py-2 px-4 border-b">{user.betType}</td>
