@@ -33,6 +33,7 @@ function TwoMin() {
   const [newBets, setNewBets] = useState([]);
   const [showRandomBets, setShowRandomBets] = useState(false);
   const [activeTab, setActiveTab] = useState("parityRecord");
+  const [multiplier, setMultiplier] = useState(1);
 
   useEffect(() => {
     const timerID = setInterval(() => {
@@ -124,20 +125,42 @@ function TwoMin() {
     amount,
     colorTitle = selectedColor?.title
   ) => {
-    setContractMoney(amount);
-    // Calculate possible payout when contract money changes
+    const adjustedAmount = amount * multiplier;
+    setContractMoney(adjustedAmount);
+
     if (colorTitle) {
-      let multiplier = 0;
+      let multiplierValue = 0;
       if (colorTitle === "Red" || colorTitle === "Green") {
-        multiplier = 2;
+        multiplierValue = 2;
       } else if (colorTitle === "Violet") {
-        multiplier = 4.5;
+        multiplierValue = 4.5;
       }
 
-      const payout = amount * multiplier;
+      const payout = adjustedAmount * multiplierValue;
       const decreasedAmount = payout - payout * 0.02; // 2% decrease
       setWinAmount(decreasedAmount);
     }
+  };
+
+  const increaseMultiplier = () => {
+    const newMultiplier = multiplier + 1;
+    setMultiplier(newMultiplier);
+    handleContractMoneyChange(contractMoney / multiplier, selectedColor?.title);
+  };
+
+  const decreaseMultiplier = () => {
+    if (multiplier > 1) {
+      const newMultiplier = multiplier - 1;
+      setMultiplier(newMultiplier);
+      handleContractMoneyChange(
+        contractMoney / multiplier,
+        selectedColor?.title
+      );
+    }
+  };
+
+  const handlePresetAmountClick = (amount) => {
+    handleContractMoneyChange(amount, selectedColor?.title);
   };
 
   const handleNumberChange = (number) => {
@@ -301,15 +324,16 @@ function TwoMin() {
 
       {/* Popup Modal */}
       <Popup
-        open={!!selectedColor && data.countDown > 30}
-        closeOnDocumentClick
+        open={!!selectedColor && data.countDown > 11}
         onClose={closePopup}
-        modal
+        className="absolute right-0 left-0 w-full rounded-2xl"
       >
-        <div className="modal bg-white rounded-lg p-4 shadow-lg max-w-xs mx-auto border-2 border-myblue-200">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold">{selectedColor?.title}</h2>
-            <button onClick={closePopup} className="text-red-500">
+        <div className="bg-white rounded-lg p-4 shadow-lg w-full mx-auto border-2 border-myblue-200 right-0 bottom-0 left-0">
+          <div className="flex flex-row items-center mb-4">
+            <h2 className="text-xl font-bold w-full items-center justify-center">
+              {selectedColor?.title}
+            </h2>
+            <button onClick={closePopup} className="justify-end">
               <RxCross1 />
             </button>
           </div>
@@ -317,10 +341,36 @@ function TwoMin() {
           <div className="mb-4">
             <p>{`Balance: ${user?.balance}`}</p>
           </div>
-          {/* Error Message */}
-          {errorMessage && (
-            <div className="text-red-100 mb-4">{errorMessage}</div>
-          )}
+          {/* Preset Amount Buttons */}
+          <div className="flex flex-row w-full justify-between">
+          <div className="flex flex-row mb-4 space-x-2 gap-2">
+            {[10, 100, 200, 500].map((amount) => (
+              <button
+                key={amount}
+                onClick={() => handlePresetAmountClick(amount)}
+                className="border-myblue-200 p-2 border-2 rounded-lg text-myblue-200"
+              >
+                {amount}
+              </button>
+            ))}
+          </div>
+          {/* Multiplier Controls */}
+          <div className="flex flex-row items-center mb-4 space-x-2">
+            <button
+              onClick={decreaseMultiplier}
+              className="border-myblue-200 p-3 border-2 rounded-lg text-myblue-200"
+            >
+              -1
+            </button>
+            <p className="text-xl p-2">{multiplier}</p>
+            <button
+              onClick={increaseMultiplier}
+              className="border-myblue-200 p-3 border-2 rounded-lg text-myblue-200"
+            >
+              +1
+            </button>
+          </div>
+          </div>
           {/* Input Field for Amount */}
           <div className="mb-4">
             <label htmlFor="amountInput">Enter Amount:</label>
@@ -328,9 +378,15 @@ function TwoMin() {
               type="number"
               id="amountInput"
               min="10"
-              value={contractMoney}
-              onChange={(e) => handleContractMoneyChange(e.target.value)}
+              value={contractMoney * multiplier}
+              onChange={(e) =>
+                handleContractMoneyChange(
+                  Number(e.target.value),
+                  selectedColor?.title
+                )
+              }
               className="p-2 border rounded-lg w-full mt-1"
+              readOnly
             />
           </div>
           {/* Possible Payout */}
@@ -343,12 +399,12 @@ function TwoMin() {
               onClick={handleConfirm}
               disabled={
                 contractMoney < 10 ||
-                user?.balance < contractMoney * selectedNumber ||
+                user?.balance < contractMoney ||
                 contractMoney > user?.balance
               }
               className={`bg-myblue-200 p-2 rounded-lg w-full shadow-lg text-white ${
                 contractMoney < 10 ||
-                user?.balance < contractMoney * selectedNumber ||
+                user?.balance < contractMoney ||
                 contractMoney > user?.balance
                   ? "opacity-50 cursor-not-allowed"
                   : ""
@@ -359,7 +415,6 @@ function TwoMin() {
           </div>
         </div>
       </Popup>
-
       {/* WINNER DIVISION */}
       <div className="flex flex-col w-full mb-4 bg-white h-[230px] ">
         <p className="text-xl w-full items-center justify-center flex mt-1">

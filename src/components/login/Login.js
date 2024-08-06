@@ -47,19 +47,19 @@ export default function Login() {
         sessionStorage.setItem("user", JSON.stringify(user));
 
         if (adminId) {
-          toast.success("Login Successfull")
+          toast.success("Login Successfull");
           navigate("/admin");
         } else {
-          toast.success("Login Successfull")
+          toast.success("Login Successfull");
           navigate("/home");
         }
       } else {
         setError("Invalid email or password");
-        toast.success("Invalid email or password")
+        toast.success("Invalid email or password");
       }
     } catch (error) {
       // console.error("There was an error with the login:", error);
-      toast.error("Login failed. Please try again.")
+      toast.error("Login failed. Please try again.");
       // setError("Login failed. Please try again.");
     } finally {
       setLoading(false);
@@ -92,7 +92,7 @@ export default function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <Link to='/forgot-password'>
+            <Link to="/forgot-password">
               <div className="w-full flex justify-end mt-1">
                 <p>Forgot Password ?</p>
               </div>

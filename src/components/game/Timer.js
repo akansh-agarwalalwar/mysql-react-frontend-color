@@ -34,6 +34,7 @@ function Timer() {
   const [showRandomBets, setShowRandomBets] = useState(false);
   const [thirtySecond, setThirtySecond] = useState([]);
   const [activeTab, setActiveTab] = useState("parityRecord");
+  const [multiplier, setMultiplier] = useState(1);
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
@@ -125,20 +126,42 @@ function Timer() {
     amount,
     colorTitle = selectedColor?.title
   ) => {
-    setContractMoney(amount);
-    // Calculate possible payout when contract money changes
+    const adjustedAmount = amount * multiplier;
+    setContractMoney(adjustedAmount);
+
     if (colorTitle) {
-      let multiplier = 0;
+      let multiplierValue = 0;
       if (colorTitle === "Red" || colorTitle === "Green") {
-        multiplier = 2;
+        multiplierValue = 2;
       } else if (colorTitle === "Violet") {
-        multiplier = 4.5;
+        multiplierValue = 4.5;
       }
 
-      const payout = amount * multiplier;
+      const payout = adjustedAmount * multiplierValue;
       const decreasedAmount = payout - payout * 0.02; // 2% decrease
       setWinAmount(decreasedAmount);
     }
+  };
+
+  const increaseMultiplier = () => {
+    const newMultiplier = multiplier + 1;
+    setMultiplier(newMultiplier);
+    handleContractMoneyChange(contractMoney / multiplier, selectedColor?.title);
+  };
+
+  const decreaseMultiplier = () => {
+    if (multiplier > 1) {
+      const newMultiplier = multiplier - 1;
+      setMultiplier(newMultiplier);
+      handleContractMoneyChange(
+        contractMoney / multiplier,
+        selectedColor?.title
+      );
+    }
+  };
+
+  const handlePresetAmountClick = (amount) => {
+    handleContractMoneyChange(amount, selectedColor?.title);
   };
 
   const handleNumberChange = (number) => {
@@ -163,18 +186,15 @@ function Timer() {
       return;
     }
     try {
-      const response = await axios.post(
-        "https://api.perfectorse.site/place-bet",
-        {
-          userId: user.userId,
-          periodNumber: data.timerNumber,
-          periodDate: new Date().toISOString().split("T")[0],
-          betType: selectedColor?.title,
-          berforeBetAmount: user?.balance,
-          betAmount: betAmount,
-          possiblePayout: possiblePayout[selectedColor?.title]?.toFixed(2),
-        }
-      );
+      const response = await axios.post("https://api.perfectorse.site/place-bet", {
+        userId: user.userId,
+        periodNumber: data.timerNumber,
+        periodDate: new Date().toISOString().split("T")[0],
+        betType: selectedColor?.title,
+        berforeBetAmount: user?.balance,
+        betAmount: betAmount,
+        possiblePayout: possiblePayout[selectedColor?.title]?.toFixed(2),
+      });
       toast.success("Bet placed successfully!");
       // console.log("Response from server:", response.data);
       if (response.status !== 200) {
@@ -196,15 +216,15 @@ function Timer() {
     }
     closePopup();
   };
-  const getWinPopUp=async()=>{
+  const getWinPopUp = async () => {
     try {
-      const res = await axios.get("https://api.perfectorse.site/api/v1/user/getWinPopUp");
-      const data = res.data
-      console.log(data)
-    } catch (error) {
-      
-    }
-  }
+      const res = await axios.get(
+        "https://api.perfectorse.site/api/v1/user/getWinPopUp"
+      );
+      const data = res.data;
+      console.log(data);
+    } catch (error) {}
+  };
   const getColorClass = (color) => {
     switch (color?.toLowerCase()) {
       case "red":
@@ -253,7 +273,7 @@ function Timer() {
     if (data.countDown === 29) {
       window.location.reload();
     }
-    if(data.countDown === 28){
+    if (data.countDown === 28) {
       getWinPopUp();
     }
   }, [data.countDown]);
@@ -317,9 +337,9 @@ function Timer() {
         onClose={closePopup}
         className="absolute right-0 left-0 w-full rounded-2xl"
       >
-        <div className=" bg-white rounded-lg p-4 shadow-lg w-full mx-auto border-2 border-myblue-200 right-0 bottom-0 left-0">
+        <div className="bg-white rounded-lg p-4 shadow-lg w-full mx-auto border-2 border-myblue-200 right-0 bottom-0 left-0">
           <div className="flex flex-row items-center mb-4">
-            <h2 className="text-xl font-bold w-full items-center justify-center ">
+            <h2 className="text-xl font-bold w-full items-center justify-center">
               {selectedColor?.title}
             </h2>
             <button onClick={closePopup} className="justify-end">
@@ -328,7 +348,37 @@ function Timer() {
           </div>
           {/* User Balance */}
           <div className="mb-4">
-            <p>{` Balance: ${user?.balance}`}</p>
+            <p>{`Balance: ${user?.balance}`}</p>
+          </div>
+          {/* Preset Amount Buttons */}
+          <div className="flex flex-row w-full justify-between">
+          <div className="flex flex-row mb-4 space-x-2 gap-2">
+            {[10, 100, 200, 500].map((amount) => (
+              <button
+                key={amount}
+                onClick={() => handlePresetAmountClick(amount)}
+                className="border-myblue-200 p-2 border-2 rounded-lg text-myblue-200"
+              >
+                {amount}
+              </button>
+            ))}
+          </div>
+          {/* Multiplier Controls */}
+          <div className="flex flex-row items-center mb-4 space-x-2">
+            <button
+              onClick={decreaseMultiplier}
+              className="border-myblue-200 p-3 border-2 rounded-lg text-myblue-200"
+            >
+              -1
+            </button>
+            <p className="text-xl p-2">{multiplier}</p>
+            <button
+              onClick={increaseMultiplier}
+              className="border-myblue-200 p-3 border-2 rounded-lg text-myblue-200"
+            >
+              +1
+            </button>
+          </div>
           </div>
           {/* Input Field for Amount */}
           <div className="mb-4">
@@ -337,9 +387,15 @@ function Timer() {
               type="number"
               id="amountInput"
               min="10"
-              value={contractMoney}
-              onChange={(e) => handleContractMoneyChange(e.target.value)}
+              value={contractMoney * multiplier}
+              onChange={(e) =>
+                handleContractMoneyChange(
+                  Number(e.target.value),
+                  selectedColor?.title
+                )
+              }
               className="p-2 border rounded-lg w-full mt-1"
+              readOnly
             />
           </div>
           {/* Possible Payout */}
@@ -352,12 +408,12 @@ function Timer() {
               onClick={handleConfirm}
               disabled={
                 contractMoney < 10 ||
-                user?.balance < contractMoney * selectedNumber ||
+                user?.balance < contractMoney ||
                 contractMoney > user?.balance
               }
               className={`bg-myblue-200 p-2 rounded-lg w-full shadow-lg text-white ${
                 contractMoney < 10 ||
-                user?.balance < contractMoney * selectedNumber ||
+                user?.balance < contractMoney ||
                 contractMoney > user?.balance
                   ? "opacity-50 cursor-not-allowed"
                   : ""
@@ -368,6 +424,7 @@ function Timer() {
           </div>
         </div>
       </Popup>
+
       {/* WINNER DIVISION */}
       <div className="flex flex-col w-full mb-4 bg-white h-[230px] ">
         <p className="text-xl w-full items-center justify-center flex mt-1">
