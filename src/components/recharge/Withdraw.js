@@ -44,7 +44,7 @@ function Withdraw() {
         { userId: user.userId, amount }
       );
       if (response.status === 200) {
-        toast.success("Withdrawl successfull!");
+        toast.success("Withdrawl Request Submitted!");
         setTimeout(() => {
           navigate("/home");
         }, 1000);

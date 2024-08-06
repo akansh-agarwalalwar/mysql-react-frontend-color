@@ -402,7 +402,7 @@ function TwoMin() {
               <p>Possible Payout: {winAmount?.toFixed(2)}</p>
             </div>
             {/* Confirm Button */}
-            <div className="mb-4 text-sm">
+            <div>
               <button
                 onClick={handleConfirm}
                 disabled={
