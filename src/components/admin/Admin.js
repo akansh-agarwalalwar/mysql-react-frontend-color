@@ -18,7 +18,7 @@ export default function AdminDashboard() {
   const fetchUsers = async () => {
     try {
       const response = await fetch(
-        "https://api.perfectorse.site/api/v1/admin/all-users"
+        "http://localhost:3001/api/v1/admin/all-users"
       );
       if (!response.ok) throw new Error("Network response was not ok");
       const data = await response.json();
@@ -31,7 +31,7 @@ export default function AdminDashboard() {
   const fetchApproveUser = async () => {
     try {
       const response = await fetch(
-        "https://api.perfectorse.site/api/v1/admin/pendingPayment"
+        "http://localhost:3001/api/v1/admin/pendingPayment"
       );
       if (!response.ok) throw new Error("Network response was not ok");
       const data = await response.json();
@@ -44,7 +44,7 @@ export default function AdminDashboard() {
   const fetchToPayUser = async () => {
     try {
       const response = await fetch(
-        "https://api.perfectorse.site/api/v1/admin/withdrawlHistory"
+        "http://localhost:3001/api/v1/admin/withdrawlHistory"
       );
       if (!response.ok) throw new Error("Network response was not ok");
       const data = await response.json();
@@ -62,7 +62,7 @@ export default function AdminDashboard() {
     if (confirmCreate) {
       try {
         const response = await axios
-          .post("https://api.perfectorse.site/api/v1/admin/createUser", {
+          .post("http://localhost:3001/api/v1/admin/createUser", {
             username,
             mobileNumber,
             email,

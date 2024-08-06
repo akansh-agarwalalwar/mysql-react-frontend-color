@@ -33,7 +33,7 @@ export default function AllUsers() {
   const fetchUsers = async () => {
     try {
       const response = await axios.get(
-        "https://api.perfectorse.site/api/v1/admin/all-users"
+        "http://localhost:3001/api/v1/admin/all-users"
       );
       const data = await response.data;
       setUsers(data);
@@ -45,7 +45,7 @@ export default function AllUsers() {
   const fetchRechargeHistory = async (userId) => {
     try {
       const response = await fetch(
-        `https://api.perfectorse.site/api/v1/financial/recharge-history?userId=${userId}`
+        `http://localhost:3001/api/v1/financial/recharge-history?userId=${userId}`
       );
       if (!response.ok) {
         throw new Error(`https error! status: ${response?.status}`);
@@ -60,7 +60,7 @@ export default function AllUsers() {
   const fetchWithdrawHistory = async (userId) => {
     try {
       const response = await fetch(
-        `https://api.perfectorse.site/api/v1/financial/withdraw-history?userId=${userId}`
+        `http://localhost:3001/api/v1/financial/withdraw-history?userId=${userId}`
       );
       if (!response.ok) {
         throw new Error(`https error! status: ${response?.status}`);
@@ -74,7 +74,7 @@ export default function AllUsers() {
   const fetchBankDetails = async (userId) => {
     try {
       const res = await fetch(
-        `https://api.perfectorse.site/api/v1/admin/bank?userId=${userId}`
+        `http://localhost:3001/api/v1/admin/bank?userId=${userId}`
       );
       if (!res.ok) {
         throw new Error(`https error! status: ${res.status}`);
@@ -103,7 +103,7 @@ export default function AllUsers() {
         }
 
         const response = await axios.post(
-          `https://api.perfectorse.site/api/v1/admin/deleteUser/${userId}`
+          `http://localhost:3001/api/v1/admin/deleteUser/${userId}`
         );
         toast.success("Deleted Successfully");
         // console.log(response.data.message); // Log the response message
@@ -122,7 +122,7 @@ export default function AllUsers() {
       }
 
       const response = await axios.post(
-        `https://api.perfectorse.site/api/v1/admin/editUser/${userId}`
+        `http://localhost:3001/api/v1/admin/editUser/${userId}`
       );
       console.log(response.data.message); // Log the response message
     } catch (error) {

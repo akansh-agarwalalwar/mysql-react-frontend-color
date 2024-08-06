@@ -33,7 +33,7 @@ function PaymentPage() {
     setLoading(true);
     try {
       const existingTransaction = await axios.get(
-        `https://api.perfectorse.site/api/v1/transaction/checkTransactionId/${inputValue}`
+        `http://localhost:3001/api/v1/transaction/checkTransactionId/${inputValue}`
       );
       
       if (existingTransaction.data.message === "Transaction ID already present") {
@@ -47,7 +47,7 @@ function PaymentPage() {
         input: inputValue,
       };
 
-      await axios.post(`https://api.perfectorse.site/api/v1/transaction/upload-transaction-id`, data);
+      await axios.post(`http://localhost:3001/api/v1/transaction/upload-transaction-id`, data);
       toast.success("Request submitted");
 
       setTimeout(() => {
