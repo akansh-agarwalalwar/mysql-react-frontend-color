@@ -5,7 +5,6 @@ import axios from "axios";
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [postData, setPostData] = useState([]);
   const [user, setUser] = useState(() => {
     const userCookie = Cookies.get("user");
     return userCookie ? JSON.parse(userCookie) : null;

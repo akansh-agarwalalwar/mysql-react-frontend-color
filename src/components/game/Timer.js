@@ -298,13 +298,13 @@ function Timer() {
   };
 
   return (
-    <div className="flex flex-col bg-gray-900 min-h-screen bg-myblue-500 max-w-md mx-auto">
+    <div className="flex flex-col bg-myblue-500 min-h-scree max-w-md mx-auto relative">
       {/* Header */}
       <div className="flex flex-row bg-myblue-200 w-full text-white items-center h-12 md:h-8">
         <Link to="/home">
           <FaArrowLeftLong className="mx-2 " />
         </Link>
-        <p className=" text-xl">Crazy30</p>
+        <p className="text-xl">Crazy30</p>
       </div>
       {/* Timer Section */}
       <div className="w-full">
@@ -335,7 +335,7 @@ function Timer() {
         {/* Color Boxes */}
         <div className="p-2 mt-2 bg-gray-800 flex justify-around flex-wrap ">
           {colorBoxes?.map((colorBox) => (
-            <div className=" w-1/4">
+            <div className="w-1/4">
               <div
                 key={colorBox.color}
                 className={`flex flex-col justify-center items-center border-2 border-myblue-200 rounded-lg p-2 cursor-pointer bg-white ${
@@ -353,17 +353,16 @@ function Timer() {
       </div>
       {/* Popup Modal */}
       {setshowPopUp && data.countDown > 11 && (
-        <div
-          open={!!selectedColor && data.countDown > 11}
-          onClose={closePopup}
-          className="absolute right-0 left-0 bottom-0 max-w-md mx-auto rounded-2xl z-50"
-        >
-          <div className="bg-white rounded-lg p-4 shadow-lg w-full mx-auto border-2 border-myblue-200 right-0 bottom-0 left-0">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div
+            className="bg-white rounded-lg p-4 w-11/12 max-w-md mx-auto border-2 border-myblue-200 shadow-2xl relative"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="flex flex-row items-center mb-2">
               <h2 className="text-xl flex font-bold w-full items-center justify-center">
                 {selectedColor?.title}
               </h2>
-              <button onClick={closePopup} className="justify-end">
+              <button onClick={closePopup} className="absolute top-4 right-4">
                 <RxCross1 />
               </button>
             </div>
