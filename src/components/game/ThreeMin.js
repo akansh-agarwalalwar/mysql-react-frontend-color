@@ -48,7 +48,7 @@ function TwoMin() {
   const fetchLastPeriodData = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3001/api/v1/user/winner-two-min"
+        "https://api.perfectorse.site/api/v1/user/winner-two-min"
       );
       const data = response?.data;
       setLastPeriodData(data);
@@ -71,7 +71,7 @@ function TwoMin() {
     try {
       // setLoading(true);
       const response = await axios.get(
-        `http://localhost:3001/api/v1/financial/two-min-history/${userId}`
+        `https://api.perfectorse.site/api/v1/financial/two-min-history/${userId}`
       );
       if (response.status === 200) {
         setTwomin(response?.data);
@@ -123,46 +123,56 @@ function TwoMin() {
       .toString()
       .padStart(2, "0")}`;
   };
-  
-  const increaseMultiplier = () => {
-    const newMultiplier = multiplier + 1;
-    setMultiplier(newMultiplier);
-    handleContractMoneyChange(contractMoney, selectedColor?.title, newMultiplier);
-  };
 
-  const decreaseMultiplier = () => {
-    if (multiplier > 1) {
-      const newMultiplier = multiplier - 1;
-      setMultiplier(newMultiplier);
-      handleContractMoneyChange(contractMoney, selectedColor?.title, newMultiplier);
+  const handleContractMoneyChange = (amount) => {
+    setContractMoney(amount);
+
+    if (selectedColor?.title) {
+      let payoutMultiplier = 0;
+      if (selectedColor.title === "Red" || selectedColor.title === "Green") {
+        payoutMultiplier = 2;
+      } else if (selectedColor.title === "Violet") {
+        payoutMultiplier = 4.5;
+      }
+
+      const payout = amount * payoutMultiplier;
+      const decreasedAmount = payout - payout * 0.02; // 2% decrease
+      setWinAmount(decreasedAmount * multiplier);
     }
   };
 
   const handlePresetAmountClick = (amount) => {
-    setContractMoney(amount);
-    handleContractMoneyChange(amount, selectedColor?.title, multiplier);
+    // Calculate the new amount considering the current multiplier
+    const newAmount = amount * multiplier;
+    handleContractMoneyChange(newAmount);
   };
 
-  const handleContractMoneyChange = (
-    amount,
-    colorTitle = selectedColor?.title,
-    currentMultiplier = multiplier
-  ) => {
-    setContractMoney(amount);
-    if (colorTitle) {
-      let multiplierValue = 0;
-      if (colorTitle === "Red" || colorTitle === "Green") {
-        multiplierValue = 2;
-      } else if (colorTitle === "Violet") {
-        multiplierValue = 4.5;
+  const increaseMultiplier = () => {
+    setMultiplier((prev) => {
+      const newMultiplier = prev + 1;
+      setContractMoney((prevAmount) => {
+        const newAmount = (prevAmount / prev) * newMultiplier;
+        handleContractMoneyChange(newAmount);
+        return newAmount;
+      });
+      return newMultiplier;
+    });
+  };
+
+  const decreaseMultiplier = () => {
+    setMultiplier((prev) => {
+      if (prev > 1) {
+        const newMultiplier = prev - 1;
+        setContractMoney((prevAmount) => {
+          const newAmount = (prevAmount / prev) * newMultiplier;
+          handleContractMoneyChange(newAmount);
+          return newAmount;
+        });
+        return newMultiplier;
       }
-
-      const payout = amount * currentMultiplier * multiplierValue;
-      const decreasedAmount = payout - payout * 0.02;
-      setWinAmount(decreasedAmount);
-    }
+      return prev;
+    });
   };
-
   const handleInputChange = (e) => {
     const inputAmount = Number(e.target.value);
     const baseAmount = inputAmount / multiplier;
@@ -194,7 +204,7 @@ function TwoMin() {
     }
     try {
       const response = await axios.post(
-        "http://localhost:3001/place-bet/two-min",
+        "https://api.perfectorse.site/place-bet/two-min",
         {
           userId: user.userId,
           periodNumber: data.timerNumber,
@@ -334,96 +344,88 @@ function TwoMin() {
       </div>
 
       {/* Popup Modal */}
-      {setshowPopUp && data.countDown > 30 && (
-      <div
-        open={!!selectedColor && data.countDown > 30}
-        onClose={closePopup}
-        className="absolute right-0 left-0 bottom-0 max-w-md mx-auto rounded-2xl z-50"
-      >
-        <div className="bg-white rounded-lg p-4 shadow-lg w-full mx-auto border-2 border-myblue-200 right-0 bottom-0 left-0">
-          <div className="flex flex-row items-center mb-2">
-            <h2 className="text-xl flex font-bold w-full items-center justify-center">
-              {selectedColor?.title}
-            </h2>
-            <button onClick={closePopup} className="justify-end">
-              <RxCross1 />
-            </button>
-          </div>
-          {/* User Balance */}
-          <div className="mb-4">
-            <p>{`Balance: ${user?.balance}`}</p>
-          </div>
-          {/* Preset Amount Buttons */}
-          <div className="flex flex-col w-full justify-between">
-            <div className="flex flex-row mb-4 space-x-2">
-              {[10, 100, 200, 500]?.map((amount) => (
+      {setshowPopUp && data.countDown > 11 && (
+        <div
+          open={!!selectedColor && data.countDown > 11}
+          onClose={closePopup}
+          className="absolute right-0 left-0 bottom-0 max-w-md mx-auto rounded-2xl z-50"
+        >
+          <div className="bg-white rounded-lg p-4 shadow-lg w-full mx-auto border-2 border-myblue-200 right-0 bottom-0 left-0">
+            <div className="flex flex-row items-center mb-2">
+              <h2 className="text-xl flex font-bold w-full items-center justify-center">
+                {selectedColor?.title}
+              </h2>
+              <button onClick={closePopup} className="justify-end">
+                <RxCross1 />
+              </button>
+            </div>
+            <div className="mb-4">
+              <p>{`Balance: ${user?.balance}`}</p>
+            </div>
+            <div className="flex flex-col w-full justify-between">
+              <div className="flex flex-row mb-4 space-x-2">
+                {[10, 100, 200, 500].map((amount) => (
+                  <button
+                    key={amount}
+                    onClick={() => handlePresetAmountClick(amount)}
+                    className="border-myblue-200 p-2 border-2 rounded-lg text-myblue-200"
+                  >
+                    {amount}
+                  </button>
+                ))}
+              </div>
+              <div className="flex flex-row items-center mb-2 space-x-2">
                 <button
-                  key={amount}
-                  onClick={() => handlePresetAmountClick(amount)}
-                  className="border-myblue-200 p-2 border-2 rounded-lg text-myblue-200"
+                  onClick={decreaseMultiplier}
+                  className="border-myblue-200 p-1 border-2 rounded-lg text-myblue-200 w-full"
                 >
-                  {amount}
+                  -1
                 </button>
-              ))}
+                <p className="text-xl w-full justify-center items-center flex">
+                  {multiplier}
+                </p>
+                <button
+                  onClick={increaseMultiplier}
+                  className="border-myblue-200 p-1 border-2 rounded-lg text-myblue-200 w-full"
+                >
+                  +1
+                </button>
+              </div>
             </div>
-            {/* Multiplier Controls */}
-            <div className="flex flex-row items-center mb-2 space-x-2">
+            <div className="mb-2">
+              <input
+                type="number"
+                id="amountInput"
+                min="10"
+                value={contractMoney}
+                onChange={(e) =>
+                  handleContractMoneyChange(Number(e.target.value))
+                }
+                className="p-2 border rounded-lg w-full mt-1"
+              />
+            </div>
+            <div>
               <button
-                onClick={decreaseMultiplier}
-                className="border-myblue-200 p-1 border-2 rounded-lg text-myblue-200 w-full"
+                onClick={handleConfirm}
+                disabled={
+                  contractMoney < 10 ||
+                  user?.balance < contractMoney ||
+                  contractMoney > user?.balance
+                }
+                className={`bg-myblue-200 p-2 rounded-lg w-full shadow-lg text-white ${
+                  contractMoney < 10 ||
+                  user?.balance < contractMoney ||
+                  contractMoney > user?.balance
+                    ? "opacity-50 cursor-not-allowed"
+                    : ""
+                }`}
               >
-                -1
-              </button>
-              <p className="text-xl w-full justify-center items-center flex">
-                {multiplier}
-              </p>
-              <button
-                onClick={increaseMultiplier}
-                className="border-myblue-200 p-1 border-2 rounded-lg text-myblue-200 w-full"
-              >
-                +1
+                Confirm
               </button>
             </div>
-          </div>
-          {/* Input Field for Amount */}
-          <div className="mb-2">
-            <label htmlFor="amountInput">Enter Amount:</label>
-            <input
-              type="number"
-              id="amountInput"
-              min="10"
-              value={contractMoney * multiplier}
-              onChange={handleInputChange}
-              className="p-2 border rounded-lg w-full mt-1"
-            />
-          </div>
-          {/* Possible Payout */}
-          <div className="mb-4 text-sm">
-            <p>Possible Payout: {winAmount?.toFixed(2)}</p>
-          </div>
-          {/* Confirm Button */}
-          <div>
-            <button
-              onClick={handleConfirm}
-              disabled={
-                contractMoney < 10 ||
-                user?.balance < contractMoney ||
-                contractMoney > user?.balance
-              }
-              className={`bg-myblue-200 p-2 rounded-lg w-full shadow-lg text-white ${
-                contractMoney < 10 ||
-                user?.balance < contractMoney ||
-                contractMoney > user?.balance
-                  ? "opacity-50 cursor-not-allowed"
-                  : ""
-              }`}
-            >
-              Confirm
-            </button>
           </div>
         </div>
-      </div>
-    )}
+      )}
 
       {/* WINNER DIVISION */}
       <div className="flex flex-col w-full mb-4 bg-white h-[230px] ">

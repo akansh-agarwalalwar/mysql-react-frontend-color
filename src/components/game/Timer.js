@@ -60,7 +60,7 @@ function Timer() {
     try {
       // console.log("-------------------------------------------------------------")
       const response = await axios.get(
-        "http://localhost:3001/api/v1/user/winner-thirty-second"
+        "https://api.perfectorse.site/api/v1/user/winner-thirty-second"
       );
       const data = response.data;
       // console.log(data);
@@ -82,7 +82,7 @@ function Timer() {
     try {
       // setLoading(true);
       const response = await axios.get(
-        `http://localhost:3001/api/v1/financial/thirty-second-history/${userId}`
+        `https://api.perfectorse.site/api/v1/financial/thirty-second-history/${userId}`
       );
       if (response.status === 200) {
         setThirtySecond(response?.data);
@@ -151,7 +151,7 @@ function Timer() {
       return;
     }
     try {
-      const response = await axios.post("http://localhost:3001/place-bet", {
+      const response = await axios.post("https://api.perfectorse.site/place-bet", {
         userId: user.userId,
         periodNumber: data.timerNumber,
         periodDate: new Date().toISOString().split("T")[0],
@@ -185,7 +185,7 @@ function Timer() {
   const getWinPopUp = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:3001/api/v1/user/getWinPopUp"
+        "https://api.perfectorse.site/api/v1/user/getWinPopUp"
       );
       const data = res.data;
       console.log(data);
@@ -247,54 +247,56 @@ function Timer() {
     }
   }, [data.countDown]);
 
-  const decreaseMultiplier = () => {
-    if (multiplier > 1) {
-      const newMultiplier = multiplier - 1;
-      setMultiplier(newMultiplier);
-      // Calculate new contract money with the new multiplier
-      handleContractMoneyChange(
-        (contractMoney * newMultiplier) / multiplier,
-        selectedColor?.title
-      );
+  const handleContractMoneyChange = (amount) => {
+    setContractMoney(amount);
+
+    if (selectedColor?.title) {
+      let payoutMultiplier = 0;
+      if (selectedColor.title === "Red" || selectedColor.title === "Green") {
+        payoutMultiplier = 2;
+      } else if (selectedColor.title === "Violet") {
+        payoutMultiplier = 4.5;
+      }
+
+      const payout = amount * payoutMultiplier;
+      const decreasedAmount = payout - payout * 0.02; // 2% decrease
+      setWinAmount(decreasedAmount * multiplier);
     }
   };
 
   const handlePresetAmountClick = (amount) => {
-    // Reset contract money and multiplier when preset amount is clicked
-    setMultiplier(1);
-    handleContractMoneyChange(amount, selectedColor?.title);
+    // Calculate the new amount considering the current multiplier
+    const newAmount = amount * multiplier;
+    handleContractMoneyChange(newAmount);
   };
 
   const increaseMultiplier = () => {
-    const newMultiplier = multiplier + 1;
-    setMultiplier(newMultiplier);
-    // Calculate new contract money with the new multiplier
-    handleContractMoneyChange(
-      (contractMoney * newMultiplier) / multiplier,
-      selectedColor?.title
-    );
+    setMultiplier((prev) => {
+      const newMultiplier = prev + 1;
+      setContractMoney((prevAmount) => {
+        const newAmount = (prevAmount / prev) * newMultiplier;
+        handleContractMoneyChange(newAmount);
+        return newAmount;
+      });
+      return newMultiplier;
+    });
   };
 
-  const handleContractMoneyChange = (
-    amount,
-    colorTitle = selectedColor?.title
-  ) => {
-    const adjustedAmount = amount * multiplier;
-    setContractMoney(adjustedAmount);
-    // Calculate possible payout when contract money changes
-    if (colorTitle) {
-      let multiplier = 0;
-      if (colorTitle === "Red" || colorTitle === "Green") {
-        multiplier = 2;
-      } else if (colorTitle === "Violet") {
-        multiplier = 4.5;
+  const decreaseMultiplier = () => {
+    setMultiplier((prev) => {
+      if (prev > 1) {
+        const newMultiplier = prev - 1;
+        setContractMoney((prevAmount) => {
+          const newAmount = (prevAmount / prev) * newMultiplier;
+          handleContractMoneyChange(newAmount);
+          return newAmount;
+        });
+        return newMultiplier;
       }
-
-      const payout = amount * multiplier;
-      const decreasedAmount = payout - payout * 0.02; // 2% decrease
-      setWinAmount(decreasedAmount);
-    }
+      return prev;
+    });
   };
+
   return (
     <div className="flex flex-col bg-gray-900 min-h-screen bg-myblue-500 max-w-md mx-auto">
       {/* Header */}
@@ -365,11 +367,9 @@ function Timer() {
                 <RxCross1 />
               </button>
             </div>
-            {/* User Balance */}
             <div className="mb-4">
               <p>{`Balance: ${user?.balance}`}</p>
             </div>
-            {/* Preset Amount Buttons */}
             <div className="flex flex-col w-full justify-between">
               <div className="flex flex-row mb-4 space-x-2">
                 {[10, 100, 200, 500].map((amount) => (
@@ -382,7 +382,6 @@ function Timer() {
                   </button>
                 ))}
               </div>
-              {/* Multiplier Controls */}
               <div className="flex flex-row items-center mb-2 space-x-2">
                 <button
                   onClick={decreaseMultiplier}
@@ -401,29 +400,18 @@ function Timer() {
                 </button>
               </div>
             </div>
-            {/* Input Field for Amount */}
             <div className="mb-2">
-              {/* <label htmlFor="amountInput">Enter Amount:</label> */}
               <input
                 type="number"
                 id="amountInput"
                 min="10"
-                value={contractMoney * multiplier}
+                value={contractMoney}
                 onChange={(e) =>
-                  handleContractMoneyChange(
-                    Number(e.target.value),
-                    selectedColor?.title
-                  )
+                  handleContractMoneyChange(Number(e.target.value))
                 }
                 className="p-2 border rounded-lg w-full mt-1"
-                readOnly
               />
             </div>
-            {/* Possible Payout */}
-            <div className="mb-4 text-sm">
-              <p>Possible Payout: {winAmount?.toFixed(2)}</p>
-            </div>
-            {/* Confirm Button */}
             <div>
               <button
                 onClick={handleConfirm}
