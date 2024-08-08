@@ -17,3 +17,14 @@ body {
 .no-bottom-nav .bottom-nav {
   display: none; /* Hide the bottom navigation bar */
 }
+
+/* This targets autofilled input fields */
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px white inset; /* Adjust the background color if needed */
+  -webkit-text-fill-color: #000; /* Change text color if needed */
+}
+
+/* This styles the first line of autofilled input fields */
+input:-webkit-autofill::first-line {
+  color: #000; /* Change text color if needed */
+}

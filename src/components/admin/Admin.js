@@ -15,6 +15,7 @@ export default function AdminDashboard() {
   const [IDOfUser, setIdUser] = useState("");
   const [userReferenceCode, setUserRefernceCode] = useState("");
   const [createUserPopUp, setCreateUserPopUp] = useState(false);
+  const [balance, setBalance] = useState("");
 
   const fetchUsers = async () => {
     try {
@@ -70,6 +71,7 @@ export default function AdminDashboard() {
             password,
             IDOfUser,
             userReferenceCode,
+            balance,
           })
           .then((response) => {
             return response.data;
@@ -85,6 +87,7 @@ export default function AdminDashboard() {
           setMobile("");
           setIdUser("");
           setUserRefernceCode("");
+          setBalance("");
           toast.success("User created successfully.");
         } else {
           throw new Error("Failed to create user");
@@ -141,97 +144,123 @@ export default function AdminDashboard() {
             </div>
           </Link>
         </div>
-        <button onClick={handleCreate} className="bg-green-100 p-2 rounded-lg">
-          Create User
-        </button>
+        <div className="flex flex-row items-center">
+          <button
+            onClick={handleCreate}
+            className="bg-green-100 p-2 rounded-lg"
+          >
+            Create User
+          </button>
+          {/* <div className="flex flex-row justify-center items-center">
+            <label>Balance</label>
+            <p>Balance</p>
+          </div> */}
+        </div>
+
         {createUserPopUp && (
-          <div className="bg-white border-2 shadow-md rounded-lg p-6 z-50 absolute flex flex-col inset-0 overflow-y-scroll w-[70%] h-[70%] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
-            <div className="flex flex-row justify-between items-center w-full">
-              <h2 className="text-2xl font-bold mb-4 w-full items-center flex justify-center">Create User</h2>
-              <RxCross1 onClick={close} />
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white border-2 shadow-md rounded-lg p-6 z-50 w-full max-w-md mx-auto">
+              <div className="flex flex-row justify-between items-center w-full mb-4">
+                <h2 className="text-2xl font-bold w-full items-center flex justify-center">
+                  Create User
+                </h2>
+                <RxCross1 onClick={close} className="cursor-pointer" />
+              </div>
+              <form onSubmit={createUser} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Username
+                  </label>
+                  <input
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="Username"
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Email"
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Mobile Number
+                  </label>
+                  <input
+                    type="tel"
+                    value={mobileNumber}
+                    onChange={(e) => setMobile(e.target.value)}
+                    placeholder="Mobile Number"
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    IDOfUser
+                  </label>
+                  <input
+                    type="number"
+                    value={IDOfUser}
+                    onChange={(e) => setIdUser(e.target.value)}
+                    placeholder="User Id"
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Balance
+                  </label>
+                  <input
+                    type="number"
+                    value={balance}
+                    onChange={(e) => setBalance(e.target.value)}
+                    placeholder="Balance"
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Reference Code
+                  </label>
+                  <input
+                    type="text"
+                    value={userReferenceCode}
+                    onChange={(e) => setUserRefernceCode(e.target.value)}
+                    placeholder="Reference Code"
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Password"
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  />
+                </div>
+                <div>
+                  <button
+                    type="submit"
+                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md bg-green-100"
+                  >
+                    Create
+                  </button>
+                </div>
+              </form>
             </div>
-            <form onSubmit={createUser} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Username
-                </label>
-                <input
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Username"
-                  className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Email"
-                  className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Mobile Number
-                </label>
-                <input
-                  type="tel"
-                  value={mobileNumber}
-                  onChange={(e) => setMobile(e.target.value)}
-                  placeholder="Mobile Number"
-                  className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  IDOfUser
-                </label>
-                <input
-                  type="number"
-                  value={IDOfUser}
-                  onChange={(e) => setIdUser(e.target.value)}
-                  placeholder="User Id"
-                  className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Reference Code
-                </label>
-                <input
-                  type="text"
-                  value={userReferenceCode}
-                  onChange={(e) => setUserRefernceCode(e.target.value)}
-                  placeholder="Reference Code"
-                  className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Password"
-                  className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-              </div>
-              <div>
-                <button
-                  type="submit"
-                  className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md bg-green-100"
-                >
-                  Create
-                </button>
-              </div>
-            </form>
           </div>
         )}
       </div>

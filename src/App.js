@@ -27,6 +27,9 @@ import GameModeSecond from "./components/admin/GameModeSecond";
 import MainHomepage from "./components/dashboard/MainHomepage";
 import Maintainance from "./components/maintainance/Maintainance";
 import PrivateRoute from "./PrivateRoute";
+import NewLogin from "./components/login/NewLogin";
+import NewSignup from "./components/signup/NewSignup";
+import NewForgot from "./components/forgotPassword/NewForgot";
 function App() {
   function disableRightClick() {
     document.addEventListener(
@@ -54,7 +57,7 @@ function App() {
       }
     };
   }
-  disableRightClick();
+  // disableRightClick();
   return (
     // <>
     // <Maintainance/>
@@ -62,10 +65,14 @@ function App() {
     <UserProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
+          {/* <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} /> */}
+          <Route path="/" element={<NewLogin />} />
+          <Route path="/login" element={<NewLogin />} />
+          {/* <Route path="/signup" element={<Signup />} /> */}
+          <Route path="/signup" element={<NewSignup />} />
+          {/* <Route path="/forgot-password" element={<ForgotPassword />} /> */}
+          <Route path="/forgot-password" element={<NewForgot />} />
           <Route path="/home" element={<MainHomepage />}>
             <Route index element={<HomePage />} />
             <Route path="profile">
