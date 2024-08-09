@@ -30,6 +30,7 @@ import PrivateRoute from "./PrivateRoute";
 import NewLogin from "./components/login/NewLogin";
 import NewSignup from "./components/signup/NewSignup";
 import NewForgot from "./components/forgotPassword/NewForgot";
+import Heads from "./components/game/HeadsAndTails/Heads";
 function App() {
   function disableRightClick() {
     document.addEventListener(
@@ -57,7 +58,7 @@ function App() {
       }
     };
   }
-  // disableRightClick();
+  disableRightClick();
   return (
     // <>
     // <Maintainance/>
@@ -92,6 +93,7 @@ function App() {
           <Route path="withdraw" element={<Withdraw />} />
           <Route path="daily-bonus" element={<DailyBonus />} />
           <Route path="threeMin" element={<ThreeMin />} />
+          {/* <Route path="heads" element={<Heads />} /> */}
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/admin">
             <Route index element={<Admin />} />

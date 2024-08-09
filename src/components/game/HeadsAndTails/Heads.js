@@ -5,111 +5,36 @@ import { Link } from "react-router-dom";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import { RxCross1 } from "react-icons/rx";
-import UserContext from "../login/UserContext";
+import EveryOneOrder from "./EveryOneOrder";
 import axios from "axios";
-import TwoMinOrder from "./TwoMinOrder";
 import { IoIosTrophy } from "react-icons/io";
-import calculateTimerInfoTwoMin from "./calculateTimerInfoTwoMin";
 import toast from "react-hot-toast";
 import { LuAlarmClock } from "react-icons/lu";
-function TwoMin() {
-  const [data, setData] = useState(calculateTimerInfoTwoMin);
+import UserContext from "../../login/UserContext";
+import calculateTimerInfo from "./calculateTimerInfo";
+function Timer() {
+  const [userOrders, setUserOrders] = useState([]);
+  const [data, setData] = useState(calculateTimerInfo);
   const { user, fetchUserData } = useContext(UserContext);
-  const [period, setPeriod] = useState("");
+  const [periodNumber, setPeriodNumber] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedNumber, setSelectedNumber] = useState(1);
   const [contractMoney, setContractMoney] = useState(10);
   const [winAmount, setWinAmount] = useState(19.6);
   const [refresh, setRefresh] = useState(0);
-  const [userOrders, setUserOrders] = useState([]);
   const [possiblePayout, setPossiblePayout] = useState({
-    Red: 19.6,
-    Violet: 44.1,
-    Green: 19.6,
+    Heads : 19.6,
+    Tails : 19.6
   });
-  const [twomin, setTwomin] = useState([]);
   const [lastPeriodData, setLastPeriodData] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [newBets, setNewBets] = useState([]);
   const [showRandomBets, setShowRandomBets] = useState(false);
+  const [thirtySecond, setThirtySecond] = useState([]);
   const [activeTab, setActiveTab] = useState("parityRecord");
-  const [multiplier, setMultiplier] = useState(1);
   const [setshowPopUp, setSetshowPopUp] = useState(false);
+  const [multiplier, setMultiplier] = useState(1);
 
-  useEffect(() => {
-    const timerID = setInterval(() => {
-      setData(calculateTimerInfoTwoMin());
-    }, 1000);
-    return () => {
-      clearInterval(timerID);
-    };
-  }, []);
-  const fetchLastPeriodData = async () => {
-    try {
-      const response = await axios.get(
-        "https://api.perfectorse.site/api/v1/user/winner-two-min"
-      );
-      const data = response?.data;
-      setLastPeriodData(data);
-      // console.log(data)
-    } catch (error) {
-      // console.error(error);
-    }
-  };
-  useEffect(() => {
-    fetchLastPeriodData();
-  }, [data.countDown === 120]);
-  useEffect(() => {
-    if (user && user.userId) {
-      fetchtwomin(user?.userId);
-    }
-  }, [user]);
-  const fetchtwomin = async (userId) => {
-    try {
-      // setLoading(true);
-      const response = await axios.get(
-        `https://api.perfectorse.site/api/v1/financial/two-min-history/${userId}`
-      );
-      if (response.status === 200) {
-        setTwomin(response?.data);
-      }
-    } catch (error) {
-      // setError(error.message);
-      console.error(error);
-    } finally {
-      // setLoading(false);
-    }
-  };
-
-  const colorBoxes = [
-    {
-      title: "Red",
-      color: "red",
-      icon: <FaHorseHead style={{ color: "#FF0000" }} />,
-      ratio: "x2",
-    },
-    {
-      title: "Violet",
-      color: "purple",
-      icon: <FaHorseHead style={{ color: "#800080" }} />,
-      ratio: "x4.5",
-    },
-    {
-      title: "Green",
-      color: "green",
-      icon: <FaHorseHead style={{ color: "#00FF00" }} />,
-      ratio: "x2",
-    },
-  ];
-
-  const isDisabled = data.countDown <= 30;
-
-  const handleColorBoxClick = (color) => {
-    setSelectedColor(color);
-    setSelectedNumber(1);
-    handleContractMoneyChange(contractMoney, color.title);
-    setSetshowPopUp(true);
-  };
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
@@ -117,6 +42,200 @@ function TwoMin() {
       .toString()
       .padStart(2, "0")}`;
   };
+  useEffect(() => {
+    const timerID = setInterval(() => {
+      setData(calculateTimerInfo());
+      setPeriodNumber(data.timerNumber);
+      if (data.countDown <= 11) {
+        setSetshowPopUp(false);
+      }
+    }, 1000);
+    return () => {
+      clearInterval(timerID);
+    };
+  }, []);
+  const fetchLastPeriodData = async () => {
+    try {
+      // console.log("-------------------------------------------------------------")
+      const response = await axios.get(
+        "https://api.perfectorse.site/api/v1/user/winner-heads"
+      );
+      const data = response.data;
+      // console.log(data);
+      setLastPeriodData(data);
+      // console.log("DATA", lastPeriodData);
+    } catch (error) {
+      setErrorMessage("Failed to fetch last period data. Please try again.");
+    }
+  };
+  useEffect(() => {
+    fetchLastPeriodData();
+  }, [data.countDown === 30]);
+  useEffect(() => {
+    if (user && user.userId) {
+      fetchthirtySecond(user?.userId);
+    }
+  }, [user]);
+  const fetchthirtySecond = async (userId) => {
+    try {
+      // setLoading(true);
+      const response = await axios.get(
+        `https://api.perfectorse.site/api/v1/financial/thirty-second-history/${userId}`
+      );
+      if (response.status === 200) {
+        setThirtySecond(response?.data);
+      } else {
+        throw new Error("Failed to fetch Thirty Second history");
+      }
+    } catch (error) {
+      // setError(error.message);
+    } finally {
+      // setLoading(false);
+    }
+  };
+  const colorBoxes = [
+    {
+      title: "Heads",
+      color: "red",
+      ratio: "x2",
+    },
+    {
+      title: "Tails",
+      color: "green",
+      ratio: "x2",
+    },
+  ];
+
+  const isDisabled = data.countDown <= 11;
+
+  const handleColorBoxClick = (color) => {
+    setSelectedColor(color);
+    setSelectedNumber(1);
+    handleContractMoneyChange(contractMoney, color?.title);
+    setSetshowPopUp(true);
+  };
+
+  const handleNumberChange = (number) => {
+    setSelectedNumber(number);
+  };
+
+  const closePopup = () => {
+    setSelectedColor(null);
+    setSelectedNumber(1);
+    setContractMoney(10);
+    setSetshowPopUp(false);
+  };
+  const [betAmount, setBetAmount] = useState(0);
+  const handleConfirm = async () => {
+    if (user?.balance < contractMoney * selectedNumber) {
+      setErrorMessage("Insufficient balance");
+      return;
+    }
+    const betAmount = contractMoney * selectedNumber;
+    setBetAmount(betAmount);
+    if (user?.balance <= 10) {
+      setErrorMessage("Insufficient balance");
+      return;
+    }
+    try {
+      const response = await axios.post(
+        "https://api.perfectorse.site/place-bet/heads-tails",
+        {
+          userId: user.userId,
+          periodNumber: data.timerNumber,
+          periodDate: new Date().toISOString().split("T")[0],
+          betType: selectedColor?.title,
+          berforeBetAmount: user?.balance,
+          betAmount: betAmount,
+          possiblePayout: possiblePayout?.[selectedColor?.title]?.toFixed(2),
+        }
+      );
+      toast.success("Bet placed successfully!");
+      // console.log("Response from server:", response.data);
+      if (response.status !== 200) {
+        throw new Error("Error placing bet");
+      }
+      // console.log("Bet placed successfully:", response.data);
+      setUserOrders((prevOrders) => [
+        ...prevOrders,
+        {
+          periodNumber: data.timerNumber,
+          betType: selectedColor?.title,
+          betAmount,
+          possiblePayout: possiblePayout[selectedColor?.title]?.toFixed(2),
+        },
+      ]);
+      await fetchUserData();
+    } catch (error) {
+      // console.error("Error placing bet:", error);
+    }
+    closePopup();
+    setSetshowPopUp(false);
+  };
+  const getWinPopUp = async () => {
+    try {
+      const res = await axios.get(
+        "https://api.perfectorse.site/api/v1/user/getWinPopUp"
+      );
+      const data = res.data;
+      console.log(data);
+    } catch (error) {}
+  };
+  const getColorClass = (color) => {
+    switch (color?.toLowerCase()) {
+      case "red":
+        return "bg-red-100";
+      case "green":
+        return "bg-green-100";
+      case "violet":
+        return "bg-purple-100";
+      default:
+        return "bg-gray-300";
+    }
+  };
+
+  const generateRandomBets = () => {
+    const colors = ["H", "T"];
+    const amounts = [100, 200, 500, 1000];
+    const bets = [];
+
+    for (let i = 0; i < 10; i++) {
+      const randomColor = colors[Math.floor(Math.random() * colors.length)];
+      const randomAmount = amounts[Math.floor(Math.random() * amounts.length)];
+      const randomUserNumber = Math.floor(1000 + Math.random() * 9000);
+      bets.push({
+        color: randomColor,
+        amount: randomAmount,
+        userNumber: randomUserNumber,
+      });
+    }
+
+    setNewBets(bets);
+  };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const newTimerData = calculateTimerInfo();
+      setData(newTimerData);
+      if (newTimerData.countDown <= 27 && newTimerData.countDown >= 11) {
+        setShowRandomBets(true);
+        generateRandomBets();
+      } else {
+        setShowRandomBets(false);
+      }
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+  useEffect(() => {
+    if (data.countDown === 24) {
+      window.location.reload();
+    }
+    if (data.countDown === 28) {
+      getWinPopUp();
+    }
+    if (data.countDown === 30) {
+      setSetshowPopUp(false);
+    }
+  }, [data.countDown]);
 
   const handleContractMoneyChange = (amount) => {
     setContractMoney(amount);
@@ -130,13 +249,12 @@ function TwoMin() {
       }
 
       const payout = amount * payoutMultiplier;
-      const decreasedAmount = payout - payout * 0.02; // 2% decrease
+      const decreasedAmount = payout - payout * 0.02;
       setWinAmount(decreasedAmount * multiplier);
     }
   };
 
   const handlePresetAmountClick = (amount) => {
-    // Calculate the new amount considering the current multiplier
     const newAmount = amount * multiplier;
     handleContractMoneyChange(newAmount);
   };
@@ -167,139 +285,15 @@ function TwoMin() {
       return prev;
     });
   };
-  const handleInputChange = (e) => {
-    const inputAmount = Number(e.target.value);
-    const baseAmount = inputAmount / multiplier;
-    handleContractMoneyChange(baseAmount, selectedColor?.title, multiplier);
-  };
 
-  const handleNumberChange = (number) => {
-    setSelectedNumber(number);
-  };
-
-  const closePopup = () => {
-    setSelectedColor(null);
-    setSelectedNumber(1);
-    setContractMoney(10);
-    setSetshowPopUp(false);
-  };
-  const [betAmount, setBetAmount] = useState(0);
-  const handleConfirm = async () => {
-    if (user?.balance < contractMoney * selectedNumber) {
-      setErrorMessage("Insufficient balance");
-      return;
-    }
-    const betAmount = contractMoney * selectedNumber;
-    setBetAmount(betAmount);
-
-    if (user?.balance < 10) {
-      setErrorMessage("Insufficient balance");
-      return;
-    }
-    try {
-      const response = await axios.post(
-        "https://api.perfectorse.site/place-bet/two-min",
-        {
-          userId: user.userId,
-          periodNumber: data.timerNumber,
-          periodDate: new Date().toISOString().split("T")[0],
-          betType: selectedColor?.title,
-          berforeBetAmount: user?.balance,
-          betAmount: betAmount,
-          possiblePayout: possiblePayout[selectedColor?.title]?.toFixed(2),
-        }
-      );
-      if (response.status === 200) {
-        toast.success("Bet placed successfully!");
-        // Reset the state of the popup
-        setSelectedColor(null);
-        setSelectedNumber(1);
-        setContractMoney(10);
-        setWinAmount(19.6);
-        setMultiplier(1);
-        closePopup();
-      }
-      // console.log("Response from server:", response.data);
-
-      if (response.status !== 200) {
-        throw new Error("Error placing bet");
-      }
-      setUserOrders((prevOrders) => [
-        ...prevOrders,
-        {
-          periodNumber: data.timerNumber,
-          betType: selectedColor?.title,
-          betAmount,
-          possiblePayout: possiblePayout[selectedColor?.title]?.toFixed(2),
-        },
-      ]);
-      await fetchUserData();
-    } catch (error) {
-      // console.error("Error placing bet:", error);
-    }
-
-    closePopup();
-    setSetshowPopUp(false);
-  };
-  const generateRandomBets = () => {
-    const colors = ["Red", "Violet", "Green"];
-    const amounts = [100, 200, 500, 1000];
-    const bets = [];
-
-    for (let i = 0; i < 10; i++) {
-      const randomColor = colors[Math.floor(Math.random() * colors.length)];
-      const randomAmount = amounts[Math.floor(Math.random() * amounts.length)];
-      const randomUserNumber = Math.floor(1000 + Math.random() * 9000);
-      bets.push({
-        color: randomColor,
-        amount: randomAmount,
-        userNumber: randomUserNumber,
-      });
-    }
-
-    setNewBets(bets);
-  };
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const newTimerData = calculateTimerInfoTwoMin();
-      setData(newTimerData);
-
-      if (newTimerData.countDown >= 30) {
-        setShowRandomBets(true);
-        generateRandomBets();
-      }
-    }, 3000);
-    generateRandomBets();
-    return () => clearInterval(interval);
-  }, [showRandomBets, data.countDown]);
-  const getColorClass = (color) => {
-    switch (color.toLowerCase()) {
-      case "red":
-        return "bg-red-100";
-      case "green":
-        return "bg-green-100";
-      case "violet":
-        return "bg-purple-100";
-      default:
-        return "bg-gray-300"; // Default color if the winner's color is not recognized
-    }
-  };
-  useEffect(() => {
-    if (data.countDown === 118) {
-      window.location.reload();
-    }
-    if (data.countDown === 120) {
-      setSetshowPopUp(false);
-    }
-  }, [data.countDown]);
   return (
-    <div className="flex flex-col bg-myblue-500 min-h-screen max-w-md mx-auto relative">
+    <div className="flex flex-col bg-myblue-500 min-h-scree max-w-md mx-auto relative">
       {/* Header */}
       <div className="flex flex-row bg-myblue-200 w-full text-white items-center h-12 md:h-8">
         <Link to="/home">
-          <FaArrowLeftLong className="mx-2" />
+          <FaArrowLeftLong className="mx-2 " />
         </Link>
-        <p className="text-xl">Crazy2PM</p>
+        <p className="text-xl">Head And Tail</p>
       </div>
       {/* Timer Section */}
       <div className="w-full">
@@ -325,18 +319,21 @@ function TwoMin() {
             </div>
           </div>
         </div>
+        {/* COIN FLIPPER */}
+        <div className="h-56 flex w-full justify-center items-end">
+          <div className="w-20 bg-Lightblue h-1 flex justify-center items-center"></div>
+        </div>
         {/* Color Boxes */}
-        <div className="p-2 mt-2 bg-gray-800 flex justify-around flex-wrap">
+        <div className="p-2 mt-2 flex justify-between flex-wrap ">
           {colorBoxes?.map((colorBox) => (
-            <div className="w-1/4">
+            <div className="w-[45%]">
               <div
                 key={colorBox.color}
-                className={`flex flex-col justify-center items-center border-2 border-myblue-200 rounded-lg p-2 cursor-pointer bg-white ${
+                className={`flex flex-col justify-center items-center border-2 border-myblue-200 rounded-lg p-1 cursor-pointer bg-white ${
                   isDisabled ? "opacity-50 cursor-not-allowed" : ""
                 }`}
                 onClick={() => !isDisabled && handleColorBoxClick(colorBox)}
               >
-                <div className="text-4xl">{colorBox.icon}</div>
                 <div className="mt-2">{colorBox.title}</div>
                 <div className="">{colorBox.ratio}</div>
               </div>
@@ -344,16 +341,18 @@ function TwoMin() {
           ))}
         </div>
       </div>
-
       {/* Popup Modal */}
-      {setshowPopUp && data.countDown > 30 && (
+      {setshowPopUp && data.countDown > 11 && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-4 shadow-lg w-11/12 max-w-md mx-auto border-2 border-myblue-200">
+          <div
+            className="bg-white rounded-lg p-4 w-11/12 max-w-md mx-auto border-2 border-myblue-200 shadow-2xl relative"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="flex flex-row items-center mb-2">
               <h2 className="text-xl flex font-bold w-full items-center justify-center">
                 {selectedColor?.title}
               </h2>
-              <button onClick={closePopup} className="justify-end">
+              <button onClick={closePopup} className="absolute top-4 right-4">
                 <RxCross1 />
               </button>
             </div>
@@ -426,42 +425,40 @@ function TwoMin() {
       )}
 
       {/* WINNER DIVISION */}
-      <div className="flex flex-col w-full mb-4 bg-white h-[230px]">
+      <div className="flex flex-col w-full mb-4 bg-white h-[230px] ">
         <p className="text-xl w-full items-center justify-center flex mt-1">
           Parity Result
         </p>
-        <div className="flex flex-col justify-center w-full items-center mb-4 mt-2 border h-[1px] border-myblue-200"></div>
+        <div className="flex flex-col justify-center w-full items-center mb-4 mt-1 border h-[1px] border-myblue-200"></div>
         <div className="flex flex-col h-10 items-center w-full">
           <div className="flex flex-row w-full justify-around items-center">
             {lastPeriodData && (
               <div className="grid grid-cols-9 gap-3 w-full mx-2">
-                {lastPeriodData &&
-                  lastPeriodData
-                    ?.slice()
-                    ?.reverse()
-                    ?.map((item, index) => {
-                      const periodNumberLastThreeDigits = item?.periodNumber
-                        ?.toString()
-                        .slice(-3);
-                      return (
-                        <div key={index} className="flex flex-col items-center">
-                          <div
-                            className={`w-7 h-7 rounded-full border ${getColorClass(
-                              item?.color
-                            )}`}
-                          ></div>
-                          <span className="text-xs mt-1">
-                            {periodNumberLastThreeDigits}
-                          </span>
-                        </div>
-                      );
-                    })}
+                {lastPeriodData
+                  ?.slice()
+                  ?.reverse()
+                  ?.map((item, index) => {
+                    const periodNumberLastThreeDigits = item?.periodNumber
+                      ?.toString()
+                      .slice(-3);
+                    return (
+                      <div key={index} className="flex flex-col items-center">
+                        <div
+                          className={`w-7 h-7 rounded-full border ${getColorClass(
+                            item?.color
+                          )}`}
+                        ></div>
+                        <span className="text-xs mt-1">
+                          {periodNumberLastThreeDigits}
+                        </span>
+                      </div>
+                    );
+                  })}
               </div>
             )}
           </div>
         </div>
       </div>
-
       <div className="flex flex-col justify-around w-full items-center">
         <div className="flex flex-row w-full justify-around items-center">
           <div
@@ -489,7 +486,7 @@ function TwoMin() {
         {activeTab === "parityRecord" ? (
           <div className="flex flex-col border-t-2 border-myblue-200 w-full">
             {/* Content for Parity Record tab */}
-            <TwoMinOrder
+            <EveryOneOrder
               key={refresh}
               period={data.timerNumber}
               newBets={newBets}
@@ -501,7 +498,7 @@ function TwoMin() {
             {/* Content for User Record tab */}
             <div className="bg-white">
               <div className="flex flex-col justify-center items-center border-myblue-200 w-full">
-                {twomin && (
+                {thirtySecond && (
                   <table className="table-auto w-full">
                     <thead className="border-t-2 mt-3 border-myblue-200">
                       <tr>
@@ -509,7 +506,7 @@ function TwoMin() {
                           <div className="rounded-3xl">Number</div>
                         </th>
                         <th className="p-2">
-                          <div className="rounded-3xl">Color</div>
+                          <div className="rounded-3xl">Select</div>
                         </th>
                         <th className="p-2">
                           <div className="rounded-3xl">Amount</div>
@@ -520,7 +517,7 @@ function TwoMin() {
                       </tr>
                     </thead>
                     <tbody>
-                      {twomin?.slice(0, 10)?.map((order, index) => (
+                      {thirtySecond?.slice(0, 10)?.map((order, index) => (
                         <tr key={index} className="border-t">
                           <td className="p-2 text-center">
                             {order.periodNumber}
@@ -543,4 +540,5 @@ function TwoMin() {
     </div>
   );
 }
-export default TwoMin;
+
+export default Timer;

@@ -160,7 +160,16 @@ function Timer() {
         betAmount: betAmount,
         possiblePayout: possiblePayout[selectedColor?.title]?.toFixed(2),
       });
-      toast.success("Bet placed successfully!");
+      if (response.status === 200) {
+        toast.success("Bet placed successfully!");
+        // Reset the state of the popup
+        setSelectedColor(null);
+        setSelectedNumber(1);
+        setContractMoney(10);
+        setWinAmount(19.6);
+        setMultiplier(1);
+        closePopup();
+      }
       // console.log("Response from server:", response.data);
       if (response.status !== 200) {
         throw new Error("Error placing bet");
