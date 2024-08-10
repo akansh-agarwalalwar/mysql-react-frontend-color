@@ -17,6 +17,7 @@ import {
 import { TbReceiptRupee } from "react-icons/tb";
 import { RiChatFollowUpFill } from "react-icons/ri";
 import { AiTwotoneBank } from "react-icons/ai";
+import Wallet from "./Wallet";
 
 const sideNavData = [
   {
@@ -69,8 +70,8 @@ const ProfileMainPage = () => {
   };
 
   return (
-    <div className="flex flex-col px-8 bg-myblue-500 min-h-screen text-richblack-5 max-w-md mx-auto">
-      <div className="flex items-center mt-8">
+    <div className="flex flex-col bg-myblue-500 min-h-screen text-richblack-5 max-w-md mx-auto">
+      {/* <div className="flex items-center mt-8">
         <div className="rounded-full p-3 flex justify-center items-center -ml-5">
           {profileImage ? (
             <div
@@ -102,8 +103,14 @@ const ProfileMainPage = () => {
             </Link>
           </div>
         </div>
-      </div>
-      <div className="mt-5">
+      </div> */}
+      {/* <div className="flex w-full justify-end mt-8">
+        <Link to="/home/profile/setting">
+          <IoSettingsOutline className="rounded-full h-9 w-9 text-richblack-900" />
+        </Link>
+      </div> */}
+      <Wallet />
+      <div className="mt-5  px-8">
         <h2 className="text-xl font-bold mb-4 text-black">Quick Links</h2>
         <ul className="flex flex-col space-y-2">
           {sideNavData?.map((item, index) => (
@@ -138,12 +145,15 @@ const ProfileMainPage = () => {
           ))}
         </ul>
       </div>
-      <button
-        onClick={handleLogout}
-        className="mb-16 mt-5 font-semibold p-3 bg-myblue-200 rounded-md w-full shadow-lg"
-      >
-        Sign Out
-      </button>
+      <div className=" px-8">
+        <button
+          onClick={handleLogout}
+          className="mb-16 mt-5 font-semibold p-3  bg-myblue-200 rounded-md w-full shadow-lg"
+        >
+          Sign Out
+        </button>
+      </div>
+
       <BottomNav />
     </div>
   );

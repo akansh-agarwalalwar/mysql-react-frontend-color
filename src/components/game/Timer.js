@@ -17,6 +17,8 @@ function Timer() {
   const [userOrders, setUserOrders] = useState([]);
   const [data, setData] = useState(calculateTimerInfo);
   const { user, fetchUserData } = useContext(UserContext);
+  console.log(user);
+  const [users, setUser] = useState();
   const [periodNumber, setPeriodNumber] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedNumber, setSelectedNumber] = useState(1);
@@ -138,18 +140,41 @@ function Timer() {
     setContractMoney(10);
     setSetshowPopUp(false);
   };
-  const [betAmount, setBetAmount] = useState(0);
   const handleConfirm = async () => {
-    if (user?.balance < contractMoney * selectedNumber) {
-      setErrorMessage("Insufficient balance");
-      return;
-    }
     const betAmount = contractMoney * selectedNumber;
-    setBetAmount(betAmount);
-    if (user?.balance <= 10) {
-      setErrorMessage("Insufficient balance");
-      return;
+    let newUnplayed = user.unplayed;
+    let newBonus = user.bonus;
+    let newBalance = user.balance;
+
+    if (newUnplayed >= betAmount) {
+      // Use unplayed amount if sufficient
+      newUnplayed -= betAmount;
+      await handleBetPlacement(betAmount, newUnplayed, newBonus, newBalance);
+    } else if (newUnplayed + newBonus >= betAmount) {
+      // Use unplayed + bonus if together they are sufficient
+      const remainingAmount = betAmount - newUnplayed;
+      newUnplayed = 0;
+      newBonus -= remainingAmount;
+      await handleBetPlacement(betAmount, newUnplayed, newBonus, newBalance);
+    } else if (newUnplayed + newBonus + newBalance >= betAmount) {
+      // Use unplayed + bonus + balance if together they are sufficient
+      const remainingAmount = betAmount - newUnplayed - newBonus;
+      newUnplayed = 0;
+      newBonus = 0;
+      newBalance -= remainingAmount;
+      await handleBetPlacement(betAmount, newUnplayed, newBonus, newBalance);
+    } else {
+      // All amounts combined are insufficient
+      setErrorMessage("Insufficient balance or funds to place the bet");
     }
+  };
+
+  const handleBetPlacement = async (
+    betAmount,
+    newUnplayed,
+    newBonus,
+    newBalance
+  ) => {
     try {
       const response = await axios.post("https://api.perfectorse.site/place-bet", {
         userId: user.userId,
@@ -160,37 +185,45 @@ function Timer() {
         betAmount: betAmount,
         possiblePayout: possiblePayout[selectedColor?.title]?.toFixed(2),
       });
+
       if (response.status === 200) {
         toast.success("Bet placed successfully!");
-        // Reset the state of the popup
         setSelectedColor(null);
         setSelectedNumber(1);
         setContractMoney(10);
         setWinAmount(19.6);
         setMultiplier(1);
         closePopup();
-      }
-      // console.log("Response from server:", response.data);
-      if (response.status !== 200) {
+        setUserOrders((prevOrders) => [
+          ...prevOrders,
+          {
+            periodNumber: data.timerNumber,
+            betType: selectedColor?.title,
+            betAmount,
+            possiblePayout: possiblePayout[selectedColor?.title]?.toFixed(2),
+          },
+        ]);
+        await fetchUserData(); // Refresh user data
+      } else {
         throw new Error("Error placing bet");
       }
-      // console.log("Bet placed successfully:", response.data);
-      setUserOrders((prevOrders) => [
-        ...prevOrders,
-        {
-          periodNumber: data.timerNumber,
-          betType: selectedColor?.title,
-          betAmount,
-          possiblePayout: possiblePayout[selectedColor?.title]?.toFixed(2),
-        },
-      ]);
-      await fetchUserData();
+
+      // Update the user state with the new amounts
+      setUser((prevUser) => ({
+        ...prevUser,
+        unplayed: newUnplayed,
+        bonus: newBonus,
+        balance: newBalance ?? prevUser.balance, // Use the old balance if newBalance is undefined
+      }));
     } catch (error) {
-      // console.error("Error placing bet:", error);
+      console.error("Error placing bet:", error);
+      setErrorMessage("Error placing bet");
     }
+
     closePopup();
     setSetshowPopUp(false);
   };
+
   const getWinPopUp = async () => {
     try {
       const res = await axios.get(
@@ -417,6 +450,7 @@ function Timer() {
                 onChange={(e) =>
                   handleContractMoneyChange(Number(e.target.value))
                 }
+                readOnly
                 className="p-2 border rounded-lg w-full mt-1"
               />
             </div>
@@ -424,15 +458,21 @@ function Timer() {
               <button
                 onClick={handleConfirm}
                 disabled={
-                  contractMoney < 10 ||
-                  user?.balance < contractMoney ||
-                  contractMoney > user?.balance
+                  contractMoney < 10 || // Minimum contract money check
+                  !(
+                    user?.unplayed >= contractMoney || // Check if unplayed amount is sufficient
+                    user?.bonus >= contractMoney || // Check if bonus amount is sufficient
+                    user?.balance >= contractMoney
+                  ) // Check if balance amount is sufficient
                 }
                 className={`bg-myblue-200 p-2 rounded-lg w-full shadow-lg text-white ${
-                  contractMoney < 10 ||
-                  user?.balance < contractMoney ||
-                  contractMoney > user?.balance
-                    ? "opacity-50 cursor-not-allowed"
+                  contractMoney < 10 || // Minimum contract money check
+                  !(
+                    user?.unplayed >= contractMoney || // Check if unplayed amount is sufficient
+                    user?.bonus >= contractMoney || // Check if bonus amount is sufficient
+                    user?.balance >= contractMoney
+                  ) // Check if balance amount is sufficient
+                    ? "opacity-50 cursor-not-allowed" // Disable button and apply styles
                     : ""
                 }`}
               >

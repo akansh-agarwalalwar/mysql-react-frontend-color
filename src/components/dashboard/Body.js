@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import fastParity30sec from "../../images/game_one.jpg";
 import fastParityTwoMin from "../../images/game_two.jpg";
 import upcomingOne from "../../images/game_three.jpg";
+import heads from "../../images/heads.jpg";
+
 export default function Body() {
   return (
     <div className="flex flex-col justify-between mt-5 px-2 overflow-y-auto overflow-scroll pb-8 ">
@@ -51,7 +53,7 @@ export default function Body() {
           {/* <Link to="/heads"> */}
           <div className="flex flex-col backdrop-blur-sm bg-white h-40 rounded-lg border-2 border-myblue-200 relative overflow-hidden justify-center">
               <img
-                src={upcomingOne}
+                src={heads}
                 className="object-cover w-full h-full"
                 alt=""
               />

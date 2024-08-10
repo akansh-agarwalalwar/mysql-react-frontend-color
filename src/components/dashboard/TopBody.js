@@ -5,29 +5,37 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 export default function TopBody() {
   const { user, fetchUserData } = useContext(UserContext);
-  
+
   useEffect(() => {
     fetchUserData();
   }, []);
-  
-  const [balance, setBalance] = useState(user.balance !== undefined ? user.balance : "Loading...");
+
+  const [balance, setBalance] = useState(
+    user.balance !== undefined ? user.balance : "Loading..."
+  );
 
   return (
     <div className="w-full text-white bg-myblue-200 h-[150px] rounded-b-2xl px-6 flex items-center">
       <div className="flex w-full justify-between items-center">
-        <div>
-          <p>Balance</p>
-          <p className="flex items-center gap-2 text-xl font-semibold">
-            {user?.balance}
-            <IoReload className="cursor-pointer" onClick={fetchUserData} />
-          </p>
-          <p className="text-richblue-5 text-sm">
-            ID:
-            <span className="text-richblue-5 text-sm uppercase">
-              {user?.userId}
-            </span>
-          </p>
+        <div className="flex flex-row gap-2 items-center justify-center">
+          <div>
+            <img src={require("../../images/bank.png")} />
+          </div>
+          <div>
+            <p>Balance</p>
+            <p className="flex items-center gap-2 text-xl font-semibold">
+              {user?.balance ? `₹ ${user.balance}` : "₹ 0"}
+              <IoReload className="cursor-pointer" onClick={fetchUserData} />
+            </p>
+            <p className="text-richblue-5 text-sm">
+              ID:
+              <span className="text-richblue-5 text-sm uppercase">
+                {user?.userId}
+              </span>
+            </p>
+          </div>
         </div>
+
         <div className="flex flex-col-reverse gap-2">
           <Link to="/home/recharge">
             <button className="bg-pink-400 w-fit text-white font-semibold py-1 px-2 rounded">

@@ -8,7 +8,7 @@ const BottomNav = () => {
   const location = useLocation();
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-myblue-100 shadow-lg border-t border-richblack-700 max-w-md mx-auto">
+    <div className="fixed bottom-0 left-0 right-0 bg-myblue-100 shadow-lg border-richblack-700 max-w-md mx-auto">
       <div className="flex justify-around py-2">
         <NavLink to="/home" label="Home" icon={<FaHome />} isActive={location.pathname === "/home"} />
         <NavLink to="/home/invite" label="Earn" icon={<LuBadgeDollarSign />} isActive={location.pathname === "/home/invite"} />
