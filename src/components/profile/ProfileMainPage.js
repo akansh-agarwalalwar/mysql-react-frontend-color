@@ -47,7 +47,7 @@ const sideNavData = [
   {
     title: "Support",
     icon: <MdContactSupport />,
-    onClick: () => window.open("https://t.me/Perfectorse", "_blank"),
+    onClick: () => window.open("https://t.me/+bp_hjMGPihwyN2E9", "_blank"),
   },
 ];
 

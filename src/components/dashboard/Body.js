@@ -48,7 +48,7 @@ export default function Body() {
       </div>
       <div className="flex flex-row mt-4 pb-9">
         <div className="w-full mr-2">
-          <Link to="/heads">
+          {/* <Link to="/heads"> */}
           <div className="flex flex-col backdrop-blur-sm bg-white h-40 rounded-lg border-2 border-myblue-200 relative overflow-hidden justify-center">
               <img
                 src={upcomingOne}
@@ -61,7 +61,7 @@ export default function Body() {
                 </p>
               </div>
             </div>
-          </Link>
+          {/* </Link> */}
         </div>
         <div className="w-full mr-1">
           <Link>
