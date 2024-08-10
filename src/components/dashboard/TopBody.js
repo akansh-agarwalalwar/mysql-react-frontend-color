@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import UserContext from "../login/UserContext";
 import { IoReload } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import axios from "axios";
 export default function TopBody() {
   const { user, fetchUserData } = useContext(UserContext);
 
@@ -38,12 +37,12 @@ export default function TopBody() {
 
         <div className="flex flex-col-reverse gap-2">
           <Link to="/home/recharge">
-            <button className="bg-pink-400 w-fit text-white font-semibold py-1 px-2 rounded">
+            <button className="bg-red-100 w-fit text-white font-semibold py-1 px-2 rounded">
               Recharge
             </button>
           </Link>
           <Link to="/withdraw">
-            <button className="bg-caribbeangreen-300 w-fit text-white font-semibold py-1 px-2 rounded">
+            <button className="bg-green-100 w-fit text-white font-semibold py-1 px-2 rounded">
               Withdraw
             </button>
           </Link>

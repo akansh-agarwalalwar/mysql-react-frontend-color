@@ -15,7 +15,7 @@ function Invite() {
 
   useEffect(() => {
     if (user?.userId) {
-      inviteReferCode(user?.userId);
+      inviteReferCode(user.userId);
     }
   }, [user]);
 
@@ -23,7 +23,7 @@ function Invite() {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://api.perfectorse.site/api/v1/user/refer-and-earn/${userId}`
+        `https://api.perfectorse.ste/api/v1/user/refer-and-earn/${userId}`
       );
       const data = response.data;
       setReferCode(data?.userReferenceCode);
@@ -47,8 +47,30 @@ function Invite() {
 
   const handleCouponChange = (e) => {
     const input = e.target.value.toUpperCase();
-    if (/^[A-Z]*$/.test(input)) {
+    if (/^[A-Z0-9]*$/.test(input)) {
       setCouponCode(input);
+    }
+  };
+
+  const addCoupon = async () => {
+    if (!user?.userId) {
+      toast.error("User not logged in.");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "https://api.perfectorse.ste/api/v1/financial/redeem-coupon",
+        { coupon: couponCode, userId: user.userId }
+      );
+      console.log(couponCode, user.userId);
+      if (response.status === 200) {
+        toast.success("Coupon redeemed successfully!");
+        setCouponCode("");
+      }
+    } catch (error) {
+      console.error("Error redeeming coupon:", error);
+      toast.error("Already Claimed!");
     }
   };
 
@@ -67,7 +89,8 @@ function Invite() {
             Invite Friends & Earn Rewards
           </h1>
           <p className="text-sm text-gray-500 mb-6 text-center">
-            Share your referral code and your friends will get a bonus of up to Rs. 250.
+            Share your referral code and your friends will get a bonus of up to
+            Rs. 250.
           </p>
           {loading ? (
             <p className="text-gray-500">Loading...</p>
@@ -100,7 +123,10 @@ function Invite() {
               onChange={handleCouponChange}
               className="flex-grow p-2 border border-myblue-200 rounded-md focus:outline-none focus:ring-2 focus:ring-myblue-300"
             />
-            <button className="bg-myblue-200 text-white px-4 py-2 rounded-md hover:bg-myblue-700 transition">
+            <button
+              onClick={addCoupon}
+              className="bg-myblue-200 text-white px-4 py-2 rounded-md hover:bg-myblue-700 transition"
+            >
               Claim
             </button>
           </div>

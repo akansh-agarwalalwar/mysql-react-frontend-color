@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import fastParity30sec from "../../images/game_one.jpg";
-import fastParityTwoMin from "../../images/game_two.jpg";
+import fastParity30sec from "../../images/thirty_second.jpg";
+import fastParityTwoMin from "../../images/two_min.jpg";
 import upcomingOne from "../../images/game_three.jpg";
 import heads from "../../images/heads.jpg";
 
@@ -12,9 +12,9 @@ export default function Body() {
         <div className="w-full mr-2">
           <Link to="/thirty-second-page">
             <div className="flex flex-col bg-white h-40 rounded-lg border-2 border-myblue-200 relative overflow-hidden">
-              <div className="flex justify-center items-center h-7 w-[50px] rounded-md border border-myblue-200 absolute bg-opacity-30 bg-backdrop-blur-sm z-10">
+              {/* <div className="flex justify-center items-center h-7 w-[50px] rounded-md border border-myblue-200 absolute bg-opacity-30 bg-backdrop-blur-sm z-10">
                 <p className="text-sm text-white">30sec</p>
-              </div>
+              </div> */}
               <img
                 src={fastParity30sec}
                 className="object-cover w-full h-full"
@@ -31,9 +31,9 @@ export default function Body() {
         <div className="w-full mr-1">
           <Link to="/threeMin">
             <div className="flex flex-col bg-white h-40 rounded-lg border-2 border-myblue-200 relative overflow-hidden">
-              <div className="flex justify-center items-center h-7 w-[50px] rounded-md border border-myblue-200 absolute bg-opacity-30 bg-backdrop-blur-sm z-10">
+              {/* <div className="flex justify-center items-center h-7 w-[50px] rounded-md border border-myblue-200 absolute bg-opacity-30 bg-backdrop-blur-sm z-10">
                 <p className="text-sm text-white">2min</p>
-              </div>
+              </div> */}
               <img
                 src={fastParityTwoMin}
                 className="object-cover w-full h-full"

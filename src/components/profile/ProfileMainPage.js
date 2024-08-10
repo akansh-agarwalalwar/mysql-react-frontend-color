@@ -21,6 +21,11 @@ import Wallet from "./Wallet";
 
 const sideNavData = [
   {
+    title: "Profile",
+    icon: <IoSettingsOutline />,
+    path: "/home/profile/setting",
+  },
+  {
     title: "Order Record",
     icon: <MdLibraryBooks />,
     path: "/home/profile/order-record",

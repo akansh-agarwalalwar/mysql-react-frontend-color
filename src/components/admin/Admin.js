@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { RxCross1 } from "react-icons/rx";
+import CreateCoupon from "./CreateCoupon";
 export default function AdminDashboard() {
   const [users, setUsers] = useState([]);
   const [approveUser, setApproveUser] = useState([]);
@@ -20,7 +21,7 @@ export default function AdminDashboard() {
   const fetchUsers = async () => {
     try {
       const response = await fetch(
-        "https://api.perfectorse.site/api/v1/admin/all-users"
+        "https://api.perfectorse.ste/api/v1/admin/all-users"
       );
       if (!response.ok) throw new Error("Network response was not ok");
       const data = await response.json();
@@ -33,7 +34,7 @@ export default function AdminDashboard() {
   const fetchApproveUser = async () => {
     try {
       const response = await fetch(
-        "https://api.perfectorse.site/api/v1/admin/pendingPayment"
+        "https://api.perfectorse.ste/api/v1/admin/pendingPayment"
       );
       if (!response.ok) throw new Error("Network response was not ok");
       const data = await response.json();
@@ -46,7 +47,7 @@ export default function AdminDashboard() {
   const fetchToPayUser = async () => {
     try {
       const response = await fetch(
-        "https://api.perfectorse.site/api/v1/admin/withdrawlHistory"
+        "https://api.perfectorse.ste/api/v1/admin/withdrawlHistory"
       );
       if (!response.ok) throw new Error("Network response was not ok");
       const data = await response.json();
@@ -64,7 +65,7 @@ export default function AdminDashboard() {
     if (confirmCreate) {
       try {
         const response = await axios
-          .post("https://api.perfectorse.site/api/v1/admin/createUser", {
+          .post("https://api.perfectorse.ste/api/v1/admin/createUser", {
             username,
             mobileNumber,
             email,
@@ -264,6 +265,7 @@ export default function AdminDashboard() {
           </div>
         )}
       </div>
+      <CreateCoupon />
     </div>
   );
 }
