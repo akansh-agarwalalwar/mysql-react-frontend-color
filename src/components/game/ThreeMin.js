@@ -48,7 +48,7 @@ function TwoMin() {
   const fetchLastPeriodData = async () => {
     try {
       const response = await axios.get(
-        "https://api.perfectorse.ste/api/v1/user/winner-two-min"
+        "https://api.perfectorse.site/api/v1/user/winner-two-min"
       );
       const data = response?.data;
       setLastPeriodData(data);
@@ -69,7 +69,7 @@ function TwoMin() {
     try {
       // setLoading(true);
       const response = await axios.get(
-        `https://api.perfectorse.ste/api/v1/financial/two-min-history/${userId}`
+        `https://api.perfectorse.site/api/v1/financial/two-min-history/${userId}`
       );
       if (response.status === 200) {
         setTwomin(response?.data);
@@ -222,7 +222,7 @@ function TwoMin() {
   ) => {
     try {
       const response = await axios.post(
-        "https://api.perfectorse.ste/place-bet/two-min",
+        "https://api.perfectorse.site/place-bet/two-min",
         {
           userId: user.userId,
           periodNumber: data.timerNumber,

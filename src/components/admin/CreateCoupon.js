@@ -9,7 +9,7 @@ function CreateCoupon() {
   const createCoupon = async () => {
     try {
       const response = await axios.post(
-        "https://api.perfectorse.ste/api/v1/admin/create-coupon",
+        "https://api.perfectorse.site/api/v1/admin/create-coupon",
         { coupon, amount }
       );
       
