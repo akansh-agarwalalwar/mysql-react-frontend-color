@@ -12,6 +12,8 @@ import { IoIosTrophy } from "react-icons/io";
 import calculateTimerInfoTwoMin from "./calculateTimerInfoTwoMin";
 import toast from "react-hot-toast";
 import { LuAlarmClock } from "react-icons/lu";
+import { IoIosArrowBack } from "react-icons/io";
+
 function TwoMin() {
   const [data, setData] = useState(calculateTimerInfoTwoMin);
   const { user, fetchUserData } = useContext(UserContext);
@@ -323,13 +325,15 @@ function TwoMin() {
     }
   }, [data.countDown]);
   return (
-    <div className="flex flex-col bg-myblue-500 min-h-screen max-w-md mx-auto relative">
+    <div className="flex flex-col bg-myblue-800 min-h-screen max-w-md mx-auto relative">
       {/* Header */}
-      <div className="flex flex-row bg-myblue-200 w-full text-white items-center h-12 md:h-8">
-        <Link to="/home">
-          <FaArrowLeftLong className="mx-2" />
+      <div className="flex items-center bg-white w-full text-black py-3 px-4">
+        <Link to="/home" className="mr-4">
+          <div className="bg-myblue-800 p-2">
+            <IoIosArrowBack size={20} />
+          </div>
         </Link>
-        <p className="text-xl">Crazy2PM</p>
+        <p className="text-xl font-bold">Crazy2PM</p>
       </div>
       {/* Timer Section */}
       <div className="w-full">

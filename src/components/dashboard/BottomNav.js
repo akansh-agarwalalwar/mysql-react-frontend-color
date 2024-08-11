@@ -31,7 +31,7 @@ const NavLink = ({ to, icon, label, isActive }) => {
     <Link
       to={to}
       onClick={handleClick}
-      className={`relative flex flex-col items-center focus:outline-none transition duration-300 ${isActive ? "text-secondary" : "text-myblue-200"}`}
+      className={`relative flex flex-col items-center focus:outline-none transition duration-300 ${isActive ? "text-myblue-200" : "text-black"}`}
     >
       <motion.div
         whileHover={{ scale: 1.1 }}

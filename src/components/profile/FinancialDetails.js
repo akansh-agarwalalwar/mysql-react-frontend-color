@@ -4,6 +4,7 @@ import UserContext from "../login/UserContext";
 import { Link } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import { IoIosArrowBack } from "react-icons/io";
 
 function FinancialDetails() {
   const { user } = useContext(UserContext);
@@ -62,20 +63,21 @@ function FinancialDetails() {
   };
 
   return (
-    <div className="container px-4 py-8 bg-myblue-500 h-screen max-w-md mx-auto">
-      <div className="w-full bg-myblue-200 h-12 px-3 flex items-center justify-center fixed top-0 left-0">
-        <div className="absolute left-0 ml-2">
-          <Link to="/home/profile">
-            <FaArrowLeftLong size={20} className="text-white mx-2" />
-          </Link>
+    <div className=" bg-myblue-800 h-screen max-w-md mx-auto">
+      <div className="flex flex-col bg-myblue-800 h-screen">
+        <div>
+          <div className="flex items-center bg-white w-full text-black py-3 px-4">
+            <Link to="/home/profile" className="mr-4">
+              <div className="bg-myblue-800 p-2">
+                <IoIosArrowBack size={20} />
+              </div>
+            </Link>
+            <p className="text-xl font-bold">Financial Details</p>
+          </div>
         </div>
-        <div className="flex items-center justify-center">
-          <h1 className="text-xl text-white">Financial Details</h1>
-        </div>
-      </div>
-      <div className="flex justify-around items-center mb-8 mt-8">
+      <div className="flex justify-around items-center mb-8 mt-8 px-3">
         <div
-          className={`cursor-pointer p-2 ${
+          className={`cursor-pointer p-2 w-full flex justify-center items-center mr-2  ${
             activeHistory === "recharge" ? "bg-myblue-200" : "bg-white"
           } rounded-md shadow-md`}
           onClick={() => handleTabClick("recharge")}
@@ -83,7 +85,7 @@ function FinancialDetails() {
           Recharge History
         </div>
         <div
-          className={`cursor-pointer p-2 ${
+          className={`cursor-pointer p-2 w-full flex justify-center items-center ml-2  ${
             activeHistory === "withdraw" ? "bg-myblue-200" : " bg-white"
           } rounded-md shadow-md`}
           onClick={() => handleTabClick("withdraw")}
@@ -103,7 +105,7 @@ function FinancialDetails() {
             ? rechargeHistory?.slice()?.reverse()?.map((recharge) => (
                 <div
                   key={recharge.id}
-                  className="bg-white rounded-lg p-6 border-2 shadow-xl border-myblue-200"
+                  className="bg-white rounded-lg p-6 shadow-xl mx-3 "
                 >
                   <p>
                     <span className="font-semibold">Amount:</span>{" "}
@@ -121,7 +123,7 @@ function FinancialDetails() {
             : withdrawHistory?.slice()?.reverse()?.map((withdrawal) => (
                 <div
                   key={withdrawal.id}
-                  className="bg-white rounded-lg p-6 shadow-xl border-2 border-myblue-200 "
+                  className="bg-white rounded-lg p-6 shadow-xl mx-3 "
                 >
                   <p>
                     <span className="font-semibold">Amount:</span>{" "}
@@ -138,6 +140,7 @@ function FinancialDetails() {
               ))}
         </div>
       )}
+      </div>
     </div>
   );
 }

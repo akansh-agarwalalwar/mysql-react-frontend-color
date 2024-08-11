@@ -11,7 +11,7 @@ function Wallet() {
           {/* Balance Section */}
           <div className="h-16 flex flex-col items-center justify-center text-black mb-4">
             <p className="text-lg">Wallet Balance</p>
-            <p className="text-3xl font-bold">
+            <p className="text-3xl font-bold text-myblue-200">
               {user?.balance ? `₹${user.balance}` : "₹0"}
             </p>
           </div>

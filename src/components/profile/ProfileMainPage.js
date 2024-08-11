@@ -115,7 +115,7 @@ const ProfileMainPage = () => {
         </Link>
       </div> */}
       <Wallet />
-      <div className="mt-5  px-8">
+      <div className="mt-5 px-8">
         <h2 className="text-xl font-bold mb-4 text-black">Quick Links</h2>
         <ul className="flex flex-col space-y-2">
           {sideNavData?.map((item, index) => (
@@ -150,7 +150,7 @@ const ProfileMainPage = () => {
           ))}
         </ul>
       </div>
-      <div className=" px-8">
+      <div className="px-8">
         <button
           onClick={handleLogout}
           className="mb-16 mt-5 font-semibold p-3  bg-myblue-200 rounded-md w-full shadow-lg"

@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import BottomNav from "../dashboard/BottomNav";
 import UserContext from "../login/UserContext";
+import { IoIosArrowBack } from "react-icons/io";
 
 const Recharge = () => {
   const [amount, setAmount] = useState("");
@@ -26,18 +27,20 @@ const Recharge = () => {
   );
 
   return (
-    <div className="bg-myblue-500 h-screen max-w-md mx-auto">
-      <div className="flex flex-row bg-myblue-200 w-full text-white items-center h-12">
-        <Link to="/home">
-          <FaArrowLeftLong size={20} className="mx-4" />
+    <div className="bg-myblue-800 h-screen max-w-md mx-auto">
+      <div className="flex items-center bg-white w-full text-black py-3 px-4">
+        <Link to="/home" className="mr-4">
+          <div className="bg-myblue-800 p-2">
+            <IoIosArrowBack size={20} />
+          </div>
         </Link>
-        <p className="text-xl font-bold -mt-1">Recharge</p>
+        <p className="text-xl font-bold">Recharge</p>
       </div>
       <div className="flex flex-col mx-5 mt-5">
         <div>
           <p>Enter the recharge amount</p>
         </div>
-        <div className="mb-4 mt-2 w-full border shadow-xl rounded-md">
+        <div className="mb-4 mt-2 w-full border rounded-md">
           <input
             type="number"
             id="amount"
@@ -51,7 +54,7 @@ const Recharge = () => {
           {[500, 1000, 2500, 10000]?.map((value) => (
             <button
               key={value}
-              className="p-2 text-myblue-400 rounded-md border border-myblue-200"
+              className="p-2 rounded-md border"
               onClick={() => setAmount(value.toString())}
             >
               {value}
@@ -61,7 +64,7 @@ const Recharge = () => {
         <button
           onClick={handleRecharge}
           disabled={isRechargeButtonDisabled}
-          className={`mt-4 p-3 bg-myblue-200 text-white rounded-md font-bold ${
+          className={`mt-4 p-3 bg-myblue-200 rounded-md font-bold text-white ${
             isRechargeButtonDisabled && "opacity-50 cursor-not-allowed"
           }`}
         >
@@ -81,7 +84,7 @@ const Recharge = () => {
           <div className="mt-3">
             <p className="font-bold text-sm">2. Pay with QR Code</p>
             <p className="ml-4 text-sm">
-              Scan a QR code using Paytm and pay the amount 
+              Scan a QR code using Paytm and pay the amount
             </p>
           </div>
           <div className="mt-3">

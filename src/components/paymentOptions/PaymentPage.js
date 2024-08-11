@@ -6,6 +6,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import UserContext from "../login/UserContext";
 import QR from "../../images/qr_code.jpg";
+import { IoIosArrowBack } from "react-icons/io";
 
 function PaymentPage() {
   const navigate = useNavigate();
@@ -72,12 +73,14 @@ function PaymentPage() {
   const isConfirmButtonDisabled = inputValue.length !== 12 || loading;
 
   return (
-    <div className="bg-myblue-500 h-screen max-w-md mx-auto">
-      <div className="flex flex-row bg-myblue-200 w-full text-white items-center h-12">
-        <Link to="/home">
-          <FaArrowLeftLong className="mx-3" />
+    <div className="bg-myblue-800 h-screen max-w-md mx-auto">
+      <div className="flex items-center bg-white w-full text-black py-3 px-4">
+        <Link to="/home" className="mr-4">
+          <div className="bg-myblue-800 p-2">
+            <IoIosArrowBack size={20} />
+          </div>
         </Link>
-        <p className="text-xl">Submit Request</p>
+        <p className="text-xl font-bold">Submit Request</p>
       </div>
       <div className="flex flex-col items-center mt-8">
         <div className="h-[70px] w-[80px]">

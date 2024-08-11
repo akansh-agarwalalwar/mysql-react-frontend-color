@@ -14,7 +14,7 @@ export default function TopBody() {
   );
 
   return (
-    <div className="w-full text-white bg-myblue-200 h-[150px] rounded-b-2xl px-6 flex items-center">
+    <div className="w-full text-black bg-white h-[150px] rounded-b-2xl px-6 flex items-center shadow-2xl">
       <div className="flex w-full justify-between items-center">
         <div className="flex flex-row gap-2 items-center justify-center">
           <div>
@@ -22,13 +22,13 @@ export default function TopBody() {
           </div>
           <div>
             <p>Balance</p>
-            <p className="flex items-center gap-2 text-xl font-semibold">
+            <p className="flex items-center gap-2 text-xl font-semibold text-myblue-200">
               {user?.balance ? `₹ ${user.balance}` : "₹ 0"}
               <IoReload className="cursor-pointer" onClick={fetchUserData} />
             </p>
-            <p className="text-richblue-5 text-sm">
+            <p className="text-black text-sm">
               ID:
-              <span className="text-richblue-5 text-sm uppercase">
+              <span className="text-black text-sm uppercase">
                 {user?.userId}
               </span>
             </p>
@@ -37,12 +37,12 @@ export default function TopBody() {
 
         <div className="flex flex-col-reverse gap-2">
           <Link to="/home/recharge">
-            <button className="bg-red-100 w-fit text-white font-semibold py-1 px-2 rounded">
+            <button className="bg-pink-300 w-fit text-white font-semibold py-1 px-2 rounded">
               Recharge
             </button>
           </Link>
           <Link to="/withdraw">
-            <button className="bg-green-100 w-fit text-white font-semibold py-1 px-2 rounded">
+            <button className="bg-caribbeangreen-100 w-fit text-white font-semibold py-1 px-2 rounded">
               Withdraw
             </button>
           </Link>

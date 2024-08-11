@@ -20,7 +20,10 @@ module.exports = {
         200: "#39A7FF",
         300: "#EEF7FF",
         400: "#4D869C",
-        500: "#F5F6FA",
+        500: "#FFF",
+        600:"#E7F1FE",
+        700:'#39A7FF',
+        800:'#F5F6FA'
       },
       richblack: {
         5: "#F1F2FF",

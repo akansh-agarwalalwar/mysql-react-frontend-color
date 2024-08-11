@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useState } from "react";
 import { FaArrowLeftLong, FaCopy } from "react-icons/fa6";
+import { IoIosArrowBack } from "react-icons/io";
 import { Link } from "react-router-dom";
 import UserContext from "../login/UserContext";
 import BottomNav from "./BottomNav";
@@ -68,24 +69,34 @@ function Invite() {
         toast.success("Coupon redeemed successfully!");
         setCouponCode("");
       }
+      if (response.status === 404) {
+        toast.error("Coupon Coupon Not Found!");
+        setCouponCode("");
+      }
+      if (response.status === 400) {
+        toast.error("Already Claimed!");
+        setCouponCode("");
+      }
     } catch (error) {
       console.error("Error redeeming coupon:", error);
-      toast.error("Already Claimed!");
+      toast.error("Error Claiming Coupon!");
     }
   };
 
   return (
-    <div className="flex flex-col w-full h-screen bg-myblue-500 max-w-md mx-auto">
-      <div className="flex items-center bg-myblue-200 w-full text-white py-3 px-4">
+    <div className="flex flex-col w-full h-screen bg-myblue-800 max-w-md mx-auto">
+      <div className="flex items-center bg-white w-full text-black py-3 px-4">
         <Link to="/home" className="mr-4">
-          <FaArrowLeftLong size={20} />
+          <div className="bg-myblue-800 p-2">
+            <IoIosArrowBack size={20} />
+          </div>
         </Link>
         <p className="text-xl font-bold">Invite & Earn</p>
       </div>
 
       <div className="flex flex-col items-center justify-center flex-grow space-y-6">
-        <div className="w-[90%] max-w-lg bg-white rounded-lg p-6 shadow-lg border border-myblue-200">
-          <h1 className="text-lg font-bold mb-4 text-myblue-700">
+        <div className="w-[90%] max-w-lg bg-white rounded-lg p-6 shadow-lg">
+          <h1 className="text-lg font-bold mb-4 text-black">
             Invite Friends & Earn Rewards
           </h1>
           <p className="text-sm text-gray-500 mb-6 text-center">
@@ -111,8 +122,8 @@ function Invite() {
           )}
         </div>
 
-        <div className="w-[90%] max-w-lg bg-white rounded-lg p-6 shadow-lg border border-myblue-200">
-          <h2 className="text-md font-semibold text-myblue-700 mb-4">
+        <div className="w-[90%] max-w-lg bg-white rounded-lg p-6 shadow-lg">
+          <h2 className="text-md font-semibold text-black mb-4">
             Redeem Coupon Code
           </h2>
           <div className="flex items-center space-x-3">
@@ -121,7 +132,7 @@ function Invite() {
               placeholder="Enter Coupon Code"
               value={couponCode}
               onChange={handleCouponChange}
-              className="flex-grow p-2 border border-myblue-200 rounded-md focus:outline-none focus:ring-2 focus:ring-myblue-300"
+              className="flex-grow p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-myblue-300"
             />
             <button
               onClick={addCoupon}

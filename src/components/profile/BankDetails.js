@@ -4,6 +4,8 @@ import UserContext from "../login/UserContext";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { IoIosArrowBack } from "react-icons/io";
+
 function BankDetails() {
   const { user } = useContext(UserContext);
   const [accountNumber, setAccountNumber] = useState("");
@@ -93,23 +95,20 @@ function BankDetails() {
   };
   return (
     <div className="max-w-md mx-auto">
-      <div className="flex flex-col bg-myblue-500 h-screen">
+      <div className="flex flex-col bg-myblue-800 h-screen">
         <div>
-          <div className="text-white bg-myblue-200 h-12 px-3 flex items-center justify-center top-0 w-full">
-            <div className="flex absolute left-0 ml-2">
-              <Link to="/home/profile">
-                <FaArrowLeftLong size={20} className="mx-2" />
-              </Link>
-            </div>
-            <div className="flex ml-4">
-              <h1 className="text-xl">Bank Details</h1>
-            </div>
-            <div className="flex absolute right-0 mr-2"></div>
+          <div className="flex items-center bg-white w-full text-black py-3 px-4">
+            <Link to="/home/profile" className="mr-4">
+              <div className="bg-myblue-800 p-2">
+                <IoIosArrowBack size={20} />
+              </div>
+            </Link>
+            <p className="text-xl font-bold">Bank Details</p>
           </div>
         </div>
         <div className="flex flex-col flex-grow mx-5 my-5 mt-8">
           {bankDetailsAvailable && !isEditing ? (
-            <div className="p-8 w-full flex flex-row justify-between border-2 border-myblue-200 shadow-xl bg-white rounded-2xl">
+            <div className="p-8 w-full flex flex-row justify-between shadow-xl bg-white rounded-2xl">
               <div className="mb-4">
                 <label className="block text-md font-bold mb-2">
                   Account Number
@@ -142,8 +141,8 @@ function BankDetails() {
               </div>
             </div>
           ) : (
-            <div className="p-8 w-full border-2 my-5 mt-10 shadow-xl border-myblue-200 bg-white">
-              <h2 className="text-xl font-bold mb-4 text-center">
+            <div className="p-8 w-full my-5 mt-10 shadow-xl bg-white">
+              <h2 className="text-xl font-bold mb-4 text-center text-myblue-200">
                 {bankDetailsAvailable
                   ? "Edit Bank Account"
                   : "Add Bank Account"}
@@ -155,7 +154,7 @@ function BankDetails() {
               >
                 <div className="mb-4">
                   <label
-                    className="block text-myblue-200 text-sm font-bold mb-2"
+                    className="block text-black text-sm font-bold mb-2"
                     htmlFor="accountNumber"
                   >
                     Account Number
@@ -171,7 +170,7 @@ function BankDetails() {
                 </div>
                 <div className="mb-6">
                   <label
-                    className="block text-myblue-200 text-sm font-bold mb-2"
+                    className="block text-black text-sm font-bold mb-2"
                     htmlFor="ifscCode"
                   >
                     IFSC Code

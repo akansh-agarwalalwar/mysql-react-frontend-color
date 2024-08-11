@@ -6,6 +6,8 @@ import axios from "axios";
 import debounce from "lodash.debounce";
 import toast from "react-hot-toast";
 import "../../index.css";
+import { IoIosArrowBack } from "react-icons/io";
+
 function Withdraw() {
   const { user } = useContext(UserContext);
   const [amountset, setAmountset] = useState("");
@@ -83,14 +85,16 @@ function Withdraw() {
   const debouncedHandleWithdraw = debounce(handleWithdraw, 500);
 
   return (
-    <div className="no-bottom-nav flex flex-col h-screen w-full bg-myblue-500 max-w-md mx-auto justify-between">
+    <div className="no-bottom-nav flex flex-col h-screen w-full bg-myblue-800 max-w-md mx-auto justify-between">
       <div>
-        <div className="flex flex-row bg-myblue-200 w-full text-white items-center h-12">
-          <Link to="/home">
-            <FaArrowLeftLong className="mx-3" />
-          </Link>
-          <p className="text-xl">Withdraw</p>
-        </div>
+      <div className="flex items-center bg-white w-full text-black py-3 px-4">
+        <Link to="/home" className="mr-4">
+          <div className="bg-myblue-800 p-2">
+            <IoIosArrowBack size={20} />
+          </div>
+        </Link>
+        <p className="text-xl font-bold">Withdraw</p>
+      </div>
         <div className="relative mt-6">
           <div className="my-4 text-center">
             <p className="text-xl">
@@ -121,10 +125,10 @@ function Withdraw() {
         ) : (
           <div>
             <button
-              className="bg-myblue-200 rounded-md w-full h-9"
+              className="bg-myblue-200 rounded-md w-full h-12 mb-2"
               onClick={handleAddBankDetails}
             >
-              <p className="text-xl font-bold text-white">Add Bank Details</p>
+              <p className="text-xl font-bold text-white ">Add Bank Details</p>
             </button>
           </div>
         )}
@@ -134,7 +138,7 @@ function Withdraw() {
         <div>
           <input
             type="number"
-            className="w-full h-10 p-1 border rounded-md border-myblue-200"
+            className="w-full h-10 p-1 border rounded-md"
             placeholder=" 500 ~ 7500 "
             value={amountset}
             onChange={(e) => setAmountset(e.target.value)}

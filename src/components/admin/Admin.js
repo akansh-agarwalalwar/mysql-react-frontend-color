@@ -17,7 +17,10 @@ export default function AdminDashboard() {
   const [userReferenceCode, setUserRefernceCode] = useState("");
   const [createUserPopUp, setCreateUserPopUp] = useState(false);
   const [balance, setBalance] = useState("");
-
+  const [couponPop, setCouponPop] = useState(false);
+  const [coupon, setCoupon] = useState("");
+  const [amount, setAmount] = useState("");
+  const [getCoupons, setGetCoupons] = useState([]);
   const fetchUsers = async () => {
     try {
       const response = await fetch(
@@ -111,7 +114,64 @@ export default function AdminDashboard() {
   };
   const close = () => {
     setCreateUserPopUp(false);
+    setCouponPop(false);
   };
+  const handleCoupon = () => {
+    setCouponPop(true);
+  };
+  const closeCoupon = () => {
+    setCouponPop(false);
+  };
+
+  const createCoupon = async () => {
+    try {
+      const response = await axios.post(
+        "https://api.perfectorse.site/api/v1/admin/create-coupon",
+        { coupon, amount }
+      );
+
+      if (response.status === 200) {
+        toast.success("Coupon created successfully!");
+        setCoupon("");
+        setAmount("");
+      }
+    } catch (error) {
+      console.error("Error creating coupon:", error);
+      toast.error("Failed to create coupon");
+    }
+  };
+  const deleteCoupon = async () => {
+    try {
+      const response = await axios.post(
+        "https://api.perfectorse.site/api/v1/admin/delete-coupon",
+        { coupon, amount }
+      );
+
+      if (response.status === 200) {
+        toast.success("Coupon deleted successfully!");
+        setCoupon("");
+        setAmount("");
+      }
+    } catch (error) {
+      toast.error("Failed to delete coupon");
+    }
+  };
+  const getCoupon = async () => {
+    try {
+      const response = await fetch(
+        "https://api.perfectorse.site/api/v1/admin/get-coupon"
+      );
+      if (!response.ok) throw new Error("Network response was not ok");
+      const data = await response.json();
+      console.log(data);
+      setGetCoupons(data);
+    } catch (error) {
+      console.error("Error fetching approve users:", error);
+    }
+  };
+  useEffect(() => {
+    getCoupon();
+  }, []);
   return (
     <div className="flex">
       <NavBarAdmin users={users} />
@@ -145,7 +205,7 @@ export default function AdminDashboard() {
             </div>
           </Link>
         </div>
-        <div className="flex flex-row items-center">
+        <div className="flex flex-row items-center gap-2">
           <button
             onClick={handleCreate}
             className="bg-green-100 p-2 rounded-lg"
@@ -156,6 +216,12 @@ export default function AdminDashboard() {
             <label>Balance</label>
             <p>Balance</p>
           </div> */}
+          <button
+            onClick={handleCoupon}
+            className="bg-brown-200 p-2 rounded-lg"
+          >
+            Create Coupon
+          </button>
         </div>
 
         {createUserPopUp && (
@@ -264,8 +330,64 @@ export default function AdminDashboard() {
             </div>
           </div>
         )}
+
+        {couponPop && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white border-2 shadow-md rounded-lg p-6 z-50 w-full max-w-md mx-auto">
+              <div className="flex flex-row justify-between items-center w-full mb-4">
+                <h2 className="text-2xl font-bold w-full items-center flex justify-center">
+                  Create Coupon
+                </h2>
+                <RxCross1 onClick={closeCoupon} className="cursor-pointer" />
+              </div>
+              <form onSubmit={createCoupon} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Coupon Code
+                  </label>
+                  <input
+                    type="text"
+                    value={coupon}
+                    onChange={(e) => setCoupon(e.target.value)}
+                    placeholder="Coupon Code"
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Amount
+                  </label>
+                  <input
+                    type="number"
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                    placeholder="Enter Amount"
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  />
+                </div>
+                <div>
+                  <button
+                    type="submit"
+                    onClick={createCoupon}
+                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md bg-green-100"
+                  >
+                    Create
+                  </button>
+                </div>
+              </form>
+              <div className="flex flex-col">
+                <p>Coupons</p>
+                {Array.isArray(getCoupons) &&
+                  getCoupons.map((coupon, index) => (
+                    <p key={index} className="bg-green-100">
+                      {coupon.coupon}: {coupon.amount}
+                    </p>
+                  ))}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-      <CreateCoupon />
     </div>
   );
 }
