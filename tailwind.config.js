@@ -17,7 +17,7 @@ module.exports = {
       Lightblue: "#3AD3CD",
       myblue: {
         100: "#E0F4FF",
-        200: "#39A7FF",
+        200: "#000",
         300: "#EEF7FF",
         400: "#4D869C",
         500: "#FFF",

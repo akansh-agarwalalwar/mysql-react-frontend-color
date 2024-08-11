@@ -9,6 +9,8 @@ import { FaRegUser, FaPhoneAlt } from "react-icons/fa";
 import { VscReferences } from "react-icons/vsc";
 import Modal from "react-modal";
 import { useLocation } from 'react-router-dom';
+import background from "../../images/background.png";
+
 const TermsAndConditions = ({ isOpen, onClose, setChecked }) => {
   if (!isOpen) return null;
 
@@ -384,7 +386,12 @@ function NewLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-myblue-800 flex p-4">
+    <div className="min-h-screen bg-myblue-800 flex p-4"
+    style={{
+      backgroundImage: `url(${background})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+    }}>
       <div className="flex flex-col w-full max-w-md mx-auto items-center">
         <img
           src={require("../../images/mylogo.jpg")}
@@ -396,7 +403,7 @@ function NewLogin() {
           <p className="text-xl font-semibold">Register Now</p>
         </div>
         <form className="w-full">
-          <div className="flex flex-row items-center w-full mt-4 bg-white rounded-full h-12">
+          <div className="flex flex-row items-center w-full mt-4 bg-white rounded-full h-14 border-black border-2">
             <div className="bg-green-100 flex rounded-full justify-center items-center h-10 w-10 ml-2">
               <FaRegUser className="text-white" size={22} />
             </div>
@@ -408,7 +415,7 @@ function NewLogin() {
               onChange={handleUserNameChange}
             />
           </div>
-          <div className="flex flex-row items-center w-full mt-4 bg-white rounded-full h-12">
+          <div className="flex flex-row items-center w-full mt-4 bg-white rounded-full h-14 border-black border-2">
             <div className="bg-blue-200 flex rounded-full justify-center items-center h-10 w-10 ml-2">
               <FaPhoneAlt className="text-white" size={18} />
             </div>
@@ -421,7 +428,7 @@ function NewLogin() {
             />
           </div>
 
-          <div className="flex flex-row items-center w-full mt-4 bg-white rounded-full h-12">
+          <div className="flex flex-row items-center w-full mt-4 bg-white rounded-full h-14 border-black border-2">
             <div className="bg-red-100 flex rounded-full justify-center items-center h-10 w-10 ml-2">
               <MdOutlineEmail className="text-white" size={22} />
             </div>
@@ -472,7 +479,7 @@ function NewLogin() {
               {otpStatus}
             </div>
           )}
-          <div className="flex flex-row items-center w-full mt-4 bg-white rounded-full h-12">
+          <div className="flex flex-row items-center w-full mt-4 bg-white rounded-full h-14 border-black border-2">
             <div className="bg-brown-100 flex rounded-full justify-center items-center h-10 w-10 ml-2">
               <FaKey className="text-white" size={20} />
             </div>
@@ -484,7 +491,7 @@ function NewLogin() {
               onChange={handlePasswordChange}
             />
           </div>
-          <div className="flex flex-row items-center w-full mt-4 bg-white rounded-full h-12">
+          <div className="flex flex-row items-center w-full mt-4 bg-white rounded-full h-14 border-black border-2">
             <div className="bg-brown-100 flex rounded-full justify-center items-center h-10 w-10 ml-2">
               <FaKey className="text-white" size={20} />
             </div>
@@ -502,7 +509,7 @@ function NewLogin() {
             </div>
           )}
 
-          <div className="flex flex-row items-center w-full mt-4 bg-white rounded-full h-12">
+          <div className="flex flex-row items-center w-full mt-4 bg-white rounded-full h-14 border-black border-2">
             <div className="bg-purple-100 flex rounded-full justify-center items-center h-10 w-10 ml-2">
               <VscReferences className="text-white" size={20} />
             </div>

@@ -23,7 +23,7 @@ export default function TopBody() {
             </div>
             <div>
               <p>Balance</p>
-              <p className="flex items-center gap-2 text-xl font-semibold text-myblue-200">
+              <p className="flex items-center gap-2 text-xl font-semibold text-white">
                 {user?.balance ? `₹ ${user.balance}` : "₹ 0"}
                 <IoReload className="cursor-pointer" onClick={fetchUserData} />
               </p>

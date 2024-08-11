@@ -28,17 +28,17 @@ function EveryOneOrder({ newBets }) {
   }, [data.countDown]);
 
   return (
-    <div className="bg-black w-full">
+    <div className="w-full">
       <div className="flex flex-col min-h-screen">
         <div className="">
           <div className="flex flex-col justify-center items-center">
-            <table className="table-auto w-full">
+            <table className="table-auto w-full border-2">
               <thead>
                 <tr>
-                  <th className="p-2"><div className='rounded-3xl text-white'>Number</div></th>
-                  <th className="p-2"><div className='rounded-3xl text-white'>User</div></th>
-                  <th className="p-2"><div className='rounded-3xl text-white'>Color</div></th>
-                  <th className="p-2"><div className='rounded-3xl text-white'>Amount</div></th>
+                  <th className="p-2"><div className='rounded-3xl text-black'>Number</div></th>
+                  <th className="p-2"><div className='rounded-3xl text-black'>User</div></th>
+                  <th className="p-2"><div className='rounded-3xl text-black'>Color</div></th>
+                  <th className="p-2"><div className='rounded-3xl text-black'>Amount</div></th>
                 </tr>
               </thead>
               <tbody>
@@ -50,10 +50,10 @@ function EveryOneOrder({ newBets }) {
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                     className='border-t'
                   >
-                    <td className="p-2 text-center text-white">{String(data.timerNumber).padEnd(4, '0')}</td>
-                    <td className="p-2 text-center text-white">{bet.userNumber}</td>
-                    <td className="p-2 text-center text-white">{bet.color}</td>
-                    <td className="p-2 text-center text-white">{bet.amount}</td>
+                    <td className="p-2 text-center font-bold">{String(data.timerNumber).padEnd(4, '0')}</td>
+                    <td className="p-2 text-center font-bold">{bet.userNumber}</td>
+                    <td className="p-2 text-center font-bold">{bet.color}</td>
+                    <td className="p-2 text-center font-bold">{bet.amount}</td>
                   </motion.tr>
                 ))}
               </tbody>

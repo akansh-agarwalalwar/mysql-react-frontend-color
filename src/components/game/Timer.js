@@ -18,6 +18,11 @@ import background from "../../images/background.png";
 import red from "../../images/red.png";
 import green from "../../images/green.png";
 import violet from "../../images/violet.png";
+
+import redImage from "../../images/red.png";
+import violetImage from "../../images/violet.png";
+import greenImage from "../../images/green.png";
+
 function Timer() {
   const [userOrders, setUserOrders] = useState([]);
   const [data, setData] = useState(calculateTimerInfo);
@@ -104,25 +109,19 @@ function Timer() {
   };
   const colorBoxes = [
     {
-      // title: "Red",
       color: "red",
-      icon: <img src={red} alt="Red Horse" className="h-32 w-32 bg-white" />,
+      icon: <img src={red} alt="Red Horse" className="h-28 w-32" />,
       ratio: "x2",
-      // values: [1, 3, 7, 9],
     },
     {
-      // title: "Violet",
       color: "purple",
-      icon: <img src={violet} alt="Violet Horse" className="h-32 w-32 bg-white" />,
+      icon: <img src={violet} alt="Violet Horse" className="h-28 w-32" />,
       ratio: "x4.5",
-      // values: [0, 5],
     },
     {
-      // title: "Green",
       color: "green",
-      icon: <img src={green} alt="Green Horse" className="h-32 w-32 bg-white"  />,
+      icon: <img src={green} alt="Green Horse" className="h-28 w-32" />,
       ratio: "x2",
-      // values: [2, 4, 6, 8],
     },
   ];
   const isDisabled = data.countDown <= 11;
@@ -345,6 +344,12 @@ function Timer() {
     });
   };
 
+  const colorToImageMap = {
+    red: redImage,
+    violet: violetImage,
+    green: greenImage,
+  };
+
   return (
     <div
       className="flex flex-col bg-myblue-800 min-h-scree max-w-md mx-auto relative"
@@ -391,18 +396,18 @@ function Timer() {
           </div>
         </div>
         {/* Color Boxes */}
-        <div className="p-2 mt-2 flex flex-row gap-3 items-center bg-black mb-2 mx-3 rounded-xl justify-center">
+        <div className="p-2 mt-2 flex flex-row gap-3 items-center mb-2 mx-3 rounded-xl justify-center">
           {colorBoxes?.map((colorBox) => (
             <div className="w-full mb-4" key={colorBox.color}>
               <div
-                className={`flex flex-col justify-center items-center rounded-lg p-2 cursor-pointer bg-black ${
+                className={`flex flex-col justify-center items-center rounded-lg p-2 cursor-pointer ${
                   isDisabled ? "opacity-50 cursor-not-allowed" : ""
                 }`}
                 onClick={() => !isDisabled && handleColorBoxClick(colorBox)}
               >
                 <div className="text-white text-4xl">{colorBox.icon}</div>
-                <div className="text-white mt-2">{colorBox.title}</div>
-                {/* <div className="text-white">{colorBox.ratio}</div> */}
+                {/* <div className="text-white mt-2">{colorBox.title}</div> */}
+                <div className="text-black">{colorBox.ratio}</div>
               </div>
             </div>
           ))}
@@ -412,7 +417,7 @@ function Timer() {
       {setshowPopUp && data.countDown > 11 && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div
-            className="bg-white rounded-lg p-4 w-11/12 max-w-md mx-auto border-2 border-myblue-200 shadow-2xl relative"
+            className="bg-white rounded-lg p-4 w-11/12 max-w-md mx-auto border-2 border-black shadow-2xl relative"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex flex-row items-center mb-2">
@@ -432,7 +437,7 @@ function Timer() {
                   <button
                     key={amount}
                     onClick={() => handlePresetAmountClick(amount)}
-                    className="border-myblue-200 p-2 border-2 rounded-lg text-myblue-200"
+                    className="border-black p-2 border-2 rounded-lg text-black"
                   >
                     {amount}
                   </button>
@@ -441,7 +446,7 @@ function Timer() {
               <div className="flex flex-row items-center mb-2 space-x-2">
                 <button
                   onClick={decreaseMultiplier}
-                  className="border-myblue-200 p-1 border-2 rounded-lg text-myblue-200 w-full"
+                  className="border-black p-1 border-2 rounded-lg text-black w-full"
                 >
                   -1
                 </button>
@@ -450,7 +455,7 @@ function Timer() {
                 </p>
                 <button
                   onClick={increaseMultiplier}
-                  className="border-myblue-200 p-1 border-2 rounded-lg text-myblue-200 w-full"
+                  className="border-black p-1 border-2 rounded-lg text-black w-full"
                 >
                   +1
                 </button>
@@ -480,7 +485,7 @@ function Timer() {
                     user?.balance >= contractMoney
                   ) // Check if balance amount is sufficient
                 }
-                className={`bg-myblue-200 p-2 rounded-lg w-full shadow-lg text-white ${
+                className={`bg-black p-2 rounded-lg w-full shadow-lg text-white ${
                   contractMoney < 10 || // Minimum contract money check
                   !(
                     user?.unplayed >= contractMoney || // Check if unplayed amount is sufficient
@@ -500,11 +505,11 @@ function Timer() {
 
       {/* WINNER DIVISION */}
       <div className="mx-3 rounded-full">
-        <div className="flex flex-col w-full mb-4 bg-black h-[230px] rounded-2xl shadow-3xl">
-          <p className="text-xl w-full items-center justify-center flex mt-1 text-white">
+        <div className="flex flex-col w-full mb-4 h-[230px] rounded-2xl shadow-3xl border-2">
+          <p className="text-xl w-full items-center justify-center flex mt-1 text-black font-bold">
             Parity Result
           </p>
-          <div className="flex flex-col justify-center w-full items-center mb-4 mt-1 border h-[1px] border-white"></div>
+          <div className="flex flex-col justify-center w-full items-center mb-4 mt-1 border h-[1px] border-black"></div>
           <div className="flex flex-col h-10 items-center w-full">
             <div className="flex flex-row w-full justify-around items-center">
               {lastPeriodData && (
@@ -516,14 +521,21 @@ function Timer() {
                       const periodNumberLastThreeDigits = item?.periodNumber
                         ?.toString()
                         .slice(-3);
+                      const colorImage =
+                        colorToImageMap[item?.color.toLowerCase()];
+
                       return (
                         <div key={index} className="flex flex-col items-center">
-                          <div
-                            className={`w-7 h-7 rounded-full border ${getColorClass(
-                              item?.color
-                            )}`}
-                          ></div>
-                          <span className="text-xs mt-1 text-white">
+                          {colorImage ? (
+                            <img
+                              src={colorImage}
+                              alt={item?.color}
+                              className="w-7 h-7 rounded-full"
+                            />
+                          ) : (
+                            <div className="w-7 h-7 rounded-full border border-white"></div>
+                          )}
+                          <span className="text-xs mt-1 text-black font-bold">
                             {periodNumberLastThreeDigits}
                           </span>
                         </div>
@@ -535,14 +547,15 @@ function Timer() {
           </div>
         </div>
       </div>
+
       <div className="mx-3 ">
         <div className="flex flex-col justify-around w-full items-center rounded-lg">
           <div className="flex flex-row w-full justify-around items-center">
             <div
               className={`flex flex-col items-center cursor-pointer w-full text-xl rounded-t-lg ${
                 activeTab === "parityRecord"
-                  ? "border-myblue-200 text-white bg-black"
-                  : "text-gray-500"
+                  ? "border-t-2 border-l-2 border-r-2 border-black text-black"
+                  : " text-black"
               }`}
               onClick={() => setActiveTab("parityRecord")}
             >
@@ -551,8 +564,8 @@ function Timer() {
             <div
               className={`flex flex-col items-center cursor-pointer w-full text-xl rounded-t-lg ${
                 activeTab === "userRecord"
-                  ? "border-myblue-200 text-white bg-black"
-                  : "text-gray-500"
+                  ? "border-t-2 border-l-2 border-r-2 border-black text-black"
+                  : " text-black"
               }`}
               onClick={() => setActiveTab("userRecord")}
             >
@@ -561,7 +574,7 @@ function Timer() {
           </div>
 
           {activeTab === "parityRecord" ? (
-            <div className="flex flex-col border-t-2 border-myblue-200 w-full">
+            <div className="flex flex-col border-t-2 w-full">
               {/* Content for Parity Record tab */}
               <EveryOneOrder
                 key={refresh}
@@ -573,11 +586,11 @@ function Timer() {
           ) : (
             <div className="flex flex-col w-full">
               {/* Content for User Record tab */}
-              <div className="bg-black">
-                <div className="flex flex-col justify-center items-center border-myblue-200 w-full">
+              <div className="">
+                <div className="flex flex-col justify-center items-center border-black w-full">
                   {thirtySecond && (
-                    <table className="table-auto w-full">
-                      <thead className="border-t-2 mt-3 border-myblue-200">
+                    <table className="table-auto w-full border-2">
+                      <thead className="border-t-2 mt-3 ">
                         <tr>
                           <th className="p-2">
                             <div className="rounded-3xl">Number</div>
@@ -596,14 +609,16 @@ function Timer() {
                       <tbody>
                         {thirtySecond?.slice(0, 10)?.map((order, index) => (
                           <tr key={index} className="border-t">
-                            <td className="p-2 text-center">
+                            <td className="p-2 text-center font-bold">
                               {order.periodNumber}
                             </td>
-                            <td className="p-2 text-center">{order.betType}</td>
-                            <td className="p-2 text-center">
+                            <td className="p-2 text-center font-bold">
+                              {order.betType}
+                            </td>
+                            <td className="p-2 text-center font-bold">
                               {order.betAmount}
                             </td>
-                            <td className="p-2 text-center">
+                            <td className="p-2 text-center font-bold">
                               {order.status ? order.status : "Pending"}
                             </td>
                           </tr>

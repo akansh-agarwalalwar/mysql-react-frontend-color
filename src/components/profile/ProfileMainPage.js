@@ -18,6 +18,7 @@ import { TbReceiptRupee } from "react-icons/tb";
 import { RiChatFollowUpFill } from "react-icons/ri";
 import { AiTwotoneBank } from "react-icons/ai";
 import Wallet from "./Wallet";
+import background from "../../images/background.png";
 
 const sideNavData = [
   {
@@ -75,7 +76,12 @@ const ProfileMainPage = () => {
   };
 
   return (
-    <div className="flex flex-col bg-myblue-500 min-h-screen text-richblack-5 max-w-md mx-auto">
+    <div className="flex flex-col bg-myblue-500 min-h-screen text-richblack-5 max-w-md mx-auto"
+    style={{
+      backgroundImage: `url(${background})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+    }}>
       {/* <div className="flex items-center mt-8">
         <div className="rounded-full p-3 flex justify-center items-center -ml-5">
           {profileImage ? (
@@ -116,7 +122,7 @@ const ProfileMainPage = () => {
       </div> */}
       <Wallet />
       <div className="mt-5 px-8">
-        <h2 className="text-xl font-bold mb-4 text-black">Quick Links</h2>
+        <h2 className="text-xl mb-4 text-black font-bold">Quick Links</h2>
         <ul className="flex flex-col space-y-2">
           {sideNavData?.map((item, index) => (
             <div
@@ -133,7 +139,7 @@ const ProfileMainPage = () => {
                 >
                   <div className="flex items-center space-x-2">
                     <p className="text-2xl text-myblue-400">{item.icon}</p>
-                    <p className="text-lg text-black">{item.title}</p>
+                    <p className="text-lg text-black font-bold">{item.title}</p>
                   </div>
                   <MdKeyboardArrowRight className="text-myblue-400" />
                 </Link>
@@ -141,7 +147,7 @@ const ProfileMainPage = () => {
                 <div className="flex items-center justify-between py-4">
                   <div className="flex items-center space-x-2">
                     <p className="text-2xl text-myblue-400">{item.icon}</p>
-                    <p className="text-lg text-black">{item.title}</p>
+                    <p className="text-lg text-black font-bold">{item.title}</p>
                   </div>
                   <MdKeyboardArrowRight className="text-myblue-400" />
                 </div>

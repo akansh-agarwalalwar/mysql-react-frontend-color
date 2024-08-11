@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { MdOutlineEmail } from "react-icons/md";
 import { FaKey } from "react-icons/fa";
 import Button from "../button/Button";
+import background from "../../images/background.png";
 
 function NewLogin() {
   const navigate = useNavigate();
@@ -78,7 +79,12 @@ function NewLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-myblue-800 flex p-4">
+    <div className="min-h-screen bg-myblue-800 flex p-4"
+    style={{
+      backgroundImage: `url(${background})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+    }}>
       <div className="flex flex-col w-full max-w-md mx-auto items-center">
         <img
           src={require("../../images/mylogo.jpg")}
@@ -90,7 +96,7 @@ function NewLogin() {
           <p className="text-xl font-semibold">Login Now</p>
         </div>
         <form onSubmit={handleLogin} className="w-full">
-          <div className="flex flex-row items-center w-full mt-4 bg-white rounded-full h-12">
+          <div className="flex flex-row items-center w-full mt-4 bg-white rounded-full h-14 border-2 border-black">
             <div className="bg-red-100 flex rounded-full justify-center items-center h-10 w-10 ml-2">
               <MdOutlineEmail className="text-white" size={30} />
             </div>
@@ -102,7 +108,7 @@ function NewLogin() {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <div className="flex flex-row items-center w-full mt-4 bg-white rounded-full h-12">
+          <div className="flex flex-row items-center w-full mt-4 bg-white rounded-full h-14 border-2 border-black">
             <div className="bg-brown-100 flex rounded-full justify-center items-center h-10 w-10 ml-2">
               <FaKey className="text-white" size={20} />
             </div>
