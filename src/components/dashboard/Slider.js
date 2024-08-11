@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import slider1 from "../../images/slider1.png";
-import slider2 from "../../images/slider1.png";
+import slider2 from "../../images/slider2.png";
 
 function Slider() {
   const [currentSlide, setCurrentSlide] = useState(0);

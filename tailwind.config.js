@@ -23,7 +23,8 @@ module.exports = {
         500: "#FFF",
         600:"#E7F1FE",
         700:'#39A7FF',
-        800:'#F5F6FA'
+        800:'#F5F6FA',
+        900:"#31852E"
       },
       richblack: {
         5: "#F1F2FF",

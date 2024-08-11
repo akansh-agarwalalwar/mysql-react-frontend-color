@@ -4,6 +4,7 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import BottomNav from "../dashboard/BottomNav";
 import UserContext from "../login/UserContext";
 import { IoIosArrowBack } from "react-icons/io";
+import background from '../../images/background.png';
 
 const Recharge = () => {
   const [amount, setAmount] = useState("");
@@ -27,14 +28,19 @@ const Recharge = () => {
   );
 
   return (
-    <div className="bg-myblue-800 h-screen max-w-md mx-auto">
-      <div className="flex items-center bg-white w-full text-black py-3 px-4">
+    <div className="bg-myblue-800 h-screen max-w-md mx-auto"
+    style={{
+      backgroundImage: `url(${background})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    }}>
+      <div className="flex items-center bg-black w-full text-black py-3 px-4">
         <Link to="/home" className="mr-4">
-          <div className="bg-myblue-800 p-2">
-            <IoIosArrowBack size={20} />
+          <div className=" p-2">
+            <IoIosArrowBack size={20}  color="#FFF"/>
           </div>
         </Link>
-        <p className="text-xl font-bold">Recharge</p>
+        <p className="text-xl font-bold text-white">Recharge</p>
       </div>
       <div className="flex flex-col mx-5 mt-5">
         <div>
@@ -64,7 +70,7 @@ const Recharge = () => {
         <button
           onClick={handleRecharge}
           disabled={isRechargeButtonDisabled}
-          className={`mt-4 p-3 bg-myblue-200 rounded-md font-bold text-white ${
+          className={`mt-4 p-3 bg-black rounded-md font-bold text-white ${
             isRechargeButtonDisabled && "opacity-50 cursor-not-allowed"
           }`}
         >

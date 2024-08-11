@@ -6,7 +6,7 @@ import UserContext from "../login/UserContext";
 import BottomNav from "./BottomNav";
 import axios from "axios";
 import toast from "react-hot-toast";
-
+import background from '../../images/background.png';
 function Invite() {
   const { user } = useContext(UserContext);
   const [referCode, setReferCode] = useState("");
@@ -83,7 +83,7 @@ function Invite() {
     if (navigator.share) {
       navigator
         .share({
-          title: "Join me on Perfectorse!",
+          title: "Perfectorse",
           text: "Use my referral code to sign up and get rewards!",
           url: referralLink,
         })
@@ -98,14 +98,19 @@ function Invite() {
   };
 
   return (
-    <div className="flex flex-col w-full h-screen bg-myblue-800 max-w-md mx-auto">
-      <div className="flex items-center bg-white w-full text-black py-3 px-4">
+    <div className="flex flex-col w-full h-screen bg-myblue-800 max-w-md mx-auto"
+    style={{
+      backgroundImage: `url(${background})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    }}>
+      <div className="flex items-center bg-black w-full text-black py-3 px-4">
         <Link to="/home" className="mr-4">
-          <div className="bg-myblue-800 p-2">
-            <IoIosArrowBack size={20} />
+          <div className=" p-2">
+            <IoIosArrowBack size={20} color='#FFF' />
           </div>
         </Link>
-        <p className="text-xl font-bold">Invite & Earn</p>
+        <p className="text-xl font-bold text-white">Invite & Earn</p>
       </div>
 
       <div className="flex flex-col items-center justify-center flex-grow space-y-6">
@@ -114,7 +119,7 @@ function Invite() {
             Invite Friends & Earn Rewards
           </h1>
           <p className="text-sm text-gray-500 mb-6 text-center">
-            Share your referral code, and your friends will get a bonus of up to Rs. 250.
+            Share your referral code, and you will get a bonus of up to Rs. 250.
           </p>
           {loading ? (
             <p className="text-gray-500">Loading...</p>

@@ -14,7 +14,10 @@ import calculateTimerInfo from "./calculateTimerInfo";
 import "./index.css";
 import { LuAlarmClock } from "react-icons/lu";
 import { IoIosArrowBack } from "react-icons/io";
-
+import background from "../../images/background.png";
+import red from "../../images/red.png";
+import green from "../../images/green.png";
+import violet from "../../images/violet.png";
 function Timer() {
   const [userOrders, setUserOrders] = useState([]);
   const [data, setData] = useState(calculateTimerInfo);
@@ -101,28 +104,27 @@ function Timer() {
   };
   const colorBoxes = [
     {
-      title: "Red",
+      // title: "Red",
       color: "red",
-      icon: <FaHorseHead style={{ color: "#FF0000" }} />,
+      icon: <img src={red} alt="Red Horse" className="h-32 w-32 bg-white" />,
       ratio: "x2",
-      values: [1, 3, 7, 9],
+      // values: [1, 3, 7, 9],
     },
     {
-      title: "Violet",
+      // title: "Violet",
       color: "purple",
-      icon: <FaHorseHead style={{ color: "#800080" }} />,
+      icon: <img src={violet} alt="Violet Horse" className="h-32 w-32 bg-white" />,
       ratio: "x4.5",
-      values: [0, 5],
+      // values: [0, 5],
     },
     {
-      title: "Green",
+      // title: "Green",
       color: "green",
-      icon: <FaHorseHead style={{ color: "#00FF00" }} />,
+      icon: <img src={green} alt="Green Horse" className="h-32 w-32 bg-white"  />,
       ratio: "x2",
-      values: [2, 4, 6, 8],
+      // values: [2, 4, 6, 8],
     },
   ];
-
   const isDisabled = data.countDown <= 11;
 
   const handleColorBoxClick = (color) => {
@@ -344,56 +346,63 @@ function Timer() {
   };
 
   return (
-    <div className="flex flex-col bg-myblue-800 min-h-scree max-w-md mx-auto relative">
+    <div
+      className="flex flex-col bg-myblue-800 min-h-scree max-w-md mx-auto relative"
+      style={{
+        backgroundImage: `url(${background})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       {/* Header */}
-      <div className="flex items-center bg-white w-full text-black py-3 px-4">
+
+      <div className="flex items-center w-full text-white bg-black py-3 px-4">
         <Link to="/home" className="mr-4">
-          <div className="bg-myblue-800 p-2">
-            <IoIosArrowBack size={20} />
+          <div className=" p-2">
+            <IoIosArrowBack size={20} color="#FFF" />
           </div>
         </Link>
         <p className="text-xl font-bold">Crazy30</p>
       </div>
       {/* Timer Section */}
       <div className="w-full">
-        <div className="flex flex-row justify-between w-full items-center h-16 my-2 px-3 bg-white mb-2">
-          <div className="flex flex-col">
+        <div className="flex flex-row justify-between w-full items-center h-16 my-2 px-3 mb-2">
+          <div className="flex flex-col mx-3 bg-black w-full rounded-lg">
             <div className="flex flex-row gap-2 items-center justify-center">
-              <IoIosTrophy />
-              <p className="text-l">Period Number</p>
+              <IoIosTrophy color="#FFF" />
+              <p className="text-l text-white">Period Number</p>
             </div>
-            <div className="rounded-lg p-3 h-8 flex items-center bg-white justify-center">
-              <h2 className="text-xl text-black font-mono">
+            <div className="rounded-lg p-3 h-8 flex items-center justify-center">
+              <h2 className="text-xl text-white font-mono">
                 {/* {formatPeriod(period)} */}
                 {data.timerNumber}
               </h2>
             </div>
           </div>
-          <div className="flex flex-col">
-            <p className="text-l ml-4">Count Down</p>
-            <div className="rounded-lg p-3 h-8 items-center flex justify-center bg-white flex-row">
+          <div className="flex flex-col mx-3 bg-black w-full rounded-lg">
+            <p className="text-l ml-4 text-white flex">Count Down</p>
+            <div className="rounded-lg p-3 h-8 items-center flex justify-center flex-row">
               {/* <h2 className="text-2xl font-mono">{formatTime(time)}</h2> */}
-              <LuAlarmClock className="mr-3" />
-              <h2 className="text-2xl font-mono">
+              <LuAlarmClock className="mr-3 " color="#FFF" />
+              <h2 className="text-2xl font-mono text-white">
                 {formatTime(data.countDown)}
               </h2>
             </div>
           </div>
         </div>
         {/* Color Boxes */}
-        <div className="p-2 mt-2 bg-gray-800 flex justify-around flex-wrap ">
+        <div className="p-2 mt-2 flex flex-row gap-3 items-center bg-black mb-2 mx-3 rounded-xl justify-center">
           {colorBoxes?.map((colorBox) => (
-            <div className="w-1/4">
+            <div className="w-full mb-4" key={colorBox.color}>
               <div
-                key={colorBox.color}
-                className={`flex flex-col justify-center items-center border-2 border-myblue-200 rounded-lg p-2 cursor-pointer bg-white ${
+                className={`flex flex-col justify-center items-center rounded-lg p-2 cursor-pointer bg-black ${
                   isDisabled ? "opacity-50 cursor-not-allowed" : ""
                 }`}
                 onClick={() => !isDisabled && handleColorBoxClick(colorBox)}
               >
-                <div className="text-4xl">{colorBox.icon}</div>
-                <div className="mt-2">{colorBox.title}</div>
-                <div className="">{colorBox.ratio}</div>
+                <div className="text-white text-4xl">{colorBox.icon}</div>
+                <div className="text-white mt-2">{colorBox.title}</div>
+                {/* <div className="text-white">{colorBox.ratio}</div> */}
               </div>
             </div>
           ))}
@@ -490,117 +499,123 @@ function Timer() {
       )}
 
       {/* WINNER DIVISION */}
-      <div className="flex flex-col w-full mb-4 bg-white h-[230px] ">
-        <p className="text-xl w-full items-center justify-center flex mt-1">
-          Parity Result
-        </p>
-        <div className="flex flex-col justify-center w-full items-center mb-4 mt-1 border h-[1px] border-myblue-200"></div>
-        <div className="flex flex-col h-10 items-center w-full">
-          <div className="flex flex-row w-full justify-around items-center">
-            {lastPeriodData && (
-              <div className="grid grid-cols-9 gap-3 w-full mx-2">
-                {lastPeriodData
-                  ?.slice()
-                  ?.reverse()
-                  ?.map((item, index) => {
-                    const periodNumberLastThreeDigits = item?.periodNumber
-                      ?.toString()
-                      .slice(-3);
-                    return (
-                      <div key={index} className="flex flex-col items-center">
-                        <div
-                          className={`w-7 h-7 rounded-full border ${getColorClass(
-                            item?.color
-                          )}`}
-                        ></div>
-                        <span className="text-xs mt-1">
-                          {periodNumberLastThreeDigits}
-                        </span>
-                      </div>
-                    );
-                  })}
-              </div>
-            )}
+      <div className="mx-3 rounded-full">
+        <div className="flex flex-col w-full mb-4 bg-black h-[230px] rounded-2xl shadow-3xl">
+          <p className="text-xl w-full items-center justify-center flex mt-1 text-white">
+            Parity Result
+          </p>
+          <div className="flex flex-col justify-center w-full items-center mb-4 mt-1 border h-[1px] border-white"></div>
+          <div className="flex flex-col h-10 items-center w-full">
+            <div className="flex flex-row w-full justify-around items-center">
+              {lastPeriodData && (
+                <div className="grid grid-cols-9 gap-3 w-full mx-2">
+                  {lastPeriodData
+                    ?.slice()
+                    ?.reverse()
+                    ?.map((item, index) => {
+                      const periodNumberLastThreeDigits = item?.periodNumber
+                        ?.toString()
+                        .slice(-3);
+                      return (
+                        <div key={index} className="flex flex-col items-center">
+                          <div
+                            className={`w-7 h-7 rounded-full border ${getColorClass(
+                              item?.color
+                            )}`}
+                          ></div>
+                          <span className="text-xs mt-1 text-white">
+                            {periodNumberLastThreeDigits}
+                          </span>
+                        </div>
+                      );
+                    })}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
-      <div className="flex flex-col justify-around w-full items-center">
-        <div className="flex flex-row w-full justify-around items-center">
-          <div
-            className={`flex flex-col items-center cursor-pointer w-full text-xl ${
-              activeTab === "parityRecord"
-                ? "border-myblue-200 text-black bg-white"
-                : "text-gray-500"
-            }`}
-            onClick={() => setActiveTab("parityRecord")}
-          >
-            Parity Record
-          </div>
-          <div
-            className={`flex flex-col items-center cursor-pointer w-full text-xl ${
-              activeTab === "userRecord"
-                ? "border-myblue-200 text-black bg-white"
-                : "text-gray-500"
-            }`}
-            onClick={() => setActiveTab("userRecord")}
-          >
-            User Record
-          </div>
-        </div>
-
-        {activeTab === "parityRecord" ? (
-          <div className="flex flex-col border-t-2 border-myblue-200 w-full">
-            {/* Content for Parity Record tab */}
-            <EveryOneOrder
-              key={refresh}
-              period={data.timerNumber}
-              newBets={newBets}
-            />
-            <hr />
-          </div>
-        ) : (
-          <div className="flex flex-col w-full">
-            {/* Content for User Record tab */}
-            <div className="bg-white">
-              <div className="flex flex-col justify-center items-center border-myblue-200 w-full">
-                {thirtySecond && (
-                  <table className="table-auto w-full">
-                    <thead className="border-t-2 mt-3 border-myblue-200">
-                      <tr>
-                        <th className="p-2">
-                          <div className="rounded-3xl">Number</div>
-                        </th>
-                        <th className="p-2">
-                          <div className="rounded-3xl">Color</div>
-                        </th>
-                        <th className="p-2">
-                          <div className="rounded-3xl">Amount</div>
-                        </th>
-                        <th className="p-2">
-                          <div className="rounded-3xl">Status</div>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {thirtySecond?.slice(0, 10)?.map((order, index) => (
-                        <tr key={index} className="border-t">
-                          <td className="p-2 text-center">
-                            {order.periodNumber}
-                          </td>
-                          <td className="p-2 text-center">{order.betType}</td>
-                          <td className="p-2 text-center">{order.betAmount}</td>
-                          <td className="p-2 text-center">
-                            {order.status ? order.status : "Pending"}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                )}
-              </div>
+      <div className="mx-3 ">
+        <div className="flex flex-col justify-around w-full items-center rounded-lg">
+          <div className="flex flex-row w-full justify-around items-center">
+            <div
+              className={`flex flex-col items-center cursor-pointer w-full text-xl rounded-t-lg ${
+                activeTab === "parityRecord"
+                  ? "border-myblue-200 text-white bg-black"
+                  : "text-gray-500"
+              }`}
+              onClick={() => setActiveTab("parityRecord")}
+            >
+              Parity Record
+            </div>
+            <div
+              className={`flex flex-col items-center cursor-pointer w-full text-xl rounded-t-lg ${
+                activeTab === "userRecord"
+                  ? "border-myblue-200 text-white bg-black"
+                  : "text-gray-500"
+              }`}
+              onClick={() => setActiveTab("userRecord")}
+            >
+              User Record
             </div>
           </div>
-        )}
+
+          {activeTab === "parityRecord" ? (
+            <div className="flex flex-col border-t-2 border-myblue-200 w-full">
+              {/* Content for Parity Record tab */}
+              <EveryOneOrder
+                key={refresh}
+                period={data.timerNumber}
+                newBets={newBets}
+              />
+              <hr />
+            </div>
+          ) : (
+            <div className="flex flex-col w-full">
+              {/* Content for User Record tab */}
+              <div className="bg-black">
+                <div className="flex flex-col justify-center items-center border-myblue-200 w-full">
+                  {thirtySecond && (
+                    <table className="table-auto w-full">
+                      <thead className="border-t-2 mt-3 border-myblue-200">
+                        <tr>
+                          <th className="p-2">
+                            <div className="rounded-3xl">Number</div>
+                          </th>
+                          <th className="p-2">
+                            <div className="rounded-3xl">Color</div>
+                          </th>
+                          <th className="p-2">
+                            <div className="rounded-3xl">Amount</div>
+                          </th>
+                          <th className="p-2">
+                            <div className="rounded-3xl">Status</div>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {thirtySecond?.slice(0, 10)?.map((order, index) => (
+                          <tr key={index} className="border-t">
+                            <td className="p-2 text-center">
+                              {order.periodNumber}
+                            </td>
+                            <td className="p-2 text-center">{order.betType}</td>
+                            <td className="p-2 text-center">
+                              {order.betAmount}
+                            </td>
+                            <td className="p-2 text-center">
+                              {order.status ? order.status : "Pending"}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

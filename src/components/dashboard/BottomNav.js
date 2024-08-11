@@ -31,7 +31,7 @@ const NavLink = ({ to, icon, label, isActive }) => {
     <Link
       to={to}
       onClick={handleClick}
-      className={`relative flex flex-col items-center focus:outline-none transition duration-300 ${isActive ? "text-myblue-200" : "text-black"}`}
+      className={`relative flex flex-col items-center focus:outline-none transition duration-300 ${isActive ? "text-myblue-900" : "text-black"}`}
     >
       <motion.div
         whileHover={{ scale: 1.1 }}
@@ -44,7 +44,7 @@ const NavLink = ({ to, icon, label, isActive }) => {
         <span className="text-xs mt-1">{label}</span>
         {isActive && (
           <motion.div
-            className="absolute bottom-0 transform -translate-x-1/2 w-6 h-0.5 bg-secondary rounded-full"
+            className="absolute bottom-0 transform -translate-x-1/2 w-6 h-0.5 bg-myblue-900 rounded-full"
             layoutId="underline"
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
