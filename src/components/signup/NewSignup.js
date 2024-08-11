@@ -8,7 +8,7 @@ import Button from "../button/Button";
 import { FaRegUser, FaPhoneAlt } from "react-icons/fa";
 import { VscReferences } from "react-icons/vsc";
 import Modal from "react-modal";
-
+import { useLocation } from 'react-router-dom';
 const TermsAndConditions = ({ isOpen, onClose, setChecked }) => {
   if (!isOpen) return null;
 
@@ -221,7 +221,15 @@ function NewLogin() {
   const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
   const [error, setErrors] = useState({});
   const [sendOtpText, setSendOtpText] = useState("Send OTP");
-
+  const location = useLocation();
+  const [referralCode, setReferralCode] = useState('');
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const code = params.get('referral');
+    if (code) {
+      setReferralCode(code);
+    }
+  }, [location]);
   const handleChange = () => {
     setChecked(!checked);
   };
@@ -246,7 +254,7 @@ function NewLogin() {
         mobileNumber: `+91${mobileNumber}`,
         useremail,
         password,
-        referenceCode,
+        referralCode,
       });
       if (response.data.message === "Registration Successful") {
         setRegisterStatus(response?.data?.message);
@@ -356,12 +364,12 @@ function NewLogin() {
   };
 
   const handleReferenceChange = (e) => {
-    const referenceCode = e.target.value;
+    const referralCode = e.target.value;
     const setReferenceRegex = /^[a-zA-Z]/;
-    if (setReferenceRegex.test(referenceCode)) {
-      setReferenceCode(referenceCode);
+    if (setReferenceRegex.test(referralCode)) {
+      setReferralCode(referralCode);
     } else {
-      setReferenceCode("");
+      setReferralCode("");
     }
   };
 
@@ -502,7 +510,7 @@ function NewLogin() {
               type="text"
               placeholder="Enter Referral Code (Optional)"
               className="p-2 border-none focus:outline-none w-[80%] bg-transparent"
-              value={referenceCode}
+              value={referralCode}
               onChange={handleReferenceChange}
             />
           </div>
