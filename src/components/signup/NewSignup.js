@@ -376,7 +376,7 @@ function NewLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-myblue-500 flex p-4">
+    <div className="min-h-screen bg-myblue-800 flex p-4">
       <div className="flex flex-col w-full max-w-md mx-auto items-center">
         <img
           src={require("../../images/mylogo.jpg")}
