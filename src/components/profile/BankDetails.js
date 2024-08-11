@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { IoIosArrowBack } from "react-icons/io";
+import background from "../../images/background.png";
 
 function BankDetails() {
   const { user } = useContext(UserContext);
@@ -95,15 +96,22 @@ function BankDetails() {
   };
   return (
     <div className="max-w-md mx-auto">
-      <div className="flex flex-col bg-myblue-800 h-screen">
+      <div
+        className="flex flex-col bg-myblue-800 h-screen"
+        style={{
+          backgroundImage: `url(${background})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
         <div>
-          <div className="flex items-center bg-white w-full text-black py-3 px-4">
+          <div className="flex items-center bg-black w-full text-black py-3 px-4">
             <Link to="/home/profile" className="mr-4">
-              <div className="bg-myblue-800 p-2">
-                <IoIosArrowBack size={20} />
+              <div className=" p-2">
+                <IoIosArrowBack size={20} color="#FFF" />
               </div>
             </Link>
-            <p className="text-xl font-bold">Bank Details</p>
+            <p className="text-xl font-bold text-white">Bank Details</p>
           </div>
         </div>
         <div className="flex flex-col flex-grow mx-5 my-5 mt-8">

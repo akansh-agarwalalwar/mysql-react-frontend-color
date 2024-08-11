@@ -5,6 +5,7 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import UserContext from "../login/UserContext";
 import { Link } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
+import background from "../../images/background.png";
 
 function OrderRecord() {
   const { user } = useContext(UserContext);
@@ -65,21 +66,26 @@ function OrderRecord() {
 
   return (
     <div className=" bg-myblue-500 h-screen max-w-md mx-auto">
-      <div className="flex flex-col bg-myblue-800 h-screen">
+      <div className="flex flex-col bg-myblue-800 h-screen"
+      style={{
+        backgroundImage: `url(${background})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}>
         <div>
-          <div className="flex items-center bg-white w-full text-black py-3 px-4">
+          <div className="flex items-center bg-black w-full text-black py-3 px-4">
             <Link to="/home/profile" className="mr-4">
-              <div className="bg-myblue-800 p-2">
-                <IoIosArrowBack size={20} />
+              <div className=" p-2">
+                <IoIosArrowBack size={20} color="#FFF" />
               </div>
             </Link>
-            <p className="text-xl font-bold">Profile</p>
+            <p className="text-xl font-bold text-white">Order Record</p>
           </div>
         </div>
         <div className="flex justify-around items-center mb-4 mt-8 px-3">
           <div
             className={`cursor-pointer p-2 w-full flex justify-center items-center mr-2 ${
-              activeTab === "30sec" ? "bg-myblue-200" : "bg-white"
+              activeTab === "30sec" ? "bg-myblue-200 text-white"  : "bg-white"
             } rounded-md shadow-md`}
             onClick={() => handleTabClick("30sec")}
           >
@@ -87,7 +93,7 @@ function OrderRecord() {
           </div>
           <div
             className={`cursor-pointer p-2 w-full flex justify-center items-center  ml-2 ${
-              activeTab === "2min" ? "bg-myblue-200" : "bg-white"
+              activeTab === "2min" ? "bg-myblue-200 text-white" : "bg-white"
             } rounded-md shadow-md`}
             onClick={() => handleTabClick("2min")}
           >

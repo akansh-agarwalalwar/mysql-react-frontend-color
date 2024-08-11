@@ -7,6 +7,7 @@ import debounce from "lodash.debounce";
 import toast from "react-hot-toast";
 import "../../index.css";
 import { IoIosArrowBack } from "react-icons/io";
+import background from '../../images/background.png';
 
 function Withdraw() {
   const { user } = useContext(UserContext);
@@ -85,15 +86,20 @@ function Withdraw() {
   const debouncedHandleWithdraw = debounce(handleWithdraw, 500);
 
   return (
-    <div className="no-bottom-nav flex flex-col h-screen w-full bg-myblue-800 max-w-md mx-auto justify-between">
+    <div className="no-bottom-nav flex flex-col h-screen w-full bg-myblue-800 max-w-md mx-auto justify-between"
+    style={{
+      backgroundImage: `url(${background})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    }}>
       <div>
-      <div className="flex items-center bg-white w-full text-black py-3 px-4">
+      <div className="flex items-center bg-black w-full text-black py-3 px-4">
         <Link to="/home" className="mr-4">
-          <div className="bg-myblue-800 p-2">
-            <IoIosArrowBack size={20} />
+          <div className=" p-2">
+            <IoIosArrowBack size={20}  color="#FFF"/>
           </div>
         </Link>
-        <p className="text-xl font-bold">Withdraw</p>
+        <p className="text-xl font-bold text-white">Withdraw</p>
       </div>
         <div className="relative mt-6">
           <div className="my-4 text-center">

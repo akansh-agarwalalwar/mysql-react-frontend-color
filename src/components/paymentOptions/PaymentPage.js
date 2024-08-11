@@ -6,6 +6,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import UserContext from "../login/UserContext";
 import QR from "../../images/qr_code.jpg";
+import background from "../../images/background.png";
 import { IoIosArrowBack } from "react-icons/io";
 
 function PaymentPage() {
@@ -36,8 +37,10 @@ function PaymentPage() {
       const existingTransaction = await axios.get(
         `https://api.perfectorse.site/api/v1/transaction/checkTransactionId/${inputValue}`
       );
-      
-      if (existingTransaction.data.message === "Transaction ID already present") {
+
+      if (
+        existingTransaction.data.message === "Transaction ID already present"
+      ) {
         toast.error("Transaction ID already in use");
         setLoading(false);
         return;
@@ -48,7 +51,10 @@ function PaymentPage() {
         input: inputValue,
       };
 
-      await axios.post(`https://api.perfectorse.site/api/v1/transaction/upload-transaction-id`, data);
+      await axios.post(
+        `https://api.perfectorse.site/api/v1/transaction/upload-transaction-id`,
+        data
+      );
       toast.success("Request submitted");
 
       setTimeout(() => {
@@ -73,14 +79,21 @@ function PaymentPage() {
   const isConfirmButtonDisabled = inputValue.length !== 12 || loading;
 
   return (
-    <div className="bg-myblue-800 h-screen max-w-md mx-auto">
-      <div className="flex items-center bg-white w-full text-black py-3 px-4">
+    <div
+      className="bg-myblue-800 h-screen max-w-md mx-auto"
+      style={{
+        backgroundImage: `url(${background})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <div className="flex items-center bg-black w-full text-black py-3 px-4">
         <Link to="/home" className="mr-4">
-          <div className="bg-myblue-800 p-2">
-            <IoIosArrowBack size={20} />
+          <div className=" p-2">
+            <IoIosArrowBack size={20} color="#FFF" />
           </div>
         </Link>
-        <p className="text-xl font-bold">Submit Request</p>
+        <p className="text-xl font-bold text-white">Submit Request</p>
       </div>
       <div className="flex flex-col items-center mt-8">
         <div className="h-[70px] w-[80px]">

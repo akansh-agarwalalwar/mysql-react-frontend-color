@@ -11,7 +11,7 @@ export default function Body() {
       <div className="flex flex-row">
         <div className="w-full mr-2">
           <Link to="/thirty-second-page">
-            <div className="flex flex-col bg-white h-48 rounded-2xl border-2 border-green-100 relative overflow-hidden">
+            <div className="flex flex-col bg-white rounded-2xl border-2 border-green-100 relative overflow-hidden">
               {/* <div className="flex justify-center items-center h-7 w-[50px] rounded-md border border-myblue-200 absolute bg-opacity-30 bg-backdrop-blur-sm z-10">
                 <p className="text-sm text-white">30sec</p>
               </div> */}
@@ -28,7 +28,7 @@ export default function Body() {
         </div>
         <div className="w-full mr-1">
           <Link to="/threeMin">
-            <div className="flex flex-col bg-white h-48 rounded-2xl border-2 border-green-100 relative overflow-hidden">
+            <div className="flex flex-col bg-white rounded-2xl border-2 border-green-100 relative overflow-hidden">
               {/* <div className="flex justify-center items-center h-7 w-[50px] rounded-md border border-myblue-200 absolute bg-opacity-30 bg-backdrop-blur-sm z-10">
                 <p className="text-sm text-white">30sec</p>
               </div> */}
@@ -47,7 +47,7 @@ export default function Body() {
       <div className="flex flex-row mt-4 pb-9">
         <div className="w-full mr-2">
           {/* <Link to="/heads"> */}
-          <div className="flex flex-col backdrop-blur-sm bg-white h-40 rounded-lg border-2 border-green-100 relative overflow-hidden justify-center">
+          <div className="flex flex-col backdrop-blur-sm bg-white rounded-lg border-2 border-green-100 relative overflow-hidden justify-center">
             <img src={heads} className=" h-38 w-42" alt="" />
             <div className="absolute w-full bg-white bg-opacity-30 p-2">
               <p className="text-center font-bold text-white">Coming Soon</p>
@@ -57,7 +57,7 @@ export default function Body() {
         </div>
         <div className="w-full mr-1">
           <Link>
-            <div className="flex flex-col backdrop-blur-sm bg-white h-40 rounded-lg border-2 border-green-100 relative overflow-hidden justify-center">
+            <div className="flex flex-col backdrop-blur-sm bg-white rounded-lg border-2 border-green-100 relative overflow-hidden justify-center">
               <img src={upcomingOne} className=" h-38 w-42" alt="" />
               <div className="absolute w-full bg-white bg-opacity-30 p-2">
                 <p className="text-center font-bold text-white">Coming Soon</p>

@@ -7,6 +7,7 @@ import one from "../../images/profile_one.jpg";
 import two from "../../images/profile_two.jpg";
 import three from "../../images/profile_three.jpg";
 import four from "../../images/profile_four.jpg";
+import background from '../../images/background.png';
 
 function Settings() {
   const { user } = useContext(UserContext);
@@ -29,15 +30,20 @@ function Settings() {
 
   return (
     <div className=" max-w-md mx-auto">
-      <div className="flex flex-col bg-myblue-800 h-screen">
+      <div className="flex flex-col bg-myblue-800 h-screen"
+      style={{
+        backgroundImage: `url(${background})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}>
         <div>
-          <div className="flex items-center bg-white w-full text-black py-3 px-4">
+          <div className="flex items-center bg-black w-full text-black py-3 px-4">
             <Link to="/home/profile" className="mr-4">
-              <div className="bg-myblue-800 p-2">
-                <IoIosArrowBack size={20} />
+              <div className=" p-2">
+                <IoIosArrowBack size={20} color="#FFF" />
               </div>
             </Link>
-            <p className="text-xl font-bold">Profile</p>
+            <p className="text-xl font-bold text-white">Profile</p>
           </div>
         </div>
 
@@ -61,9 +67,7 @@ function Settings() {
 
         <div className="flex flex-col space-y-4 px-3">
           <div className="relative shadow-lg">
-            <label className=" px-1 text-lg">
-              Name
-            </label>
+            <label className=" px-1 text-lg">Name</label>
             <input
               type="text"
               id="input-name"
@@ -74,9 +78,7 @@ function Settings() {
           </div>
 
           <div className="relative shadow-lg">
-            <label className="px-1 text-lg">
-              Email
-            </label>
+            <label className="px-1 text-lg">Email</label>
             <input
               type="text"
               id="input-email"
@@ -87,9 +89,7 @@ function Settings() {
           </div>
 
           <div className="relative shadow-lg">
-            <label className=" px-1 text-lg">
-              Mobile Number
-            </label>
+            <label className=" px-1 text-lg">Mobile Number</label>
             <input
               type="text"
               id="input-mobile"
