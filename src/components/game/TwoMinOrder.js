@@ -20,11 +20,11 @@ function TwoMinOrder({ newBets }) {
   }, [newBets]);
 
   return (
-    <div className="bg-white w-full">
+    <div className=" w-full">
       <div className="flex flex-col min-h-screen">
         <div className="">
           <div className="flex flex-col justify-center items-center">
-            <table className="table-auto w-full">
+            <table className="table-auto w-full border-2">
               <thead>
                 <tr>
                   <th className="p-2"><div className='rounded-3xl '>Number</div></th>
@@ -42,10 +42,10 @@ function TwoMinOrder({ newBets }) {
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                     className='border-t'
                   >
-                    <td className="p-2 text-center">{String(data.timerNumber).padEnd(4, '0')}</td>
-                    <td className="p-2 text-center">{bet.userNumber}</td>
-                    <td className="p-2 text-center">{bet.color}</td>
-                    <td className="p-2 text-center">{bet.amount}</td>
+                    <td className="p-2 text-center font-bold">{String(data.timerNumber).padEnd(4, '0')}</td>
+                    <td className="p-2 text-center font-bold">{bet.userNumber}</td>
+                    <td className="p-2 text-center font-bold">{bet.color}</td>
+                    <td className="p-2 text-center font-bold">{bet.amount}</td>
                   </motion.tr>
                 ))}
               </tbody>

@@ -183,10 +183,10 @@ function Timer() {
         userId: user.userId,
         periodNumber: data.timerNumber,
         periodDate: new Date().toISOString().split("T")[0],
-        betType: selectedColor?.title,
+        betType: selectedColor?.color,
         berforeBetAmount: user?.balance,
         betAmount: betAmount,
-        possiblePayout: possiblePayout[selectedColor?.title]?.toFixed(2),
+        // possiblePayout: possiblePayout[selectedColor?.title]?.toFixed(2),
       });
       if (response.status === 400) {
         toast.error("Recharge First");
@@ -384,7 +384,7 @@ function Timer() {
               </h2>
             </div>
           </div>
-          <div className="flex flex-col mx-3 bg-black w-full rounded-lg">
+          <div className="flex flex-col mx-3 bg-black w-full rounded-lg justify-center items-center">
             <p className="text-l ml-4 text-white flex">Count Down</p>
             <div className="rounded-lg p-3 h-8 items-center flex justify-center flex-row">
               {/* <h2 className="text-2xl font-mono">{formatTime(time)}</h2> */}
@@ -574,7 +574,7 @@ function Timer() {
           </div>
 
           {activeTab === "parityRecord" ? (
-            <div className="flex flex-col border-t-2 w-full">
+            <div className="flex flex-col w-full">
               {/* Content for Parity Record tab */}
               <EveryOneOrder
                 key={refresh}
