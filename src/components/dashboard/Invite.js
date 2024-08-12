@@ -23,7 +23,7 @@ function Invite() {
   const fetchReferCode = async (userId) => {
     try {
       const response = await axios.get(
-        `http://localhost:3001/api/v1/user/refer-and-earn/${userId}`
+        `https://api.perfectorse.site/api/v1/user/refer-and-earn/${userId}`
       );
       setReferCode(response.data?.userReferenceCode || "");
       setLoading(false);
@@ -54,28 +54,52 @@ function Invite() {
       toast.error("User not logged in.");
       return;
     }
-
+  
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/v1/financial/redeem-coupon",
+        "https://api.perfectorse.site/api/v1/financial/redeem-coupon",
         { coupon: couponCode, userId: user.userId }
       );
-
+  
       const statusMessageMap = {
         200: "Coupon redeemed successfully!",
         404: "Coupon not found!",
-        400: "Already claimed!",
+        400: "Coupon already claimed or you need to recharge!",
       };
-
+  
       toast[response.status === 200 ? "success" : "error"](
         statusMessageMap[response.status] || "Unexpected error occurred."
       );
-
+  
+      // Clear the coupon code input
       setCouponCode("");
     } catch (err) {
-      toast.error("Error claiming coupon!");
+      if (err.response) {
+        // Handle errors with response from the server
+        const { status, data } = err.response;
+        if (status === 400) {
+          // Application-specific errors
+          toast.error(data.message || "Invalid request. Please check your input.");
+        } else if (status === 404) {
+          // Resource not found
+          toast.error(data.message || "Resource not found.");
+        } else if (status === 500) {
+          // Server-side errors
+          toast.error(data.message || "Server error. Please try again later.");
+        } else {
+          // Other HTTP errors
+          toast.error("Unexpected error occurred. Please try again.");
+        }
+      } else if (err.request) {
+        // No response received from the server
+        toast.error("No response from server. Please check your network connection.");
+      } else {
+        // Error setting up the request
+        toast.error("Error setting up request: " + err.message);
+      }
     }
   };
+  
 
   const shareReferralLink = () => {
     const referralLink = `https://perfectorse.site/signup?referral=${referCode}`;
@@ -87,7 +111,6 @@ function Invite() {
           text: "Use my referral code to sign up and get rewards!",
           url: referralLink,
         })
-        .then(() => console.log("Successful share"))
         .catch((err) => console.log("Error sharing", err));
     } else {
       navigator.clipboard

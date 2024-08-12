@@ -58,7 +58,7 @@ function TwoMin() {
   const fetchLastPeriodData = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3001/api/v1/user/winner-two-min"
+        "https://api.perfectorse.site/api/v1/user/winner-two-min"
       );
       const data = response?.data;
       setLastPeriodData(data);
@@ -79,7 +79,7 @@ function TwoMin() {
     try {
       // setLoading(true);
       const response = await axios.get(
-        `http://localhost:3001/api/v1/financial/two-min-history/${userId}`
+        `https://api.perfectorse.site/api/v1/financial/two-min-history/${userId}`
       );
       if (response.status === 200) {
         setTwomin(response?.data);
@@ -202,24 +202,24 @@ function TwoMin() {
     if (newUnplayed >= betAmount) {
       // Use unplayed amount if sufficient
       newUnplayed -= betAmount;
-      await handleBetPlacement(betAmount, newUnplayed, newBonus, newBalance);
     } else if (newUnplayed + newBonus >= betAmount) {
       // Use unplayed + bonus if together they are sufficient
       const remainingAmount = betAmount - newUnplayed;
       newUnplayed = 0;
       newBonus -= remainingAmount;
-      await handleBetPlacement(betAmount, newUnplayed, newBonus, newBalance);
     } else if (newUnplayed + newBonus + newBalance >= betAmount) {
       // Use unplayed + bonus + balance if together they are sufficient
       const remainingAmount = betAmount - newUnplayed - newBonus;
       newUnplayed = 0;
       newBonus = 0;
       newBalance -= remainingAmount;
-      await handleBetPlacement(betAmount, newUnplayed, newBonus, newBalance);
     } else {
       // All amounts combined are insufficient
       setErrorMessage("Insufficient balance or funds to place the bet");
+      return; // Exit the function early if insufficient funds
     }
+
+    await handleBetPlacement(betAmount, newUnplayed, newBonus, newBalance);
   };
 
   const handleBetPlacement = async (
@@ -229,19 +229,14 @@ function TwoMin() {
     newBalance
   ) => {
     try {
-      const response = await axios.post(
-        "http://localhost:3001/place-bet/two-min",
-        {
-          userId: user.userId,
-          periodNumber: data.timerNumber,
-          periodDate: new Date().toISOString().split("T")[0],
-          betType: selectedColor?.color,
-          berforeBetAmount: user?.balance,
-          betAmount: betAmount,
-          // possiblePayout: possiblePayout[selectedColor.color]?.toFixed(2),
-        }
-      );
-  
+      const response = await axios.post("https://api.perfectorse.site/place-bet/two-min", {
+        userId: user.userId,
+        periodNumber: data.timerNumber,
+        periodDate: new Date().toISOString().split("T")[0],
+        betType: selectedColor?.color,
+        berforeBetAmount: user?.balance,
+        betAmount: betAmount,
+      });
       if (response.status === 200) {
         toast.success("Bet placed successfully!");
         setSelectedColor(null);
@@ -256,10 +251,12 @@ function TwoMin() {
             periodNumber: data.timerNumber,
             betType: selectedColor?.title,
             betAmount,
-            possiblePayout: possiblePayout[selectedColor.color]?.toFixed(2),
+            possiblePayout: possiblePayout[selectedColor?.title]?.toFixed(2),
           },
         ]);
-        await fetchUserData();
+        await fetchUserData(); // Refresh user data
+
+        // Update the user state with the new amounts
         setUser((prevUser) => ({
           ...prevUser,
           unplayed: newUnplayed,
@@ -274,8 +271,7 @@ function TwoMin() {
     } catch (error) {
       console.error("Error placing bet:", error);
       setErrorMessage("Error placing bet");
-  
-      // Handle 400 status code inside the catch block if not caught in the above else-if
+
       if (error.response && error.response.status === 400) {
         toast.error("Recharge First");
       }
@@ -284,6 +280,7 @@ function TwoMin() {
       setSetshowPopUp(false);
     }
   };
+
   
   const generateRandomBets = () => {
     const colors = ["Red", "Violet", "Green"];

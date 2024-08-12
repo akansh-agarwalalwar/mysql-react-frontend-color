@@ -1,17 +1,16 @@
 import React, { useContext, useState, useEffect } from "react";
-import { FaArrowLeftLong } from "react-icons/fa6";
+import { IoIosArrowBack } from "react-icons/io";
 import UserContext from "../login/UserContext";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import debounce from "lodash.debounce";
 import toast from "react-hot-toast";
 import "../../index.css";
-import { IoIosArrowBack } from "react-icons/io";
 import background from '../../images/background.png';
 
 function Withdraw() {
   const { user } = useContext(UserContext);
-  console.log(user)
+  console.log(user);
   const [amountset, setAmountset] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -22,7 +21,7 @@ function Withdraw() {
     const fetchBankDetails = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3001/api/v1/financial/bank-details/${user.userId}`
+          `https://api.perfectorse.site/api/v1/financial/bank-details/${user.userId}`
         );
         if (res.status === 200) {
           setBankDetails(res.data);
@@ -35,6 +34,7 @@ function Withdraw() {
       fetchBankDetails();
     }
   }, [user]);
+
   const handleWithdraw = async () => {
     const amount = parseFloat(amountset);
     if (isNaN(amount) || amount <= 0) {
@@ -44,11 +44,11 @@ function Withdraw() {
     setLoading(true);
     try {
       const response = await axios.post(
-        `http://localhost:3001/api/v1/financial/amount-withdraw`,
+        `https://api.perfectorse.site/api/v1/financial/amount-withdraw`,
         { userId: user.userId, amount }
       );
       if (response.status === 200) {
-        toast.success("Withdrawl Request Submitted!");
+        toast.success("Withdrawal Request Submitted!");
         setTimeout(() => {
           navigate("/home");
         }, 1000);
@@ -56,7 +56,9 @@ function Withdraw() {
         setMessage("Failed to process withdrawal. Please try again.");
       }
     } catch (error) {
-      if (error.response && error.response.status === 504) {
+      if (error.response && error.response.status === 400 && error.response.data.message === "Insufficient balance") {
+        toast.error("Insufficient balance!");
+      } else if (error.response && error.response.status === 504) {
         setMessage("Server timeout. Redirecting to home page.");
         setTimeout(() => {
           navigate("/home");
@@ -72,6 +74,7 @@ function Withdraw() {
       setLoading(false);
     }
   };
+
   const handleAddBankDetails = () => {
     navigate("/home/profile/bank-details");
   };
@@ -87,29 +90,30 @@ function Withdraw() {
   const debouncedHandleWithdraw = debounce(handleWithdraw, 500);
 
   return (
-    <div className="no-bottom-nav flex flex-col h-screen w-full bg-myblue-800 max-w-md mx-auto justify-between"
-    style={{
-      backgroundImage: `url(${background})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    }}>
+    <div
+      className="no-bottom-nav flex flex-col h-screen w-full bg-myblue-800 max-w-md mx-auto justify-between"
+      style={{
+        backgroundImage: `url(${background})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
       <div>
-      <div className="flex items-center bg-black w-full text-black py-3 px-4">
-        <Link to="/home" className="mr-4">
-          <div className=" p-2">
-            <IoIosArrowBack size={20}  color="#FFF"/>
-          </div>
-        </Link>
-        <p className="text-xl font-bold text-white">Withdraw</p>
-      </div>
+        <div className="flex items-center bg-black w-full text-black py-3 px-4">
+          <Link to="/home" className="mr-4">
+            <div className=" p-2">
+              <IoIosArrowBack size={20} color="#FFF" />
+            </div>
+          </Link>
+          <p className="text-xl font-bold text-white">Withdraw</p>
+        </div>
         <div className="relative mt-6">
           <div className="my-4 text-center">
             <p className="text-xl">
               Balance
               <br />
               <span className="font-bold text-xl">
-              {user?.balance ? `₹ ${user.balance}` : "₹ 0"}
-                
+                {user?.winnings ? `₹ ${user.winnings}` : "₹ 0"}
               </span>
             </p>
           </div>

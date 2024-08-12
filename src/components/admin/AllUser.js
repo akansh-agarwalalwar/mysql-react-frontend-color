@@ -32,7 +32,7 @@ export default function AllUsers() {
   const fetchUsers = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3001/api/v1/admin/all-users"
+        "https://api.perfectorse.site/api/v1/admin/all-users"
       );
       const data = await response.data;
       setUsers(data);
@@ -44,7 +44,7 @@ export default function AllUsers() {
   const fetchRechargeHistory = async (userId) => {
     try {
       const response = await fetch(
-        `http://localhost:3001/api/v1/financial/recharge-history?userId=${userId}`
+        `https://api.perfectorse.site/api/v1/financial/recharge-history?userId=${userId}`
       );
       if (!response.ok) {
         throw new Error(`https error! status: ${response?.status}`);
@@ -59,7 +59,7 @@ export default function AllUsers() {
   const fetchWithdrawHistory = async (userId) => {
     try {
       const response = await fetch(
-        `http://localhost:3001/api/v1/financial/withdraw-history?userId=${userId}`
+        `https://api.perfectorse.site/api/v1/financial/withdraw-history?userId=${userId}`
       );
       if (!response.ok) {
         throw new Error(`https error! status: ${response?.status}`);
@@ -73,7 +73,7 @@ export default function AllUsers() {
   const fetchBankDetails = async (userId) => {
     try {
       const res = await fetch(
-        `http://localhost:3001/api/v1/admin/bank?userId=${userId}`
+        `https://api.perfectorse.site/api/v1/admin/bank?userId=${userId}`
       );
       if (!res.ok) {
         throw new Error(`https error! status: ${res.status}`);
@@ -102,7 +102,7 @@ export default function AllUsers() {
         }
 
         const response = await axios.post(
-          `http://localhost:3001/api/v1/admin/deleteUser/${userId}`
+          `https://api.perfectorse.site/api/v1/admin/deleteUser/${userId}`
         );
         toast.success("Deleted Successfully");
         // console.log(response.data.message); // Log the response message
@@ -121,7 +121,7 @@ export default function AllUsers() {
       }
 
       const response = await axios.post(
-        `http://localhost:3001/api/v1/admin/editUser/${userId}`
+        `https://api.perfectorse.site/api/v1/admin/editUser/${userId}`
       );
       console.log(response.data.message); // Log the response message
     } catch (error) {
@@ -252,7 +252,6 @@ export default function AllUsers() {
             </tbody>
           </table>
         </div>
-
         {isModalOpen && clickedUser && (
           <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 ">
             <div className="bg-white p-8 rounded-lg w-full sm:w-3/4 max-h-full overflow-auto">
@@ -287,6 +286,15 @@ export default function AllUsers() {
               </div>
               <div className="mb-4">
                 <strong>Balance:</strong> {clickedUser?.balance}
+              </div>
+              <div className="mb-4">
+                <strong>Unplayed:</strong> {clickedUser?.unplayed}
+              </div>
+              <div className="mb-4">
+                <strong>Bonus:</strong> {clickedUser?.bonus}
+              </div>
+              <div className="mb-4">
+                <strong>Winnings:</strong> {clickedUser?.winnings}
               </div>
 
               <div className="flex flex-col sm:flex-row justify-between">

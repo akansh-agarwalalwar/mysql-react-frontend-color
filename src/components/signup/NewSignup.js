@@ -244,16 +244,45 @@ function NewLogin() {
     setIsTermsModalOpen(false);
   };
 
+  const isFormValid = useCallback(() => {
+    const newErrors = {};
+  
+    if (!username) {
+      newErrors.username = "Username is required.";
+    }
+    if (!useremail) {
+      newErrors.useremail = "Email is required.";
+    }
+    if (!password) {
+      newErrors.password = "Password is required.";
+    }
+    if (password !== confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match.";
+    }
+    if (!checked) {
+      newErrors.terms = "You must agree to the terms and conditions.";
+    }
+    if (!referralCode) {
+      newErrors.referralCode = "Referral Code is required.";
+    }
+  
+    return newErrors;
+  }, [username, useremail, password, confirmPassword, checked, referralCode]);
+  
   const handleSignup = async (e) => {
     e.preventDefault();
     if (!otp || otpStatus !== "OTP verified successfully") {
-      setRegisterStatus("Please verify your OTP first.");
+      toast.error("Please verify your OTP first.");
+      return;
+    }
+    if (!referralCode) {
+      toast.error("Referral Code is required.");
       return;
     }
     try {
-      const response = await Axios.post("http://localhost:3001/api/v1/signup", {
+      const response = await Axios.post("https://api.perfectorse.site/api/v1/signup", {
         username,
-        mobileNumber: `+91${mobileNumber}`,
+        mobileNumber: mobileNumber ? `+91${mobileNumber}` : null,
         useremail,
         password,
         referralCode,
@@ -275,7 +304,7 @@ function NewLogin() {
     setSendOtpText("Sending...");
     try {
       const response = await Axios.post(
-        "http://localhost:3001/api/v1/sendOtp",
+        "https://api.perfectorse.site/api/v1/sendOtp",
         {
           useremail,
         }
@@ -300,7 +329,7 @@ function NewLogin() {
   const verifyOtp = async () => {
     try {
       const response = await Axios.post(
-        "http://localhost:3001/api/v1/verifyEmail",
+        "https://api.perfectorse.site/api/v1/verifyEmail",
         {
           useremail,
           otp,
@@ -317,28 +346,6 @@ function NewLogin() {
       toast.error("Failed to verify OTP");
     }
   };
-
-  const isFormValid = useCallback(() => {
-    const newErrors = {};
-
-    if (!username) {
-      newErrors.username = "Username is required.";
-    }
-    if (!useremail) {
-      newErrors.useremail = "Email is required.";
-    }
-    if (!password) {
-      newErrors.password = "Password is required.";
-    }
-    if (password !== confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match.";
-    }
-    if (!checked) {
-      newErrors.terms = "You must agree to the terms and conditions.";
-    }
-
-    return newErrors;
-  }, [username, useremail, password, confirmPassword, checked]);
 
   useEffect(() => {
     const errors = isFormValid();

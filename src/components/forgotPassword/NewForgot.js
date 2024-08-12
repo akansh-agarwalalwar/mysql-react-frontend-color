@@ -27,7 +27,7 @@ function NewForgot() {
     }
     try {
       const response = await Axios.post(
-        "http://localhost:3001/api/v1/forgotPassword",
+        "https://api.perfectorse.site/api/v1/forgotPassword",
         {
           useremail,
           newPassword,
@@ -50,7 +50,7 @@ function NewForgot() {
     e.preventDefault();
     try {
       const response = await Axios.post(
-        "http://localhost:3001/api/v1/sendOtp",
+        "https://api.perfectorse.site/api/v1/sendOtp",
         {
           useremail,
         }
@@ -74,7 +74,7 @@ function NewForgot() {
     e.preventDefault();
     try {
       const response = await Axios.post(
-        "http://localhost:3001/api/v1/verifyEmail",
+        "https://api.perfectorse.site/api/v1/verifyEmail",
         {
           useremail,
           otp,

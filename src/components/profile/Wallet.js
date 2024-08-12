@@ -7,6 +7,7 @@ import { TbTransactionRupee } from "react-icons/tb";
 import { Link } from "react-router-dom";
 function Wallet() {
   const { user } = useContext(UserContext);
+  console.log(user)
   return (
     <div className="flex w-full justify-center items-center">
       <div className="w-full max-w-lg flex flex-col items-center p-6 relative">
@@ -65,7 +66,7 @@ function Wallet() {
               <div className="flex flex-col">
                 <p className="text-black">Winnings</p>
                 <p className="font-semibold text-black">
-                  {user?.balance ? `₹${user.balance}` : "₹0"}
+                  {user?.winnings ? `₹${user.winnings}` : "₹0"}
                 </p>
               </div>
             </div>

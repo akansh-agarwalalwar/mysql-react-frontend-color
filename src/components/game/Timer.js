@@ -72,7 +72,7 @@ function Timer() {
     try {
       // console.log("-------------------------------------------------------------")
       const response = await axios.get(
-        "http://localhost:3001/api/v1/user/winner-thirty-second"
+        "https://api.perfectorse.site/api/v1/user/winner-thirty-second"
       );
       const data = response.data;
       // console.log(data);
@@ -94,7 +94,7 @@ function Timer() {
     try {
       // setLoading(true);
       const response = await axios.get(
-        `http://localhost:3001/api/v1/financial/thirty-second-history/${userId}`
+        `https://api.perfectorse.site/api/v1/financial/thirty-second-history/${userId}`
       );
       if (response.status === 200) {
         setThirtySecond(response?.data);
@@ -152,24 +152,24 @@ function Timer() {
     if (newUnplayed >= betAmount) {
       // Use unplayed amount if sufficient
       newUnplayed -= betAmount;
-      await handleBetPlacement(betAmount, newUnplayed, newBonus, newBalance);
     } else if (newUnplayed + newBonus >= betAmount) {
       // Use unplayed + bonus if together they are sufficient
       const remainingAmount = betAmount - newUnplayed;
       newUnplayed = 0;
       newBonus -= remainingAmount;
-      await handleBetPlacement(betAmount, newUnplayed, newBonus, newBalance);
     } else if (newUnplayed + newBonus + newBalance >= betAmount) {
       // Use unplayed + bonus + balance if together they are sufficient
       const remainingAmount = betAmount - newUnplayed - newBonus;
       newUnplayed = 0;
       newBonus = 0;
       newBalance -= remainingAmount;
-      await handleBetPlacement(betAmount, newUnplayed, newBonus, newBalance);
     } else {
       // All amounts combined are insufficient
       setErrorMessage("Insufficient balance or funds to place the bet");
+      return; // Exit the function early if insufficient funds
     }
+
+    await handleBetPlacement(betAmount, newUnplayed, newBonus, newBalance);
   };
 
   const handleBetPlacement = async (
@@ -179,16 +179,14 @@ function Timer() {
     newBalance
   ) => {
     try {
-      const response = await axios.post("http://localhost:3001/place-bet", {
+      const response = await axios.post("https://api.perfectorse.site/place-bet", {
         userId: user.userId,
         periodNumber: data.timerNumber,
         periodDate: new Date().toISOString().split("T")[0],
         betType: selectedColor?.color,
         berforeBetAmount: user?.balance,
         betAmount: betAmount,
-        // possiblePayout: possiblePayout[selectedColor?.title]?.toFixed(2),
       });
-  
       if (response.status === 200) {
         toast.success("Bet placed successfully!");
         setSelectedColor(null);
@@ -207,7 +205,7 @@ function Timer() {
           },
         ]);
         await fetchUserData(); // Refresh user data
-  
+
         // Update the user state with the new amounts
         setUser((prevUser) => ({
           ...prevUser,
@@ -216,15 +214,14 @@ function Timer() {
           balance: newBalance ?? prevUser.balance, // Use the old balance if newBalance is undefined
         }));
       } else if (response.status === 400) {
-        toast.error("Recharge First"); // Change to error for better semantics
+        toast.error("Recharge First");
       } else {
         throw new Error("Error placing bet");
       }
     } catch (error) {
       console.error("Error placing bet:", error);
       setErrorMessage("Error placing bet");
-  
-      // Check if the error response status is 400 and show the toast
+
       if (error.response && error.response.status === 400) {
         toast.error("Recharge First");
       }
@@ -233,12 +230,11 @@ function Timer() {
       setSetshowPopUp(false);
     }
   };
-  
 
   const getWinPopUp = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:3001/api/v1/user/getWinPopUp"
+        "https://api.perfectorse.site/api/v1/user/getWinPopUp"
       );
       const data = res.data;
       console.log(data);

@@ -11,8 +11,8 @@ function PaymentApprove() {
   const fetchPayments = useCallback(async () => {
     try {
       const [pendingResponse, historyResponse] = await Promise.all([
-        axios.get("http://localhost:3001/api/v1/admin/pendingPayment"),
-        axios.get("http://localhost:3001/api/v1/admin/adminUpdatedHistory"),
+        axios.get("https://api.perfectorse.site/api/v1/admin/pendingPayment"),
+        axios.get("https://api.perfectorse.site/api/v1/admin/adminUpdatedHistory"),
       ]);
       setPendingPayments(pendingResponse.data);
       setPaymentHistory(historyResponse.data);
@@ -29,7 +29,7 @@ function PaymentApprove() {
   const handleApprove = async (id) => {
     try {
       await axios.post(
-        "http://localhost:3001/api/v1/admin/adminPaymentApprove",
+        "https://api.perfectorse.site/api/v1/admin/adminPaymentApprove",
         { id }
       );
       const approvedPayment = pendingPayments.find(
@@ -51,7 +51,7 @@ function PaymentApprove() {
 
   const handleDeny = async (id) => {
     try {
-      await axios.post("http://localhost:3001/api/v1/admin/adminPaymentDeny", {
+      await axios.post("https://api.perfectorse.site/api/v1/admin/adminPaymentDeny", {
         id,
       });
       setPendingPayments(
@@ -133,7 +133,7 @@ function PaymentApprove() {
                       </td>
                       <td className="py-4 px-6 text-center">
                         <button
-                          className="bg-green-500 py-1 px-2 rounded-lg mr-2 hover:bg-green-600 text-xs md:text-sm"
+                          className="bg-green-100 py-1 px-2 rounded-lg mr-2 hover:bg-green-600 text-xs md:text-sm"
                           onClick={() => handleApprove(payment.id)}
                         >
                           Approve

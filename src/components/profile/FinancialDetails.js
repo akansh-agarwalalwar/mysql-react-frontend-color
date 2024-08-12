@@ -24,7 +24,7 @@ function FinancialDetails() {
     try {
       setLoading(true);
       const response = await axios.get(
-        `http://localhost:3001/api/v1/financial/recharge-history?userId=${userId}`
+        `https://api.perfectorse.site/api/v1/financial/recharge-history?userId=${userId}`
       );
       if (response.status === 200) {
         setRechargeHistory(response?.data);
@@ -41,7 +41,7 @@ function FinancialDetails() {
     try {
       setLoading(true);
       const response = await axios.get(
-        `http://localhost:3001/api/v1/financial/withdraw-history?userId=${userId}`
+        `https://api.perfectorse.site/api/v1/financial/withdraw-history?userId=${userId}`
       );
       if (response.status === 200) {
         setWithdrawHistory(response?.data);

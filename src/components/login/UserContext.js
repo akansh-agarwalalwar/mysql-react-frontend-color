@@ -13,16 +13,19 @@ export const UserProvider = ({ children }) => {
   });
 
   const fetchUserData = async () => {
-    if (!user?.userId) return;
-
+    if (!user?.userId) {
+      console.warn("User ID is not available");
+      return;
+    }
     try {
+      console.log(`Fetching data for userId: ${user.userId}`);
       const response = await axios.get(
-        `http://localhost:3001/api/v1/user/balance/${user.userId}`
+        `https://api.perfectorse.site/api/v1/user/balance/${user.userId}`
       );
-      const data = response?.data;
+      // console.log("Response from backend:", response);
 
-      if (response.status === 200 && typeof data === "object") {
-        const userData = data;
+      if (response.status === 200 && typeof response.data === "object") {
+        const userData = response.data;
         setUser((prevUser) => ({
           ...prevUser,
           balance: userData?.balance ?? 0,
@@ -31,7 +34,7 @@ export const UserProvider = ({ children }) => {
           winnings: userData?.winnings ?? 0,
         }));
       } else {
-        console.warn("Unexpected data format:", data);
+        // console.warn("Unexpected data format or response status:", response);
       }
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -46,7 +49,7 @@ export const UserProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await axios.post("http://localhost:3001/api/v1/logout");
+      await axios.post("https://api.perfectorse.site/api/v1/logout");
       setUser(null);
       Cookies.remove("user");
     } catch (error) {

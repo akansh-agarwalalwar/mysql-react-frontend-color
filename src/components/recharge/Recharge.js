@@ -19,12 +19,12 @@ const Recharge = () => {
         state: { amount: parsedAmount },
       });
     } else {
-      setError("Amount must be 200 INR or more");
+      setError("Amount must be 500 INR or more");
     }
   };
 
   const isRechargeButtonDisabled = !(
-    parseInt(amount) >= 200 && parseInt(amount) <= 10000
+    parseInt(amount) >= 500 && parseInt(amount) <= 10000
   );
 
   return (
@@ -52,7 +52,7 @@ const Recharge = () => {
             id="amount"
             className="p-2 border-myblue-300 rounded-md w-full"
             value={amount}
-            placeholder="200 ~ 10000"
+            placeholder=" 500 ~ 10000"
             onChange={(e) => setAmount(e.target.value)}
           />
         </div>
