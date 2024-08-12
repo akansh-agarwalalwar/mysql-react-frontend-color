@@ -241,7 +241,7 @@ function TwoMin() {
           // possiblePayout: possiblePayout[selectedColor.color]?.toFixed(2),
         }
       );
-
+  
       if (response.status === 200) {
         toast.success("Bet placed successfully!");
         setSelectedColor(null);
@@ -260,23 +260,31 @@ function TwoMin() {
           },
         ]);
         await fetchUserData();
+        setUser((prevUser) => ({
+          ...prevUser,
+          unplayed: newUnplayed,
+          bonus: newBonus,
+          balance: newBalance ?? prevUser.balance, // Use the old balance if newBalance is undefined
+        }));
+      } else if (response.status === 400) {
+        toast.error("Recharge First");
       } else {
         throw new Error("Error placing bet");
       }
-      setUser((prevUser) => ({
-        ...prevUser,
-        unplayed: newUnplayed,
-        bonus: newBonus,
-        balance: newBalance ?? prevUser.balance,
-      }));
     } catch (error) {
       console.error("Error placing bet:", error);
       setErrorMessage("Error placing bet");
+  
+      // Handle 400 status code inside the catch block if not caught in the above else-if
+      if (error.response && error.response.status === 400) {
+        toast.error("Recharge First");
+      }
+    } finally {
+      closePopup();
+      setSetshowPopUp(false);
     }
-
-    closePopup();
-    setSetshowPopUp(false);
   };
+  
   const generateRandomBets = () => {
     const colors = ["Red", "Violet", "Green"];
     const amounts = [100, 200, 500, 1000];

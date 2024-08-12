@@ -188,9 +188,7 @@ function Timer() {
         betAmount: betAmount,
         // possiblePayout: possiblePayout[selectedColor?.title]?.toFixed(2),
       });
-      if (response.status === 400) {
-        toast.error("Recharge First");
-      }
+  
       if (response.status === 200) {
         toast.success("Bet placed successfully!");
         setSelectedColor(null);
@@ -209,25 +207,33 @@ function Timer() {
           },
         ]);
         await fetchUserData(); // Refresh user data
+  
+        // Update the user state with the new amounts
+        setUser((prevUser) => ({
+          ...prevUser,
+          unplayed: newUnplayed,
+          bonus: newBonus,
+          balance: newBalance ?? prevUser.balance, // Use the old balance if newBalance is undefined
+        }));
+      } else if (response.status === 400) {
+        toast.error("Recharge First"); // Change to error for better semantics
       } else {
         throw new Error("Error placing bet");
       }
-
-      // Update the user state with the new amounts
-      setUser((prevUser) => ({
-        ...prevUser,
-        unplayed: newUnplayed,
-        bonus: newBonus,
-        balance: newBalance ?? prevUser.balance, // Use the old balance if newBalance is undefined
-      }));
     } catch (error) {
       console.error("Error placing bet:", error);
       setErrorMessage("Error placing bet");
+  
+      // Check if the error response status is 400 and show the toast
+      if (error.response && error.response.status === 400) {
+        toast.error("Recharge First");
+      }
+    } finally {
+      closePopup();
+      setSetshowPopUp(false);
     }
-
-    closePopup();
-    setSetshowPopUp(false);
   };
+  
 
   const getWinPopUp = async () => {
     try {

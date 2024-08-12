@@ -32,7 +32,7 @@ function Wallet() {
               </div>
             </div>
             <Link to="/home/recharge">
-              <button className="bg-red-100 text-white rounded-lg px-4 py-2 ml-2 w-full" >
+              <button className="bg-red-100 text-white rounded-lg px-4 py-2 ml-2" >
                 ADD CASH
               </button>
             </Link>
