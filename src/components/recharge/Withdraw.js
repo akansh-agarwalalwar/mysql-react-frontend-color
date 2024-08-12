@@ -108,7 +108,7 @@ function Withdraw() {
               Balance
               <br />
               <span className="font-bold text-xl">
-              {user?.winnings ? `₹ ${user.winnings}` : "₹ 0"}
+              {user?.balance ? `₹ ${user.balance}` : "₹ 0"}
                 
               </span>
             </p>
