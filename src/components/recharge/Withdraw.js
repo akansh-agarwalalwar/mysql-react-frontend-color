@@ -11,6 +11,7 @@ import background from '../../images/background.png';
 
 function Withdraw() {
   const { user } = useContext(UserContext);
+  console.log(user)
   const [amountset, setAmountset] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -21,7 +22,7 @@ function Withdraw() {
     const fetchBankDetails = async () => {
       try {
         const res = await axios.get(
-          `https://api.perfectorse.site/api/v1/financial/bank-details/${user.userId}`
+          `http://localhost:3001/api/v1/financial/bank-details/${user.userId}`
         );
         if (res.status === 200) {
           setBankDetails(res.data);
@@ -43,7 +44,7 @@ function Withdraw() {
     setLoading(true);
     try {
       const response = await axios.post(
-        `https://api.perfectorse.site/api/v1/financial/amount-withdraw`,
+        `http://localhost:3001/api/v1/financial/amount-withdraw`,
         { userId: user.userId, amount }
       );
       if (response.status === 200) {
@@ -106,7 +107,10 @@ function Withdraw() {
             <p className="text-xl">
               Balance
               <br />
-              <span className="font-bold text-xl">₹{user.balance}</span>
+              <span className="font-bold text-xl">
+              {user?.winnings ? `₹ ${user.winnings}` : "₹ 0"}
+                
+              </span>
             </p>
           </div>
         </div>
