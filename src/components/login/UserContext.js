@@ -17,7 +17,7 @@ export const UserProvider = ({ children }) => {
 
     try {
       const response = await axios.get(
-        `https://api.perfectorse.site/api/v1/user/balance/${user.userId}`
+        `http://localhost:3001/api/v1/user/balance/${user.userId}`
       );
       const data = response?.data;
 
@@ -46,7 +46,7 @@ export const UserProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await axios.post("https://api.perfectorse.site/api/v1/logout");
+      await axios.post("http://localhost:3001/api/v1/logout");
       setUser(null);
       Cookies.remove("user");
     } catch (error) {
