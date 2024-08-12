@@ -29,6 +29,7 @@ export const UserProvider = ({ children }) => {
           balance: userData?.balance ?? 0,
           bonus: userData?.bonus ?? 0,
           unplayed: userData?.unplayed ?? 0,
+          winnings : userData?.winnings ?? 0
         }));
       } else {
         console.warn("Unexpected data format:", data);

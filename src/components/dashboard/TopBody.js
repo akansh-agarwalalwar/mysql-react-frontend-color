@@ -8,10 +8,7 @@ export default function TopBody() {
   useEffect(() => {
     fetchUserData();
   }, []);
-
-  const [balance, setBalance] = useState(
-    user.balance !== undefined ? user.balance : "Loading..."
-  );
+  console.log(user.balance)
 
   return (
     <div className="mx-3 mt-6">
