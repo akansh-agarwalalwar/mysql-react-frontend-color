@@ -14,11 +14,11 @@ export const UserProvider = ({ children }) => {
 
   const fetchUserData = async () => {
     if (!user?.userId) {
-      console.warn("User ID is not available");
+      // console.warn("User ID is not available");
       return;
     }
     try {
-      console.log(`Fetching data for userId: ${user.userId}`);
+      // console.log(`Fetching data for userId: ${user.userId}`);
       const response = await axios.get(
         `https://api.perfectorse.site/api/v1/user/balance/${user.userId}`
       );

@@ -27,7 +27,7 @@ function Timer() {
   const [userOrders, setUserOrders] = useState([]);
   const [data, setData] = useState(calculateTimerInfo);
   const { user, fetchUserData } = useContext(UserContext);
-  console.log(user);
+  // console.log(user);
   const [users, setUser] = useState();
   const [periodNumber, setPeriodNumber] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);

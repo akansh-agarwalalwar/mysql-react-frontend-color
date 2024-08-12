@@ -7,7 +7,7 @@ import { TbTransactionRupee } from "react-icons/tb";
 import { Link } from "react-router-dom";
 function Wallet() {
   const { user } = useContext(UserContext);
-  console.log(user)
+  // console.log(user)
   return (
     <div className="flex w-full justify-center items-center">
       <div className="w-full max-w-lg flex flex-col items-center p-6 relative">

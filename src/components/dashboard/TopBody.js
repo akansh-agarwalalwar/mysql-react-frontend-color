@@ -8,7 +8,7 @@ export default function TopBody() {
   useEffect(() => {
     fetchUserData();
   }, []);
-  console.log(user.balance)
+  // console.log(user.balance)
 
   return (
     <div className="mx-3 mt-6">
