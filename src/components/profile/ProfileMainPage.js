@@ -76,50 +76,14 @@ const ProfileMainPage = () => {
   };
 
   return (
-    <div className="flex flex-col bg-myblue-500 min-h-screen text-richblack-5 max-w-md mx-auto"
-    style={{
-      backgroundImage: `url(${background})`,
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-    }}>
-      {/* <div className="flex items-center mt-8">
-        <div className="rounded-full p-3 flex justify-center items-center -ml-5">
-          {profileImage ? (
-            <div
-              style={{
-                backgroundImage: `url(${profileImage})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                width: "48px",
-                height: "48px",
-                borderRadius: "50%",
-              }}
-            />
-          ) : (
-            <FaRegUser size={30} color="white" />
-          )}
-        </div>
-        <div className="flex justify-between w-full ml-2">
-          <div>
-            <p className="text-2xl text-start border-b border-richblack-50 uppercase text-richblack-900">
-              {user ? user.username : "Not Logged In"}
-            </p>
-            <h1 className="text-richblack-700">
-              ID : {user ? user.userId : "Not Logged In"}
-            </h1>
-          </div>
-          <div className="flex items-center justify-center">
-            <Link to="/home/profile/setting">
-              <IoSettingsOutline className="rounded-full h-9 w-9 text-richblack-900" />
-            </Link>
-          </div>
-        </div>
-      </div> */}
-      {/* <div className="flex w-full justify-end mt-8">
-        <Link to="/home/profile/setting">
-          <IoSettingsOutline className="rounded-full h-9 w-9 text-richblack-900" />
-        </Link>
-      </div> */}
+    <div
+      className="flex flex-col bg-myblue-500 min-h-screen text-richblack-5 max-w-md mx-auto"
+      style={{
+        backgroundImage: `url(${background})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       <Wallet />
       <div className="mt-5 px-8">
         <h2 className="text-xl mb-4 text-black font-bold">Quick Links</h2>
@@ -138,7 +102,7 @@ const ProfileMainPage = () => {
                   className="flex items-center justify-between py-4"
                 >
                   <div className="flex items-center space-x-2">
-                    <p className="text-2xl text-myblue-400">{item.icon}</p>
+                    <p className="text-2xl text-black">{item.icon}</p>
                     <p className="text-lg text-black font-bold">{item.title}</p>
                   </div>
                   <MdKeyboardArrowRight className="text-myblue-400" />
@@ -146,7 +110,7 @@ const ProfileMainPage = () => {
               ) : (
                 <div className="flex items-center justify-between py-4">
                   <div className="flex items-center space-x-2">
-                    <p className="text-2xl text-myblue-400">{item.icon}</p>
+                    <p className="text-2xl text-black">{item.icon}</p>
                     <p className="text-lg text-black font-bold">{item.title}</p>
                   </div>
                   <MdKeyboardArrowRight className="text-myblue-400" />

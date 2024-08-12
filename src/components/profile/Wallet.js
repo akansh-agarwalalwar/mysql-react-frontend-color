@@ -1,6 +1,9 @@
 import React, { useContext } from "react";
 import UserContext from "../login/UserContext";
 import { TbReceiptRupee } from "react-icons/tb";
+import { TbCurrencyRupee } from "react-icons/tb";
+import { TbTransactionRupee } from "react-icons/tb";
+
 import { Link } from "react-router-dom";
 function Wallet() {
   const { user } = useContext(UserContext);
@@ -38,7 +41,7 @@ function Wallet() {
           <div className="flex items-center justify-between mb-4">
             <div className="flex flex-row items-center justify-center gap-2">
               <div className="flex items-center justify-center rounded-full bg-black h-7 w-7">
-                <TbReceiptRupee />
+                <TbCurrencyRupee />
               </div>
               <div className="flex flex-col">
                 <p className="text-black">Bonus</p>
@@ -57,7 +60,7 @@ function Wallet() {
           <div className="flex items-center justify-between">
             <div className="flex flex-row items-center justify-center gap-2">
               <div className="flex items-center justify-center rounded-full bg-black h-7 w-7">
-                <TbReceiptRupee />
+                <TbTransactionRupee />
               </div>
               <div className="flex flex-col">
                 <p className="text-black">Winnings</p>

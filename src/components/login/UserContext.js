@@ -21,14 +21,14 @@ export const UserProvider = ({ children }) => {
       );
       const data = response?.data;
 
-      if (response.status === 200 && typeof data === 'object') {
+      if (response.status === 200 && typeof data === "object") {
         const userData = data;
         setUser((prevUser) => ({
           ...prevUser,
           balance: userData?.balance ?? 0,
           bonus: userData?.bonus ?? 0,
           unplayed: userData?.unplayed ?? 0,
-          winnings : userData?.winnings ?? 0
+          winnings: userData?.winnings ?? 0,
         }));
       } else {
         console.warn("Unexpected data format:", data);
@@ -36,7 +36,7 @@ export const UserProvider = ({ children }) => {
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
-  }; 
+  };
 
   useEffect(() => {
     if (user?.userId) {
