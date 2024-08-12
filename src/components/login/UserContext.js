@@ -9,7 +9,7 @@ export const UserProvider = ({ children }) => {
     const userCookie = Cookies.get("user");
     return userCookie
       ? JSON.parse(userCookie)
-      : { balance: 0, bonus: 0, unplayed: 0, winnings: 0 };
+      : { balance: 0, bonus: 0, unplayed: 0 };
   });
 
   const fetchUserData = async () => {
@@ -17,20 +17,18 @@ export const UserProvider = ({ children }) => {
 
     try {
       const response = await axios.get(
-        `http://localhost:3001/api/v1/user/balance/${user.userId}`
+        `https://api.perfectorse.site/api/v1/user/balance/${user.userId}`
       );
       const data = response?.data;
 
       if (response.status === 200 && typeof data === 'object') {
-        const { bonus = 0, unplayed = 0, winnings = 0 } = data;
-        const balance = bonus + unplayed + winnings;
-
+        const userData = data;
         setUser((prevUser) => ({
           ...prevUser,
-          balance,
-          bonus,
-          unplayed,
-          winnings,
+          balance: userData?.balance ?? 0,
+          bonus: userData?.bonus ?? 0,
+          unplayed: userData?.unplayed ?? 0,
+          winnings : userData?.winnings ?? 0
         }));
       } else {
         console.warn("Unexpected data format:", data);
@@ -38,7 +36,7 @@ export const UserProvider = ({ children }) => {
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
-  };
+  }; 
 
   useEffect(() => {
     if (user?.userId) {
@@ -48,7 +46,7 @@ export const UserProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await axios.post("http://localhost:3001/api/v1/logout");
+      await axios.post("https://api.perfectorse.site/api/v1/logout");
       setUser(null);
       Cookies.remove("user");
     } catch (error) {

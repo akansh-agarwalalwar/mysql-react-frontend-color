@@ -62,7 +62,7 @@ function Wallet() {
               <div className="flex flex-col">
                 <p className="text-black">Winnings</p>
                 <p className="font-semibold text-black">
-                  {user?.winnings ? `₹${user.winnings}` : "₹0"}
+                  {user?.balance ? `₹${user.balance}` : "₹0"}
                 </p>
               </div>
             </div>
