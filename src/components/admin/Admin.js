@@ -6,6 +6,40 @@ import toast from "react-hot-toast";
 import { RxCross1 } from "react-icons/rx";
 import CreateCoupon from "./CreateCoupon";
 export default function AdminDashboard() {
+  const [timerInfo, setTimerInfo] = useState({
+    timerNumber: 0,
+    countDown: 0,
+    time: 0,
+  });
+  useEffect(() => {
+    let ws = new WebSocket("ws://localhost:8080");
+
+    ws.onopen = () => {
+      console.log("Connected to WebSocket server");
+    };
+
+    ws.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      setTimerInfo({
+        timerNumber: data.timerNumber,
+        countDown: data.countDown,
+        time: data.time,
+      });
+    };
+
+    ws.onclose = () => {
+      console.log(
+        "Disconnected from WebSocket server, attempting to reconnect..."
+      );
+      // Reconnect the WebSocket after a short delay
+      setTimeout(() => {
+        ws = new WebSocket("ws://localhost:8080");
+      }, 1000);
+    };
+
+    // No cleanup function here to keep the connection persistent
+  }, []);
+
   const [users, setUsers] = useState([]);
   const [approveUser, setApproveUser] = useState([]);
   const [ToPay, setToPay] = useState([]);
@@ -387,6 +421,12 @@ export default function AdminDashboard() {
             </div>
           </div>
         )}
+        <div>
+          <h1>Timer Information</h1>
+          <p>Timer Number: {timerInfo.timerNumber}</p>
+          <p>Countdown: {timerInfo.countDown}</p>
+          <p>Time: {new Date(timerInfo.time).toLocaleString()}</p>
+        </div>
       </div>
     </div>
   );
