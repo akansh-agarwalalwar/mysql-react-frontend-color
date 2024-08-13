@@ -23,7 +23,7 @@ function Invite() {
   const fetchReferCode = async (userId) => {
     try {
       const response = await axios.get(
-        `http://localhost:3001/api/v1/user/refer-and-earn/${userId}`
+        `https://api.perfectorse.site/api/v1/user/refer-and-earn/${userId}`
       );
       setReferCode(response.data?.userReferenceCode || "");
       setLoading(false);
@@ -57,7 +57,7 @@ function Invite() {
   
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/v1/financial/redeem-coupon",
+        "https://api.perfectorse.site/api/v1/financial/redeem-coupon",
         { coupon: couponCode, userId: user.userId }
       );
   

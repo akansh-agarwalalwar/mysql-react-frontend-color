@@ -35,7 +35,7 @@ function PaymentPage() {
     setLoading(true);
     try {
       const existingTransaction = await axios.get(
-        `http://localhost:3001/api/v1/transaction/checkTransactionId/${inputValue}`
+        `https://api.perfectorse.site/api/v1/transaction/checkTransactionId/${inputValue}`
       );
 
       if (
@@ -52,7 +52,7 @@ function PaymentPage() {
       };
 
       await axios.post(
-        `http://localhost:3001/api/v1/transaction/upload-transaction-id`,
+        `https://api.perfectorse.site/api/v1/transaction/upload-transaction-id`,
         data
       );
       toast.success("Request submitted");
