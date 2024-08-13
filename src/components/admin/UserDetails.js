@@ -20,7 +20,7 @@ function UserDetails() {
 
       if (currentPeriodNumber) {
         const res = await axios.get(
-          "https://api.perfectorse.site/api/v1/admin/manual/details"
+          "http://localhost:3001/api/v1/admin/manual/details"
         )
         if (Array.isArray(res.data) && res.data.length > 0) {
           setUsers(res.data);

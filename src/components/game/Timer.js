@@ -24,39 +24,6 @@ import violetImage from "../../images/violet.png";
 import greenImage from "../../images/green.png";
 
 function Timer() {
-  const [timerInfo, setTimerInfo] = useState({
-    timerNumber: 0,
-    countDown: 0,
-    time: 0,
-  });
-  useEffect(() => {
-    let ws = new WebSocket("ws://api.perfectorse.site:8080");
-
-    ws.onopen = () => {
-      console.log("Connected to WebSocket server");
-    };
-
-    ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      setTimerInfo({
-        timerNumber: data.timerNumber,
-        countDown: data.countDown,
-        time: data.time,
-      });
-    };
-
-    ws.onclose = () => {
-      console.log(
-        "Disconnected from WebSocket server, attempting to reconnect..."
-      );
-      // Reconnect the WebSocket after a short delay
-      setTimeout(() => {
-        ws = new WebSocket("ws://api.perfectorse.site:8080");
-      }, 1000);
-    };
-
-    // No cleanup function here to keep the connection persistent
-  }, []);
   const [userOrders, setUserOrders] = useState([]);
   const [data, setData] = useState(calculateTimerInfo);
   const { user, fetchUserData } = useContext(UserContext);
@@ -267,7 +234,7 @@ function Timer() {
   const getWinPopUp = async () => {
     try {
       const res = await axios.get(
-        // "https://api.perfectorse.site/api/v1/user/getWinPopUp"
+        "https://api.perfectorse.site/api/v1/user/getWinPopUp"
       );
       const data = res.data;
       console.log(data);
@@ -415,7 +382,7 @@ function Timer() {
             <div className="rounded-lg p-3 h-8 flex items-center justify-center">
               <h2 className="text-xl text-white font-mono">
                 {/* {formatPeriod(period)} */}
-                {timerInfo.timerNumber}
+                {data.timerNumber}
               </h2>
             </div>
           </div>
@@ -425,7 +392,7 @@ function Timer() {
               {/* <h2 className="text-2xl font-mono">{formatTime(time)}</h2> */}
               <LuAlarmClock className="mr-3 " color="#FFF" />
               <h2 className="text-2xl font-mono text-white">
-                {formatTime(timerInfo.countDown)}
+                {formatTime(data.countDown)}
               </h2>
             </div>
           </div>
