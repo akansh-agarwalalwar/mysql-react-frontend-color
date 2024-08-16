@@ -96,7 +96,6 @@ export default function AllUsers() {
     );
     if (confirmCreate) {
       try {
-        // Ensure userId is correctly formatted
         if (!userId) {
           throw new Error("Invalid userId");
         }
@@ -105,7 +104,6 @@ export default function AllUsers() {
           `https://api.perfectorse.site/api/v1/admin/deleteUser/${userId}`
         );
         toast.success("Deleted Successfully");
-        // console.log(response.data.message); // Log the response message
       } catch (error) {
         console.error(
           "Error deleting user:",
@@ -296,6 +294,9 @@ export default function AllUsers() {
               <div className="mb-4">
                 <strong>Winnings:</strong> {clickedUser?.winnings}
               </div>
+              <div className="mb-4">
+                <strong>Profit:</strong> {clickedUser?.winnings}
+              </div>
 
               <div className="flex flex-col sm:flex-row justify-between">
                 <button
@@ -303,7 +304,7 @@ export default function AllUsers() {
                   className={`p-2 mb-2 sm:mb-0 sm:mr-2 border ${
                     activeTab === "WithdrawHistory"
                       ? "border-blue-500 bg-blue-500 text-white"
-                      : "border-gray-300"
+                      : "border-black"
                   }`}
                 >
                   Withdraw History
@@ -393,6 +394,12 @@ export default function AllUsers() {
                           </p>
                           <p>
                             <strong>IFSC Code:</strong> {bankDetail?.ifscCode}
+                          </p>
+                          <p>
+                            <strong>Bank Name:</strong> {bankDetail?.bankName}
+                          </p>
+                          <p>
+                            <strong>Account Holder Name:</strong> {bankDetail?.accountHolderName}
                           </p>
                         </div>
                       ))}

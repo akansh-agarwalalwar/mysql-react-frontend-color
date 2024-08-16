@@ -31,6 +31,7 @@ import NewLogin from "./components/login/NewLogin";
 import NewSignup from "./components/signup/NewSignup";
 import NewForgot from "./components/forgotPassword/NewForgot";
 import Heads from "./components/game/HeadsAndTails/Heads";
+import MaintenancePop from "./components/admin/MaintainancePop";
 function App() {
   function disableRightClick() {
     document.addEventListener(
@@ -102,6 +103,7 @@ function App() {
             <Route path="to-pay" element={<ToPay />} />
             <Route path="game-mode" element={<GameMode />} />
             <Route path="game-mode/two-min" element={<GameModeSecond />} />
+            <Route path="maintainance" element={<MaintenancePop />} />
           </Route>
           {/* <Route path="/admin/game-mode/30sec" element={<DisplayTableOfThirtySec />} /> */}
           {/* <Route path="/manual/thirty-second" element={<ManualPage />} /> */}

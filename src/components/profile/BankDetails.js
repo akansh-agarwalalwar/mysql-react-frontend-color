@@ -11,6 +11,8 @@ function BankDetails() {
   const { user } = useContext(UserContext);
   const [accountNumber, setAccountNumber] = useState("");
   const [ifscCode, setIfscCode] = useState("");
+  const [bankName, setBankName] = useState("")
+  const [accountHolderName, setAccountHolderName] = useState("")
   const [bankDetailsAvailable, setBankDetailsAvailable] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [additionalBank, setAdditionalBank] = useState(false);
@@ -44,6 +46,8 @@ function BankDetails() {
           userId: user?.userId,
           accountNumber,
           ifscCode,
+          bankName,
+          accountHolderName
         }
       );
       toast.success("Bank details added successfully!");
@@ -62,6 +66,8 @@ function BankDetails() {
           userId: user?.userId,
           accountNumber,
           ifscCode,
+          bankName,
+          accountHolderName
         }
       );
       toast.success("Bank details updated successfully!");
@@ -82,6 +88,8 @@ function BankDetails() {
       toast.success("Bank details deleted successfully!");
       setAccountNumber("");
       setIfscCode("");
+      setBankName("");
+      setAccountHolderName("")
       setBankDetailsAvailable(false);
     } catch (err) {
       toast.error("Failed to delete bank details.");
@@ -160,6 +168,38 @@ function BankDetails() {
                   bankDetailsAvailable ? editBankDetails : handleBankDetails
                 }
               >
+                <div className="mb-4">
+                  <label
+                    className="block text-black text-sm font-bold mb-2"
+                    htmlFor="accountNumber"
+                  >
+                    Bank Name
+                  </label>
+                  <input
+                    type="text"
+                    id="bankName"
+                    value={bankName}
+                    onChange={(e) => setBankName(e.target.value)}
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <label
+                    className="block text-black text-sm font-bold mb-2"
+                    htmlFor="accountNumber"
+                  >
+                    Account Holder Name
+                  </label>
+                  <input
+                    type="text"
+                    id="accountHolder"
+                    value={accountHolderName}
+                    onChange={(e) => setAccountHolderName(e.target.value)}
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    required
+                  />
+                </div>
                 <div className="mb-4">
                   <label
                     className="block text-black text-sm font-bold mb-2"
@@ -258,9 +298,6 @@ function BankDetails() {
                     Add Bank Account
                   </button>
                 </div>
-                {/* {message && (
-                  <div className="mt-4 text-center text-red-100">{message}</div>
-                )} */}
               </form>
             </div>
           )}

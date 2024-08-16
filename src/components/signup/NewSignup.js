@@ -463,14 +463,14 @@ function NewLogin() {
                 placeholder="Enter OTP"
                 className={`p-2 rounded-md border w-full ${
                   otpStatus === "OTP verified successfully"
-                    ? "border-green-100 bg-green-50"
-                    : "border-red-100 bg-red-50"
+                    ? "border-green-100"
+                    : "border-red-100"
                 }`}
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
               />
               <button
-                className="mt-2 rounded-full transition border-2 border-myblue-200 text-sm p-2 bg-myblue-200 text-white hover:bg-myblue-300"
+                className="mt-2 rounded-full transition border-2 text-sm p-2 bg-myblue-200 text-white hover:bg-myblue-300"
                 onClick={verifyOtp}
                 type="button"
               >

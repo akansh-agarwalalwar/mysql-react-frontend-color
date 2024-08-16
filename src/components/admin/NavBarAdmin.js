@@ -89,7 +89,7 @@ export default function NavBarAdmin({ users }) {
             </li>
             <li className="relative group">
               <Link
-                to="/admin/game-mode/two-min"
+                to="/admin/maintainance"
                 className="text-white p-2 rounded-md gap-2"
                 onClick={closeNav}
               >

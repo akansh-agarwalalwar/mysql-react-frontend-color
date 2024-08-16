@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import { FaHorseHead } from "react-icons/fa";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { Link } from "react-router-dom";
-import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import { RxCross1 } from "react-icons/rx";
 import UserContext from "../login/UserContext";
@@ -109,17 +108,17 @@ function Timer() {
   };
   const colorBoxes = [
     {
-      color: "red",
+      color: "Red",
       icon: <img src={red} alt="Red Horse" className="h-28 w-32" />,
       ratio: "x2",
     },
     {
-      color: "violet",
+      color: "Violet",
       icon: <img src={violet} alt="Violet Horse" className="h-28 w-32" />,
       ratio: "x4.5",
     },
     {
-      color: "green",
+      color: "Green",
       icon: <img src={green} alt="Green Horse" className="h-28 w-32" />,
       ratio: "x2",
     },

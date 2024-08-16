@@ -4,42 +4,8 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { RxCross1 } from "react-icons/rx";
-import CreateCoupon from "./CreateCoupon";
+import Balance from "./Balance";
 export default function AdminDashboard() {
-  const [timerInfo, setTimerInfo] = useState({
-    timerNumber: 0,
-    countDown: 0,
-    time: 0,
-  });
-  useEffect(() => {
-    let ws = new WebSocket("ws://localhost:8080");
-
-    ws.onopen = () => {
-      console.log("Connected to WebSocket server");
-    };
-
-    ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      setTimerInfo({
-        timerNumber: data.timerNumber,
-        countDown: data.countDown,
-        time: data.time,
-      });
-    };
-
-    ws.onclose = () => {
-      console.log(
-        "Disconnected from WebSocket server, attempting to reconnect..."
-      );
-      // Reconnect the WebSocket after a short delay
-      setTimeout(() => {
-        ws = new WebSocket("ws://localhost:8080");
-      }, 1000);
-    };
-
-    // No cleanup function here to keep the connection persistent
-  }, []);
-
   const [users, setUsers] = useState([]);
   const [approveUser, setApproveUser] = useState([]);
   const [ToPay, setToPay] = useState([]);
@@ -50,7 +16,7 @@ export default function AdminDashboard() {
   const [IDOfUser, setIdUser] = useState("");
   const [userReferenceCode, setUserRefernceCode] = useState("");
   const [createUserPopUp, setCreateUserPopUp] = useState(false);
-  const [balance, setBalance] = useState("");
+  const [winnings, setWinnings] = useState("");
   const [couponPop, setCouponPop] = useState(false);
   const [coupon, setCoupon] = useState("");
   const [amount, setAmount] = useState("");
@@ -109,7 +75,7 @@ export default function AdminDashboard() {
             password,
             IDOfUser,
             userReferenceCode,
-            balance,
+            winnings,
           })
           .then((response) => {
             return response.data;
@@ -125,7 +91,7 @@ export default function AdminDashboard() {
           setMobile("");
           setIdUser("");
           setUserRefernceCode("");
-          setBalance("");
+          setWinnings("");
           toast.success("User created successfully.");
         } else {
           throw new Error("Failed to create user");
@@ -322,8 +288,8 @@ export default function AdminDashboard() {
                   </label>
                   <input
                     type="number"
-                    value={balance}
-                    onChange={(e) => setBalance(e.target.value)}
+                    value={winnings}
+                    onChange={(e) => setWinnings(e.target.value)}
                     placeholder="Balance"
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
@@ -414,19 +380,14 @@ export default function AdminDashboard() {
                 {Array.isArray(getCoupons) &&
                   getCoupons.map((coupon, index) => (
                     <p key={index} className="bg-green-100">
-                      {coupon.coupon}: {coupon.amount}
+                      {coupon[0].coupon}: {coupon[0].amount}
                     </p>
                   ))}
               </div>
             </div>
           </div>
         )}
-        <div>
-          <h1>Timer Information</h1>
-          <p>Timer Number: {timerInfo.timerNumber}</p>
-          <p>Countdown: {timerInfo.countDown}</p>
-          <p>Time: {new Date(timerInfo.time).toLocaleString()}</p>
-        </div>
+        <Balance />
       </div>
     </div>
   );

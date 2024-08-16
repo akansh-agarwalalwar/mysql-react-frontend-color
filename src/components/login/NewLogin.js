@@ -59,6 +59,9 @@ function NewLogin() {
         setUser(user);
         sessionStorage.setItem("user", JSON.stringify(user));
 
+        // Clear the maintenanceDismissed flag to show the popup after login
+        localStorage.removeItem('maintenanceDismissed');
+
         if (adminId) {
           toast.success("Login Successful");
           navigate("/admin");

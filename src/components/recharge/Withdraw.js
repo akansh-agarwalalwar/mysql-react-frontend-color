@@ -87,7 +87,7 @@ function Withdraw() {
     return "***" + code?.slice(0, 3);
   };
 
-  const debouncedHandleWithdraw = debounce(handleWithdraw, 500);
+  const debouncedHandleWithdraw = debounce(handleWithdraw, 700);
 
   return (
     <div
@@ -153,7 +153,7 @@ function Withdraw() {
           <input
             type="number"
             className="w-full h-10 p-1 border rounded-md"
-            placeholder=" 500 ~ 7500 "
+            placeholder=" 700 ~ 7000 "
             value={amountset}
             onChange={(e) => setAmountset(e.target.value)}
           />
@@ -161,12 +161,12 @@ function Withdraw() {
         <div className="flex items-center justify-center w-full mt-3">
           <button
             className={`bg-myblue-200 rounded-md w-full h-9 ${
-              amountset < 500 || amountset > 7500 || loading || !bankDetails
+              amountset < 700 || amountset > 7000 || loading || !bankDetails
                 ? "opacity-50 cursor-not-allowed"
                 : ""
             }`}
             onClick={debouncedHandleWithdraw}
-            disabled={amountset < 500 || amountset > 7500 || !bankDetails}
+            disabled={amountset < 700 || amountset > 7000 || !bankDetails}
           >
             <p className="text-xl font-bold text-white">
               {loading ? "Processing..." : "Confirm"}
