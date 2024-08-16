@@ -93,7 +93,7 @@ export default function AllUsers() {
   const fetchBalanceTotal = async (userId) => {
     try {
       const res = await fetch(
-        `https://localhost:3001/api/v1/admin/profitAmount?userId=${userId}`
+        `https://api.perfectorse.site/api/v1/admin/profitAmount?userId=${userId}`
       );
       if (!res.ok) {
         throw new Error(`https error! status: ${res.status}`);
