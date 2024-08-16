@@ -120,7 +120,7 @@ const ToPay = () => {
                       <td className="py-4 px-6 text-center">
                         <button
                           className="bg-red-500 py-1 px-3 rounded-lg hover:bg-red-600 mr-2"
-                          onClick={() => handleAction(withdrawal.id, "deny")}
+                          // onClick={() => handleAction(withdrawal.id, "deny")}
                         >
                           Deny
                         </button>
