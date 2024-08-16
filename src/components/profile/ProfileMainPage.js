@@ -54,7 +54,7 @@ const sideNavData = [
   {
     title: "Support",
     icon: <MdContactSupport />,
-    onClick: () => window.open("https://t.me/+bp_hjMGPihwyN2E9", "_blank"),
+    onClick: () => window.open("https://t.me/+ltD8oPxtiyVjNzE1", "_blank"),
   },
 ];
 

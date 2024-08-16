@@ -14,6 +14,7 @@ export default function AllUsers() {
   const [withdrawHistory, setWithdrawHistory] = useState([]);
   const [bankDetails, setBankDetails] = useState([]);
   const [activeTab, setActiveTab] = useState("RechargeHistory");
+  const [fetchTotal, setfetchTotal] = useState('')
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -85,6 +86,20 @@ export default function AllUsers() {
       } else {
         setBankDetails([]);
       }
+    } catch (error) {
+      console.error("Error fetching bank details:", error);
+    }
+  };
+  const fetchBalanceTotal = async (userId) => {
+    try {
+      const res = await fetch(
+        `https://localhost:3001/api/v1/admin/profitAmount?userId=${userId}`
+      );
+      if (!res.ok) {
+        throw new Error(`https error! status: ${res.status}`);
+      }
+      const data = await res.json();
+      setfetchTotal(data)
     } catch (error) {
       console.error("Error fetching bank details:", error);
     }
@@ -162,6 +177,10 @@ export default function AllUsers() {
     setWithdrawHistory([]);
     setBankDetails([]);
   };
+  useEffect(() => {
+    fetchBalanceTotal(clickedUser?.IDOfUser)
+  })
+  
 
   return (
     <div className="flex lg:flex-row">

@@ -40,7 +40,6 @@ function NewLogin() {
         useremail,
         password,
       });
-
       if (response.status === 200) {
         const {
           userId,
@@ -51,11 +50,9 @@ function NewLogin() {
           adminId,
           adminemail,
         } = response.data;
-
         const user = adminId
           ? { adminId, adminemail }
           : { userId, username, useremail, mobileNumber, balance };
-
         setUser(user);
         sessionStorage.setItem("user", JSON.stringify(user));
 
