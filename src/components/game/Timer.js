@@ -17,7 +17,7 @@ import background from "../../images/background.png";
 import red from "../../images/red.png";
 import green from "../../images/green.png";
 import violet from "../../images/violet.png";
-
+import './win.css'
 import redImage from "../../images/red.png";
 import violetImage from "../../images/violet.png";
 import greenImage from "../../images/green.png";

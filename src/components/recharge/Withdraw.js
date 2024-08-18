@@ -10,9 +10,7 @@ import background from '../../images/background.png';
 
 function Withdraw() {
   const { user } = useContext(UserContext);
-  console.log(user);
   const [amountset, setAmountset] = useState("");
-  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [bankDetails, setBankDetails] = useState(null);
   const navigate = useNavigate();
@@ -28,6 +26,7 @@ function Withdraw() {
         }
       } catch (err) {
         console.error("Error fetching bank details:", err);
+        toast.error("Failed to fetch bank details");
       }
     };
     if (user && user.userId) {
@@ -38,7 +37,7 @@ function Withdraw() {
   const handleWithdraw = async () => {
     const amount = parseFloat(amountset);
     if (isNaN(amount) || amount <= 0) {
-      setMessage("Amount must be greater than zero");
+      toast.error("Amount must be greater than zero");
       return;
     }
     setLoading(true);
@@ -53,19 +52,19 @@ function Withdraw() {
           navigate("/home");
         }, 1000);
       } else {
-        setMessage("Failed to process withdrawal. Please try again.");
+        toast.error("Failed to process withdrawal. Please try again.");
       }
     } catch (error) {
       if (error.response && error.response.status === 400 && error.response.data.message === "Insufficient balance") {
         toast.error("Insufficient balance!");
       } else if (error.response && error.response.status === 504) {
-        setMessage("Server timeout. Redirecting to home page.");
+        toast.error("Server timeout. Redirecting to home page.");
         setTimeout(() => {
           navigate("/home");
         }, 2000);
       } else {
         console.error("There was an error sending the request!", error);
-        setMessage(
+        toast.error(
           error.response?.data?.message ||
             "An error occurred. Please try again."
         );
@@ -173,11 +172,6 @@ function Withdraw() {
             </p>
           </button>
         </div>
-        {message && (
-          <div className="mt-4 text-center">
-            <p className="text-red-100">{message}</p>
-          </div>
-        )}
         {!bankDetails && (
           <div className="mt-4 text-center">
             <p className="text-red-100">

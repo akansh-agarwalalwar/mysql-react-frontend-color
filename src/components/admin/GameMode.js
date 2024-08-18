@@ -3,7 +3,6 @@ import NavBarAdmin from "./NavBarAdmin";
 import axios from "axios";
 import calculateTimerInfo from "../game/calculateTimerInfo";
 import toast from "react-hot-toast";
-// import useIsDesktop from "../hooks/useIsDesktop";
 
 export default function GameMode() {
   const [data, setData] = useState(calculateTimerInfo);
@@ -16,8 +15,6 @@ export default function GameMode() {
     green: 0,
     violet: 0,
   });
-
-  // const isDesktop = useIsDesktop();
 
   const handleSubmit = async (e) => {
     e.preventDefault();

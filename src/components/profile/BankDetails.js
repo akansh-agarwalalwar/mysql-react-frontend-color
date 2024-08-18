@@ -179,9 +179,10 @@ function BankDetails() {
                     type="text"
                     id="bankName"
                     value={bankName}
-                    onChange={(e) => setBankName(e.target.value)}
+                    onChange={(e) => setBankName(e.target.value.toUpperCase())}
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     required
+                    pattern="[A-Z ]+"
                   />
                 </div>
                 <div className="mb-4">
@@ -195,9 +196,10 @@ function BankDetails() {
                     type="text"
                     id="accountHolder"
                     value={accountHolderName}
-                    onChange={(e) => setAccountHolderName(e.target.value)}
+                    onChange={(e) => setAccountHolderName(e.target.value.toUpperCase())}
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     required
+                    pattern="[A-Z ]+"
                   />
                 </div>
                 <div className="mb-4">
@@ -227,7 +229,7 @@ function BankDetails() {
                     type="text"
                     id="ifscCode"
                     value={ifscCode}
-                    onChange={(e) => setIfscCode(e.target.value)}
+                    onChange={(e) => setIfscCode(e.target.value.toUpperCase())}
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     required
                     autoCapitalize="characters"

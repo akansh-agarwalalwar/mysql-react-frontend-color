@@ -26,11 +26,11 @@ const sideNavData = [
     icon: <IoSettingsOutline />,
     path: "/home/profile/setting",
   },
-  {
-    title: "Order Record",
-    icon: <MdLibraryBooks />,
-    path: "/home/profile/order-record",
-  },
+  // {
+  //   title: "Order Record",
+  //   icon: <MdLibraryBooks />,
+  //   path: "/home/profile/order-record",
+  // },
   {
     title: "Financial Details",
     icon: <TbReceiptRupee />,

@@ -14,7 +14,18 @@ export default function AllUsers() {
   const [withdrawHistory, setWithdrawHistory] = useState([]);
   const [bankDetails, setBankDetails] = useState([]);
   const [activeTab, setActiveTab] = useState("RechargeHistory");
-  const [fetchTotal, setfetchTotal] = useState('')
+  const [fetchTotal, setfetchTotal] = useState("");
+  const [isEditingModalOpen, setIsEditingModalOpen] = useState(false);
+  const [editFormValues, setEditFormValues] = useState({
+    username: "",
+    email: "",
+    mobileNumber: "",
+    balance: "",
+    unplayed: "",
+    bonus: "",
+    winnings: "",
+  });
+
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -82,7 +93,7 @@ export default function AllUsers() {
       const data = await res.json();
 
       if (data && typeof data === "object" && !Array.isArray(data)) {
-        setBankDetails([data]); // Ensure data is an array before setting the state
+        setBankDetails([data]);
       } else {
         setBankDetails([]);
       }
@@ -99,22 +110,21 @@ export default function AllUsers() {
         throw new Error(`https error! status: ${res.status}`);
       }
       const data = await res.json();
-      setfetchTotal(data)
+      setfetchTotal(data);
     } catch (error) {
       console.error("Error fetching bank details:", error);
     }
   };
 
   const deleteUser = async (userId) => {
-    const confirmCreate = window.confirm(
-      "Are you sure you want to create a new user?"
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this user?"
     );
-    if (confirmCreate) {
+    if (confirmDelete) {
       try {
         if (!userId) {
           throw new Error("Invalid userId");
         }
-
         const response = await axios.post(
           `https://api.perfectorse.site/api/v1/admin/deleteUser/${userId}`
         );
@@ -129,19 +139,40 @@ export default function AllUsers() {
   };
   const editUser = async (userId) => {
     try {
-      if (!userId) {
-        throw new Error("Invalid userId");
-      }
+      setIsEditingModalOpen(true);
+      // const response = await axios.post(
+      //   `https://api.perfectorse.site/api/v1/admin/editUser/${userId}`
+      // );
+      // console.log(response.data.message);
 
-      const response = await axios.post(
-        `https://api.perfectorse.site/api/v1/admin/editUser/${userId}`
-      );
-      console.log(response.data.message); // Log the response message
+      // Set the form values to the current user details
+      setEditFormValues({
+        username: clickedUser.username,
+        email: clickedUser.useremail,
+        mobileNumber: clickedUser.mobileNumber,
+        balance: clickedUser.balance,
+        unplayed: clickedUser.unplayed,
+        bonus: clickedUser.bonus,
+        winnings: clickedUser.winnings,
+      });
+      setIsEditingModalOpen(true);
     } catch (error) {
       console.error(
-        "Error deleting user:",
+        "Error editing user:",
         error.response ? error.response.data : error.message
       );
+    }
+  };
+  const updateUser = async (userId, updatedDetails) => {
+    try {
+      const response = await axios.post(
+        `https://api.perfectorse.site/api/v1/admin/editUser/${userId}`,
+        updatedDetails
+      );
+      toast.success("User updated successfully!");
+    } catch (error) {
+      console.error("Error updating user:", error);
+      toast.error("Failed to update user.");
     }
   };
 
@@ -178,9 +209,8 @@ export default function AllUsers() {
     setBankDetails([]);
   };
   useEffect(() => {
-    fetchBalanceTotal(clickedUser?.IDOfUser)
-  })
-  
+    fetchBalanceTotal(clickedUser?.IDOfUser);
+  });
 
   return (
     <div className="flex lg:flex-row">
@@ -292,6 +322,159 @@ export default function AllUsers() {
               >
                 Edit User
               </button>
+              {isEditingModalOpen && (
+                <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+                  <div className="bg-white p-8 rounded-lg w-full sm:w-3/4 max-h-full overflow-auto">
+                    <div className="flex justify-end">
+                      <button onClick={() => setIsEditingModalOpen(false)}>
+                        <RxCross1 className="w-6 h-6" />
+                      </button>
+                    </div>
+                    <h2 className="text-2xl font-bold mb-4 w-full flex justify-center">
+                      Edit User
+                    </h2>
+                    <form
+                      onSubmit={async (e) => {
+                        e.preventDefault();
+                        await updateUser(clickedUser.IDOfUser, editFormValues);
+                        setIsEditingModalOpen(false);
+                        // Optionally refetch the user data here
+                        fetchUsers();
+                      }}
+                    >
+                      <div className="mb-4">
+                        <label className="block mb-2 font-bold">
+                          Username:
+                        </label>
+                        <input
+                          type="text"
+                          value={editFormValues.username}
+                          onChange={(e) =>
+                            setEditFormValues({
+                              ...editFormValues,
+                              username: e.target.value,
+                            })
+                          }
+                          className="border border-gray-300 p-2 w-full"
+                          required
+                        />
+                      </div>
+                      <div className="mb-4">
+                        <label className="block mb-2 font-bold">Email:</label>
+                        <input
+                          type="email"
+                          value={editFormValues.email}
+                          onChange={(e) =>
+                            setEditFormValues({
+                              ...editFormValues,
+                              email: e.target.value,
+                            })
+                          }
+                          className="border border-gray-300 p-2 w-full"
+                          required
+                        />
+                      </div>
+                      <div className="mb-4">
+                        <label className="block mb-2 font-bold">
+                          Mobile Number:
+                        </label>
+                        <input
+                          type="text"
+                          value={editFormValues.mobileNumber}
+                          onChange={(e) =>
+                            setEditFormValues({
+                              ...editFormValues,
+                              mobileNumber: e.target.value,
+                            })
+                          }
+                          className="border border-gray-300 p-2 w-full"
+                          pattern="[0-9]{10}"
+                          required
+                        />
+                      </div>
+                      <div className="mb-4">
+                        <label className="block mb-2 font-bold">Balance:</label>
+                        <input
+                          type="number"
+                          value={editFormValues.balance}
+                          onChange={(e) =>
+                            setEditFormValues({
+                              ...editFormValues,
+                              balance: e.target.value,
+                            })
+                          }
+                          className="border border-gray-300 p-2 w-full"
+                          required
+                        />
+                      </div>
+                      <div className="mb-4">
+                        <label className="block mb-2 font-bold">
+                          Unplayed:
+                        </label>
+                        <input
+                          type="number"
+                          value={editFormValues.unplayed}
+                          onChange={(e) =>
+                            setEditFormValues({
+                              ...editFormValues,
+                              unplayed: e.target.value,
+                            })
+                          }
+                          className="border border-gray-300 p-2 w-full"
+                          required
+                        />
+                      </div>
+                      <div className="mb-4">
+                        <label className="block mb-2 font-bold">Bonus:</label>
+                        <input
+                          type="number"
+                          value={editFormValues.bonus}
+                          onChange={(e) =>
+                            setEditFormValues({
+                              ...editFormValues,
+                              bonus: e.target.value,
+                            })
+                          }
+                          className="border border-gray-300 p-2 w-full"
+                          required
+                        />
+                      </div>
+                      <div className="mb-4">
+                        <label className="block mb-2 font-bold">
+                          Winnings:
+                        </label>
+                        <input
+                          type="number"
+                          value={editFormValues.winnings}
+                          onChange={(e) =>
+                            setEditFormValues({
+                              ...editFormValues,
+                              winnings: e.target.value,
+                            })
+                          }
+                          className="border border-gray-300 p-2 w-full"
+                          required
+                        />
+                      </div>
+                      <div className="flex justify-end">
+                        <button
+                          type="button"
+                          onClick={() => setIsEditingModalOpen(false)}
+                          className="p-2 mb-2 border border-gray-300 bg-gray-200 text-gray-700 mr-2"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="submit"
+                          className="p-2 mb-2 border bg-blue-500 text-white"
+                        >
+                          Confirm
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              )}
               <div className="mb-4">
                 <strong>Username:</strong> {clickedUser?.username}
               </div>
@@ -418,7 +601,8 @@ export default function AllUsers() {
                             <strong>Bank Name:</strong> {bankDetail?.bankName}
                           </p>
                           <p>
-                            <strong>Account Holder Name:</strong> {bankDetail?.accountHolderName}
+                            <strong>Account Holder Name:</strong>{" "}
+                            {bankDetail?.accountHolderName}
                           </p>
                         </div>
                       ))}
