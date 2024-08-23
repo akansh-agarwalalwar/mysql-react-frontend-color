@@ -13,6 +13,8 @@ function Withdraw() {
   const [amountset, setAmountset] = useState("");
   const [loading, setLoading] = useState(false);
   const [bankDetails, setBankDetails] = useState(null);
+  const [showModal, setShowModal] = useState(false); // Modal state
+  const [pendingAmount, setPendingAmount] = useState(null); // Amount to be withdrawn
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -40,11 +42,18 @@ function Withdraw() {
       toast.error("Amount must be greater than zero");
       return;
     }
+    setPendingAmount(amount); // Set the amount to be withdrawn
+    setShowModal(true); // Show the modal
+  };
+
+  const confirmWithdrawal = async () => {
+    if (pendingAmount === null) return; // If there's no pending amount, do nothing
+
     setLoading(true);
     try {
       const response = await axios.post(
         `https://api.perfectorse.site/api/v1/financial/amount-withdraw`,
-        { userId: user.userId, amount }
+        { userId: user.userId, amount: pendingAmount }
       );
       if (response.status === 200) {
         toast.success("Withdrawal Request Submitted!");
@@ -71,6 +80,8 @@ function Withdraw() {
       }
     } finally {
       setLoading(false);
+      setPendingAmount(null); // Reset pending amount
+      setShowModal(false); // Hide the modal
     }
   };
 
@@ -180,6 +191,22 @@ function Withdraw() {
           </div>
         )}
       </div>
+
+      {/* Modal */}
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50  ">
+          <div className="bg-white p-6 rounded shadow-lg text-center max-w-sm mx-auto">
+            <p className="text-lg font-bold mb-4">Withdrawal Request Submitted</p>
+            <p>Your request will be processed and approved within 24 hours.</p>
+            <button
+              className="mt-4 px-4 py-2 bg-myblue-200 text-white rounded"
+              onClick={confirmWithdrawal}
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

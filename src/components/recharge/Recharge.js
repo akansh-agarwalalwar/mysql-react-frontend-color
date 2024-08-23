@@ -84,20 +84,26 @@ const Recharge = () => {
             </p>
             <p className="ml-4 text-sm">
               Press Recharge button or edit the deposit by pressing deposit
-              field
+              field.
             </p>
           </div>
           <div className="mt-3">
             <p className="font-bold text-sm">2. Pay with QR Code</p>
             <p className="ml-4 text-sm">
-              Scan a QR code using Paytm and pay the amount
+              Scan a QR code using Paytm and pay the amount.
             </p>
           </div>
           <div className="mt-3">
             <p className="font-bold text-sm">3. Transaction Confirm</p>
             <p className="ml-4 text-sm">
               Paste a UTR reference number of 12 digits from the payment app
-              deposit by pressing deposit field
+              deposit by pressing deposit field.
+            </p>
+          </div>
+          <div className="mt-3">
+            <p className="font-bold text-sm">4. Approval</p>
+            <p className="ml-4 text-sm">
+              Get Approval into 2-24 hours.
             </p>
           </div>
           {/* <hr className="mt-3" />

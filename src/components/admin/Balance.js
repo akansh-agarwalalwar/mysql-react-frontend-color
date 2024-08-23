@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 function Balance() {
   const [balance, setBalance] = useState(null);
@@ -10,11 +10,13 @@ function Balance() {
     // Fetch balance and remaining user IDs from the backend
     const fetchBalanceData = async () => {
       try {
-        const response = await axios.get('https://api.perfectorse.site/api/v1/admin/balanceCalculator');
+        const response = await axios.get(
+          "https://api.perfectorse.site/api/v1/admin/balanceCalculator"
+        );
         const { balance } = response.data;
         setBalance(balance);
       } catch (err) {
-        setError('Error fetching balance data');
+        setError("Error fetching balance data");
         console.error(err);
       } finally {
         setLoading(false);
@@ -29,7 +31,9 @@ function Balance() {
 
   return (
     <div>
-      <p><strong>Balance:</strong> {balance !== null ? `${balance} Rs` : 'N/A'}</p>
+      <p>
+        <strong>Balance:</strong> {balance !== null ? `${balance} Rs` : "N/A"}
+      </p>
     </div>
   );
 }

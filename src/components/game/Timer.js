@@ -17,7 +17,6 @@ import background from "../../images/background.png";
 import red from "../../images/red.png";
 import green from "../../images/green.png";
 import violet from "../../images/violet.png";
-import './win.css'
 import redImage from "../../images/red.png";
 import violetImage from "../../images/violet.png";
 import greenImage from "../../images/green.png";
@@ -47,7 +46,7 @@ function Timer() {
   const [activeTab, setActiveTab] = useState("parityRecord");
   const [setshowPopUp, setSetshowPopUp] = useState(false);
   const [multiplier, setMultiplier] = useState(1);
-
+  const [lastColorWin, setLastColorWin] = useState(null);
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
@@ -84,6 +83,28 @@ function Timer() {
   useEffect(() => {
     fetchLastPeriodData();
   }, [data.countDown === 30]);
+  const lastColorWinThirty = async () => {
+    try {
+      const response = await axios.get(
+        `https://api.perfectorse.site/api/v1/user/lastColorWinThirty`
+      );
+      if (response.status === 200) {
+        const color = response?.data?.[0]?.color; // Extract the color from the first object in the array
+        setLastColorWin(color);
+        console.log(color); // Log the extracted color
+      } else {
+        throw new Error("Failed to fetch last period data");
+      }
+    } catch (error) {
+      setErrorMessage("Failed to fetch last period data");
+    }
+  };
+  useEffect(() => {
+    console.log(lastColorWin);
+  }, [lastColorWin]);
+  useEffect(() => {
+    lastColorWinThirty();
+  }, [data.countDown <= 28 && data.countDown >= 23]);
   useEffect(() => {
     if (user && user.userId) {
       fetchthirtySecond(user?.userId);
@@ -287,9 +308,6 @@ function Timer() {
     if (data.countDown === 29) {
       window.location.reload();
     }
-    if (data.countDown === 28) {
-      getWinPopUp();
-    }
     if (data.countDown === 30) {
       setSetshowPopUp(false);
     }
@@ -350,7 +368,14 @@ function Timer() {
     violet: violetImage,
     green: greenImage,
   };
-
+  // useEffect(() => {
+  //   if (lastColorWin) {
+  //     const timer = setTimeout(() => {
+  //       setLastColorWin(null); // Clear the winning color after 5 seconds
+  //     }, 5000);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [lastColorWin]);
   return (
     <div
       className="flex flex-col bg-myblue-800 min-h-scree max-w-md mx-auto relative"
@@ -361,7 +386,6 @@ function Timer() {
       }}
     >
       {/* Header */}
-
       <div className="flex items-center w-full text-white bg-black py-3 px-4">
         <Link to="/home" className="mr-4">
           <div className=" p-2">
@@ -403,11 +427,12 @@ function Timer() {
               <div
                 className={`flex flex-col justify-center items-center rounded-lg p-2 cursor-pointer ${
                   isDisabled ? "opacity-50 cursor-not-allowed" : ""
+                } ${
+                  lastColorWin === colorBox.color ? "" : ""
                 }`}
                 onClick={() => !isDisabled && handleColorBoxClick(colorBox)}
               >
                 <div className="text-white text-4xl">{colorBox.icon}</div>
-                {/* <div className="text-white mt-2">{colorBox.title}</div> */}
                 <div className="text-black">{colorBox.ratio}</div>
               </div>
             </div>
