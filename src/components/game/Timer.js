@@ -89,9 +89,8 @@ function Timer() {
         `https://api.perfectorse.site/api/v1/user/lastColorWinThirty`
       );
       if (response.status === 200) {
-        const color = response?.data?.[0]?.color; // Extract the color from the first object in the array
+        const color = response?.data?.[0]?.color;
         setLastColorWin(color);
-        console.log(color); // Log the extracted color
       } else {
         throw new Error("Failed to fetch last period data");
       }
@@ -250,16 +249,6 @@ function Timer() {
       setSetshowPopUp(false);
     }
   };
-
-  const getWinPopUp = async () => {
-    try {
-      const res = await axios.get(
-        "https://api.perfectorse.site/api/v1/user/getWinPopUp"
-      );
-      const data = res.data;
-      console.log(data);
-    } catch (error) {}
-  };
   const getColorClass = (color) => {
     switch (color?.toLowerCase()) {
       case "red":
@@ -368,14 +357,42 @@ function Timer() {
     violet: violetImage,
     green: greenImage,
   };
-  // useEffect(() => {
-  //   if (lastColorWin) {
-  //     const timer = setTimeout(() => {
-  //       setLastColorWin(null); // Clear the winning color after 5 seconds
-  //     }, 5000);
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, [lastColorWin]);
+  useEffect(() => {
+    if (lastColorWin) {
+      const timer = setTimeout(() => {
+        setLastColorWin(null);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [lastColorWin]);
+  const [highlight, setHighlight] = useState(false);
+  const [isRotating, setIsRotating] = useState(false);
+  const [shouldBlink, setShouldBlink] = useState(false);
+  const [highlightIndex, setHighlightIndex] = useState(0);
+  const [shouldHighlight, setShouldHighlight] = useState(false);
+  useEffect(() => {
+    if (data.countDown <= 10) {
+      setShouldHighlight(true);
+      // Start or reset the sequence highlighting
+      const interval = setInterval(() => {
+        setHighlightIndex((prevIndex) => (prevIndex + 1) % colorBoxes.length);
+      }, 500); // Adjust the timing to control the highlight sequence speed
+
+      return () => clearInterval(interval); // Cleanup on unmount or data.countDown change
+    } else {
+      setShouldHighlight(false);
+      setHighlightIndex(0); // Reset to the first box when not highlighting
+    }
+  }, [data.countDown]);
+  useEffect(() => {
+    if (data.countDown <= 10) {
+      // setHighlight(true);
+      setIsRotating(true);
+    } else {
+      // setHighlight(false);
+      setIsRotating(false);
+    }
+  }, [data.countDown]);
   return (
     <div
       className="flex flex-col bg-myblue-800 min-h-scree max-w-md mx-auto relative"
@@ -421,14 +438,27 @@ function Timer() {
           </div>
         </div>
         {/* Color Boxes */}
-        <div className="p-2 mt-2 flex flex-row gap-3 items-center mb-2 mx-3 rounded-xl justify-center">
-          {colorBoxes?.map((colorBox) => (
-            <div className="w-full mb-4" key={colorBox.color}>
+        <div
+          className={`p-2 mt-2 flex flex-row gap-3 items-center mb-2 mx-3 rounded-xl justify-center ${
+            highlight
+              ? "border-2 border-black animate-highlight-animation"
+              : "border-2 border-transparent"
+          }`}
+        >
+          {colorBoxes?.map((colorBox, index) => (
+            <div
+              className={`w-full mb-2 ${
+                shouldHighlight && highlightIndex === index
+                  ? "animate-blink-fast"
+                  : ""
+              }`}
+              key={colorBox.color}
+            >
               <div
                 className={`flex flex-col justify-center items-center rounded-lg p-2 cursor-pointer ${
                   isDisabled ? "opacity-50 cursor-not-allowed" : ""
                 } ${
-                  lastColorWin === colorBox.color ? "" : ""
+                  lastColorWin === colorBox.color ? "animate-blink-fast" : ""
                 }`}
                 onClick={() => !isDisabled && handleColorBoxClick(colorBox)}
               >
@@ -531,7 +561,7 @@ function Timer() {
 
       {/* WINNER DIVISION */}
       <div className="mx-3 rounded-full">
-        <div className="flex flex-col w-full mb-4 h-[230px] rounded-2xl shadow-3xl border-2">
+        <div className="flex flex-col w-full mb-4 h-[230px] rounded-2xl border-2">
           <p className="text-xl w-full items-center justify-center flex mt-1 text-black font-bold">
             Parity Result
           </p>

@@ -153,20 +153,29 @@ module.exports = {
     },
     extend: {
       boxShadow: {
-        "3xl": "[0_20px_50px_rgba(8,_112,_184,_0.7)]",
+        "3xl": "0 20px 50px rgba(8, 112, 184, 0.7)",
+        "highlight-glow": "0 0 15px 3px rgba(255, 215, 0, 0.8)", // Glow effect
       },
       maxWidth: {
         maxContent: "1260px",
         maxContentTab: "650px",
       },
       keyframes: {
+        rotate3d: {
+          "0%": {
+            transform: "rotateX(0) rotateY(0) rotateZ(0)",
+          },
+          "100%": {
+            transform: "rotateX(360deg) rotateY(360deg)",
+          },
+        },
         pulse: {
           "0%, 100%": { transform: "scale(1)", opacity: "1" },
           "50%": { transform: "scale(1.1)", opacity: "0.8" },
         },
         bounce: {
           "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-25%)" },
+          "50%": { transform: "translateY(-30%)" },
         },
         spin: {
           "0%": { transform: "rotate(0deg)" },
@@ -178,16 +187,16 @@ module.exports = {
         },
         wobble: {
           "0%, 100%": { transform: "translateX(0)" },
-          "15%": { transform: "translateX(-25%) rotate(-5deg)" },
-          "30%": { transform: "translateX(20%) rotate(3deg)" },
-          "45%": { transform: "translateX(-15%) rotate(-3deg)" },
-          "60%": { transform: "translateX(10%) rotate(2deg)" },
-          "75%": { transform: "translateX(-5%) rotate(-1deg)" },
+          "15%": { transform: "translateX(-30%) rotate(-10deg)" },
+          "30%": { transform: "translateX(25%) rotate(5deg)" },
+          "45%": { transform: "translateX(-20%) rotate(-5deg)" },
+          "60%": { transform: "translateX(15%) rotate(3deg)" },
+          "75%": { transform: "translateX(-10%) rotate(-2deg)" },
         },
         shake: {
-          "0%, 100%": { transform: "translateX(5)" },
-          "10%, 40%, 50%, 70%, 90%": { transform: "translateX(-5px)" },
-          "10%, 30%, 60%, 80%": { transform: "translateX(5px)" },
+          "0%, 100%": { transform: "translateX(0)" },
+          "10%, 30%, 50%, 70%, 90%": { transform: "translateX(-10px)" },
+          "20%, 40%, 60%, 80%": { transform: "translateX(10px)" },
         },
         fadeIn: {
           "0%": { opacity: "0" },
@@ -208,25 +217,37 @@ module.exports = {
         blink: {
           "50%": { opacity: "0" },
         },
+        highlight: {
+          "0%, 100%": {
+            boxShadow: "0 0 15px 3px rgba(255, 215, 0, 0.8)",
+            border: "2px solid orange",
+          },
+          "50%": {
+            boxShadow: "0 0 25px 6px rgba(255, 215, 0, 1)",
+            border: "2px solid red",
+          },
+        },
       },
       animation: {
-        "pulse-slow": "pulse 1s infinite",
-        "bounce-slow": "bounce 1s infinite",
-        "bounce-fast": "bounce 0.5s infinite",
-        "spin-slow": "spin 2s linear infinite",
+        "pulse-slow": "pulse 1.5s infinite",
+        "bounce-slow": "bounce 1.5s infinite",
+        "bounce-fast": "bounce 0.8s infinite",
+        "spin-slow": "spin 2.5s linear infinite",
         "spin-fast": "spin 1s linear infinite",
-        "flash-slow": "flash 1.5s infinite",
-        "flash-fast": "flash 0.75s infinite",
-        "wobble-slow": "wobble 2s infinite",
-        "wobble-fast": "wobble 1s infinite",
-        "shake-slow": "shake 1s ease-in-out infinite",
-        "shake-fast": "shake 0.5s ease-in-out infinite",
-        "fade-in": "fadeIn 1s ease-in-out",
-        "fade-out": "fadeOut 1s ease-in-out",
-        "zoom-in": "zoomIn 0.5s ease-in-out",
-        "zoom-out": "zoomOut 0.5s ease-in-out",
+        "flash-slow": "flash 2s infinite",
+        "flash-fast": "flash 1s infinite",
+        "wobble-slow": "wobble 2.5s infinite",
+        "wobble-fast": "wobble 1.2s infinite",
+        "shake-slow": "shake 1.5s ease-in-out infinite",
+        "shake-fast": "shake 0.8s ease-in-out infinite",
+        "fade-in": "fadeIn 1.5s ease-in-out",
+        "fade-out": "fadeOut 1.5s ease-in-out",
+        "zoom-in": "zoomIn 0.6s ease-in-out",
+        "zoom-out": "zoomOut 0.6s ease-in-out",
         "blink-slow": "blink 1.5s step-end infinite",
-        "blink-fast": "blink 0.75s step-end infinite",
+        "blink-fast": "blink 0.4s step-end infinite",
+        "rotate3d": "rotate3d 10s linear infinite",
+        "highlight-animation": "highlight 1s ease-in-out infinite",
       },
     },
   },

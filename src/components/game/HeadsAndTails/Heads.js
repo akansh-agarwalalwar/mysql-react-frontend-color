@@ -11,6 +11,8 @@ import { IoIosTrophy } from "react-icons/io";
 import toast from "react-hot-toast";
 import { LuAlarmClock } from "react-icons/lu";
 import UserContext from "../../login/UserContext";
+import background from "../../../images/background.png";
+import { IoIosArrowBack } from "react-icons/io";
 import calculateTimerInfo from "./calculateTimerInfo";
 function Timer() {
   const [userOrders, setUserOrders] = useState([]);
@@ -287,13 +289,22 @@ function Timer() {
   };
 
   return (
-    <div className="flex flex-col bg-myblue-500 min-h-scree max-w-md mx-auto relative">
+    <div
+      className="flex flex-col bg-myblue-800 min-h-scree max-w-md mx-auto relative"
+      style={{
+        backgroundImage: `url(${background})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       {/* Header */}
-      <div className="flex flex-row bg-myblue-200 w-full text-white items-center h-12 md:h-8">
-        <Link to="/home">
-          <FaArrowLeftLong className="mx-2 " />
+      <div className="flex items-center w-full text-white bg-black py-3 px-4">
+        <Link to="/home" className="mr-4">
+          <div className=" p-2">
+            <IoIosArrowBack size={20} color="#FFF" />
+          </div>
         </Link>
-        <p className="text-xl">Head And Tail</p>
+        <p className="text-xl font-bold">Head And Tails</p>
       </div>
       {/* Timer Section */}
       <div className="w-full">

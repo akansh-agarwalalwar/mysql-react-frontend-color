@@ -94,7 +94,7 @@ function App() {
           <Route path="withdraw" element={<Withdraw />} />
           <Route path="daily-bonus" element={<DailyBonus />} />
           <Route path="threeMin" element={<ThreeMin />} />
-          {/* <Route path="heads" element={<Heads />} /> */}
+          <Route path="heads" element={<Heads />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/admin">
             <Route index element={<Admin />} />
