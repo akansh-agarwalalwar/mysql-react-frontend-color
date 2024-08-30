@@ -343,7 +343,6 @@ function TwoMin() {
       }}
     >
       {/* Header */}
-
       <div className="flex items-center w-full text-white bg-black py-3 px-4">
         <Link to="/home" className="mr-4">
           <div className=" p-2">
@@ -400,7 +399,7 @@ function TwoMin() {
       {setshowPopUp && data.countDown > 11 && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div
-            className="bg-white rounded-lg p-4 w-11/12 max-w-md mx-auto border-2 border-black shadow-2xl relative"
+            className="bg-white rounded-lg p-4 w-11/12 max-w-md mx-auto border-2 border-black  relative"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex flex-row items-center mb-2">
@@ -488,7 +487,7 @@ function TwoMin() {
 
       {/* WINNER DIVISION */}
       <div className="mx-3 rounded-full">
-        <div className="flex flex-col w-full mb-4 h-[230px] rounded-2xl shadow-3xl border-2">
+        <div className="flex flex-col w-full mb-4 h-[230px] rounded-2xl border-2">
           <p className="text-xl w-full items-center justify-center flex mt-1 text-black font-bold">
             Parity Result
           </p>
@@ -506,7 +505,6 @@ function TwoMin() {
                         .slice(-3);
                       const colorImage =
                         colorToImageMap[item?.color.toLowerCase()];
-
                       return (
                         <div key={index} className="flex flex-col items-center">
                           {colorImage ? (
@@ -530,7 +528,6 @@ function TwoMin() {
           </div>
         </div>
       </div>
-
       <div className="mx-3 ">
         <div className="flex flex-col justify-around w-full items-center rounded-lg">
           <div className="flex flex-row w-full justify-around items-center">
@@ -555,7 +552,6 @@ function TwoMin() {
               User Record
             </div>
           </div>
-
           {activeTab === "parityRecord" ? (
             <div className="flex flex-col w-full">
               {/* Content for Parity Record tab */}
