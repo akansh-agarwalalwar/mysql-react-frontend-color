@@ -32,7 +32,6 @@ import NewSignup from "./components/signup/NewSignup";
 import NewForgot from "./components/forgotPassword/NewForgot";
 import Heads from "./components/game/HeadsAndTails/Heads";
 import MaintenancePop from "./components/admin/MaintainancePop";
-import Circles from "./components/recharge/Circles";
 function App() {
   function disableRightClick() {
     document.addEventListener(
@@ -111,9 +110,6 @@ function App() {
         </Routes>
       </Router>
     </UserProvider>
-    // <>
-    // <Circles/>
-    // </>
   );
 }
 export default App;
