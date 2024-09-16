@@ -6,6 +6,7 @@ import Reward from "./Reward";
 import Slider from "./Slider";
 import background from "../../images/background.png";
 import axios from 'axios';
+import NewOffer from "./NewOffer";
 
 export default function HomePage() {
   const [showPopup, setShowPopup] = useState(false);
@@ -63,6 +64,7 @@ export default function HomePage() {
       )}
       <TopBody />
       <Slider />
+      <NewOffer />
       {/* <Reward/> */}
       <Body />
     </div>
