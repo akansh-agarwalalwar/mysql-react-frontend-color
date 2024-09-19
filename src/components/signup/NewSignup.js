@@ -262,9 +262,9 @@ function NewLogin() {
     if (!checked) {
       newErrors.terms = "You must agree to the terms and conditions.";
     }
-    if (!referralCode) {
-      newErrors.referralCode = "Referral Code is required.";
-    }
+    // if (!referralCode) {
+    //   newErrors.referralCode = "Referral Code is required.";
+    // }
   
     return newErrors;
   }, [username, useremail, password, confirmPassword, checked, referralCode]);

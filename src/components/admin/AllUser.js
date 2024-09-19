@@ -111,6 +111,7 @@ export default function AllUsers() {
       }
       const data = await res.json();
       setfetchTotal(data);
+      // console.log(fetchTotal)
     } catch (error) {
       console.error("Error fetching bank details:", error);
     }
@@ -209,9 +210,13 @@ export default function AllUsers() {
     setBankDetails([]);
   };
   useEffect(() => {
-    fetchBalanceTotal(clickedUser?.IDOfUser);
-  });
-
+    const intervalId = setInterval(() => {
+      fetchBalanceTotal(clickedUser?.IDOfUser);
+    }, 5000); // Fetch every 5 seconds (5000 ms)
+  
+    return () => clearInterval(intervalId); // Clear the interval on component unmount
+  }, [clickedUser?.IDOfUser]);
+  
   return (
     <div className="flex lg:flex-row">
       <NavBarAdmin />
@@ -497,7 +502,13 @@ export default function AllUsers() {
                 <strong>Winnings:</strong> {clickedUser?.winnings}
               </div>
               <div className="mb-4">
-                <strong>Profit:</strong> {clickedUser?.winnings}
+                <strong>Profit:</strong> {fetchTotal?.profitAmount}
+              </div>
+              <div className="mb-4">
+                <strong>Referral Code:</strong> {clickedUser?.userReferenceCode}
+              </div>
+              <div className="mb-4">
+                <strong>Refered From:</strong> {clickedUser?.referenceCode}
               </div>
 
               <div className="flex flex-col sm:flex-row justify-between">
