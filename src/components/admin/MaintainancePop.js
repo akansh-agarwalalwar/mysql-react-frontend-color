@@ -6,7 +6,11 @@ function MaintenancePop() {
   const [maintenanceMode, setMaintenanceMode] = useState(false);
   const [popup, setShowPopup] = useState(false);
   const [message, setMessage] = useState("");
+  const [selectedFiles, setSelectedFiles] = useState(null);
 
+  const handleFileChange = (e) => {
+    setSelectedFiles(e.target.files);
+  };
   const enableMaintenanceMode = async () => {
     try {
       const response = await axios.post(
@@ -48,10 +52,34 @@ function MaintenancePop() {
   const closePopup = () => {
     setShowPopup(false);
   };
+  const uploadBanner = async () => {
+    const formData = new FormData();
+    for (let i = 0; i < selectedFiles.length; i++) {
+      formData.append("tripImages", selectedFiles[i]);
+    }
 
+    try {
+      const res = await axios.post(
+        "https://api.perfectorse.site/api/banner/add-banner",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log(res.data.message);
+    } catch (error) {
+      console.error("Failed to upload banner:", error);
+    }
+  };
   return (
     <div className="flex flex-row">
       <NavBarAdmin />
+      <div>
+        <input type="file" multiple onChange={handleFileChange} />
+        <button onClick={uploadBanner}>Upload Banner</button>
+      </div>
       <div className="relative w-full items-center flex">
         <button
           className="bg-myblue-400 p-2 text-white rounded ml-10"

@@ -72,7 +72,7 @@ const ProfileMainPage = () => {
 
   const handleLogout = async () => {
     await logout();
-    navigate("/login");
+    navigate("/signup");
   };
 
   return (
