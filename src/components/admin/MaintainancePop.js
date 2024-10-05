@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NavBarAdmin from "./NavBarAdmin";
 
 function MaintenancePop() {
@@ -7,10 +7,30 @@ function MaintenancePop() {
   const [popup, setShowPopup] = useState(false);
   const [message, setMessage] = useState("");
   const [selectedFiles, setSelectedFiles] = useState(null);
+  const [banners, setBanners] = useState([]);
+
+  const fetchBanners = async () => {
+    try {
+      const response = await axios.get(
+        "https://api.perfectorse.site/api/banner/get-banner"
+      );
+      setBanners(response.data);
+    } catch (error) {
+      console.error("Error fetching banners:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchBanners();
+  }, []);
+  useEffect(() => {
+    console.log(banners);
+  }, [banners]);
 
   const handleFileChange = (e) => {
     setSelectedFiles(e.target.files);
   };
+
   const enableMaintenanceMode = async () => {
     try {
       const response = await axios.post(
@@ -76,10 +96,27 @@ function MaintenancePop() {
   return (
     <div className="flex flex-row">
       <NavBarAdmin />
-      <div>
-        <input type="file" multiple onChange={handleFileChange} />
-        <button onClick={uploadBanner}>Upload Banner</button>
+      <div className="mt-10 ml-5">
+        <input type="file"  />
+        <button onClick={uploadBanner} className="p-2 mt-4 bg-blue-50 rounded-lg" >Upload Banner</button>
       </div>
+      <div className="flex flex-wrap justify-center">
+        {banners.map((banner, index) => (
+          <div key={index} className="m-2">
+            {banner.tripImages && banner.tripImages.length > 0 ? (
+              banner.tripImages.map((image, imgIndex) => (
+                <img
+                src={`https://api.perfectorse.site/uploads/${image}`}
+                className=" rounded-lg"
+              />
+              ))
+            ) : (
+              <p>No images available for this banner.</p>
+            )}
+          </div>
+        ))}
+      </div>
+
       <div className="relative w-full items-center flex">
         <button
           className="bg-myblue-400 p-2 text-white rounded ml-10"
@@ -87,7 +124,6 @@ function MaintenancePop() {
         >
           Maintenance Mode
         </button>
-
         {popup && (
           <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75">
             <div className="bg-white p-4 rounded shadow-lg w-80 relative">
