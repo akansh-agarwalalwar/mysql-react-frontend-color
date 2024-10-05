@@ -97,8 +97,13 @@ function MaintenancePop() {
     <div className="flex flex-row">
       <NavBarAdmin />
       <div className="mt-10 ml-5">
-        <input type="file"  />
-        <button onClick={uploadBanner} className="p-2 mt-4 bg-blue-50 rounded-lg" >Upload Banner</button>
+        <input type="file" onChange={handleFileChange} />
+        <button
+          onClick={uploadBanner}
+          className="p-2 mt-4 bg-blue-50 rounded-lg"
+        >
+          Upload Banner
+        </button>
       </div>
       <div className="flex flex-wrap justify-center">
         {banners.map((banner, index) => (
@@ -106,9 +111,9 @@ function MaintenancePop() {
             {banner.tripImages && banner.tripImages.length > 0 ? (
               banner.tripImages.map((image, imgIndex) => (
                 <img
-                src={`https://api.perfectorse.site/uploads/${image}`}
-                className=" rounded-lg"
-              />
+                  src={`https://api.perfectorse.site/uploads/${image}`}
+                  className=" rounded-lg"
+                />
               ))
             ) : (
               <p>No images available for this banner.</p>
