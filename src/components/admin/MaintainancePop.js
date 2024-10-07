@@ -111,7 +111,7 @@ function MaintenancePop() {
             {banner.tripImages && banner.tripImages.length > 0 ? (
               banner.tripImages.map((image, imgIndex) => (
                 <img
-                  src={`https://api.perfectorse.site/uploads/${image}`}
+                  src={`https://api.perfectorse.site/upload/${image}`}
                   className=" rounded-lg"
                 />
               ))
