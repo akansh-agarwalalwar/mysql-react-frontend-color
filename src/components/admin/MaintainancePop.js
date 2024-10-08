@@ -108,16 +108,7 @@ function MaintenancePop() {
       <div className="flex flex-wrap justify-center">
         {banners.map((banner, index) => (
           <div key={index} className="m-2">
-            {banner.tripImages && banner.tripImages.length > 0 ? (
-              banner.tripImages.map((image, imgIndex) => (
-                <img
-                  src={`https://api.perfectorse.site/upload/${image}`}
-                  className=" rounded-lg"
-                />
-              ))
-            ) : (
-              <p>No images available for this banner.</p>
-            )}
+            <img src={banner.tripImages} className=" rounded-lg" />
           </div>
         ))}
       </div>
