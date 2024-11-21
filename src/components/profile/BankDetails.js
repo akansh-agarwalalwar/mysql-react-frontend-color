@@ -22,7 +22,7 @@ function BankDetails() {
     const fetchBankDetails = async () => {
       try {
         const res = await axios.get(
-          `https://api.perfectorse.site/api/v1/financial/bank-details/${user.userId}`
+          `http://api.perfectorse.site/api/v1/financial/bank-details/${user.userId}`
         );
         if (res.status === 200) {
           setAccountNumber(res?.data?.accountNumber);
@@ -41,7 +41,7 @@ function BankDetails() {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "https://api.perfectorse.site/api/v1/financial/bank-details",
+        "http://api.perfectorse.site/api/v1/financial/bank-details",
         {
           userId: user?.userId,
           accountNumber,
@@ -61,7 +61,7 @@ function BankDetails() {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "https://api.perfectorse.site/api/v1/financial/edit-bank-details",
+        "http://api.perfectorse.site/api/v1/financial/edit-bank-details",
         {
           userId: user?.userId,
           accountNumber,
@@ -80,7 +80,7 @@ function BankDetails() {
   const deleteBankDetails = async () => {
     try {
       await axios.post(
-        `https://api.perfectorse.site/api/v1/financial/delete-bank-details`,
+        `http://api.perfectorse.site/api/v1/financial/delete-bank-details`,
         {
           userId: user?.userId,
         }

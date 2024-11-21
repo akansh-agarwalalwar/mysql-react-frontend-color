@@ -11,8 +11,8 @@ function PaymentApprove() {
   const fetchPayments = useCallback(async () => {
     try {
       const [pendingResponse, historyResponse] = await Promise.all([
-        axios.get("https://api.perfectorse.site/api/v1/admin/pendingPayment"),
-        axios.get("https://api.perfectorse.site/api/v1/admin/adminUpdatedHistory"),
+        axios.get("http://api.perfectorse.site/api/v1/admin/pendingPayment"),
+        axios.get("http://api.perfectorse.site/api/v1/admin/adminUpdatedHistory"),
       ]);
       setPendingPayments(pendingResponse.data);
       setPaymentHistory(historyResponse.data);
@@ -29,7 +29,7 @@ function PaymentApprove() {
   const handleApprove = async (id) => {
     try {
       await axios.post(
-        "https://api.perfectorse.site/api/v1/admin/adminPaymentApprove",
+        "http://api.perfectorse.site/api/v1/admin/adminPaymentApprove",
         { id }
       );
       const approvedPayment = pendingPayments.find(
@@ -51,7 +51,7 @@ function PaymentApprove() {
 
   const handleDeny = async (id) => {
     try {
-      await axios.post("https://api.perfectorse.site/api/v1/admin/adminPaymentDeny", {
+      await axios.post("http://api.perfectorse.site/api/v1/admin/adminPaymentDeny", {
         id,
       });
       setPendingPayments(

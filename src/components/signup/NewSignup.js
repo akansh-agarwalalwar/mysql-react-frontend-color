@@ -280,7 +280,7 @@ function NewLogin() {
       return;
     }
     try {
-      const response = await Axios.post("https://api.perfectorse.site/api/v1/signup", {
+      const response = await Axios.post("http://api.perfectorse.site/api/v1/signup", {
         username,
         mobileNumber: mobileNumber ? `+91${mobileNumber}` : null,
         useremail,
@@ -304,7 +304,7 @@ function NewLogin() {
     setSendOtpText("Sending...");
     try {
       const response = await Axios.post(
-        "https://api.perfectorse.site/api/v1/sendOtp",
+        "http://api.perfectorse.site/api/v1/sendOtp",
         {
           useremail,
         }
@@ -329,7 +329,7 @@ function NewLogin() {
   const verifyOtp = async () => {
     try {
       const response = await Axios.post(
-        "https://api.perfectorse.site/api/v1/verifyEmail",
+        "http://api.perfectorse.site/api/v1/verifyEmail",
         {
           useremail,
           otp,

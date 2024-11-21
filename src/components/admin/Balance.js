@@ -11,7 +11,7 @@ function Balance() {
     const fetchBalanceData = async () => {
       try {
         const response = await axios.get(
-          "https://api.perfectorse.site/api/v1/admin/balanceCalculator"
+          "http://api.perfectorse.site/api/v1/admin/balanceCalculator"
         );
         const { balance } = response.data;
         setBalance(balance);
