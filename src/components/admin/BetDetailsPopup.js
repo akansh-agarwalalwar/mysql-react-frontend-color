@@ -10,7 +10,7 @@ function BetDetailsPopup({ userId, onClose }) {
     const fetchBets = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`http://api.perfectorse.site/api/v1/admin/manual/bets/${userId}`);
+        const res = await axios.get(`https://api.vigya.in/api/v1/admin/manual/bets/${userId}`);
         setBets(res.data);
         setError(null);
       } catch (error) {

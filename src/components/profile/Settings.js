@@ -73,7 +73,7 @@ function Settings() {
 
     try {
       const res = await axios.post(
-        "http://api.perfectorse.site/api/v1/user/editUserProfile",
+        "https://api.vigya.in/api/v1/user/editUserProfile",
         {
           userId: user.userId,
           username,

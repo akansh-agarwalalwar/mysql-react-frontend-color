@@ -24,7 +24,7 @@ export default function AdminDashboard() {
   const fetchUsers = async () => {
     try {
       const response = await fetch(
-        "http://api.perfectorse.site/api/v1/admin/all-users"
+        "https://api.vigya.in/api/v1/admin/all-users"
       );
       if (!response.ok) throw new Error("Network response was not ok");
       const data = await response.json();
@@ -37,7 +37,7 @@ export default function AdminDashboard() {
   const fetchApproveUser = async () => {
     try {
       const response = await fetch(
-        "http://api.perfectorse.site/api/v1/admin/pendingPayment"
+        "https://api.vigya.in/api/v1/admin/pendingPayment"
       );
       if (!response.ok) throw new Error("Network response was not ok");
       const data = await response.json();
@@ -50,7 +50,7 @@ export default function AdminDashboard() {
   const fetchToPayUser = async () => {
     try {
       const response = await fetch(
-        "http://api.perfectorse.site/api/v1/admin/withdrawlHistory"
+        "https://api.vigya.in/api/v1/admin/withdrawlHistory"
       );
       if (!response.ok) throw new Error("Network response was not ok");
       const data = await response.json();
@@ -68,7 +68,7 @@ export default function AdminDashboard() {
     if (confirmCreate) {
       try {
         const response = await axios
-          .post("http://api.perfectorse.site/api/v1/admin/createUser", {
+          .post("https://api.vigya.in/api/v1/admin/createUser", {
             username,
             mobileNumber,
             email,
@@ -126,7 +126,7 @@ export default function AdminDashboard() {
   const createCoupon = async () => {
     try {
       const response = await axios.post(
-        "http://api.perfectorse.site/api/v1/admin/create-coupon",
+        "https://api.vigya.in/api/v1/admin/create-coupon",
         { coupon, amount }
       );
 
@@ -143,7 +143,7 @@ export default function AdminDashboard() {
   const deleteCoupon = async () => {
     try {
       const response = await axios.post(
-        "http://api.perfectorse.site/api/v1/admin/delete-coupon",
+        "https://api.vigya.in/api/v1/admin/delete-coupon",
         { coupon, amount }
       );
 
@@ -159,7 +159,7 @@ export default function AdminDashboard() {
   const getCoupon = async () => {
     try {
       const response = await fetch(
-        "http://api.perfectorse.site/api/v1/admin/get-coupon"
+        "https://api.vigya.in/api/v1/admin/get-coupon"
       );
       if (!response.ok) throw new Error("Network response was not ok");
       const data = await response.json();

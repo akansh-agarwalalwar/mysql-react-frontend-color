@@ -44,7 +44,7 @@ export default function AllUsers() {
   const fetchUsers = async () => {
     try {
       const response = await axios.get(
-        "http://api.perfectorse.site/api/v1/admin/all-users"
+        "https://api.vigya.in/api/v1/admin/all-users"
       );
       const data = await response.data;
       setUsers(data);
@@ -56,7 +56,7 @@ export default function AllUsers() {
   const fetchRechargeHistory = async (userId) => {
     try {
       const response = await fetch(
-        `http://api.perfectorse.site/api/v1/financial/recharge-history?userId=${userId}`
+        `https://api.vigya.in/api/v1/financial/recharge-history?userId=${userId}`
       );
       if (!response.ok) {
         throw new Error(`https error! status: ${response?.status}`);
@@ -71,7 +71,7 @@ export default function AllUsers() {
   const fetchWithdrawHistory = async (userId) => {
     try {
       const response = await fetch(
-        `http://api.perfectorse.site/api/v1/financial/withdraw-history?userId=${userId}`
+        `https://api.vigya.in/api/v1/financial/withdraw-history?userId=${userId}`
       );
       if (!response.ok) {
         throw new Error(`https error! status: ${response?.status}`);
@@ -85,7 +85,7 @@ export default function AllUsers() {
   const fetchBankDetails = async (userId) => {
     try {
       const res = await fetch(
-        `http://api.perfectorse.site/api/v1/admin/bank?userId=${userId}`
+        `https://api.vigya.in/api/v1/admin/bank?userId=${userId}`
       );
       if (!res.ok) {
         throw new Error(`https error! status: ${res.status}`);
@@ -104,7 +104,7 @@ export default function AllUsers() {
   const fetchBalanceTotal = async (userId) => {
     try {
       const res = await fetch(
-        `http://api.perfectorse.site/api/v1/admin/profitAmount?userId=${userId}`
+        `https://api.vigya.in/api/v1/admin/profitAmount?userId=${userId}`
       );
       if (!res.ok) {
         throw new Error(`https error! status: ${res.status}`);
@@ -127,7 +127,7 @@ export default function AllUsers() {
           throw new Error("Invalid userId");
         }
         const response = await axios.post(
-          `http://api.perfectorse.site/api/v1/admin/deleteUser/${userId}`
+          `https://api.vigya.in/api/v1/admin/deleteUser/${userId}`
         );
         toast.success("Deleted Successfully");
       } catch (error) {
@@ -142,7 +142,7 @@ export default function AllUsers() {
     try {
       setIsEditingModalOpen(true);
       // const response = await axios.post(
-      //   `http://api.perfectorse.site/api/v1/admin/editUser/${userId}`
+      //   `https://api.vigya.in/api/v1/admin/editUser/${userId}`
       // );
       // console.log(response.data.message);
 
@@ -167,7 +167,7 @@ export default function AllUsers() {
   const updateUser = async (userId, updatedDetails) => {
     try {
       const response = await axios.post(
-        `http://api.perfectorse.site/api/v1/admin/editUser/${userId}`,
+        `https://api.vigya.in/api/v1/admin/editUser/${userId}`,
         updatedDetails
       );
       toast.success("User updated successfully!");

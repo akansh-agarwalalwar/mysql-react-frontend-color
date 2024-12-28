@@ -26,7 +26,7 @@ export default function GameMode() {
     setError("");
     try {
       const response = await axios.post(
-        "http://api.perfectorse.site/api/v1/admin/thirtySecond",
+        "https://api.vigya.in/api/v1/admin/thirtySecond",
         {
           periodNumber,
           color,
@@ -60,7 +60,7 @@ export default function GameMode() {
   const fetchGameModeData = useCallback(async () => {
     try {
       const res = await axios.get(
-        "http://api.perfectorse.site/api/v1/admin/manual-thirty-second"
+        "https://api.vigya.in/api/v1/admin/manual-thirty-second"
       );
       setGameMode(res.data);
     } catch (error) {

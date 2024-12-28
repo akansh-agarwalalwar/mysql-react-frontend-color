@@ -57,7 +57,7 @@ function TwoMin() {
   const fetchLastPeriodData = async () => {
     try {
       const response = await axios.get(
-        "http://api.perfectorse.site/api/v1/user/winner-two-min"
+        "https://api.vigya.in/api/v1/user/winner-two-min"
       );
       const data = response?.data;
       setLastPeriodData(data);
@@ -76,7 +76,7 @@ function TwoMin() {
   const fetchtwomin = async (userId) => {
     try {
       const response = await axios.get(
-        `http://api.perfectorse.site/api/v1/financial/two-min-history/${userId}`
+        `https://api.vigya.in/api/v1/financial/two-min-history/${userId}`
       );
       if (response.status === 200) {
         setTwomin(response?.data);
@@ -223,7 +223,7 @@ function TwoMin() {
     newBalance
   ) => {
     try {
-      const response = await axios.post("http://api.perfectorse.site/place-bet/two-min", {
+      const response = await axios.post("https://api.vigya.in/place-bet/two-min", {
         userId: user.userId,
         periodNumber: data.timerNumber,
         periodDate: new Date().toISOString().split("T")[0],

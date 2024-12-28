@@ -231,7 +231,7 @@ export default function Signup() {
     }
     try {
       const response = await Axios.post(
-        "http://api.perfectorse.site/api/v1/signup",
+        "https://api.vigya.in/api/v1/signup",
         {
           username,
           mobileNumber: `+91${mobileNumber}`,
@@ -256,7 +256,7 @@ export default function Signup() {
   const sendOtp = async () => {
     try {
       const response = await Axios.post(
-        "http://api.perfectorse.site/api/v1/sendOtp",
+        "https://api.vigya.in/api/v1/sendOtp",
         {
           useremail,
         }
@@ -278,7 +278,7 @@ export default function Signup() {
   const verifyOtp = async () => {
     try {
       const response = await Axios.post(
-        "http://api.perfectorse.site/api/v1/verifyEmail",
+        "https://api.vigya.in/api/v1/verifyEmail",
         {
           useremail,
           otp,

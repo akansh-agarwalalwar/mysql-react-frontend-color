@@ -60,7 +60,7 @@ function Timer() {
     try {
       // console.log("-------------------------------------------------------------")
       const response = await axios.get(
-        "http://api.perfectorse.site/api/v1/user/winner-heads"
+        "https://api.vigya.in/api/v1/user/winner-heads"
       );
       const data = response.data;
       // console.log(data);
@@ -82,7 +82,7 @@ function Timer() {
     try {
       // setLoading(true);
       const response = await axios.get(
-        `http://api.perfectorse.site/api/v1/financial/thirty-second-history/${userId}`
+        `https://api.vigya.in/api/v1/financial/thirty-second-history/${userId}`
       );
       if (response.status === 200) {
         setThirtySecond(response?.data);
@@ -141,7 +141,7 @@ function Timer() {
     }
     try {
       const response = await axios.post(
-        "http://api.perfectorse.site/place-bet/heads-tails",
+        "https://api.vigya.in/place-bet/heads-tails",
         {
           userId: user.userId,
           periodNumber: data.timerNumber,
@@ -177,7 +177,7 @@ function Timer() {
   const getWinPopUp = async () => {
     try {
       const res = await axios.get(
-        "http://api.perfectorse.site/api/v1/user/getWinPopUp"
+        "https://api.vigya.in/api/v1/user/getWinPopUp"
       );
       const data = res.data;
       console.log(data);

@@ -20,7 +20,7 @@ export const UserProvider = ({ children }) => {
     try {
       // console.log(`Fetching data for userId: ${user.userId}`);
       const response = await axios.get(
-        `http://api.perfectorse.site/api/v1/user/balance/${user.userId}`
+        `https://api.vigya.in/api/v1/user/balance/${user.userId}`
       );
       // console.log("Response from backend:", response);
 
@@ -49,7 +49,7 @@ export const UserProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await axios.post("http://api.perfectorse.site/api/v1/logout");
+      await axios.post("https://api.vigya.in/api/v1/logout");
       setUser(null);
       Cookies.remove("user");
     } catch (error) {

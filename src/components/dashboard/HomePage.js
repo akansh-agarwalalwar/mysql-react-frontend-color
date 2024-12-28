@@ -15,7 +15,7 @@ export default function HomePage() {
   useEffect(() => {
     const checkMaintenanceStatus = async () => {
       try {
-        const response = await axios.get('http://api.perfectorse.site/api/v1/user/getMaintainance');
+        const response = await axios.get('https://api.vigya.in/api/v1/user/getMaintainance');
         const { maintenanceMode, message } = response.data;
         const storedMaintenanceMode = localStorage.getItem('maintenanceMode');
         const dismissed = localStorage.getItem('maintenanceDismissed');

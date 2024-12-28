@@ -12,7 +12,7 @@ function MaintenancePop() {
   const fetchBanners = async () => {
     try {
       const response = await axios.get(
-        "http://api.perfectorse.site/api/banner/get-banner"
+        "https://api.vigya.in/api/banner/get-banner"
       );
       setBanners(response.data);
     } catch (error) {
@@ -34,7 +34,7 @@ function MaintenancePop() {
   const enableMaintenanceMode = async () => {
     try {
       const response = await axios.post(
-        "http://api.perfectorse.site/api/v1/admin/toggle-maintenance",
+        "https://api.vigya.in/api/v1/admin/toggle-maintenance",
         {
           maintenanceMode: true,
           message: message,
@@ -51,7 +51,7 @@ function MaintenancePop() {
   const disableMaintenanceMode = async () => {
     try {
       const response = await axios.post(
-        "http://api.perfectorse.site/api/v1/admin/toggle-maintenance",
+        "https://api.vigya.in/api/v1/admin/toggle-maintenance",
         {
           maintenanceMode: false,
           message: message,
@@ -80,7 +80,7 @@ function MaintenancePop() {
 
     try {
       const res = await axios.post(
-        "http://api.perfectorse.site/api/banner/add-banner",
+        "https://api.vigya.in/api/banner/add-banner",
         formData,
         {
           headers: {
